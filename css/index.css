@@ -1,0 +1,16 @@
+html { 
+  background: url(../images/backgroundimage.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+h1{
+  padding: 0px;
+  margin: 20px;
+  border: 2px solid greenyellow;
+}
+p{
+  font-size: 20px;
+  font-family: cursive ;
+}
