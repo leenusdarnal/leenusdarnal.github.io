@@ -14,7 +14,7 @@ export default function Home() {
   }, [])
   return (
     <div className={`${darkmode ? 'dark' : ''}`}>
-      <div className=' min-h-min dark:bg-slate-800 dark:text-white'>
+      <div className=' min-h-min bg-slate-200 dark:bg-slate-800 dark:text-white '>
         <Navbar darkmode={darkmode} toggleDarkMode={toggleDarkMode} />
       </div>
       <main className='flex flex-row justify-center items-center text-8xl dark:bg-slate-600 min-h-screen  dark:text-white'>
