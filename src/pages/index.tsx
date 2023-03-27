@@ -1,9 +1,25 @@
+import { useEffect, useState } from 'react'
+import Navbar from '../components/Navbar'
+
 export default function Home() {
+  const [darkmode, setDarkmode] = useState(false)
+
+  const toggleDarkMode = (): void => {
+    localStorage.theme = !darkmode
+    setDarkmode((prevDarkmode) => (localStorage.theme = !prevDarkmode))
+  }
+
+  useEffect(() => {
+    setDarkmode(localStorage.theme === 'true')
+  }, [])
   return (
-    <>
-      <h1 className='text-9xl text-red-700 flex justify-center items-center '>
-        Under Construction...
-      </h1>
-    </>
+    <div className={`${darkmode ? 'dark' : ''}`}>
+      <div className=' min-h-min dark:bg-slate-800 dark:text-white'>
+        <Navbar darkmode={darkmode} toggleDarkMode={toggleDarkMode} />
+      </div>
+      <main className='flex flex-row justify-center items-center text-8xl dark:bg-slate-600 min-h-screen  dark:text-white'>
+        Coming Soon ...
+      </main>
+    </div>
   )
 }
