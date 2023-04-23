@@ -2,15 +2,12 @@ import React, { useState } from 'react'
 import DarkmodeIcon from './DarkModeIcon'
 import LightModeIcon from './LightModeIcon'
 
-const Navbar = ({
-  darkmode,
-  toggleDarkMode,
-}: {
+type NavbarProps = {
   darkmode: boolean
   toggleDarkMode: () => void
-}) => {
-  const [isOpen, setIsOpen] = useState(false)
+}
 
+const Navbar = ({ darkmode, toggleDarkMode }: NavbarProps) => {
   return (
     <nav className='flex flex-row flex-wrap justify-between pl-6   text-xl pt-3 '>
       <div className='border border-slate-900 p-1  rounded-full mb-3 dark:border-slate-50'>
