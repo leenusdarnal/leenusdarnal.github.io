@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import DarkmodeIcon from './DarkModeIcon'
 import LightModeIcon from './LightModeIcon'
+import Link from 'next/link'
 
 type NavbarProps = {
   darkmode: boolean
@@ -14,9 +15,13 @@ const Navbar = ({ darkmode, toggleDarkMode }: NavbarProps) => {
         LD
       </div>
       <div className='flex flex-row gap-10 mr-7'>
-        <div>Home</div>
+        <div>
+          <Link href='/'>Home</Link>
+        </div>
         <div>About</div>
-        <div>Contacts</div>
+        <div>
+          <Link href='/contacts'>Contacts</Link>
+        </div>
         <div onClick={toggleDarkMode} className='cursor-pointer w-10 mt-1'>
           {darkmode ? <DarkmodeIcon /> : <LightModeIcon />}
         </div>
