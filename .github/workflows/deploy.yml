@@ -50,8 +50,8 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    
+
     steps:
       - name: Deploy
         id: deployment
-        uses: JamesIves/github-pages-deploy-action@4.1.8
+        uses: actions/deploy-pages@v1
