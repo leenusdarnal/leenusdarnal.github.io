@@ -1,3 +1,4 @@
+[![Deploy SvelteKit to Pages](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/workflows/deploy.yml/badge.svg)](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/workflows/deploy.yml)
 # sv
 
 Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
