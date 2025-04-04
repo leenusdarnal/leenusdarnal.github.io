@@ -23,6 +23,8 @@ jobs:
           node-version: 20
           cache: pnpm
 
+      - name: Installing pnpm
+        run: npm i -g pnpm@latest
       - name: Install dependencies
         run: pnpm install
 
