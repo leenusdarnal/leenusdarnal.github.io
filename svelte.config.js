@@ -13,9 +13,6 @@ const config = {
 				strict: true
 			}
 		),
-		prerendered: {
-			entries: ['*']
-		}
 	}
 }
 
