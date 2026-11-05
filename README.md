@@ -9,7 +9,8 @@ The deployed website lives in `site/`:
 - `site/index.html` — homepage, project details, About and Contact
 - `site/styles.css` — responsive layout, themes, focus styles and reduced-motion behavior
 - `site/theme.js` — light/dark theme and local preference storage
-- `site/salary-calculator-preview.svg` — lightweight illustrative project preview
+- `site/salary-calculator-preview.svg` — lightweight illustrative salary calculator preview
+- `site/pixelforge-preview.svg` — lightweight illustrative PixelForge Studio preview
 - `site/og-image.svg` — social sharing preview image
 - `site/favicon.svg` — site icon
 - `site/sitemap.xml` and `site/robots.txt` — search-engine discovery
