@@ -36,6 +36,17 @@
       live: 'https://sikkim-government-salary-calculator.vercel.app/',
       source: 'https://github.com/leenusdarnal/SIKKIM-GOVERNMENT-SALARY-CALCULATOR',
       visual: 'salary'
+    },
+    {
+      number: '04',
+      name: 'PixelCutout',
+      type: 'IMAGE TOOL · PRIVACY-FIRST',
+      description: 'A browser-based background remover with a choice of AI-powered subject detection or a no-AI colour selection mode. Images stay on your device while you edit and export.',
+      stack: ['SvelteKit', 'Transformers.js', 'ONNX Runtime'],
+      features: ['AI and no-AI removal modes', 'Local erase and restore tools', 'PNG, JPEG and WebP export'],
+      live: null,
+      source: 'https://github.com/leenusdarnal/pixelcutout',
+      visual: 'cutout'
     }
   ];
 
@@ -239,7 +250,7 @@
                   <span class="absolute -top-2 left-1/2 h-8 w-px origin-bottom rotate-12 bg-[var(--accent)]"></span>
                   <span class="absolute bottom-5 left-1/2 -translate-x-1/2 rounded-full bg-[var(--accent)] px-5 py-2 text-[9px] font-bold text-[#10150d]">PLAY</span>
                 </div>
-              {:else}
+              {:else if project.visual === 'salary'}
                 <div class="w-full max-w-sm rounded-2xl border border-[var(--line)] bg-[var(--panel)] p-5 shadow-xl sm:p-6">
                   <div class="flex items-center justify-between"><span class="font-mono text-[9px] uppercase tracking-[0.16em] text-[var(--muted)]">Pay estimate</span><span class="rounded-full bg-[var(--accent-soft)] px-2 py-1 text-[9px] text-[var(--accent)]">Reference</span></div>
                   <div class="mt-6 text-xs text-[var(--muted)]">Pay level</div>
@@ -249,6 +260,18 @@
                     <div class="rounded-xl bg-[var(--panel-soft)] p-3"><div class="text-[9px] text-[var(--muted)]">DA rate</div><div class="mt-2 text-lg font-semibold">Set rate</div></div>
                   </div>
                   <div class="mt-4 flex items-center justify-between border-t border-[var(--line)] pt-4 text-xs"><span class="text-[var(--muted)]">Estimated in-hand</span><span class="font-semibold text-[var(--accent)]">Estimate salary →</span></div>
+                </div>
+              {:else}
+                <div class="grid w-full max-w-sm grid-cols-2 gap-3 sm:gap-4">
+                  <div class="relative aspect-[4/5] overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--panel)] p-3 shadow-lg sm:p-4">
+                    <div class="absolute inset-0 opacity-70" style="background: radial-gradient(circle at 50% 38%, #d7b08a, transparent 42%), linear-gradient(145deg, #9a765d, #33453d);"></div>
+                    <div class="absolute bottom-0 left-1/2 h-[72%] w-[48%] -translate-x-1/2 rounded-t-[48%] bg-[#e2c1a1] shadow-xl"></div>
+                    <span class="absolute left-3 top-3 rounded-full bg-black/45 px-2 py-1 font-mono text-[8px] text-white">ORIGINAL</span>
+                  </div>
+                  <div class="relative flex aspect-[4/5] items-center justify-center overflow-hidden rounded-2xl border border-[var(--line)] p-3 shadow-lg sm:p-4" style="background-color:var(--panel);background-image:linear-gradient(45deg,var(--line) 25%,transparent 25%),linear-gradient(-45deg,var(--line) 25%,transparent 25%),linear-gradient(45deg,transparent 75%,var(--line) 75%),linear-gradient(-45deg,transparent 75%,var(--line) 75%);background-size:18px 18px;background-position:0 0,0 9px,9px -9px,-9px 0;">
+                    <div class="relative h-[72%] w-[48%] rounded-t-[48%] bg-[#e2c1a1] shadow-xl"></div>
+                    <span class="absolute left-3 top-3 rounded-full bg-[var(--accent)] px-2 py-1 font-mono text-[8px] text-[#10150d]">CUTOUT</span>
+                  </div>
                 </div>
               {/if}
               <p class="absolute bottom-4 right-5 font-mono text-[9px] uppercase tracking-[0.15em] text-[var(--muted)]">{project.number} — {project.type}</p>
@@ -266,7 +289,9 @@
                 {#each project.stack as item}<span class="rounded-full border border-[var(--line)] px-3 py-1.5 font-mono text-[10px] text-[var(--muted)]">{item}</span>{/each}
               </div>
               <div class="mt-6 flex flex-wrap gap-x-5 gap-y-3 text-sm font-semibold sm:mt-7">
-                <a class="inline-flex items-center gap-2 text-[var(--accent)] transition hover:gap-3" href={project.live} target="_blank" rel="noopener noreferrer">Open project <span>↗</span></a>
+                {#if project.live}
+                  <a class="inline-flex items-center gap-2 text-[var(--accent)] transition hover:gap-3" href={project.live} target="_blank" rel="noopener noreferrer">Open project <span>↗</span></a>
+                {/if}
                 <a class="inline-flex items-center gap-2 text-[var(--muted)] transition hover:text-[var(--ink)]" href={project.source} target="_blank" rel="noopener noreferrer">Source code <span>↗</span></a>
               </div>
             </div>
