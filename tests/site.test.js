@@ -17,7 +17,7 @@ test('homepage includes a meaningful page title and description', () => {
 test('homepage exposes the primary landmarks and skip link', () => {
   assert.match(html, /href="#main"[^>]*>Skip to content<\/a>/);
   assert.match(html, /<main id="main">/);
-  assert.match(html, /<nav aria-label="Main navigation">/);
+  assert.match(html, /<nav\\b[^>]*aria-label="Main navigation"[^>]*>/);
   assert.match(html, /aria-labelledby="work-heading"/);
   assert.match(html, /aria-labelledby="contact-heading"/);
 });
