@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111614">
+  <meta name="description" content="A personal site by Leenus Darnal — small web tools, notes, experiments and useful things worth keeping.">
+  <link rel="canonical" href="https://leenusdarnal.github.io/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="alternate" type="application/rss+xml" title="Leenus Darnal — Notes" href="/feed.xml">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Leenus Darnal">
+  <meta property="og:title" content="Leenus Darnal — Small web tools and notes">
+  <meta property="og:description" content="A personal site for small web tools, notes, experiments and useful things worth keeping.">
+  <meta property="og:url" content="https://leenusdarnal.github.io/">
+  <meta property="og:image" content="https://leenusdarnal.github.io/og-image.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="image/svg+xml">
+  <meta property="og:image:alt" content="Leenus Darnal — I build small web tools that make everyday work easier.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Leenus Darnal — Small web tools and notes">
+  <meta name="twitter:description" content="A personal site for small web tools, notes, experiments and useful things worth keeping.">
+  <meta name="twitter:image" content="https://leenusdarnal.github.io/og-image.svg">
+  <meta name="twitter:image:alt" content="Leenus Darnal — a personal site for tools and notes.">
+  <title>Leenus Darnal — Small web tools and notes</title>
+  <script>
+    (() => {
+      let saved = null;
+      try { saved = localStorage.getItem('site-theme'); } catch (_) {}
+      const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+      document.documentElement.dataset.theme = saved === 'light' || saved === 'dark' ? saved : (prefersLight ? 'light' : 'dark');
+    })();
+  </script>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/theme.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="site-name" href="/" aria-label="Leenus Darnal home">Leenus Darnal</a>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch theme">Light mode</button>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+      <section class="intro" aria-labelledby="intro-title">
+        <p class="eyebrow">A PERSONAL SITE</p>
+        <h1 id="intro-title">I build small web tools that make everyday work easier.</h1>
+        <p class="intro-copy">A quiet place for small projects, notes, experiments and useful things I want to keep.</p>
+      </section>
+
+      <nav class="section-nav" aria-label="Page sections">
+        <a href="#things">Things</a>
+        <a href="#notes">Notes</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="content-stack">
+        <section class="content-section" id="things" aria-labelledby="things-title">
+          <div class="section-heading">
+            <h2 id="things-title">Things</h2>
+            <p>A few small things I have been working on.</p>
+          </div>
+
+          <article class="project">
+            <a class="project-preview" href="https://sikkim-government-salary-calculator.vercel.app/" target="_blank" rel="noopener noreferrer" aria-label="Open the Sikkim Government Salary Calculator">
+              <img src="/salary-calculator-preview.svg" alt="Illustrative preview of the salary calculator's opening screen, with pay-level, basic-pay and DA inputs." width="960" height="540" loading="lazy" decoding="async">
+            </a>
+            <div class="project-copy">
+              <h3>Sikkim Government Salary Calculator</h3>
+              <p class="project-pitch">A browser-based reference tool for estimating monthly pay from a pay level, basic-pay cell and DA rate, with a clear earnings and deductions breakdown.</p>
+              <p class="stack"><span class="meta-label">Stack</span> HTML · CSS · JavaScript</p>
+              <div class="project-links">
+                <a href="https://sikkim-government-salary-calculator.vercel.app/" target="_blank" rel="noopener noreferrer">Live calculator <span aria-hidden="true">↗</span></a>
+                <a href="https://github.com/leenusdarnal/SIKKIM-GOVERNMENT-SALARY-CALCULATOR" target="_blank" rel="noopener noreferrer">GitHub source <span aria-hidden="true">↗</span></a>
+              </div>
+              <p class="project-note">Reference estimates only. Check the applicable pay and allowance orders for the period.</p>
+            </div>
+          </article>
+        </section>
+
+        <section class="content-section" id="notes" aria-labelledby="notes-title">
+          <div class="section-heading">
+            <h2 id="notes-title">Notes</h2>
+            <p>Small observations from things I make and learn.</p>
+          </div>
+          <div class="notes-list">
+            <article class="note" id="note-packsure-ocr">
+              <p class="note-date">05 NOV 2026 · COMPUTER VISION</p>
+              <h3>Separate image cleanup, text reading and rule checks</h3>
+              <p>In PackSure, the OpenCV preprocessing path converts a label image to grayscale, applies a 5×5 Gaussian blur, uses adaptive thresholding, then detects contours and bounding boxes. Those regions can be passed to OCR before the extracted fields are checked against the Legal Metrology rules. One implementation detail is worth keeping clear: the current backend response after preprocessing is still simulated, so its sample OCR results should not be mistaken for live OCR output. <a href="https://github.com/priyojit-mitra2005/PackSure/blob/main/backend/main.py" target="_blank" rel="noopener noreferrer">Source code</a>.</p>
+            </article>
+            <article class="note" id="note-rimusic-privacy">
+              <p class="note-date">05 NOV 2026 · PRIVACY</p>
+              <h3>Make permission choices understandable</h3>
+              <p>RiMusic's project README states that the app does not collect data. It also says the audio visualizer needs microphone permission and is available only when the user enables it in Settings. The useful design lesson is simple: explain why a permission is needed and keep optional features under the user's control. <a href="https://github.com/fast4x/RiMusic#readme" target="_blank" rel="noopener noreferrer">Project README</a>.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="content-section" id="about" aria-labelledby="about-title">
+          <div class="section-heading">
+            <h2 id="about-title">About</h2>
+          </div>
+          <p class="about-copy">I enjoy exploring technology and learning by building. This site is where I keep small tools, experiments, notes and references — especially things that make a fiddly task a little easier to understand.</p>
+        </section>
+
+        <section class="content-section" id="contact" aria-labelledby="contact-title">
+          <div class="section-heading">
+            <h2 id="contact-title">Contact</h2>
+          </div>
+          <p class="contact-copy">Have a thought about something here? <a href="mailto:leenus.darnal@gmail.com">Send me an email</a>, or find me on <a href="https://github.com/leenusdarnal" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
+        </section>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <span>Leenus Darnal</span>
+      <span>Made to keep useful things close.</span>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Leenus Darnal — Notes</title>
+    <link>https://leenusdarnal.github.io/</link>
+    <description>Short notes on technology, small tools and things worth keeping.</description>
+    <language>en</language>
+    <lastBuildDate>Thu, 05 Nov 2026 00:00:00 +0530</lastBuildDate>
+    <item>
+      <title>Separate image cleanup, text reading and rule checks</title>
+      <link>https://leenusdarnal.github.io/#note-packsure-ocr</link>
+      <guid isPermaLink="true">https://leenusdarnal.github.io/#note-packsure-ocr</guid>
+      <pubDate>Thu, 05 Nov 2026 00:00:00 +0530</pubDate>
+      <description>PackSure's backend separates OpenCV image preprocessing from OCR and Legal Metrology checks; the current OCR response is still simulated.</description>
+    </item>
+    <item>
+      <title>Make permission choices understandable</title>
+      <link>https://leenusdarnal.github.io/#note-rimusic-privacy</link>
+      <guid isPermaLink="true">https://leenusdarnal.github.io/#note-rimusic-privacy</guid>
+      <pubDate>Thu, 05 Nov 2026 00:00:00 +0530</pubDate>
+      <description>RiMusic's README says it does not collect data and gates microphone access for the optional audio visualizer behind a user setting.</description>
+    </item>
+  </channel>
+</rss>
