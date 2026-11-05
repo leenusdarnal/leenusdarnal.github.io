@@ -6,13 +6,12 @@ A small, framework-free personal website published with GitHub Pages.
 
 The deployed website lives in `site/`:
 
-- `site/index.html` — homepage, project details, notes, About and Contact
+- `site/index.html` — homepage, project details, About and Contact
 - `site/styles.css` — responsive layout, themes, focus styles and reduced-motion behavior
 - `site/theme.js` — light/dark theme and local preference storage
 - `site/salary-calculator-preview.svg` — lightweight illustrative project preview
 - `site/og-image.svg` — social sharing preview image
 - `site/favicon.svg` — site icon
-- `site/feed.xml` — RSS feed for Notes
 - `site/sitemap.xml` and `site/robots.txt` — search-engine discovery
 - `site/404.html` — custom not-found page
 
@@ -20,7 +19,7 @@ The site has no client framework or runtime build step. GitHub Actions publishes
 
 ## Content policy
 
-Project details and notes should come from repositories owned by this GitHub account or from material written for this site. Do not present another developer's project as the site owner's work.
+Project details should come from repositories owned by this GitHub account or from material written for this site. Do not present another developer's project as the site owner's work.
 
 ## Deployment
 
