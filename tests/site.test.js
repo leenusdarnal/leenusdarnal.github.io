@@ -27,7 +27,7 @@ test('theme control has an accessible name and describes both states', () => {
   assert.match(source, /aria-label=\{theme === 'dark' \? 'Switch to light theme' : 'Switch to dark theme'\}/);
 });
 
-test('all three existing project destinations are preserved', () => {
+test('all existing live project destinations are preserved', () => {
   for (const url of [
     'https://pixelforge-studio-pied.vercel.app/',
     'https://react-metronome-dusky.vercel.app/',
@@ -35,6 +35,14 @@ test('all three existing project destinations are preserved', () => {
   ]) {
     assert.ok(html.includes(url), 'Missing project URL: ' + url);
   }
+});
+
+test('PixelCutout is listed with its source and local-processing features', () => {
+  assert.match(source, /name: 'PixelCutout'/);
+  assert.match(source, /https:\/\/github\.com\/leenusdarnal\/pixelcutout/);
+  assert.match(source, /AI and no-AI removal modes/);
+  assert.match(source, /Images stay on your device/);
+  assert.match(source, /\{#if project\.live\}/);
 });
 
 test('external links opened in new tabs use safe rel attributes', () => {
