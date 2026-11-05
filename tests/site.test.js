@@ -8,6 +8,7 @@ const robots = await readFile(new URL('robots.txt', buildUrl), 'utf8');
 const sitemap = await readFile(new URL('sitemap.xml', buildUrl), 'utf8');
 const source = await readFile(new URL('../src/routes/+page.svelte', import.meta.url), 'utf8');
 const css = await readFile(new URL('../src/app.css', import.meta.url), 'utf8');
+const monitorWorkflow = await readFile(new URL('../.github/workflows/monitor-sites.yml', import.meta.url), 'utf8');
 
 test('homepage includes a meaningful page title and description', () => {
   assert.match(html, /<title>Leenus Darnal — I build useful things<\/title>/);
@@ -35,6 +36,18 @@ test('all existing live project destinations are preserved', () => {
   ]) {
     assert.ok(html.includes(url), 'Missing project URL: ' + url);
   }
+});
+
+test('daily uptime monitoring covers every live project demo', () => {
+  for (const url of [
+    'https://pixelforge-studio-pied.vercel.app/',
+    'https://react-metronome-dusky.vercel.app/',
+    'https://sikkim-government-salary-calculator.vercel.app/',
+    'https://pixelcutout-three.vercel.app/'
+  ]) {
+    assert.ok(monitorWorkflow.includes(url), 'Missing monitored project URL: ' + url);
+  }
+  assert.match(monitorWorkflow, /schedule:/);
 });
 
 test('PixelCutout is listed with its source and local-processing features', () => {
