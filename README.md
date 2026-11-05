@@ -1,13 +1,13 @@
 # Leenus Darnal — Personal Website
 
-A personal developer homepage built with SvelteKit, Tailwind CSS and deployed on Vercel.
+A personal developer homepage built with SvelteKit, Svelte 5 and Tailwind CSS 4. The site is prerendered as static files and published to GitHub Pages.
 
 ## Stack
 
 - SvelteKit
 - Svelte 5
 - Tailwind CSS 4 with the Vite plugin
-- Vercel adapter
+- SvelteKit static adapter
 
 ## Development
 
@@ -23,4 +23,4 @@ npm run check
 npm run build
 ```
 
-The homepage is prerendered. The current GitHub Pages workflow still publishes the previous static site from `site/` while this redesign is reviewed on its own branch.
+The GitHub Pages workflow runs the checks, builds the static site into `build/`, and deploys that folder when changes reach `main`.
