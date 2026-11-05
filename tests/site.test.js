@@ -67,6 +67,10 @@ test('PixelForge portfolio details match its current SvelteKit project', () => {
   assert.match(source, /local \.pfs project files/);
 });
 
+test('salary calculator is clearly identified as an independent reference tool', () => {
+  assert.match(source, /not an official Government of Sikkim calculator/);
+});
+
 test('external links opened in new tabs use safe rel attributes', () => {
   const externalLinks = [...html.matchAll(/<a\b[^>]*target="_blank"[^>]*>/g)];
   assert.ok(externalLinks.length > 0, 'Expected at least one external link');
