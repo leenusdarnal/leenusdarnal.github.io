@@ -7,7 +7,10 @@ export default defineConfig({
   plugins: [
     tailwindcss(),
     sveltekit({
-      adapter: adapter()
+      adapter: adapter({ fallback: '404.html' }),
+      paths: {
+        base: process.env.BASE_PATH ?? ''
+      }
     })
   ]
 });
