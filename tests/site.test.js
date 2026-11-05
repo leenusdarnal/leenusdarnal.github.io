@@ -99,3 +99,23 @@ test('theme text and accent colours meet 4.5:1 contrast against site surfaces', 
     }
   }
 });
+
+
+test('responsive layout uses fluid hero sizing and device-width breakpoints', () => {
+  assert.match(source, /class="hero-section relative grid content-center"/);
+  assert.match(source, /class="site-shell mx-auto w-full max-w-6xl"/);
+  assert.match(source, /class="contact-layout mt-5 grid gap-8"/);
+  assert.match(css, /padding-inline:\s*clamp\(1rem,\s*4vw,\s*2\.5rem\)/);
+  assert.match(css, /font-size:\s*clamp\(3\.15rem,\s*11\.5vw,\s*8\.8rem\)/);
+  assert.match(css, /@media\s*\(max-width:\s*380px\)/);
+  assert.match(css, /@media\s*\(min-width:\s*768px\)/);
+  assert.match(css, /@media\s*\(min-width:\s*1024px\)/);
+  assert.match(css, /@media\s*\(max-height:\s*640px\)\s*and\s*\(min-width:\s*768px\)/);
+});
+
+test('responsive grids stay single-column until content has room for two columns', () => {
+  assert.match(css, /\.featured-grid,\s*\.project-grid\s*\{\s*grid-template-columns:\s*minmax\(0,\s*1fr\)/);
+  assert.match(css, /\.project-grid\s*\{\s*grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)/);
+  assert.match(css, /\.contact-layout\s*\{\s*grid-template-columns:\s*minmax\(0,\s*1fr\)/);
+  assert.match(css, /overflow-x:\s*clip/);
+});
