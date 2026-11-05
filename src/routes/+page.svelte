@@ -136,10 +136,6 @@
   <main id="main">
     <section id="top" class="relative grid min-h-[570px] content-center gap-10 py-24 md:min-h-[650px] md:grid-cols-[1fr_220px] md:items-end md:py-32">
       <div class="max-w-4xl">
-        <p class="mb-7 flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.22em] text-[var(--muted)]">
-          <span class="size-2 rounded-full bg-[var(--accent)] shadow-[0_0_18px_var(--accent)]"></span>
-          Personal website · Builder & maker
-        </p>
         <h1 class="text-[clamp(3.8rem,10vw,8.8rem)] font-semibold leading-[0.88] tracking-[-0.085em]">
           Leenus<br />
           <span class="text-[var(--accent)]">Darnal.</span>
