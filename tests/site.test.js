@@ -99,3 +99,22 @@ test('theme text and accent colours meet 4.5:1 contrast against site surfaces', 
     }
   }
 });
+
+test('layout includes responsive gutters, type and hero sizing for phone through desktop', () => {
+  assert.ok(html.includes('px-4 min-[480px]:px-5 sm:px-8 lg:px-10'));
+  assert.ok(html.includes('text-[clamp(3.1rem,11vw,8.8rem)]'));
+  assert.ok(html.includes('min-h-0 content-center gap-8 py-20 sm:min-h-[540px]'));
+  assert.ok(html.includes('md:grid-cols-[minmax(0,1fr)_180px]'));
+  assert.ok(html.includes('xl:grid-cols-[minmax(0,1fr)_220px]'));
+});
+
+test('mobile navigation and primary actions retain comfortable touch targets', () => {
+  assert.ok(html.includes('min-h-11'));
+  assert.ok(html.includes('size-11 shrink-0 place-items-center'));
+});
+
+test('the document prevents horizontal page overflow and retains reduced-motion support', () => {
+  assert.ok(css.includes('overflow-x: clip'));
+  assert.ok(css.includes('@media (prefers-reduced-motion: reduce)'));
+  assert.ok(css.includes('scroll-padding-top: 1rem'));
+});

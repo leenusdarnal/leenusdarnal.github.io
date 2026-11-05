@@ -98,18 +98,18 @@
   <script type="application/ld+json">{structuredData}</script>
 </svelte:head>
 
-<div class="mx-auto w-full max-w-6xl px-5 sm:px-8 lg:px-10">
+<div class="mx-auto w-full max-w-6xl px-4 min-[480px]:px-5 sm:px-8 lg:px-10">
   <a class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-[var(--ink)] focus:px-4 focus:py-3 focus:text-[var(--page)]" href="#main">Skip to content</a>
 
-  <header class="flex items-center justify-between border-b border-[var(--line)] py-5">
-    <a href="#top" aria-label="Leenus Darnal — home" class="group flex items-center gap-3 text-sm font-semibold tracking-tight no-underline">
-      <span aria-hidden="true" class="grid size-9 place-items-center rounded-full bg-[var(--accent)] text-sm font-black text-[#10150d]">L.</span>
+  <header class="flex items-center justify-between gap-3 border-b border-[var(--line)] py-4 sm:py-5">
+    <a href="#top" aria-label="Leenus Darnal — home" class="group flex min-w-0 shrink-0 items-center gap-2 text-xs font-semibold tracking-tight no-underline sm:gap-3 sm:text-sm">
+      <span aria-hidden="true" class="grid size-8 place-items-center rounded-full bg-[var(--accent)] text-sm font-black text-[#10150d] sm:size-9">L.</span>
       <span>Leenus Darnal<span class="text-[var(--accent)]">.</span></span>
     </a>
 
-    <nav aria-label="Main navigation" class="flex items-center gap-4 text-xs font-medium text-[var(--muted)] sm:gap-7 sm:text-sm">
-      <a href="#work" class="transition-colors hover:text-[var(--ink)]">Work</a>
-      <a href="#contact" class="transition-colors hover:text-[var(--ink)]">Contact</a>
+    <nav aria-label="Main navigation" class="flex shrink-0 items-center gap-1 text-xs font-medium text-[var(--muted)] sm:gap-4 sm:text-sm lg:gap-7">
+      <a href="#work" class="inline-flex min-h-11 items-center rounded-full px-2 transition-colors hover:text-[var(--ink)] sm:px-1">Work</a>
+      <a href="#contact" class="inline-flex min-h-11 items-center rounded-full px-2 transition-colors hover:text-[var(--ink)] sm:px-1">Contact</a>
       <a href="https://github.com/leenusdarnal" target="_blank" rel="noopener noreferrer" class="hidden transition-colors hover:text-[var(--ink)] sm:inline">GitHub ↗</a>
       <button
         type="button"
@@ -117,7 +117,7 @@
         title={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
         aria-pressed={theme === 'light'}
         onclick={toggleTheme}
-        class="grid size-10 place-items-center rounded-full border border-[var(--line)] text-[var(--muted)] transition hover:border-[var(--accent)] hover:text-[var(--accent)]"
+        class="grid size-11 shrink-0 place-items-center rounded-full border border-[var(--line)] text-[var(--muted)] transition hover:border-[var(--accent)] hover:text-[var(--accent)] sm:size-10"
       >
         {#if theme === 'dark'}
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="size-[18px]" aria-hidden="true">
@@ -134,23 +134,23 @@
   </header>
 
   <main id="main">
-    <section id="top" class="relative grid min-h-[570px] content-center gap-10 py-24 md:min-h-[650px] md:grid-cols-[1fr_220px] md:items-end md:py-32">
+    <section id="top" class="relative grid min-h-0 content-center gap-8 py-20 sm:min-h-[540px] sm:gap-10 sm:py-24 md:min-h-[600px] md:grid-cols-[minmax(0,1fr)_180px] md:items-end md:py-28 xl:min-h-[650px] xl:grid-cols-[minmax(0,1fr)_220px] xl:py-32">
       <div class="max-w-4xl">
-        <h1 class="text-[clamp(3.8rem,10vw,8.8rem)] font-semibold leading-[0.88] tracking-[-0.085em]">
+        <h1 class="text-[clamp(3.1rem,11vw,8.8rem)] font-semibold leading-[0.9] tracking-[-0.08em] sm:leading-[0.88] sm:tracking-[-0.085em]">
           Leenus<br />
           <span class="text-[var(--accent)]">Darnal.</span>
         </h1>
-        <p class="mt-9 max-w-2xl text-2xl font-medium leading-snug tracking-[-0.04em] text-[var(--ink)] sm:text-3xl">
+        <p class="mt-7 max-w-2xl text-xl font-medium leading-snug tracking-[-0.04em] text-[var(--ink)] sm:mt-9 sm:text-2xl lg:text-3xl">
           I build useful things<span class="text-[var(--accent)]">.</span>
         </p>
-        <p class="mt-4 max-w-xl text-base leading-8 text-[var(--muted)] sm:text-lg">
+        <p class="mt-4 max-w-xl text-sm leading-7 text-[var(--muted)] sm:text-base sm:leading-8 lg:text-lg">
           Small web tools, practical applications and experiments made to simplify everyday tasks.
         </p>
-        <div class="mt-9 flex flex-wrap items-center gap-3">
-          <a href="#work" class="inline-flex items-center gap-3 rounded-full bg-[var(--accent)] px-6 py-3.5 text-sm font-semibold text-[#10150d] transition hover:-translate-y-0.5 hover:shadow-[0_12px_30px_color-mix(in_srgb,var(--accent)_20%,transparent)]">
+        <div class="mt-7 flex flex-wrap items-center gap-3 sm:mt-9">
+          <a href="#work" class="inline-flex min-h-11 items-center gap-2 rounded-full bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[#10150d] transition hover:-translate-y-0.5 sm:gap-3 sm:px-6 sm:py-3.5 hover:shadow-[0_12px_30px_color-mix(in_srgb,var(--accent)_20%,transparent)]">
             Explore my work <span aria-hidden="true">↓</span>
           </a>
-          <a href="https://github.com/leenusdarnal" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-full border border-[var(--line)] px-6 py-3.5 text-sm font-medium text-[var(--ink)] transition hover:border-[var(--accent)]">
+          <a href="https://github.com/leenusdarnal" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center gap-2 rounded-full border border-[var(--line)] px-5 py-3 text-sm font-medium text-[var(--ink)] transition hover:border-[var(--accent)] sm:px-6 sm:py-3.5">
             GitHub <span aria-hidden="true">↗</span>
           </a>
         </div>
@@ -167,28 +167,28 @@
       <div class="pointer-events-none absolute -right-5 top-20 -z-10 hidden select-none text-[18rem] font-black leading-none tracking-[-0.12em] text-[var(--accent)] opacity-[0.035] xl:block">L</div>
     </section>
 
-    <section id="work" aria-labelledby="work-heading" class="scroll-mt-12 pb-28 pt-8">
-      <div class="mb-9 flex flex-wrap items-end justify-between gap-4 border-b border-[var(--line)] pb-5">
+    <section id="work" aria-labelledby="work-heading" class="scroll-mt-12 pb-20 pt-4 sm:pb-28 sm:pt-8">
+      <div class="mb-7 flex flex-wrap items-start justify-between gap-3 border-b border-[var(--line)] pb-5 sm:mb-9 sm:items-end sm:gap-4">
         <div>
           <p class="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--accent)]">01 / SELECTED WORK</p>
-          <h2 id="work-heading" class="text-3xl font-semibold tracking-[-0.06em] sm:text-4xl">Things I've made<span class="text-[var(--accent)]">.</span></h2>
+          <h2 id="work-heading" class="text-[clamp(1.8rem,7vw,2.25rem)] font-semibold tracking-[-0.06em] sm:text-4xl">Things I've made<span class="text-[var(--accent)]">.</span></h2>
         </div>
-        <p class="max-w-xs text-sm leading-6 text-[var(--muted)]">A few projects built to solve small problems and make everyday tasks easier.</p>
+        <p class="w-full max-w-xs text-sm leading-6 text-[var(--muted)] sm:w-auto">A few projects built to solve small problems and make everyday tasks easier.</p>
       </div>
 
       <article aria-labelledby="project-pixelforge-title" aria-describedby="project-pixelforge-description" class="group overflow-hidden rounded-3xl border border-[var(--line)] bg-[var(--panel)] transition duration-300 hover:-translate-y-1 hover:border-[color-mix(in_srgb,var(--accent)_55%,var(--line))]">
         <div class="grid lg:grid-cols-[1.12fr_0.88fr]">
-          <div aria-hidden="true" class="relative min-h-[260px] overflow-hidden bg-[var(--panel-soft)] p-5 sm:min-h-[370px] sm:p-8">
+          <div aria-hidden="true" class="relative min-h-[220px] overflow-hidden bg-[var(--panel-soft)] p-3 sm:min-h-[300px] sm:p-6 lg:min-h-[370px] lg:p-8">
             <div class="absolute inset-0 opacity-70" style="background: radial-gradient(circle at 48% 50%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 55%);"></div>
-            <div class="relative mx-auto flex h-full min-h-[230px] max-w-[600px] overflow-hidden rounded-2xl border border-[var(--line)] bg-[#101512] shadow-2xl sm:min-h-[315px]">
-              <div class="flex w-12 flex-col items-center gap-4 border-r border-white/10 bg-[#171e19] py-4 text-[11px] text-white/55 sm:w-16 sm:gap-5 sm:py-6">
+            <div class="relative mx-auto flex h-full min-h-[200px] min-w-0 max-w-[600px] overflow-hidden rounded-xl border border-[var(--line)] bg-[#101512] shadow-2xl sm:min-h-[280px] sm:rounded-2xl lg:min-h-[315px]">
+              <div class="flex w-9 shrink-0 flex-col items-center gap-3 border-r border-white/10 bg-[#171e19] py-3 text-[10px] text-white/55 sm:w-14 sm:gap-5 sm:py-6 lg:w-16">
                 <span class="text-lg text-[#b9ef70]">✳</span><span>⌖</span><span>◩</span><span>✎</span><span>◌</span><span>⌘</span>
               </div>
               <div class="flex min-w-0 flex-1 flex-col">
-                <div class="flex h-10 items-center justify-between border-b border-white/10 px-3 text-[9px] text-white/55 sm:h-12 sm:px-5 sm:text-[10px]">
+                <div class="flex h-9 items-center justify-between gap-2 border-b border-white/10 px-2 text-[8px] text-white/55 sm:h-12 sm:px-4 sm:text-[10px]">
                   <span>PIXELFORGE STUDIO</span><span class="rounded-full bg-[#b9ef70]/15 px-2 py-1 text-[#b9ef70]">Untitled project</span>
                 </div>
-                <div class="flex flex-1 items-center justify-center p-4 sm:p-8">
+                <div class="flex min-w-0 flex-1 items-center justify-center p-2 sm:p-6 lg:p-8">
                   <div class="relative aspect-[4/3] w-full max-w-[330px] overflow-hidden rounded-lg bg-gradient-to-br from-[#d2e2bb] via-[#829f70] to-[#263d31] shadow-xl">
                     <div class="absolute -left-8 top-8 size-32 rounded-full bg-[#d6edb4]/80 blur-[1px] sm:size-44"></div>
                     <div class="absolute -bottom-10 right-3 size-40 rounded-full bg-[#243b31]/80 sm:size-52"></div>
@@ -196,7 +196,7 @@
                     <div class="absolute bottom-5 left-5 font-mono text-[9px] uppercase tracking-[0.2em] text-white/80">Canvas / 01</div>
                   </div>
                 </div>
-                <div class="flex h-8 items-center justify-between border-t border-white/10 px-3 text-[8px] text-white/40 sm:h-10 sm:px-5 sm:text-[9px]"><span>100% · RGB</span><span>Layers&nbsp;&nbsp; Adjust&nbsp;&nbsp; History</span></div>
+                <div class="flex h-8 items-center justify-between gap-2 border-t border-white/10 px-2 text-[7px] text-white/40 sm:h-10 sm:px-4 sm:text-[9px]"><span>100% · RGB</span><span>Layers&nbsp;&nbsp; Adjust&nbsp;&nbsp; History</span></div>
               </div>
               <div class="hidden w-24 flex-col gap-3 border-l border-white/10 bg-[#171e19] p-3 text-[9px] text-white/45 sm:flex sm:w-32 sm:p-4">
                 <span class="mb-2 text-[8px] uppercase tracking-widest">Layers</span>
@@ -206,9 +206,9 @@
             <p class="relative mt-3 text-right font-mono text-[9px] uppercase tracking-[0.15em] text-[var(--muted)]">01 — Browser image editor</p>
           </div>
 
-          <div class="flex flex-col justify-center p-7 sm:p-10 lg:p-12">
+          <div class="flex min-w-0 flex-col justify-center p-5 sm:p-8 lg:p-12">
             <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--accent)]">FEATURED PROJECT · IMAGE EDITOR</p>
-            <h3 id="project-pixelforge-title" class="mt-4 text-3xl font-semibold tracking-[-0.06em] sm:text-4xl">PixelForge Studio</h3>
+            <h3 id="project-pixelforge-title" class="mt-3 text-2xl font-semibold tracking-[-0.06em] sm:mt-4 sm:text-3xl lg:text-4xl">PixelForge Studio</h3>
             <p id="project-pixelforge-description" class="mt-5 text-sm leading-7 text-[var(--muted)]">A touch-friendly image editor for the browser, with layers, selection and drawing tools, adjustments, history and image export.</p>
             <ul aria-label="PixelForge Studio highlights" class="mt-5 flex flex-wrap gap-x-4 gap-y-2 text-xs text-[var(--muted)]">
               {#each projects[0].features as feature}
@@ -218,7 +218,7 @@
             <div class="mt-6 flex flex-wrap gap-2">
               {#each projects[0].stack as item}<span class="rounded-full border border-[var(--line)] px-3 py-1.5 font-mono text-[10px] text-[var(--muted)]">{item}</span>{/each}
             </div>
-            <div class="mt-9 flex flex-wrap gap-5 text-sm font-semibold">
+            <div class="mt-7 flex flex-wrap gap-x-5 gap-y-3 text-sm font-semibold sm:mt-9">
               <a class="inline-flex items-center gap-2 text-[var(--accent)] transition hover:gap-3" href={projects[0].live} target="_blank" rel="noopener noreferrer">Open editor <span>↗</span></a>
               <a class="inline-flex items-center gap-2 text-[var(--muted)] transition hover:text-[var(--ink)]" href={projects[0].source} target="_blank" rel="noopener noreferrer">Source code <span>↗</span></a>
             </div>
@@ -230,7 +230,7 @@
       <div class="mt-5 grid gap-5 lg:grid-cols-2">
         {#each projects.slice(1) as project}
           <article aria-labelledby="project-{project.visual}-title" aria-describedby="project-{project.visual}-description" class="group overflow-hidden rounded-3xl border border-[var(--line)] bg-[var(--panel)] transition duration-300 hover:-translate-y-1 hover:border-[color-mix(in_srgb,var(--accent)_55%,var(--line))]">
-            <div aria-hidden="true" class="relative flex min-h-[235px] items-center justify-center overflow-hidden bg-[var(--panel-soft)] p-6 sm:min-h-[270px]">
+            <div aria-hidden="true" class="relative flex min-h-[210px] items-center justify-center overflow-hidden bg-[var(--panel-soft)] p-4 sm:min-h-[270px] sm:p-6">
               {#if project.visual === 'metro'}
                 <div class="relative grid size-48 place-items-center rounded-full border border-[var(--line)] bg-[var(--panel)] shadow-xl sm:size-56">
                   <div class="absolute inset-3 rounded-full border border-[var(--line)]"></div>
@@ -253,10 +253,10 @@
               {/if}
               <p class="absolute bottom-4 right-5 font-mono text-[9px] uppercase tracking-[0.15em] text-[var(--muted)]">{project.number} — {project.type}</p>
             </div>
-            <div class="p-6 sm:p-8">
+            <div class="min-w-0 p-5 sm:p-7 lg:p-8">
               <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--accent)]">{project.type}</p>
               <h3 id="project-{project.visual}-title" class="mt-3 text-2xl font-semibold tracking-[-0.05em]">{project.name}</h3>
-              <p id="project-{project.visual}-description" class="mt-3 min-h-[72px] text-sm leading-7 text-[var(--muted)]">{project.description}</p>
+              <p id="project-{project.visual}-description" class="mt-3 text-sm leading-7 text-[var(--muted)] sm:min-h-[72px]">{project.description}</p>
               <ul aria-label="{project.name} highlights" class="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-xs text-[var(--muted)]">
                 {#each project.features as feature}
                   <li class="flex items-center gap-2"><span aria-hidden="true" class="size-1.5 rounded-full bg-[var(--accent)]"></span>{feature}</li>
@@ -265,7 +265,7 @@
               <div class="mt-5 flex flex-wrap gap-2">
                 {#each project.stack as item}<span class="rounded-full border border-[var(--line)] px-3 py-1.5 font-mono text-[10px] text-[var(--muted)]">{item}</span>{/each}
               </div>
-              <div class="mt-7 flex flex-wrap gap-5 text-sm font-semibold">
+              <div class="mt-6 flex flex-wrap gap-x-5 gap-y-3 text-sm font-semibold sm:mt-7">
                 <a class="inline-flex items-center gap-2 text-[var(--accent)] transition hover:gap-3" href={project.live} target="_blank" rel="noopener noreferrer">Open project <span>↗</span></a>
                 <a class="inline-flex items-center gap-2 text-[var(--muted)] transition hover:text-[var(--ink)]" href={project.source} target="_blank" rel="noopener noreferrer">Source code <span>↗</span></a>
               </div>
@@ -275,22 +275,22 @@
       </div>
     </section>
 
-    <section id="contact" aria-labelledby="contact-heading" class="scroll-mt-12 border-y border-[var(--line)] py-20 sm:py-24">
+    <section id="contact" aria-labelledby="contact-heading" class="scroll-mt-12 border-y border-[var(--line)] py-16 sm:py-20 lg:py-24">
       <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--accent)]">02 / SAY HELLO</p>
       <div class="mt-5 grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
         <div>
-          <h2 id="contact-heading" class="max-w-2xl text-4xl font-semibold leading-[1.02] tracking-[-0.07em] sm:text-6xl">Have something<br class="hidden sm:block" /> interesting in mind?</h2>
+          <h2 id="contact-heading" class="max-w-2xl text-[clamp(2.25rem,7vw,3.75rem)] font-semibold leading-[1.02] tracking-[-0.07em] sm:text-6xl">Have something<br class="hidden sm:block" /> interesting in mind?</h2>
           <p class="mt-5 max-w-lg text-sm leading-7 text-[var(--muted)]">I'm always happy to hear about ideas, useful tools and interesting projects.</p>
         </div>
-        <div class="flex flex-wrap gap-4 text-sm font-semibold">
-          <a class="inline-flex items-center gap-2 rounded-full bg-[var(--accent)] px-5 py-3 text-[#10150d] transition hover:-translate-y-0.5" href="mailto:leenus.darnal@gmail.com">Send an email ↗</a>
-          <a class="inline-flex items-center gap-2 rounded-full border border-[var(--line)] px-5 py-3 transition hover:border-[var(--accent)]" href="https://github.com/leenusdarnal" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <div class="flex flex-wrap gap-3 text-sm font-semibold sm:gap-4">
+          <a class="inline-flex min-h-11 items-center gap-2 rounded-full bg-[var(--accent)] px-4 py-3 text-[#10150d] transition hover:-translate-y-0.5 sm:px-5" href="mailto:leenus.darnal@gmail.com">Send an email ↗</a>
+          <a class="inline-flex min-h-11 items-center gap-2 rounded-full border border-[var(--line)] px-4 py-3 transition hover:border-[var(--accent)] sm:px-5" href="https://github.com/leenusdarnal" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="flex flex-col justify-between gap-4 py-7 text-xs text-[var(--muted)] sm:flex-row sm:items-center">
+  <footer class="flex flex-col justify-between gap-3 py-7 text-xs text-[var(--muted)] sm:flex-row sm:items-center sm:gap-4">
     <span>© {new Date().getFullYear()} Leenus Darnal</span>
     <span class="flex items-center gap-2">Built with SvelteKit & Tailwind CSS <span class="text-[var(--accent)]">✳</span></span>
     <a href="https://github.com/leenusdarnal/leenusdarnal.github.io" target="_blank" rel="noopener noreferrer" class="transition hover:text-[var(--ink)]">View source ↗</a>
