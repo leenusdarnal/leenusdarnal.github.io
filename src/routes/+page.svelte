@@ -30,7 +30,7 @@
       number: '03',
       name: 'Sikkim Government Salary Calculator',
       type: 'REFERENCE TOOL · SIKKIM',
-      description: 'A browser-based calculator for estimating gross pay, common deductions and in-hand salary from pay details.',
+      description: 'An independent browser-based reference calculator for estimating gross pay, common deductions and in-hand salary. It is not an official Government of Sikkim calculator.',
       stack: ['JavaScript', 'HTML', 'CSS'],
       features: ['Gross pay estimates', 'Common deductions', 'In-hand pay estimates'],
       live: 'https://sikkim-government-salary-calculator.vercel.app/',
