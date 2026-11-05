@@ -39,6 +39,7 @@ test('all existing live project destinations are preserved', () => {
 
 test('PixelCutout is listed with its source and local-processing features', () => {
   assert.match(source, /name: 'PixelCutout'/);
+  assert.match(source, /https:\/\/pixelcutout-three\.vercel\.app\//);
   assert.match(source, /https:\/\/github\.com\/leenusdarnal\/pixelcutout/);
   assert.match(source, /AI and no-AI removal modes/);
   assert.match(source, /Images stay on your device/);
