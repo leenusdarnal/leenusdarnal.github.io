@@ -1,0 +1,30 @@
+name: Check live sites
+
+on:
+  schedule:
+    - cron: '23 2 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  uptime:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check portfolio and project demos
+        shell: bash
+        run: |
+          set -euo pipefail
+          urls=(
+            "https://leenusdarnal.github.io/"
+            "https://leenusdarnal.vercel.app/"
+            "https://pixelforge-studio-pied.vercel.app/"
+            "https://react-metronome-dusky.vercel.app/"
+            "https://sikkim-government-salary-calculator.vercel.app/"
+          )
+          for url in "${urls[@]}"; do
+            status="$(curl --location --silent --show-error --output /dev/null --write-out '%{http_code}' --max-time 30 "$url")"
+            printf '%s %s\n' "$status" "$url"
+            test "$status" = "200"
+          done
