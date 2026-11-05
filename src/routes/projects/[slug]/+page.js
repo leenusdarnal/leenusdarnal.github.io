@@ -1,5 +1,5 @@
 import { error } from '@sveltejs/kit';
-import { projects } from '$lib/projects.js';
+import { projects } from '../../../lib/projects.js';
 
 /** @type {import('./$types').EntryGenerator} */
 export function entries() {

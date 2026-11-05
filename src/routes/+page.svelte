@@ -1,9 +1,10 @@
 <script>
   import { onMount } from 'svelte';
-  import { projects } from '$lib/projects.js';
+  import { projects } from '../lib/projects.js';
 
   let theme = $state('dark');
 
+  /** @param {'light' | 'dark'} nextTheme @param {boolean} [persist=false] */
   function applyTheme(nextTheme, persist = false) {
     theme = nextTheme;
     document.documentElement.dataset.theme = nextTheme;
@@ -25,6 +26,7 @@
     theme = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
     const preference = window.matchMedia('(prefers-color-scheme: light)');
 
+    /** @param {MediaQueryListEvent} event */
     const updateFromSystem = (event) => {
       let hasSavedChoice = false;
       try {
