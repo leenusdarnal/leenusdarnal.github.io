@@ -36,6 +36,9 @@ jobs:
       - name: Build static site
         run: npm run build
 
+      - name: Run generated-site smoke tests
+        run: npm test
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 

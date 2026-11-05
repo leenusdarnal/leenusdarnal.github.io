@@ -27,5 +27,8 @@ jobs:
       - name: Check Svelte files
         run: npm run check
 
-      - name: Build site
+      - name: Build static site
         run: npm run build
+
+      - name: Run generated-site smoke tests
+        run: npm test
