@@ -46,6 +46,14 @@ test('PixelCutout is listed with its source and local-processing features', () =
   assert.match(source, /\{#if project\.live\}/);
 });
 
+test('PixelForge portfolio details match its current SvelteKit project', () => {
+  assert.match(source, /stack: \['SvelteKit', 'Tailwind CSS', 'Canvas API'\]/);
+  assert.match(source, /Editable text layers/);
+  assert.match(source, /24 MP document target/);
+  assert.match(source, /offline-first editor/);
+  assert.match(source, /local \.pfs project files/);
+});
+
 test('external links opened in new tabs use safe rel attributes', () => {
   const externalLinks = [...html.matchAll(/<a\b[^>]*target="_blank"[^>]*>/g)];
   assert.ok(externalLinks.length > 0, 'Expected at least one external link');
