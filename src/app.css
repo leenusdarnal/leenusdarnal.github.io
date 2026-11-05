@@ -5,37 +5,42 @@
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-  --color-acid: #c4f56a;
-  --color-forest: #456b2c;
+  --color-acid: #c9f36a;
+  --color-forest: #426b2a;
+  --color-clay: #bd7252;
 }
 
 :root {
   color-scheme: light;
-  --page: #f7f8f4;
-  --panel: #ffffff;
-  --panel-soft: #edf2e8;
-  --ink: #19221b;
-  --muted: #68756a;
-  --line: #dce5d8;
-  --accent: #456b2c;
-  --accent-soft: #e8f1dd;
+  --page: #f5f4ee;
+  --panel: #fffefa;
+  --panel-soft: #e9ece2;
+  --ink: #1a211b;
+  --muted: #626d61;
+  --line: #d9ded2;
+  --accent: #426b2a;
+  --accent-soft: #e5ecd9;
+  --accent-contrast: #ffffff;
+  --warm-accent: #a85c3d;
+  --glow: rgb(66 107 42 / 9%);
 }
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --page: #0e1210;
-  --panel: #151b17;
-  --panel-soft: #202923;
-  --ink: #f3f6f0;
-  --muted: #a5b1a7;
-  --line: #303b33;
-  --accent: #c4f56a;
-  --accent-soft: #26351d;
+  --page: #0d100e;
+  --panel: #151a16;
+  --panel-soft: #1d251e;
+  --ink: #f4f5ee;
+  --muted: #a4afa2;
+  --line: #2d382e;
+  --accent: #c9f36a;
+  --accent-soft: #25311b;
+  --accent-contrast: #17200e;
+  --warm-accent: #e3a184;
+  --glow: rgb(201 243 106 / 8%);
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 html {
   scroll-behavior: smooth;
@@ -46,7 +51,8 @@ body {
   min-width: 320px;
   margin: 0;
   background:
-    radial-gradient(ellipse at 84% 5%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 34rem),
+    radial-gradient(ellipse at 86% 2%, var(--glow), transparent 31rem),
+    radial-gradient(ellipse at 4% 40%, color-mix(in srgb, var(--warm-accent) 5%, transparent), transparent 28rem),
     var(--page);
   color: var(--ink);
   font-family: var(--font-sans);
@@ -55,18 +61,13 @@ body {
 }
 
 ::selection {
-  color: #10150d;
+  color: var(--accent-contrast);
   background: var(--accent);
 }
 
-a {
-  color: inherit;
-}
+a { color: inherit; }
 
-button,
-a {
-  -webkit-tap-highlight-color: transparent;
-}
+button, a { -webkit-tap-highlight-color: transparent; }
 
 :focus-visible {
   outline: 2px solid var(--accent);
@@ -74,13 +75,8 @@ a {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  *,
-  *::before,
-  *::after {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
     scroll-behavior: auto !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
