@@ -22,6 +22,7 @@ jobs:
             "https://pixelforge-studio-pied.vercel.app/"
             "https://react-metronome-dusky.vercel.app/"
             "https://sikkim-government-salary-calculator.vercel.app/"
+            "https://pixelcutout-three.vercel.app/"
           )
           for url in "${urls[@]}"; do
             status="$(curl --location --silent --show-error --output /dev/null --write-out '%{http_code}' --max-time 30 "$url")"
