@@ -5,9 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
+    "prebuild": "npm run check",
     "build": "vite build",
+    "postbuild": "npm run test",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
+    "test": "node --test",
     "prepare": "svelte-kit sync"
   },
   "devDependencies": {

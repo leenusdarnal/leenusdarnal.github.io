@@ -1,74 +1,76 @@
 <script>
   import { onMount } from 'svelte';
+  import { projects } from '$lib/projects.js';
 
   let theme = $state('dark');
 
-  const projects = [
-    {
-      number: '01',
-      name: 'PixelForge Studio',
-      type: 'IMAGE EDITOR · BROWSER APP',
-      description: 'A touch-friendly image editor for creating and refining images in the browser, with layers, selection tools, adjustments and export.',
-      stack: ['JavaScript', 'Canvas', 'PWA'],
-      live: 'https://pixelforge-studio-pied.vercel.app/',
-      source: 'https://github.com/leenusdarnal/pixelforge-studio',
-      visual: 'pixel'
-    },
-    {
-      number: '02',
-      name: 'Metronome',
-      type: 'MUSIC PRACTICE · WEB APP',
-      description: 'A straightforward practice metronome with tempo control, playback and selectable time signatures.',
-      stack: ['React', 'TypeScript', 'Vite'],
-      live: 'https://react-metronome-dusky.vercel.app/',
-      source: 'https://github.com/leenusdarnal/react-metronome',
-      visual: 'metro'
-    },
-    {
-      number: '03',
-      name: 'Sikkim Government Salary Calculator',
-      type: 'REFERENCE TOOL · SIKKIM',
-      description: 'A browser-based calculator for estimating gross pay, common deductions and in-hand salary from pay details.',
-      stack: ['JavaScript', 'HTML', 'CSS'],
-      live: 'https://sikkim-government-salary-calculator.vercel.app/',
-      source: 'https://github.com/leenusdarnal/SIKKIM-GOVERNMENT-SALARY-CALCULATOR',
-      visual: 'salary'
+  function applyTheme(nextTheme, persist = false) {
+    theme = nextTheme;
+    document.documentElement.dataset.theme = nextTheme;
+    document.querySelector('meta[name="theme-color"]')?.setAttribute(
+      'content',
+      nextTheme === 'dark' ? '#0d100e' : '#f5f4ee'
+    );
+
+    if (persist) {
+      try {
+        localStorage.setItem('site-theme', nextTheme);
+      } catch {
+        // Theme switching still works when browser storage is unavailable.
+      }
     }
-  ];
+  }
 
   onMount(() => {
-    try {
-      const saved = localStorage.getItem('site-theme');
-      const preferred = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-      theme = saved || preferred;
-    } catch {
-      theme = 'dark';
-    }
-    document.documentElement.dataset.theme = theme;
+    theme = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+    const preference = window.matchMedia('(prefers-color-scheme: light)');
+
+    const updateFromSystem = (event) => {
+      let hasSavedChoice = false;
+      try {
+        hasSavedChoice = localStorage.getItem('site-theme') !== null;
+      } catch {
+        // Continue to follow the system preference when storage is unavailable.
+      }
+
+      if (!hasSavedChoice) applyTheme(event.matches ? 'light' : 'dark');
+    };
+
+    preference.addEventListener?.('change', updateFromSystem);
+    return () => preference.removeEventListener?.('change', updateFromSystem);
   });
 
   function toggleTheme() {
-    theme = theme === 'dark' ? 'light' : 'dark';
-    document.documentElement.dataset.theme = theme;
-    try {
-      localStorage.setItem('site-theme', theme);
-    } catch {
-      // The theme still works when browser storage is unavailable.
-    }
+    applyTheme(theme === 'dark' ? 'light' : 'dark', true);
   }
 </script>
 
 <svelte:head>
   <title>Leenus Darnal — I build useful things</title>
-  <meta name="description" content="The personal site of Leenus Darnal. A collection of useful web tools, projects and experiments." />
+  <meta name="description" content="The personal site of Leenus Darnal. Explore useful web tools, practical applications and experiments." />
   <meta name="author" content="Leenus Darnal" />
-  <meta name="theme-color" content="#0b0d0c" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content={theme === 'dark' ? '#0d100e' : '#f5f4ee'} />
+  <link rel="canonical" href="https://leenusdarnal.github.io/" />
   <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Leenus Darnal" />
   <meta property="og:title" content="Leenus Darnal — I build useful things" />
   <meta property="og:description" content="A collection of useful web tools, projects and experiments by Leenus Darnal." />
   <meta property="og:url" content="https://leenusdarnal.github.io/" />
-  <meta property="og:image" content="/og-image.svg" />
-  <meta name="twitter:card" content="summary" />
+  <meta property="og:image" content="https://leenusdarnal.github.io/og-image.svg" />
+  <meta property="og:image:alt" content="Leenus Darnal — I build useful things." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Leenus Darnal — I build useful things" />
+  <meta name="twitter:description" content="Useful web tools, practical applications and experiments by Leenus Darnal." />
+  <meta name="twitter:image" content="https://leenusdarnal.github.io/og-image.svg" />
+  <meta name="twitter:image:alt" content="Leenus Darnal — I build useful things." />
+  <script type="application/ld+json">{JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: 'Leenus Darnal',
+    url: 'https://leenusdarnal.github.io/',
+    sameAs: ['https://github.com/leenusdarnal']
+  })}</script>
 </svelte:head>
 
 <div class="mx-auto w-full max-w-6xl px-5 sm:px-8 lg:px-10">
@@ -76,14 +78,14 @@
 
   <header class="flex items-center justify-between border-b border-[var(--line)] py-5">
     <a href="#top" class="group flex items-center gap-3 text-sm font-semibold tracking-tight no-underline">
-      <span class="grid size-9 place-items-center rounded-full bg-[var(--accent)] text-sm font-black text-[#10150d]">L.</span>
+      <span class="grid size-9 place-items-center rounded-full bg-[var(--accent)] text-sm font-black text-[var(--accent-contrast)]">L.</span>
       <span>Leenus Darnal<span class="text-[var(--accent)]">.</span></span>
     </a>
 
-    <nav aria-label="Main navigation" class="flex items-center gap-4 text-xs font-medium text-[var(--muted)] sm:gap-7 sm:text-sm">
-      <a href="#work" class="transition-colors hover:text-[var(--ink)]">Work</a>
-      <a href="#contact" class="transition-colors hover:text-[var(--ink)]">Contact</a>
-      <a href="https://github.com/leenusdarnal" target="_blank" rel="noreferrer" class="hidden transition-colors hover:text-[var(--ink)] sm:inline">GitHub ↗</a>
+    <nav aria-label="Main navigation" class="flex items-center gap-3 text-xs font-medium text-[var(--muted)] sm:gap-7 sm:text-sm">
+      <a href="#work" class="rounded px-1 py-2 transition-colors hover:text-[var(--ink)]">Work</a>
+      <a href="#contact" class="rounded px-1 py-2 transition-colors hover:text-[var(--ink)]">Contact</a>
+      <a href="https://github.com/leenusdarnal" target="_blank" rel="noopener noreferrer" class="hidden rounded px-1 py-2 transition-colors hover:text-[var(--ink)] sm:inline">GitHub ↗</a>
       <button
         type="button"
         aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
@@ -106,8 +108,8 @@
     </nav>
   </header>
 
-  <main id="main">
-    <section id="top" class="relative grid min-h-[570px] content-center gap-10 py-24 md:min-h-[650px] md:grid-cols-[1fr_220px] md:items-end md:py-32">
+  <main id="main" tabindex="-1">
+    <section id="top" class="relative grid min-h-[560px] content-center gap-10 py-24 md:min-h-[640px] md:grid-cols-[1fr_220px] md:items-end md:py-32">
       <div class="max-w-4xl">
         <p class="mb-7 flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.22em] text-[var(--muted)]">
           <span class="size-2 rounded-full bg-[var(--accent)] shadow-[0_0_18px_var(--accent)]"></span>
@@ -124,10 +126,10 @@
           Small web tools, practical applications and experiments made to simplify everyday tasks.
         </p>
         <div class="mt-9 flex flex-wrap items-center gap-3">
-          <a href="#work" class="inline-flex items-center gap-3 rounded-full bg-[var(--accent)] px-6 py-3.5 text-sm font-semibold text-[#10150d] transition hover:-translate-y-0.5 hover:shadow-[0_12px_30px_color-mix(in_srgb,var(--accent)_20%,transparent)]">
+          <a href="#work" class="inline-flex items-center gap-3 rounded-full bg-[var(--accent)] px-6 py-3.5 text-sm font-semibold text-[var(--accent-contrast)] transition hover:-translate-y-0.5 hover:shadow-[0_12px_30px_color-mix(in_srgb,var(--accent)_20%,transparent)]">
             Explore my work <span aria-hidden="true">↓</span>
           </a>
-          <a href="https://github.com/leenusdarnal" target="_blank" rel="noreferrer" class="inline-flex items-center gap-2 rounded-full border border-[var(--line)] px-6 py-3.5 text-sm font-medium text-[var(--ink)] transition hover:border-[var(--accent)]">
+          <a href="https://github.com/leenusdarnal" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-full border border-[var(--line)] px-6 py-3.5 text-sm font-medium text-[var(--ink)] transition hover:border-[var(--accent)]">
             GitHub <span aria-hidden="true">↗</span>
           </a>
         </div>
@@ -141,7 +143,7 @@
         </p>
       </div>
 
-      <div class="pointer-events-none absolute -right-5 top-20 -z-10 hidden select-none text-[18rem] font-black leading-none tracking-[-0.12em] text-[var(--accent)] opacity-[0.035] xl:block">L</div>
+      <div aria-hidden="true" class="pointer-events-none absolute -right-5 top-20 -z-10 hidden select-none text-[18rem] font-black leading-none tracking-[-0.12em] text-[var(--accent)] opacity-[0.035] xl:block">L</div>
     </section>
 
     <section id="work" class="scroll-mt-12 pb-28 pt-8">
@@ -156,8 +158,8 @@
       <article class="group overflow-hidden rounded-3xl border border-[var(--line)] bg-[var(--panel)] transition duration-300 hover:-translate-y-1 hover:border-[color-mix(in_srgb,var(--accent)_55%,var(--line))]">
         <div class="grid lg:grid-cols-[1.12fr_0.88fr]">
           <div class="relative min-h-[260px] overflow-hidden bg-[var(--panel-soft)] p-5 sm:min-h-[370px] sm:p-8">
-            <div class="absolute inset-0 opacity-70" style="background: radial-gradient(circle at 48% 50%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 55%);"></div>
-            <div class="relative mx-auto flex h-full min-h-[230px] max-w-[600px] overflow-hidden rounded-2xl border border-[var(--line)] bg-[#101512] shadow-2xl sm:min-h-[315px]">
+            <div aria-hidden="true" class="absolute inset-0 opacity-70" style="background: radial-gradient(circle at 48% 50%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 55%);"></div>
+            <div aria-hidden="true" class="relative mx-auto flex h-full min-h-[230px] max-w-[600px] overflow-hidden rounded-2xl border border-[var(--line)] bg-[#101512] shadow-2xl sm:min-h-[315px]">
               <div class="flex w-12 flex-col items-center gap-4 border-r border-white/10 bg-[#171e19] py-4 text-[11px] text-white/55 sm:w-16 sm:gap-5 sm:py-6">
                 <span class="text-lg text-[#b9ef70]">✳</span><span>⌖</span><span>◩</span><span>✎</span><span>◌</span><span>⌘</span>
               </div>
@@ -180,21 +182,22 @@
                 <span class="rounded bg-white/10 p-2 text-white/80">◧ Background</span><span class="p-2">◧ Shape 01</span><span class="p-2">◧ Shape 02</span>
               </div>
             </div>
-            <p class="relative mt-3 text-right font-mono text-[9px] uppercase tracking-[0.15em] text-[var(--muted)]">01 — Browser image editor</p>
+            <p class="relative mt-3 text-right font-mono text-[9px] uppercase tracking-[0.15em] text-[var(--muted)]">Concept preview · Browser image editor</p>
           </div>
 
           <div class="flex flex-col justify-center p-7 sm:p-10 lg:p-12">
             <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--accent)]">FEATURED PROJECT · IMAGE EDITOR</p>
-            <h3 class="mt-4 text-3xl font-semibold tracking-[-0.06em] sm:text-4xl">PixelForge Studio</h3>
-            <p class="mt-5 text-sm leading-7 text-[var(--muted)]">A touch-friendly image editor for the browser, with layers, selection and drawing tools, adjustments, history and image export.</p>
+            <h3 class="mt-4 text-3xl font-semibold tracking-[-0.06em] sm:text-4xl">{projects[0].name}</h3>
+            <p class="mt-5 text-sm leading-7 text-[var(--muted)]">{projects[0].description}</p>
             <div class="mt-6 flex flex-wrap gap-2">
               {#each projects[0].stack as item}<span class="rounded-full border border-[var(--line)] px-3 py-1.5 font-mono text-[10px] text-[var(--muted)]">{item}</span>{/each}
             </div>
-            <div class="mt-9 flex flex-wrap gap-5 text-sm font-semibold">
-              <a class="inline-flex items-center gap-2 text-[var(--accent)] transition hover:gap-3" href={projects[0].live} target="_blank" rel="noreferrer">Open editor <span>↗</span></a>
-              <a class="inline-flex items-center gap-2 text-[var(--muted)] transition hover:text-[var(--ink)]" href={projects[0].source} target="_blank" rel="noreferrer">Source code <span>↗</span></a>
+            <div class="mt-9 flex flex-wrap gap-x-5 gap-y-3 text-sm font-semibold">
+              <a class="inline-flex items-center gap-2 text-[var(--accent)] transition hover:gap-3" href={projects[0].live} target="_blank" rel="noopener noreferrer">Open editor <span aria-hidden="true">↗</span></a>
+              <a class="inline-flex items-center gap-2 text-[var(--muted)] transition hover:text-[var(--ink)]" href={projects[0].source} target="_blank" rel="noopener noreferrer">Source code <span aria-hidden="true">↗</span></a>
+              <a class="inline-flex items-center gap-2 text-[var(--ink)] transition hover:text-[var(--accent)]" href={projects[0].page}>Project notes <span aria-hidden="true">→</span></a>
             </div>
-            <p class="mt-6 text-[11px] leading-5 text-[var(--muted)]">A browser-based editor, not a full Photoshop replacement. Artwork stays in your browser unless you export it.</p>
+            <p class="mt-6 text-[11px] leading-5 text-[var(--muted)]">{projects[0].note}</p>
           </div>
         </div>
       </article>
@@ -203,16 +206,16 @@
         {#each projects.slice(1) as project}
           <article class="group overflow-hidden rounded-3xl border border-[var(--line)] bg-[var(--panel)] transition duration-300 hover:-translate-y-1 hover:border-[color-mix(in_srgb,var(--accent)_55%,var(--line))]">
             <div class="relative flex min-h-[235px] items-center justify-center overflow-hidden bg-[var(--panel-soft)] p-6 sm:min-h-[270px]">
-              {#if project.visual === 'metro'}
-                <div class="relative grid size-48 place-items-center rounded-full border border-[var(--line)] bg-[var(--panel)] shadow-xl sm:size-56">
+              {#if project.slug === 'metronome'}
+                <div aria-hidden="true" class="relative grid size-48 place-items-center rounded-full border border-[var(--line)] bg-[var(--panel)] shadow-xl sm:size-56">
                   <div class="absolute inset-3 rounded-full border border-[var(--line)]"></div>
                   <div class="absolute inset-7 rounded-full border border-dashed border-[var(--accent)]/50"></div>
                   <div class="text-center"><div class="font-mono text-5xl font-semibold tracking-[-0.08em] sm:text-6xl">120</div><div class="mt-1 font-mono text-[9px] uppercase tracking-[0.2em] text-[var(--muted)]">Beats per minute</div></div>
                   <span class="absolute -top-2 left-1/2 h-8 w-px origin-bottom rotate-12 bg-[var(--accent)]"></span>
-                  <span class="absolute bottom-5 left-1/2 -translate-x-1/2 rounded-full bg-[var(--accent)] px-5 py-2 text-[9px] font-bold text-[#10150d]">PLAY</span>
+                  <span class="absolute bottom-5 left-1/2 -translate-x-1/2 rounded-full bg-[var(--accent)] px-5 py-2 text-[9px] font-bold text-[var(--accent-contrast)]">PLAY</span>
                 </div>
               {:else}
-                <div class="w-full max-w-sm rounded-2xl border border-[var(--line)] bg-[var(--panel)] p-5 shadow-xl sm:p-6">
+                <div aria-hidden="true" class="w-full max-w-sm rounded-2xl border border-[var(--line)] bg-[var(--panel)] p-5 shadow-xl sm:p-6">
                   <div class="flex items-center justify-between"><span class="font-mono text-[9px] uppercase tracking-[0.16em] text-[var(--muted)]">Pay estimate</span><span class="rounded-full bg-[var(--accent-soft)] px-2 py-1 text-[9px] text-[var(--accent)]">Reference</span></div>
                   <div class="mt-6 text-xs text-[var(--muted)]">Pay level</div>
                   <div class="mt-1 flex items-center justify-between border-b border-[var(--line)] pb-3 text-lg font-semibold">Level 17 <span class="text-sm text-[var(--muted)]">⌄</span></div>
@@ -223,7 +226,7 @@
                   <div class="mt-4 flex items-center justify-between border-t border-[var(--line)] pt-4 text-xs"><span class="text-[var(--muted)]">Estimated in-hand</span><span class="font-semibold text-[var(--accent)]">Estimate salary →</span></div>
                 </div>
               {/if}
-              <p class="absolute bottom-4 right-5 font-mono text-[9px] uppercase tracking-[0.15em] text-[var(--muted)]">{project.number} — {project.type}</p>
+              <p class="absolute bottom-4 right-5 font-mono text-[9px] uppercase tracking-[0.15em] text-[var(--muted)]">Concept preview · {project.type}</p>
             </div>
             <div class="p-6 sm:p-8">
               <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--accent)]">{project.type}</p>
@@ -232,9 +235,10 @@
               <div class="mt-5 flex flex-wrap gap-2">
                 {#each project.stack as item}<span class="rounded-full border border-[var(--line)] px-3 py-1.5 font-mono text-[10px] text-[var(--muted)]">{item}</span>{/each}
               </div>
-              <div class="mt-7 flex flex-wrap gap-5 text-sm font-semibold">
-                <a class="inline-flex items-center gap-2 text-[var(--accent)] transition hover:gap-3" href={project.live} target="_blank" rel="noreferrer">Open project <span>↗</span></a>
-                <a class="inline-flex items-center gap-2 text-[var(--muted)] transition hover:text-[var(--ink)]" href={project.source} target="_blank" rel="noreferrer">Source code <span>↗</span></a>
+              <div class="mt-7 flex flex-wrap gap-x-5 gap-y-3 text-sm font-semibold">
+                <a class="inline-flex items-center gap-2 text-[var(--accent)] transition hover:gap-3" href={project.live} target="_blank" rel="noopener noreferrer">Open project <span aria-hidden="true">↗</span></a>
+                <a class="inline-flex items-center gap-2 text-[var(--muted)] transition hover:text-[var(--ink)]" href={project.source} target="_blank" rel="noopener noreferrer">Source code <span aria-hidden="true">↗</span></a>
+                <a class="inline-flex items-center gap-2 text-[var(--ink)] transition hover:text-[var(--accent)]" href={project.page}>Project notes <span aria-hidden="true">→</span></a>
               </div>
             </div>
           </article>
@@ -250,8 +254,8 @@
           <p class="mt-5 max-w-lg text-sm leading-7 text-[var(--muted)]">I'm always happy to hear about ideas, useful tools and interesting projects.</p>
         </div>
         <div class="flex flex-wrap gap-4 text-sm font-semibold">
-          <a class="inline-flex items-center gap-2 rounded-full bg-[var(--accent)] px-5 py-3 text-[#10150d] transition hover:-translate-y-0.5" href="mailto:leenus.darnal@gmail.com">Send an email ↗</a>
-          <a class="inline-flex items-center gap-2 rounded-full border border-[var(--line)] px-5 py-3 transition hover:border-[var(--accent)]" href="https://github.com/leenusdarnal" target="_blank" rel="noreferrer">GitHub ↗</a>
+          <a class="inline-flex items-center gap-2 rounded-full bg-[var(--accent)] px-5 py-3 text-[var(--accent-contrast)] transition hover:-translate-y-0.5" href="mailto:leenus.darnal@gmail.com">Send an email ↗</a>
+          <a class="inline-flex items-center gap-2 rounded-full border border-[var(--line)] px-5 py-3 transition hover:border-[var(--accent)]" href="https://github.com/leenusdarnal" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
         </div>
       </div>
     </section>
@@ -259,7 +263,7 @@
 
   <footer class="flex flex-col justify-between gap-4 py-7 text-xs text-[var(--muted)] sm:flex-row sm:items-center">
     <span>© {new Date().getFullYear()} Leenus Darnal</span>
-    <span class="flex items-center gap-2">Built with SvelteKit & Tailwind CSS <span class="text-[var(--accent)]">✳</span></span>
-    <a href="https://github.com/leenusdarnal/leenusdarnal.github.io" target="_blank" rel="noreferrer" class="transition hover:text-[var(--ink)]">View source ↗</a>
+    <span class="flex items-center gap-2">Built with SvelteKit & Tailwind CSS <span class="text-[var(--accent)]" aria-hidden="true">✳</span></span>
+    <a href="https://github.com/leenusdarnal/leenusdarnal.github.io" target="_blank" rel="noopener noreferrer" class="transition hover:text-[var(--ink)]">View source ↗</a>
   </footer>
 </div>

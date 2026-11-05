@@ -7,12 +7,13 @@
     <link rel="icon" href="%sveltekit.assets%/favicon.svg" type="image/svg+xml" />
     <script>
       (() => {
+        const root = document.documentElement;
         try {
           const saved = localStorage.getItem('site-theme');
           const preferred = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-          document.documentElement.dataset.theme = saved || preferred;
+          root.dataset.theme = saved === 'light' || saved === 'dark' ? saved : preferred;
         } catch {
-          document.documentElement.dataset.theme = 'dark';
+          root.dataset.theme = 'dark';
         }
       })();
     </script>

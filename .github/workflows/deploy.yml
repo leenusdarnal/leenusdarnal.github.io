@@ -26,14 +26,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 24
+          cache: npm
 
       - name: Install dependencies
         run: npm install
 
-      - name: Check Svelte files
-        run: npm run check
-
-      - name: Build static site
+      - name: Check, build and test the static site
         run: npm run build
 
       - name: Configure GitHub Pages
@@ -52,7 +50,7 @@ jobs:
       id-token: write
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: \${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
