@@ -67,6 +67,7 @@
   <meta property="og:title" content="Leenus Darnal — I build useful things" />
   <meta property="og:description" content="A collection of useful web tools, projects and experiments by Leenus Darnal." />
   <meta property="og:url" content="https://leenusdarnal.github.io/" />
+  <meta property="og:image" content="/og-image.svg" />
   <meta name="twitter:card" content="summary" />
 </svelte:head>
 
@@ -206,10 +207,10 @@
                   <div class="mt-6 text-xs text-[var(--muted)]">Pay level</div>
                   <div class="mt-1 flex items-center justify-between border-b border-[var(--line)] pb-3 text-lg font-semibold">Level 17 <span class="text-sm text-[var(--muted)]">⌄</span></div>
                   <div class="mt-4 grid grid-cols-2 gap-3">
-                    <div class="rounded-xl bg-[var(--panel-soft)] p-3"><div class="text-[9px] text-[var(--muted)]">Basic pay</div><div class="mt-2 text-lg font-semibold">₹56,000</div></div>
-                    <div class="rounded-xl bg-[var(--panel-soft)] p-3"><div class="text-[9px] text-[var(--muted)]">DA rate</div><div class="mt-2 text-lg font-semibold">—%</div></div>
+                    <div class="rounded-xl bg-[var(--panel-soft)] p-3"><div class="text-[9px] text-[var(--muted)]">Basic pay</div><div class="mt-2 text-lg font-semibold">Enter amount</div></div>
+                    <div class="rounded-xl bg-[var(--panel-soft)] p-3"><div class="text-[9px] text-[var(--muted)]">DA rate</div><div class="mt-2 text-lg font-semibold">Set rate</div></div>
                   </div>
-                  <div class="mt-4 flex items-center justify-between border-t border-[var(--line)] pt-4 text-xs"><span class="text-[var(--muted)]">Estimated in-hand</span><span class="font-semibold text-[var(--accent)]">Calculate →</span></div>
+                  <div class="mt-4 flex items-center justify-between border-t border-[var(--line)] pt-4 text-xs"><span class="text-[var(--muted)]">Estimated in-hand</span><span class="font-semibold text-[var(--accent)]">Estimate salary →</span></div>
                 </div>
               {/if}
               <p class="absolute bottom-4 right-5 font-mono text-[9px] uppercase tracking-[0.15em] text-[var(--muted)]">{project.number} — {project.type}</p>
