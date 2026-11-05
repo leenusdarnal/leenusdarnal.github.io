@@ -1,16 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <rect width="1200" height="630" fill="#111614"/>
-  <rect x="826" y="58" width="315" height="514" rx="28" fill="#18241e" stroke="#2b4034" stroke-width="2"/>
-  <g stroke="#2a3d32" stroke-width="2"><path d="M866 124h235M866 182h235M866 240h235M866 298h235M866 356h235M866 414h235M866 472h235"/></g>
-  <rect x="882" y="170" width="206" height="295" rx="18" fill="#202e25" stroke="#4b6c58" stroke-width="2"/>
-  <text x="985" y="286" text-anchor="middle" font-family="Arial,sans-serif" font-size="88" font-weight="700" fill="#a9d7b7">₹</text>
-  <text x="985" y="343" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#d9e9de">PAY</text>
-  <text x="985" y="374" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#d9e9de">MATRIX</text>
-  <text x="80" y="105" font-family="Arial,sans-serif" font-size="18" font-weight="700" letter-spacing="3" fill="#a9d7b7">A PERSONAL SITE</text>
-  <text x="80" y="206" font-family="Arial,sans-serif" font-size="62" font-weight="700" fill="#f2f6f3">Leenus Darnal</text>
-  <text x="80" y="300" font-family="Arial,sans-serif" font-size="43" font-weight="700" fill="#f2f6f3">I build small web tools</text>
-  <text x="80" y="356" font-family="Arial,sans-serif" font-size="43" font-weight="700" fill="#f2f6f3">that make everyday work easier.</text>
-  <text x="82" y="430" font-family="Arial,sans-serif" font-size="23" fill="#b2c0b7">Notes, small projects and useful things</text>
-  <path d="M82 510H560" stroke="#486b55" stroke-width="3"/>
-  <text x="82" y="550" font-family="Arial,sans-serif" font-size="18" fill="#a9d7b7">leenusdarnal.github.io</text>
+  <circle cx="1020" cy="300" r="238" fill="#18241e"/>
+  <circle cx="1020" cy="300" r="176" fill="none" stroke="#365642" stroke-width="2"/>
+  <circle cx="1020" cy="300" r="130" fill="none" stroke="#365642" stroke-width="2"/>
+  <path d="M1020 120v360M840 300h360" stroke="#365642" stroke-width="2"/>
+  <text x="1020" y="333" text-anchor="middle" font-family="Arial,sans-serif" font-size="104" font-weight="700" fill="#a9d7b7">LD</text>
+  <text x="80" y="105" font-family="Arial,sans-serif" font-size="18" font-weight="700" letter-spacing="3" fill="#a9d7b7">PERSONAL NOTES &amp; SMALL TOOLS</text>
+  <text x="80" y="218" font-family="Arial,sans-serif" font-size="64" font-weight="700" fill="#f2f6f3">Leenus Darnal</text>
+  <text x="80" y="314" font-family="Arial,sans-serif" font-size="45" font-weight="700" fill="#f2f6f3">I make small tools to</text>
+  <text x="80" y="372" font-family="Arial,sans-serif" font-size="45" font-weight="700" fill="#f2f6f3">simplify everyday tasks.</text>
+  <text x="82" y="460" font-family="Arial,sans-serif" font-size="23" fill="#b2c0b7">Projects, notes and useful things worth keeping.</text>
+  <path d="M82 520H550" stroke="#486b55" stroke-width="3"/>
+  <text x="82" y="563" font-family="Arial,sans-serif" font-size="18" fill="#a9d7b7">leenusdarnal.github.io</text>
 </svg>

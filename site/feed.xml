@@ -3,22 +3,22 @@
   <channel>
     <title>Leenus Darnal — Notes</title>
     <link>https://leenusdarnal.github.io/</link>
-    <description>Short notes on technology, small tools and things worth keeping.</description>
+    <description>Personal notes on small tools, software and things worth keeping.</description>
     <language>en</language>
     <lastBuildDate>Thu, 05 Nov 2026 00:00:00 +0530</lastBuildDate>
     <item>
-      <title>Separate image cleanup, text reading and rule checks</title>
-      <link>https://leenusdarnal.github.io/#note-packsure-ocr</link>
-      <guid isPermaLink="true">https://leenusdarnal.github.io/#note-packsure-ocr</guid>
+      <title>Show the parts behind the estimate</title>
+      <link>https://leenusdarnal.github.io/#note-salary-breakdown</link>
+      <guid isPermaLink="true">https://leenusdarnal.github.io/#note-salary-breakdown</guid>
       <pubDate>Thu, 05 Nov 2026 00:00:00 +0530</pubDate>
-      <description>PackSure's backend separates OpenCV image preprocessing from OCR and Legal Metrology checks; the current OCR response is still simulated.</description>
+      <description>The salary calculator separates gross pay, deductions and estimated in-hand pay so the estimate can be reviewed component by component.</description>
     </item>
     <item>
-      <title>Make permission choices understandable</title>
-      <link>https://leenusdarnal.github.io/#note-rimusic-privacy</link>
-      <guid isPermaLink="true">https://leenusdarnal.github.io/#note-rimusic-privacy</guid>
+      <title>Make a small tool easy to open</title>
+      <link>https://leenusdarnal.github.io/#note-single-file-tool</link>
+      <guid isPermaLink="true">https://leenusdarnal.github.io/#note-single-file-tool</guid>
       <pubDate>Thu, 05 Nov 2026 00:00:00 +0530</pubDate>
-      <description>RiMusic's README says it does not collect data and gates microphone access for the optional audio visualizer behind a user setting.</description>
+      <description>The salary calculator is kept in one HTML file with its styles and scripts, making it easy to open and inspect.</description>
     </item>
   </channel>
 </rss>

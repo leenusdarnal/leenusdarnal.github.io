@@ -3,33 +3,39 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
   <meta name="theme-color" content="#111614">
-  <meta name="description" content="A personal site by Leenus Darnal — small web tools, notes, experiments and useful things worth keeping.">
+  <meta name="author" content="Leenus Darnal">
+  <meta name="description" content="A personal site by Leenus Darnal: small web tools, notes and useful things worth keeping.">
   <link rel="canonical" href="https://leenusdarnal.github.io/">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="alternate" type="application/rss+xml" title="Leenus Darnal — Notes" href="/feed.xml">
+
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Leenus Darnal">
-  <meta property="og:title" content="Leenus Darnal — Small web tools and notes">
-  <meta property="og:description" content="A personal site for small web tools, notes, experiments and useful things worth keeping.">
+  <meta property="og:title" content="Leenus Darnal — Small tools and notes">
+  <meta property="og:description" content="A personal place for small web tools, notes and useful things worth keeping.">
   <meta property="og:url" content="https://leenusdarnal.github.io/">
   <meta property="og:image" content="https://leenusdarnal.github.io/og-image.svg">
+  <meta property="og:image:type" content="image/svg+xml">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:type" content="image/svg+xml">
-  <meta property="og:image:alt" content="Leenus Darnal — I build small web tools that make everyday work easier.">
+  <meta property="og:image:alt" content="Leenus Darnal — small tools for everyday tasks.">
+
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Leenus Darnal — Small web tools and notes">
-  <meta name="twitter:description" content="A personal site for small web tools, notes, experiments and useful things worth keeping.">
+  <meta name="twitter:title" content="Leenus Darnal — Small tools and notes">
+  <meta name="twitter:description" content="A personal place for small web tools, notes and useful things worth keeping.">
   <meta name="twitter:image" content="https://leenusdarnal.github.io/og-image.svg">
-  <meta name="twitter:image:alt" content="Leenus Darnal — a personal site for tools and notes.">
-  <title>Leenus Darnal — Small web tools and notes</title>
+  <meta name="twitter:image:alt" content="Leenus Darnal — small tools for everyday tasks.">
+
+  <title>Leenus Darnal — Small tools and notes</title>
   <script>
     (() => {
       let saved = null;
       try { saved = localStorage.getItem('site-theme'); } catch (_) {}
-      const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
-      document.documentElement.dataset.theme = saved === 'light' || saved === 'dark' ? saved : (prefersLight ? 'light' : 'dark');
+      const prefersLight = window.matchMedia?.('(prefers-color-scheme: light)').matches;
+      document.documentElement.dataset.theme =
+        saved === 'light' || saved === 'dark' ? saved : (prefersLight ? 'light' : 'dark');
     })();
   </script>
   <link rel="stylesheet" href="/styles.css">
@@ -45,9 +51,9 @@
 
     <main id="main-content" tabindex="-1">
       <section class="intro" aria-labelledby="intro-title">
-        <p class="eyebrow">A PERSONAL SITE</p>
-        <h1 id="intro-title">I build small web tools that make everyday work easier.</h1>
-        <p class="intro-copy">A quiet place for small projects, notes, experiments and useful things I want to keep.</p>
+        <p class="eyebrow">PERSONAL NOTES &amp; SMALL TOOLS</p>
+        <h1 id="intro-title">I make small tools to simplify everyday tasks.</h1>
+        <p class="intro-copy">This is my own corner of the internet for things I build, notes from the process, and useful references I want to keep.</p>
       </section>
 
       <nav class="section-nav" aria-label="Page sections">
@@ -60,65 +66,101 @@
       <div class="content-stack">
         <section class="content-section" id="things" aria-labelledby="things-title">
           <div class="section-heading">
-            <h2 id="things-title">Things</h2>
-            <p>A few small things I have been working on.</p>
+            <div>
+              <p class="section-index">01 / CURRENT PROJECT</p>
+              <h2 id="things-title">Things</h2>
+            </div>
+            <p class="section-description">A small tool I made and keep improving.</p>
           </div>
 
           <article class="project">
-            <a class="project-preview" href="https://sikkim-government-salary-calculator.vercel.app/" target="_blank" rel="noopener noreferrer" aria-label="Open the Sikkim Government Salary Calculator">
-              <img src="/salary-calculator-preview.svg" alt="Illustrative preview of the salary calculator's opening screen, with pay-level, basic-pay and DA inputs." width="960" height="540" loading="lazy" decoding="async">
-            </a>
+            <figure class="project-preview">
+              <a href="https://sikkim-government-salary-calculator.vercel.app/" target="_blank" rel="noopener noreferrer" aria-label="Open the Sikkim Government Salary Calculator">
+                <img
+                  src="/salary-calculator-preview.svg"
+                  alt="Illustrative view of the salary calculator interface showing pay level, basic pay and DA inputs."
+                  width="960"
+                  height="540"
+                  loading="lazy"
+                  decoding="async">
+              </a>
+              <figcaption>Interface preview · Illustrative, not a live screenshot</figcaption>
+            </figure>
+
             <div class="project-copy">
+              <p class="project-kicker">WEB TOOL · SIKKIM</p>
               <h3>Sikkim Government Salary Calculator</h3>
-              <p class="project-pitch">A browser-based reference tool for estimating monthly pay from a pay level, basic-pay cell and DA rate, with a clear earnings and deductions breakdown.</p>
-              <p class="stack"><span class="meta-label">Stack</span> HTML · CSS · JavaScript</p>
-              <div class="project-links">
-                <a href="https://sikkim-government-salary-calculator.vercel.app/" target="_blank" rel="noopener noreferrer">Live calculator <span aria-hidden="true">↗</span></a>
-                <a href="https://github.com/leenusdarnal/SIKKIM-GOVERNMENT-SALARY-CALCULATOR" target="_blank" rel="noopener noreferrer">GitHub source <span aria-hidden="true">↗</span></a>
+              <p class="project-pitch">A browser-based reference calculator for estimating monthly gross pay, deductions and in-hand salary from a pay level, basic-pay cell and DA rate.</p>
+
+              <div class="project-details">
+                <div>
+                  <span class="meta-label">Built with</span>
+                  <p>HTML · CSS · JavaScript</p>
+                </div>
+                <div>
+                  <span class="meta-label">Format</span>
+                  <p>Single-page tool</p>
+                </div>
               </div>
-              <p class="project-note">Reference estimates only. Check the applicable pay and allowance orders for the period.</p>
+
+              <div class="project-links">
+                <a class="primary-link" href="https://sikkim-government-salary-calculator.vercel.app/" target="_blank" rel="noopener noreferrer">Open calculator <span aria-hidden="true">↗</span></a>
+                <a href="https://github.com/leenusdarnal/SIKKIM-GOVERNMENT-SALARY-CALCULATOR" target="_blank" rel="noopener noreferrer">View my source <span aria-hidden="true">↗</span></a>
+              </div>
+              <p class="project-note">For reference only. Actual pay depends on the applicable government orders and individual service details.</p>
             </div>
           </article>
         </section>
 
         <section class="content-section" id="notes" aria-labelledby="notes-title">
           <div class="section-heading">
-            <h2 id="notes-title">Notes</h2>
-            <p>Small observations from things I make and learn.</p>
+            <div>
+              <p class="section-index">02 / WORKING NOTES</p>
+              <h2 id="notes-title">Notes</h2>
+            </div>
+            <p class="section-description">A few things I learned while making the calculator.</p>
           </div>
+
           <div class="notes-list">
-            <article class="note" id="note-packsure-ocr">
-              <p class="note-date">05 NOV 2026 · COMPUTER VISION</p>
-              <h3>Separate image cleanup, text reading and rule checks</h3>
-              <p>In PackSure, the OpenCV preprocessing path converts a label image to grayscale, applies a 5×5 Gaussian blur, uses adaptive thresholding, then detects contours and bounding boxes. Those regions can be passed to OCR before the extracted fields are checked against the Legal Metrology rules. One implementation detail is worth keeping clear: the current backend response after preprocessing is still simulated, so its sample OCR results should not be mistaken for live OCR output. <a href="https://github.com/priyojit-mitra2005/PackSure/blob/main/backend/main.py" target="_blank" rel="noopener noreferrer">Source code</a>.</p>
+            <article class="note" id="note-salary-breakdown">
+              <p class="note-date"><time datetime="2026-11-05">05 NOV 2026</time> · CALCULATOR DESIGN</p>
+              <h3>Show the parts behind the estimate</h3>
+              <p>A salary estimate is easier to review when it shows more than one final number. The calculator separates gross pay, deductions and estimated in-hand pay, with the individual components available to inspect. It is a reference calculation, not an official payroll statement.</p>
             </article>
-            <article class="note" id="note-rimusic-privacy">
-              <p class="note-date">05 NOV 2026 · PRIVACY</p>
-              <h3>Make permission choices understandable</h3>
-              <p>RiMusic's project README states that the app does not collect data. It also says the audio visualizer needs microphone permission and is available only when the user enables it in Settings. The useful design lesson is simple: explain why a permission is needed and keep optional features under the user's control. <a href="https://github.com/fast4x/RiMusic#readme" target="_blank" rel="noopener noreferrer">Project README</a>.</p>
+
+            <article class="note" id="note-single-file-tool">
+              <p class="note-date"><time datetime="2026-11-05">05 NOV 2026</time> · KEEP IT SIMPLE</p>
+              <h3>Make a small tool easy to open</h3>
+              <p>The calculator lives in a single <code>index.html</code> file with its styles and scripts alongside the page. That keeps the project easy to open in a browser and straightforward to inspect without a separate build setup.</p>
             </article>
           </div>
         </section>
 
         <section class="content-section" id="about" aria-labelledby="about-title">
           <div class="section-heading">
-            <h2 id="about-title">About</h2>
+            <div>
+              <p class="section-index">03 / A LITTLE CONTEXT</p>
+              <h2 id="about-title">About</h2>
+            </div>
           </div>
-          <p class="about-copy">I enjoy exploring technology and learning by building. This site is where I keep small tools, experiments, notes and references — especially things that make a fiddly task a little easier to understand.</p>
+          <p class="about-copy">I enjoy learning by making practical things. I am interested in technology, simple software, and small ideas that can make everyday tasks easier. This site is a personal shelf for those projects, experiments and notes — not a formal portfolio.</p>
         </section>
 
         <section class="content-section" id="contact" aria-labelledby="contact-title">
           <div class="section-heading">
-            <h2 id="contact-title">Contact</h2>
+            <div>
+              <p class="section-index">04 / SAY HELLO</p>
+              <h2 id="contact-title">Contact</h2>
+            </div>
           </div>
-          <p class="contact-copy">Have a thought about something here? <a href="mailto:leenus.darnal@gmail.com">Send me an email</a>, or find me on <a href="https://github.com/leenusdarnal" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
+          <p class="contact-copy">You can reach me by <a href="mailto:leenus.darnal@gmail.com">email</a> or find my code on <a href="https://github.com/leenusdarnal" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
         </section>
       </div>
     </main>
 
     <footer class="footer">
-      <span>Leenus Darnal</span>
-      <span>Made to keep useful things close.</span>
+      <span>© 2026 Leenus Darnal</span>
+      <a href="https://github.com/leenusdarnal/leenusdarnal.github.io" target="_blank" rel="noopener noreferrer">This site is kept in GitHub <span aria-hidden="true">↗</span></a>
     </footer>
   </div>
 </body>
