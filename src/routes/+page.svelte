@@ -44,7 +44,7 @@
       description: 'A browser-based background remover with a choice of AI-powered subject detection or a no-AI colour selection mode. Images stay on your device while you edit and export.',
       stack: ['SvelteKit', 'Transformers.js', 'ONNX Runtime'],
       features: ['AI and no-AI removal modes', 'Local erase and restore tools', 'PNG, JPEG and WebP export'],
-      live: null,
+      live: 'https://pixelcutout-three.vercel.app/',
       source: 'https://github.com/leenusdarnal/pixelcutout',
       visual: 'cutout'
     }
