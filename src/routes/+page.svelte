@@ -8,9 +8,9 @@
       number: '01',
       name: 'PixelForge Studio',
       type: 'IMAGE EDITOR · BROWSER APP',
-      description: 'A touch-friendly image editor for creating and refining images in the browser, with layers, selection tools, adjustments and export.',
-      stack: ['JavaScript', 'Canvas', 'PWA'],
-      features: ['Layers and selection tools', 'Image adjustments', 'Image export'],
+      description: 'A mobile-friendly, offline-first image editor with layers, masks, selection tools, editable text and local .pfs project files. It targets 24 MP documents and autosaves on your device.',
+      stack: ['SvelteKit', 'Tailwind CSS', 'Canvas API'],
+      features: ['Editable text layers', '24 MP document target', 'Offline-first local projects'],
       live: 'https://pixelforge-studio-pied.vercel.app/',
       source: 'https://github.com/leenusdarnal/pixelforge-studio',
       visual: 'pixel'
@@ -220,7 +220,7 @@
           <div class="flex min-w-0 flex-col justify-center p-5 sm:p-8 lg:p-12">
             <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--accent)]">FEATURED PROJECT · IMAGE EDITOR</p>
             <h3 id="project-pixelforge-title" class="mt-3 text-2xl font-semibold tracking-[-0.06em] sm:mt-4 sm:text-3xl lg:text-4xl">PixelForge Studio</h3>
-            <p id="project-pixelforge-description" class="mt-5 text-sm leading-7 text-[var(--muted)]">A touch-friendly image editor for the browser, with layers, selection and drawing tools, adjustments, history and image export.</p>
+            <p id="project-pixelforge-description" class="mt-5 text-sm leading-7 text-[var(--muted)]">A mobile-friendly, offline-first editor with layers, masks, selection tools and editable text. Projects and autosaves stay on your device, with .pfs files available for separate backups.</p>
             <ul aria-label="PixelForge Studio highlights" class="mt-5 flex flex-wrap gap-x-4 gap-y-2 text-xs text-[var(--muted)]">
               {#each projects[0].features as feature}
                 <li class="flex items-center gap-2"><span aria-hidden="true" class="size-1.5 rounded-full bg-[var(--accent)]"></span>{feature}</li>
@@ -233,7 +233,7 @@
               <a class="inline-flex items-center gap-2 text-[var(--accent)] transition hover:gap-3" href={projects[0].live} target="_blank" rel="noopener noreferrer">Open editor <span>↗</span></a>
               <a class="inline-flex items-center gap-2 text-[var(--muted)] transition hover:text-[var(--ink)]" href={projects[0].source} target="_blank" rel="noopener noreferrer">Source code <span>↗</span></a>
             </div>
-            <p class="mt-6 text-[11px] leading-5 text-[var(--muted)]">A browser-based editor, not a full Photoshop replacement. Artwork stays in your browser unless you export it.</p>
+            <p class="mt-6 text-[11px] leading-5 text-[var(--muted)]">Offline-first editing with local autosaves. Export a .pfs project file to keep a separate backup of your work.</p>
           </div>
         </div>
       </article>
