@@ -164,11 +164,11 @@ test('each selected project has a prerendered case study page', async () => {
 
   for (const [slug, name] of projects) {
     const page = await readFile(new URL(`projects/${slug}/index.html`, buildUrl), 'utf8');
-    assert.match(page, /<h1\\b/);
+    assert.ok(page.includes('<h1'), 'Missing page heading: ' + name);
     assert.ok(page.includes(name), 'Missing project name in case study: ' + name);
-    assert.match(page, /<title>.*Leenus Darnal<\\/title>/);
+    assert.ok(page.includes('<title>') && page.includes('Leenus Darnal</title>'), 'Missing page title: ' + name);
     assert.match(page, /rel="canonical"/);
-    assert.match(page, /href="\\/\\#work"|href="\\/"/);
+    assert.ok(page.includes('href="/#work"') || page.includes('href="/"'), 'Missing return navigation: ' + name);
   }
 });
 
