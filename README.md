@@ -1,6 +1,15 @@
 # Leenus Darnal — Personal Website
 
-A personal developer homepage built with SvelteKit, Svelte 5 and Tailwind CSS 4. The site is prerendered as static files and published to GitHub Pages, with Vercel kept as the secondary deployment.
+A personal developer homepage built with SvelteKit, Svelte 5 and Tailwind CSS 4. The site is prerendered as static files and published to GitHub Pages, with Vercel as an additional deployment.
+
+## Live website
+
+- **GitHub Pages:** https://leenusdarnal.github.io/
+- **Vercel:** https://leenusdarnal.vercel.app/
+
+## Source code
+
+- **GitHub repository:** https://github.com/leenusdarnal/leenusdarnal.github.io
 
 ## Stack
 
@@ -27,7 +36,11 @@ npm run build
 npm test
 ```
 
-The checks run for pull requests before changes are merged. The GitHub Pages deployment workflow repeats them before publishing the `build/` folder. Vercel deploys from the connected GitHub repository after a successful merge to `main`.
+GitHub Actions runs the checks on pull requests and pushes to `main`. After a successful build and test run, the Pages workflow publishes the generated `build/` directory to GitHub Pages. Vercel is connected to the GitHub repository and can deploy updates from `main`.
+
+## Project case studies
+
+The portfolio includes dedicated pages for PixelForge Studio, Metronome, Sikkim Government Salary Calculator, and PixelCutout. Each page includes an overview, key features, technology stack, and links to the live project and source code.
 
 ## Site quality
 
