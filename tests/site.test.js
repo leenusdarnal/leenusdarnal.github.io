@@ -152,3 +152,37 @@ test('the document prevents horizontal page overflow and retains reduced-motion 
   assert.ok(css.includes('@media (prefers-reduced-motion: reduce)'));
   assert.ok(css.includes('scroll-padding-top: 1rem'));
 });
+
+test('generated page includes exactly one primary heading and descriptive image alternatives', () => {
+  const headings = [...html.matchAll(/<h1\b/g)];
+  assert.equal(headings.length, 1, 'Homepage should expose one primary heading');
+  const images = [...html.matchAll(/<img\b[^>]*>/g)].map(([tag]) => tag);
+  for (const image of images) {
+    assert.match(image, /\balt=/, 'Every rendered image must have an alt attribute: ' + image);
+  }
+});
+
+test('all project and contact links have meaningful accessible text', () => {
+  assert.match(html, /aria-label="Leenus Darnal — home"/);
+  assert.match(html, />Send an email/);
+  assert.match(html, /aria-label="PixelForge Studio highlights"/);
+  assert.match(html, /aria-label="Metronome highlights"/);
+  assert.match(html, /aria-label="Sikkim Government Salary Calculator highlights"/);
+  assert.match(html, /aria-label="PixelCutout highlights"/);
+});
+
+test('CI validates pull requests and main pushes with supported dependency installs', async () => {
+  const ci = await readFile(new URL('../.github/workflows/verify-sveltekit.yml', import.meta.url), 'utf8');
+  assert.match(ci, /pull_request:/);
+  assert.match(ci, /branches: \[main\]/);
+  assert.match(ci, /push:\n\s+branches: \[main,/);
+  assert.match(ci, /npm install/);
+  assert.match(ci, /run: npm install/);
+});
+
+test('Pages deployment uses reproducible cached installs and only deploys main', async () => {
+  const deploy = await readFile(new URL('../.github/workflows/deploy.yml', import.meta.url), 'utf8');
+  assert.match(deploy, /branches:\n\s+- main/);
+  assert.match(deploy, /npm install/);
+  assert.match(deploy, /path: build/);
+});
