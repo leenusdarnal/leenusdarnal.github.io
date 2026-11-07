@@ -1,6 +1,6 @@
 <script>
   let { data } = $props();
-  const project = data.project;
+  let project = $derived(data.project);
 </script>
 
 <svelte:head>
