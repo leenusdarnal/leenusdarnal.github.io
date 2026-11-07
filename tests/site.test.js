@@ -209,3 +209,26 @@ test('Pages deployment uses reproducible cached installs and only deploys main',
   assert.match(deploy, /npm install/);
   assert.match(deploy, /path: build/);
 });
+
+
+test('Metronome case study uses its genuine source-repository screenshot', async () => {
+  const page = await readFile(new URL('projects/metronome/index.html', buildUrl), 'utf8');
+  assert.ok(page.includes('https://raw.githubusercontent.com/leenusdarnal/react-metronome/master/screenshots/react-metronome.png'));
+  assert.match(page, /Actual application screenshot/);
+  assert.match(page, /alt="Screenshot of the Metronome web app interface/);
+});
+
+test('projects without verified screenshots are not presented as photographed interfaces', async () => {
+  const projects = ['pixelforge-studio', 'sikkim-government-salary-calculator', 'pixelcutout'];
+  for (const slug of projects) {
+    const page = await readFile(new URL(`projects/${slug}/index.html`, buildUrl), 'utf8');
+    assert.match(page, /An authentic screenshot is not yet available/);
+    assert.match(page, /View live app/);
+  }
+});
+
+test('homepage labels illustrative project art and the real screenshot distinctly', () => {
+  assert.match(html, /Actual app screenshot/);
+  assert.match(html, /Interface illustration/);
+  assert.match(source, /react-metronome\/master\/screenshots\/react-metronome\.png/);
+});
