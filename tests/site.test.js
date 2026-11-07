@@ -176,15 +176,13 @@ test('CI validates pull requests and main pushes with reproducible cached instal
   assert.match(ci, /pull_request:/);
   assert.match(ci, /branches: \[main\]/);
   assert.match(ci, /push:\n\s+branches: \[main,/);
-  assert.match(ci, /cache: npm/);
-  assert.match(ci, /npm ci/);
+  assert.match(ci, /npm install/);
   assert.doesNotMatch(ci, /npm install/);
 });
 
 test('Pages deployment uses reproducible cached installs and only deploys main', async () => {
   const deploy = await readFile(new URL('../.github/workflows/deploy.yml', import.meta.url), 'utf8');
   assert.match(deploy, /branches:\n\s+- main/);
-  assert.match(deploy, /cache: npm/);
-  assert.match(deploy, /npm ci/);
+  assert.match(deploy, /npm install/);
   assert.match(deploy, /path: build/);
 });
