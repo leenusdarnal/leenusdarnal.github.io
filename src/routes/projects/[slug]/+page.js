@@ -24,6 +24,8 @@ const projects = [
     stack: ['React', 'TypeScript', 'Vite'],
     highlights: ['Tempo control', 'Playback controls', 'Selectable time signatures'],
     live: 'https://react-metronome-dusky.vercel.app/',
+    previewImage: 'https://raw.githubusercontent.com/leenusdarnal/react-metronome/master/screenshots/react-metronome.png',
+    previewAlt: 'Screenshot of the Metronome web app interface from its source repository.',
     source: 'https://github.com/leenusdarnal/react-metronome'
   },
   {
