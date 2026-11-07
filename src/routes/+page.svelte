@@ -6,6 +6,7 @@
   const projects = [
     {
       number: '01',
+      slug: 'pixelforge-studio',
       name: 'PixelForge Studio',
       type: 'IMAGE EDITOR · BROWSER APP',
       description: 'A mobile-friendly, offline-first image editor with layers, masks, selection tools, editable text and local .pfs project files. It targets 24 MP documents and autosaves on your device.',
@@ -17,6 +18,7 @@
     },
     {
       number: '02',
+      slug: 'metronome',
       name: 'Metronome',
       type: 'MUSIC PRACTICE · WEB APP',
       description: 'A straightforward practice metronome with tempo control, playback and selectable time signatures.',
@@ -28,6 +30,7 @@
     },
     {
       number: '03',
+      slug: 'sikkim-government-salary-calculator',
       name: 'Sikkim Government Salary Calculator',
       type: 'REFERENCE TOOL · SIKKIM',
       description: 'An independent browser-based reference calculator for estimating gross pay, common deductions and in-hand salary. It is not an official Government of Sikkim calculator.',
@@ -39,6 +42,7 @@
     },
     {
       number: '04',
+      slug: 'pixelcutout',
       name: 'PixelCutout',
       type: 'IMAGE TOOL · PRIVACY-FIRST',
       description: 'A browser-based background remover with a choice of AI-powered subject detection or a no-AI colour selection mode. Images stay on your device while you edit and export.',
@@ -231,6 +235,7 @@
             </div>
             <div class="mt-7 flex flex-wrap gap-x-5 gap-y-3 text-sm font-semibold sm:mt-9">
               <a class="inline-flex items-center gap-2 text-[var(--accent)] transition hover:gap-3" href={projects[0].live} target="_blank" rel="noopener noreferrer">Open editor <span>↗</span></a>
+              <a class="inline-flex items-center gap-2 text-[var(--muted)] transition hover:text-[var(--ink)]" href="/projects/{projects[0].slug}/">Read case study <span>↗</span></a>
               <a class="inline-flex items-center gap-2 text-[var(--muted)] transition hover:text-[var(--ink)]" href={projects[0].source} target="_blank" rel="noopener noreferrer">Source code <span>↗</span></a>
             </div>
             <p class="mt-6 text-[11px] leading-5 text-[var(--muted)]">Offline-first editing with local autosaves. Export a .pfs project file to keep a separate backup of your work.</p>
@@ -292,6 +297,7 @@
                 {#if project.live}
                   <a class="inline-flex items-center gap-2 text-[var(--accent)] transition hover:gap-3" href={project.live} target="_blank" rel="noopener noreferrer">Open project <span>↗</span></a>
                 {/if}
+                <a class="inline-flex items-center gap-2 text-[var(--muted)] transition hover:text-[var(--ink)]" href="/projects/{project.slug}/">Read case study <span>↗</span></a>
                 <a class="inline-flex items-center gap-2 text-[var(--muted)] transition hover:text-[var(--ink)]" href={project.source} target="_blank" rel="noopener noreferrer">Source code <span>↗</span></a>
               </div>
             </div>
