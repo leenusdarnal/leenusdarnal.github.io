@@ -152,3 +152,32 @@ test('the document prevents horizontal page overflow and retains reduced-motion 
   assert.ok(css.includes('@media (prefers-reduced-motion: reduce)'));
   assert.ok(css.includes('scroll-padding-top: 1rem'));
 });
+
+
+test('each selected project has a prerendered case study page', async () => {
+  const projects = [
+    ['pixelforge-studio', 'PixelForge Studio'],
+    ['metronome', 'Metronome'],
+    ['sikkim-government-salary-calculator', 'Sikkim Government Salary Calculator'],
+    ['pixelcutout', 'PixelCutout']
+  ];
+
+  for (const [slug, name] of projects) {
+    const page = await readFile(new URL(`projects/${slug}/index.html`, buildUrl), 'utf8');
+    assert.match(page, new RegExp(`<h1[^>]*>${name.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&')}`));
+    assert.match(page, /<title>.*Leenus Darnal<\\/title>/);
+    assert.match(page, /rel="canonical"/);
+    assert.match(page, /href="\\/\\#work"|href="\\/"/);
+  }
+});
+
+test('homepage links each project to its case study', () => {
+  for (const slug of [
+    'pixelforge-studio',
+    'metronome',
+    'sikkim-government-salary-calculator',
+    'pixelcutout'
+  ]) {
+    assert.ok(html.includes(`/projects/${slug}/`), 'Missing case study link: ' + slug);
+  }
+});
