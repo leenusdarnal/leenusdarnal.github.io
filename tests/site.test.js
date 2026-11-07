@@ -171,13 +171,13 @@ test('all project and contact links have meaningful accessible text', () => {
   assert.match(html, /aria-label="PixelCutout highlights"/);
 });
 
-test('CI validates pull requests and main pushes with reproducible cached installs', async () => {
+test('CI validates pull requests and main pushes with supported dependency installs', async () => {
   const ci = await readFile(new URL('../.github/workflows/verify-sveltekit.yml', import.meta.url), 'utf8');
   assert.match(ci, /pull_request:/);
   assert.match(ci, /branches: \[main\]/);
   assert.match(ci, /push:\n\s+branches: \[main,/);
   assert.match(ci, /npm install/);
-  assert.doesNotMatch(ci, /npm install/);
+  assert.match(ci, /run: npm install/);
 });
 
 test('Pages deployment uses reproducible cached installs and only deploys main', async () => {
