@@ -57,6 +57,7 @@ const projects = [
 ];
 
 export const prerender = true;
+export const trailingSlash = 'always';
 
 /** @type {import('./$types').EntryGenerator} */
 export function entries() {
