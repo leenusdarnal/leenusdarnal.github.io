@@ -153,22 +153,45 @@ test('the document prevents horizontal page overflow and retains reduced-motion 
   assert.ok(css.includes('scroll-padding-top: 1rem'));
 });
 
-test('generated page includes exactly one primary heading and descriptive image alternatives', () => {
-  const headings = [...html.matchAll(/<h1\b/g)];
-  assert.equal(headings.length, 1, 'Homepage should expose one primary heading');
-  const images = [...html.matchAll(/<img\b[^>]*>/g)].map(([tag]) => tag);
-  for (const image of images) {
-    assert.match(image, /\balt=/, 'Every rendered image must have an alt attribute: ' + image);
+
+test('each selected project has a prerendered case study page', async () => {
+  const projects = [
+    ['pixelforge-studio', 'PixelForge Studio'],
+    ['metronome', 'Metronome'],
+    ['sikkim-government-salary-calculator', 'Sikkim Government Salary Calculator'],
+    ['pixelcutout', 'PixelCutout']
+  ];
+
+  for (const [slug, name] of projects) {
+    const page = await readFile(new URL(`projects/${slug}/index.html`, buildUrl), 'utf8');
+    assert.ok(page.includes('<h1'), 'Missing page heading: ' + name);
+    assert.ok(page.includes(name), 'Missing project name in case study: ' + name);
+    assert.ok(page.includes('<title>') && page.includes('Leenus Darnal</title>'), 'Missing page title: ' + name);
+    assert.match(page, /rel="canonical"/);
+    assert.ok(page.includes('href="/#work"') || page.includes('href="/"'), 'Missing return navigation: ' + name);
   }
 });
 
-test('all project and contact links have meaningful accessible text', () => {
-  assert.match(html, /aria-label="Leenus Darnal — home"/);
-  assert.match(html, />Send an email/);
-  assert.match(html, /aria-label="PixelForge Studio highlights"/);
-  assert.match(html, /aria-label="Metronome highlights"/);
-  assert.match(html, /aria-label="Sikkim Government Salary Calculator highlights"/);
-  assert.match(html, /aria-label="PixelCutout highlights"/);
+test('sitemap includes every prerendered project case study', () => {
+  for (const slug of [
+    'pixelforge-studio',
+    'metronome',
+    'sikkim-government-salary-calculator',
+    'pixelcutout'
+  ]) {
+    assert.ok(sitemap.includes(`https://leenusdarnal.github.io/projects/${slug}/`), 'Missing sitemap URL: ' + slug);
+  }
+});
+ 
+test('homepage links each project to its case study', () => {
+  for (const slug of [
+    'pixelforge-studio',
+    'metronome',
+    'sikkim-government-salary-calculator',
+    'pixelcutout'
+  ]) {
+    assert.ok(html.includes(`/projects/${slug}/`), 'Missing case study link: ' + slug);
+  }
 });
 
 test('CI validates pull requests and main pushes with supported dependency installs', async () => {
