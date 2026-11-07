@@ -58,10 +58,12 @@ const projects = [
 
 export const prerender = true;
 
+/** @type {import('./$types').EntryGenerator} */
 export function entries() {
   return projects.map(({ slug }) => ({ slug }));
 }
 
+/** @type {import('./$types').PageLoad} */
 export function load({ params }) {
   const project = projects.find((item) => item.slug === params.slug);
   if (!project) {
