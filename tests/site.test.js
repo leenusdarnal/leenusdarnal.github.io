@@ -172,6 +172,17 @@ test('each selected project has a prerendered case study page', async () => {
   }
 });
 
+test('sitemap includes every prerendered project case study', () => {
+  for (const slug of [
+    'pixelforge-studio',
+    'metronome',
+    'sikkim-government-salary-calculator',
+    'pixelcutout'
+  ]) {
+    assert.ok(sitemap.includes(`https://leenusdarnal.github.io/projects/${slug}/`), 'Missing sitemap URL: ' + slug);
+  }
+});
+ 
 test('homepage links each project to its case study', () => {
   for (const slug of [
     'pixelforge-studio',
