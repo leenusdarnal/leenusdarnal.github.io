@@ -265,3 +265,8 @@ test('the home link accessible name includes its visible brand label', () => {
 test('small decorative editor status text remains readable', () => {
   assert.ok(html.includes('text-white/70'));
 });
+
+
+test('accent foreground colours are explicitly applied to visible CTA text', () => {
+  assert.ok((html.match(/style="color: var\\(--accent-contrast\\)"/g) ?? []).length >= 2);
+});
