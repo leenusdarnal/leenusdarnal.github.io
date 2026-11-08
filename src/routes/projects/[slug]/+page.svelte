@@ -10,6 +10,12 @@
     <meta property="og:type" content="article" />
     <meta property="og:title" content={`${project.name} — Leenus Darnal`} />
     <meta property="og:description" content={project.summary} />
+    <meta property="og:image" content="https://leenusdarnal.github.io/og-image.svg" />
+    <meta property="og:image:alt" content="Leenus Darnal — project case study" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={`${project.name} — Leenus Darnal`} />
+    <meta name="twitter:description" content={project.summary} />
+    <meta name="twitter:image" content="https://leenusdarnal.github.io/og-image.svg" />
     <link rel="canonical" href={`https://leenusdarnal.github.io/projects/${project.slug}/`} />
   {/if}
 </svelte:head>
@@ -39,9 +45,9 @@
 
       {#if project.previewImage}
         <figure class="mt-14 overflow-hidden rounded-3xl border border-[var(--line)] bg-[var(--panel)]">
-          <img src={project.previewImage} alt={project.previewAlt} loading="lazy" decoding="async" class="block h-auto w-full object-contain" />
+          <img src={project.previewImage} alt={project.previewAlt} width="416" height="314" sizes="(max-width: 768px) calc(100vw - 2rem), 896px" loading="lazy" decoding="async" class="block h-auto w-full object-contain" />
           <figcaption class="border-t border-[var(--line)] px-4 py-3 text-xs text-[var(--muted)] sm:px-6">
-            Actual application screenshot · sourced from the project's GitHub repository
+            Actual application screenshot · <a href="https://github.com/leenusdarnal/react-metronome/tree/master/screenshots" target="_blank" rel="noopener noreferrer" class="underline underline-offset-4">source repository</a>
           </figcaption>
         </figure>
       {:else}
