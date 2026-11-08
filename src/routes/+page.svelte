@@ -117,8 +117,8 @@
   <a class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-[var(--ink)] focus:px-4 focus:py-3 focus:text-[var(--page)]" href="#main">Skip to content</a>
 
   <header class="flex items-center justify-between gap-3 border-b border-[var(--line)] py-4 sm:py-5">
-    <a href="#top" aria-label="Leenus Darnal — home" class="group flex min-w-0 shrink-0 items-center gap-2 text-xs font-semibold tracking-tight no-underline sm:gap-3 sm:text-sm">
-      <span aria-hidden="true" class="grid size-8 place-items-center rounded-full bg-[var(--accent)] text-sm font-black text-[#10150d] sm:size-9">L.</span>
+    <a href="#top" aria-label="L. Leenus Darnal. — home" class="group flex min-w-0 shrink-0 items-center gap-2 text-xs font-semibold tracking-tight no-underline sm:gap-3 sm:text-sm">
+      <span aria-hidden="true" class="grid size-8 place-items-center rounded-full bg-[var(--accent)] text-sm font-black text-[var(--accent-contrast)] sm:size-9">L.</span>
       <span>Leenus Darnal<span class="text-[var(--accent)]">.</span></span>
     </a>
 
@@ -162,7 +162,7 @@
           Small web tools, practical applications and experiments made to simplify everyday tasks.
         </p>
         <div class="mt-7 flex flex-wrap items-center gap-3 sm:mt-9">
-          <a href="#work" class="inline-flex min-h-11 items-center gap-2 rounded-full bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[#10150d] transition hover:-translate-y-0.5 sm:gap-3 sm:px-6 sm:py-3.5 hover:shadow-[0_12px_30px_color-mix(in_srgb,var(--accent)_20%,transparent)]">
+          <a href="#work" class="inline-flex min-h-11 items-center gap-2 rounded-full bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[var(--accent-contrast)] transition hover:-translate-y-0.5 sm:gap-3 sm:px-6 sm:py-3.5 hover:shadow-[0_12px_30px_color-mix(in_srgb,var(--accent)_20%,transparent)]">
             Explore my work <span aria-hidden="true">↓</span>
           </a>
           <a href="https://github.com/leenusdarnal" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center gap-2 rounded-full border border-[var(--line)] px-5 py-3 text-sm font-medium text-[var(--ink)] transition hover:border-[var(--accent)] sm:px-6 sm:py-3.5">
@@ -211,7 +211,7 @@
                     <div class="absolute bottom-5 left-5 font-mono text-[9px] uppercase tracking-[0.2em] text-white/80">Canvas / 01</div>
                   </div>
                 </div>
-                <div class="flex h-8 items-center justify-between gap-2 border-t border-white/10 px-2 text-[7px] text-white/40 sm:h-10 sm:px-4 sm:text-[9px]"><span>100% · RGB</span><span>Layers&nbsp;&nbsp; Adjust&nbsp;&nbsp; History</span></div>
+                <div class="flex h-8 items-center justify-between gap-2 border-t border-white/10 px-2 text-[7px] text-white/70 sm:h-10 sm:px-4 sm:text-[9px]"><span>100% · RGB</span><span>Layers&nbsp;&nbsp; Adjust&nbsp;&nbsp; History</span></div>
               </div>
               <div class="hidden w-24 flex-col gap-3 border-l border-white/10 bg-[#171e19] p-3 text-[9px] text-white/45 sm:flex sm:w-32 sm:p-4">
                 <span class="mb-2 text-[8px] uppercase tracking-widest">Layers</span>
@@ -270,7 +270,7 @@
                   </div>
                   <div class="relative flex aspect-[4/5] items-center justify-center overflow-hidden rounded-2xl border border-[var(--line)] p-3 shadow-lg sm:p-4" style="background-color:var(--panel);background-image:linear-gradient(45deg,var(--line) 25%,transparent 25%),linear-gradient(-45deg,var(--line) 25%,transparent 25%),linear-gradient(45deg,transparent 75%,var(--line) 75%),linear-gradient(-45deg,transparent 75%,var(--line) 75%);background-size:18px 18px;background-position:0 0,0 9px,9px -9px,-9px 0;">
                     <div class="relative h-[72%] w-[48%] rounded-t-[48%] bg-[#e2c1a1] shadow-xl"></div>
-                    <span class="absolute left-3 top-3 rounded-full bg-[var(--accent)] px-2 py-1 font-mono text-[8px] text-[#10150d]">CUTOUT</span>
+                    <span class="absolute left-3 top-3 rounded-full bg-[var(--accent)] px-2 py-1 font-mono text-[8px] text-[var(--accent-contrast)]">CUTOUT</span>
                   </div>
                 </div>
               {/if}
@@ -309,7 +309,7 @@
           <p class="mt-5 max-w-lg text-sm leading-7 text-[var(--muted)]">I'm always happy to hear about ideas, useful tools and interesting projects.</p>
         </div>
         <div class="flex flex-wrap gap-3 text-sm font-semibold sm:gap-4">
-          <a class="inline-flex min-h-11 items-center gap-2 rounded-full bg-[var(--accent)] px-4 py-3 text-[#10150d] transition hover:-translate-y-0.5 sm:px-5" href="mailto:leenus.darnal@gmail.com">Send an email ↗</a>
+          <a class="inline-flex min-h-11 items-center gap-2 rounded-full bg-[var(--accent)] px-4 py-3 text-[var(--accent-contrast)] transition hover:-translate-y-0.5 sm:px-5" href="mailto:leenus.darnal@gmail.com">Send an email ↗</a>
           <a class="inline-flex min-h-11 items-center gap-2 rounded-full border border-[var(--line)] px-4 py-3 transition hover:border-[var(--accent)] sm:px-5" href="https://github.com/leenusdarnal" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
         </div>
       </div>
