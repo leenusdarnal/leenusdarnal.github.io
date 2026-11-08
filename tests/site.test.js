@@ -259,7 +259,7 @@ test('accent buttons use theme-aware high-contrast foregrounds', async () => {
 });
 
 test('the home link accessible name includes its visible brand label', () => {
-  assert.match(html, /aria-label="L\\. Leenus Darnal\\. — home"/);
+  assert.ok(html.includes('aria-label="L. Leenus Darnal. — home"'));
 });
 
 test('small decorative editor status text remains readable', () => {
