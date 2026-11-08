@@ -38,6 +38,10 @@ npm test
 
 GitHub Actions runs the checks on pull requests and pushes to `main`. After a successful build and test run, the Pages workflow publishes the generated `build/` directory to GitHub Pages. Vercel is connected to the GitHub repository and can deploy updates from `main`.
 
+## Quality checks
+
+A scheduled and manually triggerable Lighthouse workflow audits the published GitHub Pages site for performance, accessibility, best practices and SEO. The report is retained as a GitHub Actions artifact.
+
 ## Project case studies
 
 The portfolio includes dedicated pages for PixelForge Studio, Metronome, Sikkim Government Salary Calculator, and PixelCutout. Each page includes an overview, key features, technology stack, and links to the live project and source code.
