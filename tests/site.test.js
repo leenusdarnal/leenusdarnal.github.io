@@ -32,7 +32,8 @@ test('all existing live project destinations are preserved', () => {
   for (const url of [
     'https://pixelforge-studio-pied.vercel.app/',
     'https://react-metronome-dusky.vercel.app/',
-    'https://sikkim-government-salary-calculator.vercel.app/'
+    'https://sikkim-government-salary-calculator.vercel.app/',
+    'https://pixelcutout-three.vercel.app/'
   ]) {
     assert.ok(html.includes(url), 'Missing project URL: ' + url);
   }
@@ -231,4 +232,18 @@ test('homepage labels illustrative project art and the real screenshot distinctl
   assert.match(html, /Actual app screenshot/);
   assert.match(html, /Interface illustration/);
   assert.match(source, /react-metronome\/master\/screenshots\/react-metronome\.png/);
+});
+
+
+test('the genuine Metronome screenshot reserves its intrinsic aspect ratio and loads lazily', () => {
+  assert.match(html, /react-metronome\\/master\\/screenshots\\/react-metronome\\.png[^>]*width="416" height="314"/);
+  assert.match(html, /react-metronome\\/master\\/screenshots\\/react-metronome\\.png[^>]*loading="lazy" decoding="async"/);
+});
+
+test('case studies provide social preview metadata', async () => {
+  for (const slug of ['pixelforge-studio', 'metronome', 'sikkim-government-salary-calculator', 'pixelcutout']) {
+    const page = await readFile(new URL(`projects/${slug}/index.html`, buildUrl), 'utf8');
+    assert.match(page, /property="og:image"/);
+    assert.match(page, /name="twitter:card" content="summary_large_image"/);
+  }
 });
