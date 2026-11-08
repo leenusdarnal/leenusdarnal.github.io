@@ -268,5 +268,5 @@ test('small decorative editor status text remains readable', () => {
 
 
 test('accent foreground colours are explicitly applied to visible CTA text', () => {
-  assert.ok((html.match(/style="color: var\\(--accent-contrast\\)"/g) ?? []).length >= 2);
+  assert.ok(html.split('style="color: var(--accent-contrast)"').length - 1 >= 2);
 });
