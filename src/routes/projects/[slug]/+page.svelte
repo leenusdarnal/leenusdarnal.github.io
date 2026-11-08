@@ -37,6 +37,25 @@
         <a href={project.source} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center gap-2 rounded-full border border-[var(--line)] px-5 py-3 text-sm font-semibold transition hover:border-[var(--accent)]">View source code ↗</a>
       </div>
 
+      {#if project.previewImage}
+        <figure class="mt-14 overflow-hidden rounded-3xl border border-[var(--line)] bg-[var(--panel)]">
+          <img src={project.previewImage} alt={project.previewAlt} loading="lazy" decoding="async" class="block h-auto w-full object-contain" />
+          <figcaption class="border-t border-[var(--line)] px-4 py-3 text-xs text-[var(--muted)] sm:px-6">
+            Actual application screenshot · sourced from the project's GitHub repository
+          </figcaption>
+        </figure>
+      {:else}
+        <aside class="mt-14 flex flex-col gap-3 rounded-3xl border border-[var(--line)] bg-[var(--panel)] p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+          <div>
+            <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--accent)]">Live application</p>
+            <p class="mt-2 text-sm leading-6 text-[var(--muted)]">An authentic screenshot is not yet available for this project. Open the live application to see its current interface.</p>
+          </div>
+          {#if project.live}
+            <a href={project.live} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 shrink-0 items-center justify-center rounded-full bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[#10150d]">View live app ↗</a>
+          {/if}
+        </aside>
+      {/if}
+
       <div class="mt-16 grid gap-12 border-t border-[var(--line)] pt-10 md:grid-cols-[minmax(0,1fr)_260px] md:gap-16">
         <section aria-labelledby="overview-heading">
           <h2 id="overview-heading" class="text-2xl font-semibold tracking-[-0.05em]">Overview</h2>

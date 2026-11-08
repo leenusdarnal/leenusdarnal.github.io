@@ -248,14 +248,9 @@
           <article aria-labelledby="project-{project.visual}-title" aria-describedby="project-{project.visual}-description" class="group overflow-hidden rounded-3xl border border-[var(--line)] bg-[var(--panel)] transition duration-300 hover:-translate-y-1 hover:border-[color-mix(in_srgb,var(--accent)_55%,var(--line))]">
             <div aria-hidden="true" class="relative flex min-h-[210px] items-center justify-center overflow-hidden bg-[var(--panel-soft)] p-4 sm:min-h-[270px] sm:p-6">
               {#if project.visual === 'metro'}
-                <div class="relative grid size-48 place-items-center rounded-full border border-[var(--line)] bg-[var(--panel)] shadow-xl sm:size-56">
-                  <div class="absolute inset-3 rounded-full border border-[var(--line)]"></div>
-                  <div class="absolute inset-7 rounded-full border border-dashed border-[var(--accent)]/50"></div>
-                  <div class="text-center"><div class="font-mono text-5xl font-semibold tracking-[-0.08em] sm:text-6xl">120</div><div class="mt-1 font-mono text-[9px] uppercase tracking-[0.2em] text-[var(--muted)]">Beats per minute</div></div>
-                  <span class="absolute -top-2 left-1/2 h-8 w-px origin-bottom rotate-12 bg-[var(--accent)]"></span>
-                  <span class="absolute bottom-5 left-1/2 -translate-x-1/2 rounded-full bg-[var(--accent)] px-5 py-2 text-[9px] font-bold text-[#10150d]">PLAY</span>
-                </div>
-              {:else if project.visual === 'salary'}
+                <div class="w-full max-w-[560px] overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--panel)] shadow-xl">
+                  <img src="https://raw.githubusercontent.com/leenusdarnal/react-metronome/master/screenshots/react-metronome.png" alt="" aria-hidden="true" loading="lazy" decoding="async" class="block h-auto w-full object-contain" />
+                </div>              {:else if project.visual === 'salary'}
                 <div class="w-full max-w-sm rounded-2xl border border-[var(--line)] bg-[var(--panel)] p-5 shadow-xl sm:p-6">
                   <div class="flex items-center justify-between"><span class="font-mono text-[9px] uppercase tracking-[0.16em] text-[var(--muted)]">Pay estimate</span><span class="rounded-full bg-[var(--accent-soft)] px-2 py-1 text-[9px] text-[var(--accent)]">Reference</span></div>
                   <div class="mt-6 text-xs text-[var(--muted)]">Pay level</div>
@@ -279,7 +274,7 @@
                   </div>
                 </div>
               {/if}
-              <p class="absolute bottom-4 right-5 font-mono text-[9px] uppercase tracking-[0.15em] text-[var(--muted)]">{project.number} — {project.type}</p>
+              <p class="absolute bottom-4 right-5 rounded-full bg-[var(--panel)]/90 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.12em] text-[var(--muted)]">{project.visual === 'metro' ? 'Actual app screenshot' : 'Interface illustration'} · {project.number}</p>
             </div>
             <div class="min-w-0 p-5 sm:p-7 lg:p-8">
               <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--accent)]">{project.type}</p>
