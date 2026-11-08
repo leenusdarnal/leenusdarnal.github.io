@@ -247,3 +247,21 @@ test('case studies provide social preview metadata', async () => {
     assert.match(page, /name="twitter:card" content="summary_large_image"/);
   }
 });
+
+
+test('accent buttons use theme-aware high-contrast foregrounds', async () => {
+  assert.ok(!html.includes('text-[#10150d]'));
+  assert.match(html, /text-\\[var\\(--accent-contrast\\)\\]/);
+  for (const slug of ['pixelforge-studio', 'metronome', 'sikkim-government-salary-calculator', 'pixelcutout']) {
+    const page = await readFile(new URL(`projects/${slug}/index.html`, buildUrl), 'utf8');
+    assert.ok(!page.includes('text-[#10150d]'));
+  }
+});
+
+test('the home link accessible name includes its visible brand label', () => {
+  assert.match(html, /aria-label="L\\. Leenus Darnal\\. — home"/);
+});
+
+test('small decorative editor status text remains readable', () => {
+  assert.ok(html.includes('text-white/70'));
+});
