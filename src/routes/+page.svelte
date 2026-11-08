@@ -249,7 +249,7 @@
             <div aria-hidden="true" class="relative flex min-h-[210px] items-center justify-center overflow-hidden bg-[var(--panel-soft)] p-4 sm:min-h-[270px] sm:p-6">
               {#if project.visual === 'metro'}
                 <div class="w-full max-w-[560px] overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--panel)] shadow-xl">
-                  <img src="https://raw.githubusercontent.com/leenusdarnal/react-metronome/master/screenshots/react-metronome.png" alt="" aria-hidden="true" loading="lazy" decoding="async" class="block h-auto w-full object-contain" />
+                  <img src="https://raw.githubusercontent.com/leenusdarnal/react-metronome/master/screenshots/react-metronome.png" alt="" aria-hidden="true" width="416" height="314" sizes="(max-width: 560px) 100vw, 560px" loading="lazy" decoding="async" class="block h-auto w-full object-contain" />
                 </div>              {:else if project.visual === 'salary'}
                 <div class="w-full max-w-sm rounded-2xl border border-[var(--line)] bg-[var(--panel)] p-5 shadow-xl sm:p-6">
                   <div class="flex items-center justify-between"><span class="font-mono text-[9px] uppercase tracking-[0.16em] text-[var(--muted)]">Pay estimate</span><span class="rounded-full bg-[var(--accent-soft)] px-2 py-1 text-[9px] text-[var(--accent)]">Reference</span></div>

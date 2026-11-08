@@ -1,0 +1,44 @@
+name: Lighthouse quality audit
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '41 3 * * 1'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lighthouse-audit
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Run Lighthouse against GitHub Pages
+        run: |
+          npx --yes lighthouse@12.8.2 https://leenusdarnal.github.io/ \
+            --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" \
+            --only-categories=performance,accessibility,best-practices,seo \
+            --output=json --output-path=./lighthouse-report.json
+
+      - name: Summarise audit scores and enforce quality floor
+        run: node scripts/report-lighthouse.js
+
+      - name: Upload Lighthouse report
+        uses: actions/upload-artifact@v6
+        with:
+          name: lighthouse-report
+          path: lighthouse-report.json
+          if-no-files-found: error
+          retention-days: 14
