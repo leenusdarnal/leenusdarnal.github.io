@@ -7,10 +7,13 @@
   let query = $state('');
   let selectedIndex = $state(0);
   let rawMode = $state(false);
+  /** @type {any} */
   let diagnostics = $state({});
   let reportCopied = $state(false);
-  let palette;
-  let searchInput;
+  /** @type {HTMLDialogElement | null} */
+  let palette = $state(null);
+  /** @type {HTMLInputElement | null} */
+  let searchInput = $state(null);
   let matchingProjects = $derived(projects.filter((p) => (p.name + ' ' + p.slug + ' ' + p.stack.join(' ')).toLowerCase().includes(query.toLowerCase())));
 
   const filters = [
@@ -21,8 +24,9 @@
     { id: 'react', label: 'React' }
   ];
 
+  /** @type {Array<{label: string, keywords: string, run: () => void}>} */
   const commands = [
-    { label: 'Theme: Toggle Light / Dark Mode', keywords: 'theme light dark appearance', run: () => document.querySelector('[aria-label^="Switch to"]')?.click() },
+    { label: 'Theme: Toggle Light / Dark Mode', keywords: 'theme light dark appearance', run: () => /** @type {HTMLButtonElement | null} */ (document.querySelector('[aria-label^="Switch to"]'))?.click() },
     { label: 'Filter: Show WebGPU & Client Compute Projects', keywords: 'webgpu compute wasm client', run: () => setFilter('client-compute') },
     { label: 'Filter: Show Full-Stack Web Apps', keywords: 'full stack apps', run: () => setFilter('full-stack') },
     { label: 'Action: Copy Hardware Diagnostics JSON', keywords: 'copy hardware diagnostics json report', run: () => copyReport() },
@@ -40,10 +44,12 @@
   });
   let rawJson = $derived(JSON.stringify(report, null, 2));
 
+  /** @param {string} filter */
   function setFilter(filter) {
     activeFilter = filter;
     if (typeof document !== 'undefined') {
-      document.querySelectorAll('[data-project-card]').forEach((card) => {
+      document.querySelectorAll('[data-project-card]').forEach((element) => {
+        const card = /** @type {HTMLElement} */ (element);
         card.hidden = filter !== 'all' && !card.dataset.category?.split(' ').includes(filter);
       });
     }
@@ -62,11 +68,13 @@
     if (palette?.open) palette.close();
   }
 
+  /** @param {{label: string, keywords: string, run: () => void}} item */
   function runCommand(item) {
     closePalette();
     item.run();
   }
 
+  /** @param {KeyboardEvent} event */
   function handleGlobalKeydown(event) {
     if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
       event.preventDefault();
@@ -81,7 +89,7 @@
 
   async function collectDiagnostics() {
     const result = {
-      webgpu: { available: !!Reflect.get(navigator, 'gpu'), adapter: null, vendor: null, architecture: null, fp16: false, maxBufferSizeBytes: null, maxBufferSize: 'Unavailable' },
+      webgpu: { available: !!Reflect.get(navigator, 'gpu'), adapter: null, vendor: null, architecture: null, fp16: false, maxBufferSizeBytes: null, maxBufferSize: 'Unavailable', error: null },
       wasmThreads: { crossOriginIsolated: !!window.crossOriginIsolated, status: window.crossOriginIsolated ? 'Active (cross-origin isolated)' : 'Single-thread mode / isolation unavailable' },
       memory: { deviceMemoryGB: Reflect.get(navigator, 'deviceMemory') ?? null },
       display: { colorGamutP3: window.matchMedia('(color-gamut: p3)').matches, gamut: window.matchMedia('(color-gamut: p3)').matches ? 'Display P3 wide gamut' : 'sRGB or unknown' }
@@ -102,7 +110,7 @@
         } else result.webgpu.adapter = 'No compatible adapter';
       } catch (error) {
         result.webgpu.adapter = 'Adapter query failed';
-        result.webgpu.error = error?.message ?? String(error);
+        result.webgpu.error = error instanceof Error ? error.message : String(error);
       }
     } else result.webgpu.adapter = 'WebGPU unavailable';
     diagnostics = result;
@@ -121,6 +129,7 @@
   onMount(() => {
     collectDiagnostics();
     let frame = 0;
+    /** @param {PointerEvent} event */
     const moveSpotlight = (event) => {
       if (!window.matchMedia('(pointer: fine)').matches) return;
       cancelAnimationFrame(frame);
@@ -135,16 +144,17 @@
     })();
     const now = Date.now();
     const cacheFresh = stored?.timestamp && now - stored.timestamp < 3600000 && Array.isArray(stored.data);
+    /** @param {any[]} repos */
     const applyRepos = (repos) => {
       for (const project of projects) {
         const repoName = project.source.split('/').pop()?.toLowerCase();
         const repo = repos.find((item) => item.name?.toLowerCase() === repoName);
-        const target = document.querySelector('[data-repo-meta="' + project.slug + '"]');
+        const target = /** @type {HTMLElement | null} */ (document.querySelector('[data-repo-meta="' + project.slug + '"]'));
         if (target && repo) {
           const ago = relativeTime(repo.pushed_at);
           target.textContent = 'Updated ' + ago;
           target.hidden = false;
-          const stars = document.querySelector('[data-repo-stars="' + project.slug + '"]');
+          const stars = /** @type {HTMLElement | null} */ (document.querySelector('[data-repo-stars="' + project.slug + '"]'));
           if (stars && repo.stargazers_count > 0) { stars.textContent = '★ ' + repo.stargazers_count; stars.hidden = false; }
         }
       }
@@ -157,6 +167,7 @@
     return () => { window.removeEventListener('pointermove', moveSpotlight); cancelAnimationFrame(frame); };
   });
 
+  /** @param {string} value */
   function relativeTime(value) {
     if (!value) return 'recently';
     const seconds = Math.max(0, Math.floor((Date.now() - new Date(value).getTime()) / 1000));
