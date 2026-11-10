@@ -76,7 +76,7 @@ test('PixelCutout is listed with its source and local-processing features', () =
   assert.match(source, /https:\/\/github\.com\/leenusdarnal\/pixelcutout/);
   assert.match(source, /AI and no-AI removal modes/);
   assert.match(source, /Images stay on your device/);
-  assert.match(source, /\{#if project\.live\}/);
+  assert.match(projectActions, /\{#if project\.live\}/);
 });
 
 test('PixelForge portfolio details match its current SvelteKit project', () => {
