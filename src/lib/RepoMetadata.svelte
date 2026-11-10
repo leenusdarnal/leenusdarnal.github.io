@@ -22,6 +22,7 @@
       })();
       const now = Date.now();
       const cacheFresh = Number.isFinite(stored?.timestamp) && stored.timestamp <= now && now - stored.timestamp < 3600000 && Array.isArray(stored.data);
+      /** @param {any[]} repos */
       const applyRepos = (repos) => {
         for (const project of projects) {
           const repoName = project.source.split('/').pop()?.toLowerCase();
