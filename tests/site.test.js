@@ -17,7 +17,7 @@ const monitorWorkflow = await readFile(new URL('../.github/workflows/monitor-sit
 
 test('homepage includes a meaningful page title and description', () => {
   assert.match(html, /<title>Leenus Darnal — I build useful things<\/title>/);
-  assert.match(html, /<meta name="description" content="The personal site of Leenus Darnal\./);
+  assert.match(html, /<meta name="description" content="A personal space for useful web tools/);
 });
 
 test('homepage exposes the primary landmarks and skip link', () => {
@@ -85,7 +85,7 @@ test('PixelForge portfolio details match its current SvelteKit project', () => {
   assert.match(projectsSource, /stack: \['SvelteKit', 'Tailwind CSS', 'Canvas API'\]/);
   assert.match(projectsSource, /Editable text layers/);
   assert.match(projectsSource, /24 MP document target/);
-  assert.match(projectsSource, /offline-first editor/);
+  assert.match(projectsSource, /offline-first image editor/);
   assert.match(projectsSource, /local \.pfs project files/);
 });
 
