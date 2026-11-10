@@ -407,3 +407,14 @@ test('GitHub metadata cache validates TTL and aborts pending requests on unmount
   assert.match(labControls, /controller\.abort\(\)/);
   assert.match(labControls, /Array\.isArray\(data\)/);
 });
+
+
+test('Inter and Fira Code are bundled locally instead of relying on remote font services', () => {
+  assert.match(css, /@import "@fontsource\/inter\/400\.css"/);
+  assert.match(css, /@import "@fontsource\/inter\/700\.css"/);
+  assert.match(css, /@import "@fontsource\/fira-code\/400\.css"/);
+  assert.match(css, /@import "@fontsource\/fira-code\/500\.css"/);
+  assert.match(css, /--font-sans: "Inter"/);
+  assert.match(css, /--font-mono: "Fira Code"/);
+  assert.doesNotMatch(appHtmlSource, /fonts\.googleapis\.com|fonts\.gstatic\.com/);
+});

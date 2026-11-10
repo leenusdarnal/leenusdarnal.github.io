@@ -15,6 +15,7 @@ A personal homepage and maker's notebook built with SvelteKit, Svelte 5 and Tail
 - SvelteKit
 - Svelte 5
 - Tailwind CSS 4 with the Vite plugin
+- Self-hosted Inter and Fira Code WOFF2 font assets bundled at build time through Fontsource
 - SvelteKit static adapter
 - Node's built-in test runner for generated-site smoke tests
 
@@ -55,4 +56,5 @@ The site has dedicated project notes for PixelForge Studio, Metronome, Sikkim Go
 - Descriptive project highlights and accessible labels for the project cards and theme control.
 - Canonical URL, Open Graph/Twitter metadata with a PNG social preview, Person/Website structured data, sitemap and robots file.
 - Theme-aware browser chrome, system theme detection, persistent theme preference and an Apple touch icon.
+- Inter and Fira Code are bundled locally; the published site does not request Google Fonts at runtime.
 - A scheduled uptime workflow checks the portfolio and linked project demos once per day.
