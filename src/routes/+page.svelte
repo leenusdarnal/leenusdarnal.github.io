@@ -4,92 +4,43 @@
   import ProjectActions from '../lib/ProjectActions.svelte';
   import ArchitectureExperiments from '../lib/ArchitectureExperiments.svelte';
   import { personalSpaceConfig } from '../lib/personal-space.config';
+  import { projects } from '../lib/projects';
   import { registerCrossOriginIsolation } from '../lib/cross-origin-isolation.js';
 
   let theme = $state('dark');
 
-  const projects = [
-    {
-      number: '01',
-      slug: 'pixelforge-studio',
-      categories: ['svelte'],
-      name: 'PixelForge Studio',
-      type: 'IMAGE EDITOR · BROWSER APP',
-      description: 'A mobile-friendly, offline-first image editor with layers, masks, selection tools, editable text and local .pfs project files. It targets 24 MP documents and autosaves on your device.',
-      stack: ['SvelteKit', 'Tailwind CSS', 'Canvas API'],
-      features: ['Editable text layers', '24 MP document target', 'Offline-first local projects'],
-      live: 'https://pixelforge-studio-pied.vercel.app/',
-      source: 'https://github.com/leenusdarnal/pixelforge-studio',
-      visual: 'pixel'
-    },
-    {
-      number: '02',
-      slug: 'metronome',
-      categories: ['react'],
-      name: 'Metronome',
-      type: 'MUSIC PRACTICE · WEB APP',
-      description: 'A straightforward practice metronome with tempo control, playback and selectable time signatures.',
-      stack: ['React', 'TypeScript', 'Vite'],
-      features: ['Tempo control', 'Playback controls', 'Selectable time signatures'],
-      live: 'https://react-metronome-dusky.vercel.app/',
-      source: 'https://github.com/leenusdarnal/react-metronome',
-      visual: 'metro'
-    },
-    {
-      number: '03',
-      slug: 'sikkim-government-salary-calculator',
-      categories: [],
-      name: 'Sikkim Government Salary Calculator',
-      type: 'REFERENCE TOOL · SIKKIM',
-      description: 'An independent browser-based reference calculator for estimating gross pay, common deductions and in-hand salary. It is not an official Government of Sikkim calculator.',
-      stack: ['JavaScript', 'HTML', 'CSS'],
-      features: ['Gross pay estimates', 'Common deductions', 'In-hand pay estimates'],
-      live: 'https://sikkim-government-salary-calculator.vercel.app/',
-      source: 'https://github.com/leenusdarnal/SIKKIM-GOVERNMENT-SALARY-CALCULATOR',
-      visual: 'salary'
-    },
-    {
-      number: '04',
-      slug: 'pixelcutout',
-      categories: ['client-compute', 'svelte'],
-      name: 'PixelCutout',
-      type: 'IMAGE TOOL · PRIVACY-FIRST',
-      description: 'A browser-based background remover with a choice of AI-powered subject detection or a no-AI colour selection mode. Images stay on your device while you edit and export.',
-      stack: ['SvelteKit', 'Transformers.js', 'ONNX Runtime'],
-      features: ['AI and no-AI removal modes', 'Local erase and restore tools', 'PNG, JPEG and WebP export'],
-      live: 'https://pixelcutout-three.vercel.app/',
-      source: 'https://github.com/leenusdarnal/pixelcutout',
-      visual: 'cutout'
-    }
-  ];
+  const navigation = personalSpaceConfig.navigation.filter((item) => personalSpaceConfig.sections[item.section]);
+
 
   const structuredData = JSON.stringify({
     '@context': 'https://schema.org',
     '@graph': [
       {
         '@type': 'Person',
-        name: 'Leenus Darnal',
-        url: 'https://leenusdarnal.github.io/',
-        description: 'A personal space for practical web tools, playful experiments and things I am curious about.',
-        sameAs: ['https://github.com/leenusdarnal']
+        name: personalSpaceConfig.identity.name,
+        url: personalSpaceConfig.site.url,
+        description: personalSpaceConfig.site.description,
+        sameAs: personalSpaceConfig.site.socialProfiles.map((profile) => profile.url)
       },
       {
         '@type': 'WebSite',
-        name: 'Leenus Darnal — I build useful things',
-        description: 'A personal corner of the internet for useful tools, side projects and experiments.',
-        url: 'https://leenusdarnal.github.io/',
-        publisher: { '@type': 'Person', name: 'Leenus Darnal' }
+        name: personalSpaceConfig.site.title,
+        description: personalSpaceConfig.site.description,
+        url: personalSpaceConfig.site.url,
+        publisher: { '@type': 'Person', name: personalSpaceConfig.identity.name }
       }
     ]
-  });
+  });;
 
   onMount(() => {
     try {
-      const saved = localStorage.getItem('site-theme');
-      const preferred = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-      theme = saved || preferred;
+      const saved = localStorage.getItem(personalSpaceConfig.appearance.themeStorageKey);
+      const preferred = personalSpaceConfig.appearance.defaultTheme === 'system'
+        ? (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark')
+        : personalSpaceConfig.appearance.defaultTheme;
+      theme = saved === 'light' || saved === 'dark' ? saved : preferred;
     } catch {
-      theme = 'dark';
+      theme = personalSpaceConfig.appearance.defaultTheme === 'light' ? 'light' : 'dark';
     }
     document.documentElement.dataset.theme = theme;
     registerCrossOriginIsolation();
@@ -99,7 +50,7 @@
     theme = theme === 'dark' ? 'light' : 'dark';
     document.documentElement.dataset.theme = theme;
     try {
-      localStorage.setItem('site-theme', theme);
+      localStorage.setItem(personalSpaceConfig.appearance.themeStorageKey, theme);
     } catch {
       // The theme still works when browser storage is unavailable.
     }
@@ -132,16 +83,16 @@
   <a class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-[var(--ink)] focus:px-4 focus:py-3 focus:text-[var(--page)]" href="#main">Skip to content</a>
 
   <header class="site-header -mx-4 flex items-center justify-between gap-3 px-4 py-4 sm:-mx-8 sm:px-8 sm:py-5 lg:-mx-10 lg:px-10">
-    <a href="#top" aria-label="L. Leenus Darnal. — home" class="group flex min-w-0 shrink-0 items-center gap-2 text-xs font-semibold tracking-tight no-underline sm:gap-3 sm:text-sm">
-      <span aria-hidden="true" class="grid size-8 place-items-center rounded-full bg-[var(--accent)] text-sm font-black text-[var(--accent-contrast)] sm:size-9" style="color: var(--accent-contrast)">L.</span>
-      <span>Leenus Darnal<span class="text-[var(--accent)]">.</span></span>
+    <a href="#top" aria-label={personalSpaceConfig.identity.name + " — home"} class="group flex min-w-0 shrink-0 items-center gap-2 text-xs font-semibold tracking-tight no-underline sm:gap-3 sm:text-sm">
+      <span aria-hidden="true" class="grid size-8 place-items-center rounded-full bg-[var(--accent)] text-sm font-black text-[var(--accent-contrast)] sm:size-9" style="color: var(--accent-contrast)">{personalSpaceConfig.identity.monogram}</span>
+      <span>{personalSpaceConfig.identity.name}<span class="text-[var(--accent)]">.</span></span>
     </a>
 
     <nav aria-label="Main navigation" class="flex shrink-0 items-center gap-1 text-xs font-medium text-[var(--muted)] sm:gap-4 sm:text-sm lg:gap-7">
-      <a href="#work" class="inline-flex min-h-11 items-center rounded-full px-2 transition-colors hover:text-[var(--ink)] sm:px-1">Projects</a>
-      <a href="#about" class="inline-flex min-h-11 items-center rounded-full px-2 transition-colors hover:text-[var(--ink)] sm:px-1">About</a>
-      <a href="#contact" class="inline-flex min-h-11 items-center rounded-full px-2 transition-colors hover:text-[var(--ink)] sm:px-1">Contact</a>
-      <a href="https://github.com/leenusdarnal" target="_blank" rel="noopener noreferrer" class="hidden transition-colors hover:text-[var(--ink)] sm:inline">GitHub ↗</a>
+      {#each navigation as item}
+        <a href={item.href} class="inline-flex min-h-11 items-center rounded-full px-2 transition-colors hover:text-[var(--ink)] sm:px-1">{item.label}</a>
+      {/each}
+      <a href={personalSpaceConfig.site.githubUrl} target="_blank" rel="noopener noreferrer" class="hidden transition-colors hover:text-[var(--ink)] sm:inline">GitHub ↗</a>
       <button
         type="button"
         aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
@@ -168,26 +119,25 @@
     <section id="top" class="relative grid min-h-0 content-center gap-8 py-20 sm:min-h-[540px] sm:gap-10 sm:py-24 md:min-h-[600px] md:grid-cols-[minmax(0,1fr)_180px] md:items-end md:py-28 xl:min-h-[650px] xl:grid-cols-[minmax(0,1fr)_220px] xl:py-32">
       <div class="max-w-4xl">
         <h1 class="text-[clamp(3.1rem,11vw,8.8rem)] font-semibold leading-[0.9] tracking-[-0.08em] sm:leading-[0.88] sm:tracking-[-0.085em]">
-          Leenus<br />
-          <span class="text-[var(--accent)]">Darnal.</span>
+          {personalSpaceConfig.identity.firstName}<br />
+          <span class="text-[var(--accent)]">{personalSpaceConfig.identity.lastName}.</span>
         </h1>
         <p class="mt-7 max-w-2xl text-xl font-medium leading-snug tracking-[-0.04em] text-[var(--ink)] sm:mt-9 sm:text-2xl lg:text-3xl">
-          I build useful things<span class="text-[var(--accent)]">.</span>
+          {personalSpaceConfig.content.hero.headline}<span class="text-[var(--accent)]">.</span>
         </p>
         <p class="mt-4 max-w-xl text-sm leading-7 text-[var(--muted)] sm:text-base sm:leading-8 lg:text-lg">
-          This is my little corner of the internet for browser-native tools, practical web apps and experiments. I like making everyday tasks simpler, exploring what the web can do and sharing what I learn.
+          {personalSpaceConfig.content.hero.description}
         </p>
         <ul aria-label="Things I like exploring" class="mt-5 flex flex-wrap gap-2 font-mono text-[10px] uppercase tracking-[0.12em] text-[var(--muted)] sm:mt-6">
-          <li class="rounded-full border border-[var(--line)] px-3 py-1.5">Useful tools</li>
-          <li class="rounded-full border border-[var(--line)] px-3 py-1.5">Browser experiments</li>
-          <li class="rounded-full border border-[var(--line)] px-3 py-1.5">Privacy-first apps</li>
-          <li class="rounded-full border border-[var(--line)] px-3 py-1.5">Learning by building</li>
+          {#each personalSpaceConfig.content.hero.tags as tag}
+            <li class="rounded-full border border-[var(--line)] px-3 py-1.5">{tag}</li>
+          {/each}
         </ul>
         <div class="mt-7 flex flex-wrap items-center gap-3 sm:mt-9">
           <a href="#work" class="inline-flex min-h-11 items-center gap-2 rounded-full bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[var(--accent-contrast)] transition hover:-translate-y-0.5 sm:gap-3 sm:px-6 sm:py-3.5 hover:shadow-[0_12px_30px_color-mix(in_srgb,var(--accent)_20%,transparent)]" style="color: var(--accent-contrast)">
             Explore projects <span aria-hidden="true">↓</span>
           </a>
-          <a href="https://github.com/leenusdarnal" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center gap-2 rounded-full border border-[var(--line)] px-5 py-3 text-sm font-medium text-[var(--ink)] transition hover:border-[var(--accent)] sm:px-6 sm:py-3.5">
+          <a href={personalSpaceConfig.site.githubUrl} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center gap-2 rounded-full border border-[var(--line)] px-5 py-3 text-sm font-medium text-[var(--ink)] transition hover:border-[var(--accent)] sm:px-6 sm:py-3.5">
             GitHub <span aria-hidden="true">↗</span>
           </a>
         </div>
@@ -195,15 +145,16 @@
 
       <div class="hidden md:block">
         <p class="border-l border-[var(--line)] pl-4 font-mono text-[10px] uppercase leading-6 tracking-[0.15em] text-[var(--muted)]">
-          Curious by nature.<br />
-          Practical by design.<br />
-          Always building.
+          {personalSpaceConfig.content.hero.asideLines[0]}<br />
+          {personalSpaceConfig.content.hero.asideLines[1]}<br />
+          {personalSpaceConfig.content.hero.asideLines[2]}
         </p>
       </div>
 
       <div class="pointer-events-none absolute -right-5 top-20 -z-10 hidden select-none text-[18rem] font-black leading-none tracking-[-0.12em] text-[var(--accent)] opacity-[0.035] xl:block">L</div>
     </section>
 
+    {#if personalSpaceConfig.sections.projects}
     <section id="work" aria-labelledby="work-heading" class="scroll-mt-12 pb-20 pt-4 sm:pb-28 sm:pt-8">
       <div class="mb-7 flex flex-wrap items-start justify-between gap-3 border-b border-[var(--line)] pb-5 sm:mb-9 sm:items-end sm:gap-4">
         <div>
@@ -316,16 +267,18 @@
         {/each}
       </div>
     </section>
+    {/if}
 
-    <ArchitectureExperiments />
+    {#if personalSpaceConfig.sections.sourceExperiments}<ArchitectureExperiments />{/if}
 
+    {#if personalSpaceConfig.sections.personalSpace}
     <section id="space" aria-labelledby="space-heading" class="space-config-section pb-4 pt-2">
       <div class="space-config-intro">
         <div>
-          <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--accent)]">01 / PERSONAL SPACE</p>
-          <h2 id="space-heading">A little about this corner<span>.</span></h2>
+          <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--accent)]">{personalSpaceConfig.content.personalSpace.eyebrow}</p>
+          <h2 id="space-heading">{personalSpaceConfig.content.personalSpace.title}<span>.</span></h2>
         </div>
-        <p>This is less of a showcase and more of a workbench: useful things, small experiments and whatever I am learning next.</p>
+        <p>{personalSpaceConfig.content.personalSpace.intro}</p>
       </div>
 
       <div class="terminal-card">
@@ -342,72 +295,84 @@
 
         <div class="terminal-layout">
           <div class="terminal-body">
-            <pre aria-label="Personal space configuration preview"><code><span class="code-line"><span class="code-comment">// Just things I make and explore.</span></span><span class="code-line"><span class="code-keyword">export const</span> <span class="code-name">personalSpaceConfig</span> = &#123;</span><span class="code-line">  <span class="code-property">owner</span>: <span class="code-string">{JSON.stringify(personalSpaceConfig.owner)}</span>,</span><span class="code-line">  <span class="code-property">handle</span>: <span class="code-string">{JSON.stringify(personalSpaceConfig.handle)}</span>,</span><span class="code-line">  <span class="code-property">headline</span>: <span class="code-string">{JSON.stringify(personalSpaceConfig.headline)}</span>,</span><span class="code-line">  <span class="code-property">purpose</span>: <span class="code-string">{JSON.stringify(personalSpaceConfig.statement)}</span>,</span><span class="code-line">  <span class="code-property">palette</span>: <span class="code-string">{JSON.stringify(personalSpaceConfig.palette)}</span>,</span><span class="code-line">  <span class="code-property">hosting</span>: <span class="code-string">{JSON.stringify(personalSpaceConfig.hosting)}</span>,</span><span class="code-line">  <span class="code-property">focus</span>: [</span>{#each personalSpaceConfig.focus as item, index}<span class="code-line">    <span class="code-string">{JSON.stringify(item)}</span>{index < personalSpaceConfig.focus.length - 1 ? ',' : ''}</span>{/each}<span class="code-line">  ],</span><span class="code-line">  <span class="code-property">principles</span>: [</span>{#each personalSpaceConfig.principles as item, index}<span class="code-line">    <span class="code-string">{JSON.stringify(item)}</span>{index < personalSpaceConfig.principles.length - 1 ? ',' : ''}</span>{/each}<span class="code-line">  ]</span><span class="code-line">&#125; <span class="code-keyword">as const</span>;</span></code></pre>
+            <pre aria-label="Personal space configuration preview"><code>{JSON.stringify({
+              identity: personalSpaceConfig.identity,
+              palette: personalSpaceConfig.appearance.palette,
+              hosting: personalSpaceConfig.site.hosting,
+              focus: personalSpaceConfig.content.personalSpace.focus,
+              principles: personalSpaceConfig.content.personalSpace.principles
+            }, null, 2)}</code></pre>
           </div>
 
           <aside class="terminal-aside" aria-label="What this space is about">
             <div>
               <p class="terminal-label">THE IDEA</p>
-              <h3>{personalSpaceConfig.headline}</h3>
-              <p class="terminal-description">{personalSpaceConfig.statement}</p>
+              <h3>{personalSpaceConfig.content.personalSpace.headline}</h3>
+              <p class="terminal-description">{personalSpaceConfig.content.personalSpace.statement}</p>
             </div>
 
             <div>
               <p class="terminal-label">WHAT YOU'LL FIND HERE</p>
               <ul class="terminal-focus-list">
-                {#each personalSpaceConfig.focus as item, index}
+                {#each personalSpaceConfig.content.personalSpace.focus as item, index}
                   <li><span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>{item}</li>
                 {/each}
               </ul>
             </div>
 
             <div class="terminal-principles" aria-label="Personal principles">
-              {#each personalSpaceConfig.principles as principle}
+              {#each personalSpaceConfig.content.personalSpace.principles as principle}
                 <span>{principle}</span>
               {/each}
             </div>
 
             <div class="terminal-meta">
               <span>HOME</span>
-              <strong>{personalSpaceConfig.hosting}</strong>
+              <strong>{personalSpaceConfig.site.hosting}</strong>
             </div>
           </aside>
         </div>
       </div>
     </section>
+    {/if}
 
+    {#if personalSpaceConfig.sections.about}
     <section id="about" aria-labelledby="about-heading" class="scroll-mt-12 border-t border-[var(--line)] py-16 sm:py-20 lg:py-24">
       <div class="grid gap-8 md:grid-cols-[0.7fr_1.3fr] md:gap-16">
         <div>
-          <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--accent)]">02 / A LITTLE ABOUT ME</p>
-          <h2 id="about-heading" class="mt-4 text-[clamp(2rem,6vw,3.25rem)] font-semibold leading-[1.02] tracking-[-0.07em]">Curious by nature.<br />Practical by design.</h2>
+          <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--accent)]">{personalSpaceConfig.content.about.eyebrow}</p>
+          <h2 id="about-heading" class="mt-4 text-[clamp(2rem,6vw,3.25rem)] font-semibold leading-[1.02] tracking-[-0.07em]">{personalSpaceConfig.content.about.title}<br />{personalSpaceConfig.content.about.subtitle}</h2>
         </div>
         <div class="max-w-2xl">
-          <p class="text-base leading-8 text-[var(--muted)] sm:text-lg">I enjoy turning everyday problems and passing ideas into useful digital tools. The things I make tend to sit somewhere between clean interfaces, browser capabilities and practical problem-solving.</p>
-          <p class="mt-5 text-base leading-8 text-[var(--muted)] sm:text-lg">I like making things that feel simple to use, respect people's privacy and work well across devices. This site is where I keep a record of those experiments, share the projects that grow from them and collect what I learn along the way.</p>
-          <a href="https://github.com/leenusdarnal" target="_blank" rel="noopener noreferrer" class="mt-7 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[var(--accent)] transition hover:gap-3">More on GitHub <span aria-hidden="true">↗</span></a>
+          {#each personalSpaceConfig.content.about.paragraphs as paragraph, index}
+            <p class:text-base={index === 0} class:mt-5={index > 0} class="leading-8 text-[var(--muted)] sm:text-lg">{paragraph}</p>
+          {/each}
+          <a href={personalSpaceConfig.site.githubUrl} target="_blank" rel="noopener noreferrer" class="mt-7 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[var(--accent)] transition hover:gap-3">More on GitHub <span aria-hidden="true">↗</span></a>
         </div>
       </div>
     </section>
+    {/if}
 
+    {#if personalSpaceConfig.sections.contact}
     <section id="contact" aria-labelledby="contact-heading" class="scroll-mt-12 border-y border-[var(--line)] py-16 sm:py-20 lg:py-24">
-      <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--accent)]">03 / SAY HELLO</p>
+      <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--accent)]">{personalSpaceConfig.content.contact.eyebrow}</p>
       <div class="mt-5 grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
         <div>
-          <h2 id="contact-heading" class="max-w-2xl text-[clamp(2.25rem,7vw,3.75rem)] font-semibold leading-[1.02] tracking-[-0.07em] sm:text-6xl">Have something<br class="hidden sm:block" /> interesting in mind?</h2>
-          <p class="mt-5 max-w-lg text-sm leading-7 text-[var(--muted)]">I'm always happy to hear about ideas, useful tools and interesting projects.</p>
+          <h2 id="contact-heading" class="max-w-2xl text-[clamp(2.25rem,7vw,3.75rem)] font-semibold leading-[1.02] tracking-[-0.07em] sm:text-6xl">{personalSpaceConfig.content.contact.title}</h2>
+          <p class="mt-5 max-w-lg text-sm leading-7 text-[var(--muted)]">{personalSpaceConfig.content.contact.description}</p>
         </div>
         <div class="flex flex-wrap gap-3 text-sm font-semibold sm:gap-4">
-          <a class="inline-flex min-h-11 items-center gap-2 rounded-full bg-[var(--accent)] px-4 py-3 text-[var(--accent-contrast)] transition hover:-translate-y-0.5 sm:px-5" href="mailto:leenus.darnal@gmail.com" style="color: var(--accent-contrast)">Send an email ↗</a>
+          <a class="inline-flex min-h-11 items-center gap-2 rounded-full bg-[var(--accent)] px-4 py-3 text-[var(--accent-contrast)] transition hover:-translate-y-0.5 sm:px-5" href={"mailto:" + personalSpaceConfig.site.contactEmail} style="color: var(--accent-contrast)">Send an email ↗</a>
           <a class="inline-flex min-h-11 items-center gap-2 rounded-full border border-[var(--line)] px-4 py-3 transition hover:border-[var(--accent)] sm:px-5" href="https://github.com/leenusdarnal" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
         </div>
       </div>
     </section>
+    {/if}
   </main>
 
   <footer class="flex flex-col justify-between gap-3 py-7 text-xs text-[var(--muted)] sm:flex-row sm:items-center sm:gap-4">
-    <span>© {new Date().getFullYear()} Leenus Darnal</span>
-    <span class="flex items-center gap-2">Built with SvelteKit & Tailwind CSS <span class="text-[var(--accent)]">✳</span></span>
-    <a href="https://github.com/leenusdarnal/leenusdarnal.github.io" target="_blank" rel="noopener noreferrer" class="transition hover:text-[var(--ink)]">View source ↗</a>
+    <span>© {new Date().getFullYear()} {personalSpaceConfig.identity.name}</span>
+    <span class="flex items-center gap-2">{personalSpaceConfig.site.builtWith} <span class="text-[var(--accent)]">✳</span></span>
+    <a href={personalSpaceConfig.site.repositoryUrl} target="_blank" rel="noopener noreferrer" class="transition hover:text-[var(--ink)]">View source ↗</a>
   </footer>
 </div>
