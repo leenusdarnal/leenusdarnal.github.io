@@ -153,12 +153,13 @@
 
   /** @param {number | null | undefined} value */
   function formatDuration(value) {
-    return Number.isFinite(value) && value >= 0 ? Math.round(value) + ' ms' : 'Not available';
+    if (typeof value !== 'number' || !Number.isFinite(value) || value < 0) return 'Not available';
+    return Math.round(value) + ' ms';
   }
 
   /** @param {number | null | undefined} value */
   function formatBytes(value) {
-    if (!Number.isFinite(value) || value < 0) return 'Not available';
+    if (typeof value !== 'number' || !Number.isFinite(value) || value < 0) return 'Not available';
     if (value < 1024) return Math.round(value) + ' B';
     if (value < 1024 ** 2) return (value / 1024).toFixed(1) + ' KB';
     if (value < 1024 ** 3) return (value / 1024 ** 2).toFixed(1) + ' MB';
@@ -183,8 +184,8 @@
       if (storageApi?.estimate) {
         try {
           const estimate = await storageApi.estimate();
-          storage.usageBytes = Number.isFinite(estimate.usage) ? estimate.usage : null;
-          storage.quotaBytes = Number.isFinite(estimate.quota) ? estimate.quota : null;
+          storage.usageBytes = typeof estimate.usage === 'number' && Number.isFinite(estimate.usage) ? estimate.usage : null;
+          storage.quotaBytes = typeof estimate.quota === 'number' && Number.isFinite(estimate.quota) ? estimate.quota : null;
           if (typeof storageApi.persisted === 'function') storage.persisted = await storageApi.persisted();
         } catch {
           storage = { ...storage, error: 'Storage estimate unavailable' };
@@ -218,8 +219,8 @@
         performance: {
           navigationType: navEntry?.type ?? null,
           timeToFirstByteMs: navEntry && navEntry.responseStart > 0 ? navEntry.responseStart - navEntry.requestStart : null,
-          domContentLoadedMs: navEntry?.domContentLoadedEventEnd > 0 ? navEntry.domContentLoadedEventEnd : null,
-          loadCompleteMs: navEntry?.loadEventEnd > 0 ? navEntry.loadEventEnd : null,
+          domContentLoadedMs: typeof navEntry?.domContentLoadedEventEnd === 'number' && navEntry.domContentLoadedEventEnd > 0 ? navEntry.domContentLoadedEventEnd : null,
+          loadCompleteMs: typeof navEntry?.loadEventEnd === 'number' && navEntry.loadEventEnd > 0 ? navEntry.loadEventEnd : null,
           firstContentfulPaintMs: fcp?.startTime ?? null,
           resourceCount: resources.length,
           reportedTransferBytes
