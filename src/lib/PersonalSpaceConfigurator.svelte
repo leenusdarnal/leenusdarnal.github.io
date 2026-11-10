@@ -17,6 +17,8 @@
   };
   /** @type {Array<keyof typeof defaults.sections>} */
   const sectionKeys = ['projects', 'sourceExperiments', 'personalSpace', 'about', 'contact'];
+  /** @type {Array<'name' | 'title' | 'description' | 'githubUrl' | 'contactEmail' | 'headline' | 'heroDescription' | 'palette'>} */
+  const draftStringKeys = ['name', 'title', 'description', 'githubUrl', 'contactEmail', 'headline', 'heroDescription', 'palette'];
 
   let draft = $state(structuredClone(defaults));
   let status = $state('No local draft saved');
