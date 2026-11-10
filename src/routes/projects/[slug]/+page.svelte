@@ -21,7 +21,7 @@
 </svelte:head>
 
 <div class="mx-auto min-h-screen w-full max-w-5xl px-4 py-6 sm:px-8 sm:py-10 lg:px-10">
-  <header class="flex items-center justify-between border-b border-[var(--line)] pb-5">
+  <header class="detail-header -mx-4 flex items-center justify-between border-b border-[var(--line)] px-4 pb-5 pt-2 sm:-mx-8 sm:px-8 lg:-mx-10 lg:px-10">
     <a href="/" class="flex items-center gap-3 text-sm font-semibold no-underline">
       <span aria-hidden="true" class="grid size-9 place-items-center rounded-full bg-[var(--accent)] font-black text-[var(--accent-contrast)]">L.</span>
       Leenus Darnal<span class="text-[var(--accent)]">.</span>

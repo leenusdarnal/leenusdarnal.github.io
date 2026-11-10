@@ -121,7 +121,7 @@
 <div class="mx-auto w-full max-w-6xl px-4 min-[480px]:px-5 sm:px-8 lg:px-10">
   <a class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-[var(--ink)] focus:px-4 focus:py-3 focus:text-[var(--page)]" href="#main">Skip to content</a>
 
-  <header class="flex items-center justify-between gap-3 border-b border-[var(--line)] py-4 sm:py-5">
+  <header class="site-header -mx-4 flex items-center justify-between gap-3 px-4 py-4 sm:-mx-8 sm:px-8 sm:py-5 lg:-mx-10 lg:px-10">
     <a href="#top" aria-label="L. Leenus Darnal. — home" class="group flex min-w-0 shrink-0 items-center gap-2 text-xs font-semibold tracking-tight no-underline sm:gap-3 sm:text-sm">
       <span aria-hidden="true" class="grid size-8 place-items-center rounded-full bg-[var(--accent)] text-sm font-black text-[var(--accent-contrast)] sm:size-9">L.</span>
       <span>Leenus Darnal<span class="text-[var(--accent)]">.</span></span>
@@ -203,7 +203,7 @@
         <p class="w-full max-w-xs text-sm leading-6 text-[var(--muted)] sm:w-auto">A growing collection of useful tools, side projects and experiments.</p>
       </div>
 
-      <article aria-labelledby="project-pixelforge-title" aria-describedby="project-pixelforge-description" class="group overflow-hidden rounded-3xl border border-[var(--line)] bg-[var(--panel)] transition duration-300 hover:-translate-y-1 hover:border-[color-mix(in_srgb,var(--accent)_55%,var(--line))]">
+      <article aria-labelledby="project-pixelforge-title" aria-describedby="project-pixelforge-description" class="project-card group overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--panel)] transition duration-300 hover:-translate-y-1 hover:border-[color-mix(in_srgb,var(--accent)_55%,var(--line))]">
         <div class="grid lg:grid-cols-[1.12fr_0.88fr]">
           <div aria-hidden="true" class="relative min-h-[220px] overflow-hidden bg-[var(--panel-soft)] p-3 sm:min-h-[300px] sm:p-6 lg:min-h-[370px] lg:p-8">
             <div class="absolute inset-0 opacity-70" style="background: radial-gradient(circle at 48% 50%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 55%);"></div>
@@ -257,7 +257,7 @@
 
       <div class="mt-5 grid gap-5 lg:grid-cols-2">
         {#each projects.slice(1) as project}
-          <article aria-labelledby="project-{project.visual}-title" aria-describedby="project-{project.visual}-description" class="group overflow-hidden rounded-3xl border border-[var(--line)] bg-[var(--panel)] transition duration-300 hover:-translate-y-1 hover:border-[color-mix(in_srgb,var(--accent)_55%,var(--line))]">
+          <article aria-labelledby="project-{project.visual}-title" aria-describedby="project-{project.visual}-description" class="project-card group overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--panel)] transition duration-300 hover:-translate-y-1 hover:border-[color-mix(in_srgb,var(--accent)_55%,var(--line))]">
             <div aria-hidden="true" class="relative flex min-h-[210px] items-center justify-center overflow-hidden bg-[var(--panel-soft)] p-4 sm:min-h-[270px] sm:p-6">
               {#if project.visual === 'metro'}
                 <div class="w-full max-w-[560px] overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--panel)] shadow-xl">
@@ -310,6 +310,31 @@
             </div>
           </article>
         {/each}
+      </div>
+    </section>
+
+    <section aria-label="A note from this little corner of the internet" class="pb-4 pt-2">
+      <div class="terminal-card">
+        <div class="terminal-header">
+          <div class="terminal-dots" aria-hidden="true">
+            <span class="terminal-dot"></span><span class="terminal-dot"></span><span class="terminal-dot"></span>
+          </div>
+          <span>personal-space.config.ts</span>
+          <span class="hidden text-[var(--accent)] sm:inline">SLATE &amp; EMERALD</span>
+        </div>
+        <div class="terminal-body">
+          <pre><code><span class="code-comment">// A small note about this corner of the internet</span>
+<span class="code-accent">export const</span> thisSpace = &#123;
+  palette: <span class="code-accent">'Slate & Emerald'</span>,
+  madeFor: <span class="code-accent">'curiosity, useful things & experiments'</span>,
+  interests: [
+    <span class="code-accent">'browser experiments'</span>,
+    <span class="code-accent">'privacy-first tools'</span>,
+    <span class="code-accent">'learning by building'</span>
+  ],
+  <span class="code-comment">// Just things I make and explore.</span>
+&#125;;</code></pre>
+        </div>
       </div>
     </section>
 
