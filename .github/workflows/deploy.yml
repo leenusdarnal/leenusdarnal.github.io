@@ -30,11 +30,17 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Audit dependencies for high-severity advisories
+        run: npm audit --audit-level=high
+
       - name: Check Svelte files
         run: npm run check
 
       - name: Build static site
         run: npm run build
+
+      - name: Check internal links in the generated site
+        run: node scripts/check-static-links.js
 
       - name: Run generated-site smoke tests
         run: npm test
