@@ -33,7 +33,7 @@ export interface ProjectRecord {
   };
 }
 
-export const projects = [
+export const projects: readonly ProjectRecord[] = [
   {
     number: '01',
     slug: 'pixelforge-studio',
@@ -120,4 +120,4 @@ export const projects = [
       privacy: 'The portfolio describes the editing workflow as local to the device. Check the project documentation for the exact model/runtime behaviour and browser requirements.'
     }
   }
-] as const satisfies readonly ProjectRecord[];
+];
