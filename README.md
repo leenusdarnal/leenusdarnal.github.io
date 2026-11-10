@@ -1,6 +1,6 @@
 # Leenus Darnal — Personal Website
 
-A personal developer homepage built with SvelteKit, Svelte 5 and Tailwind CSS 4. The site is prerendered as static files and published exclusively to GitHub Pages.
+A personal homepage and maker's notebook built with SvelteKit, Svelte 5 and Tailwind CSS 4. It collects useful tools, side projects and experiments. The site is prerendered as static files and published exclusively to GitHub Pages.
 
 ## Live website
 
@@ -43,11 +43,11 @@ A scheduled and manually triggerable Lighthouse workflow audits the published Gi
 
 ## Homepage experience
 
-The homepage introduces the developer behind the projects, highlights selected work and includes a concise About section with direct contact links. Its light/dark theme follows the saved preference or system setting, and the browser theme colour tracks the active theme. Social sharing uses a dedicated 1200 × 630 PNG preview image.
+The homepage is a personal space for sharing projects, experiments and things learned along the way. It is not a résumé or job-search portfolio. Its light/dark theme follows the saved preference or system setting, and the browser theme colour tracks the active theme. Social sharing uses a dedicated 1200 × 630 PNG preview image.
 
 ## Project case studies
 
-The portfolio includes dedicated pages for PixelForge Studio, Metronome, Sikkim Government Salary Calculator, and PixelCutout. Each page includes an overview, key features, technology stack, and links to the live project and source code.
+The portfolio includes dedicated pages for PixelForge Studio, Metronome, Sikkim Government Salary Calculator, and PixelCutout. Each page is a lightweight project note with an overview, key features, technology stack, and links to the live project and source code.
 
 ## Site quality
 
