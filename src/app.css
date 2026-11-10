@@ -92,15 +92,6 @@ button, a {
   outline-offset: 4px;
 }
 
-@media (max-width: 720px) {
-  .space-config-intro { align-items: flex-start; flex-direction: column; gap: .65rem; }
-  .terminal-layout { grid-template-columns: minmax(0, 1fr); }
-  .terminal-aside { border-top: 1px solid var(--line); border-left: 0; }
-  .terminal-header { gap: .7rem; padding-inline: .85rem; }
-  .terminal-status { display: none; }
-  .terminal-body { padding: 1.1rem .95rem; font-size: .68rem; }
-}
-
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
@@ -272,6 +263,16 @@ button, a {
 }
 .terminal-meta span { color: var(--muted); letter-spacing: .1em; }
 .terminal-meta strong { color: var(--accent); font-weight: 600; }
+
+@media (max-width: 720px) {
+  .space-config-intro { align-items: flex-start; flex-direction: column; gap: .65rem; }
+  .terminal-layout { grid-template-columns: minmax(0, 1fr); }
+  .terminal-aside { border-top: 1px solid var(--line); border-left: 0; }
+  .terminal-header { gap: .7rem; padding-inline: .85rem; }
+  .terminal-status { display: none; }
+  .terminal-body { padding: 1.1rem .95rem; font-size: .68rem; }
+}
+
 
 
 @media (prefers-reduced-motion: reduce) {
