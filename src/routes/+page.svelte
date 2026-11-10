@@ -209,7 +209,7 @@
         <p class="w-full max-w-xs text-sm leading-6 text-[var(--muted)] sm:w-auto">A growing collection of useful tools, side projects and experiments.</p>
       </div>
 
-      <LabControls {projects} />
+      <LabControls {projects} onToggleTheme={toggleTheme} />
 
       <article data-project-card data-category={projects[0].categories.join(' ')} aria-labelledby="project-pixelforge-title" aria-describedby="project-pixelforge-description" class="project-card group overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--panel)] transition duration-300 hover:-translate-y-1 hover:border-[color-mix(in_srgb,var(--accent)_55%,var(--line))]">
         <div class="grid lg:grid-cols-[1.12fr_0.88fr]">

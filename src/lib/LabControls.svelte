@@ -1,7 +1,7 @@
 <script>
   import { onMount } from 'svelte';
 
-  let { projects = [] } = $props();
+  let { projects = [], onToggleTheme = () => {} } = $props();
   let activeFilter = $state('all');
   let paletteOpen = $state(false);
   let query = $state('');
@@ -10,11 +10,15 @@
   /** @type {any} */
   let diagnostics = $state({});
   let reportCopied = $state(false);
+  let copyStatus = $state('');
+  let checking = $state(false);
+  let lastChecked = $state('');
   /** @type {HTMLDialogElement | null} */
   let palette = $state(null);
   /** @type {HTMLInputElement | null} */
   let searchInput = $state(null);
-  let matchingProjects = $derived(projects.filter((p) => (p.name + ' ' + p.slug + ' ' + p.stack.join(' ')).toLowerCase().includes(query.toLowerCase())));
+  /** @type {HTMLButtonElement | null} */
+  let paletteTrigger = $state(null);
 
   const filters = [
     { id: 'all', label: 'All' },
@@ -26,7 +30,7 @@
 
   /** @type {Array<{label: string, keywords: string, run: () => void}>} */
   const commands = [
-    { label: 'Theme: Toggle Light / Dark Mode', keywords: 'theme light dark appearance', run: () => /** @type {HTMLButtonElement | null} */ (document.querySelector('[aria-label^="Switch to"]'))?.click() },
+    { label: 'Theme: Toggle Light / Dark Mode', keywords: 'theme light dark appearance', run: () => onToggleTheme() },
     { label: 'Filter: Show WebGPU & Client Compute Projects', keywords: 'webgpu compute wasm client', run: () => setFilter('client-compute') },
     { label: 'Filter: Show Full-Stack Web Apps', keywords: 'full stack apps', run: () => setFilter('full-stack') },
     { label: 'Action: Copy Hardware Diagnostics JSON', keywords: 'copy hardware diagnostics json report', run: () => copyReport() },
@@ -34,15 +38,31 @@
     { label: 'Open: GitHub Profile (github.com/leenusdarnal)', keywords: 'github profile source', run: () => window.open('https://github.com/leenusdarnal', '_blank', 'noopener,noreferrer') }
   ];
 
-  let visibleCommands = $derived(commands.filter((item) => (item.label + ' ' + item.keywords).toLowerCase().includes(query.toLowerCase())));
+  let visibleCommands = $derived(commands.filter((item) => (item.label + ' ' + item.keywords).toLowerCase().includes(query.trim().toLowerCase())));
+  let matchingProjects = $derived(projects.filter((p) => (p.name + ' ' + p.slug + ' ' + p.stack.join(' ') + ' ' + (p.categories ?? []).join(' ') + ' ' + (p.features ?? []).join(' ')).toLowerCase().includes(query.trim().toLowerCase())));
+  let paletteItems = $derived([
+    ...visibleCommands.map((item) => ({ kind: 'command', label: item.label, run: item.run })),
+    ...matchingProjects.map((project) => ({ kind: 'project', label: 'Project: ' + project.name, run: () => window.open(project.live, '_blank', 'noopener,noreferrer') }))
+  ]);
   let report = $derived({
-    generatedAt: new Date().toISOString(),
-    browser: { userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : null, language: typeof navigator !== 'undefined' ? navigator.language : null, platform: typeof navigator !== 'undefined' ? navigator.platform : null },
+    generatedAt: lastChecked || null,
+    browser: {
+      userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : null,
+      language: typeof navigator !== 'undefined' ? navigator.language : null,
+      platform: typeof navigator !== 'undefined' ? navigator.platform : null,
+      hardwareConcurrency: typeof navigator !== 'undefined' ? navigator.hardwareConcurrency ?? null : null
+    },
     compute: diagnostics,
-    display: { deviceMemoryGB: typeof navigator !== 'undefined' ? Reflect.get(navigator, 'deviceMemory') ?? null : null, colorGamutP3: typeof window !== 'undefined' ? window.matchMedia('(color-gamut: p3)').matches : null },
-    projects: projects.map(({ name, slug, stack, live, source }) => ({ name, slug, stack, live, source }))
+    display: {
+      deviceMemoryGB: typeof navigator !== 'undefined' ? Reflect.get(navigator, 'deviceMemory') ?? null : null,
+      colorGamutP3: typeof window !== 'undefined' ? window.matchMedia('(color-gamut: p3)').matches : null,
+      devicePixelRatio: typeof window !== 'undefined' ? window.devicePixelRatio : null,
+      colorDepth: typeof screen !== 'undefined' ? screen.colorDepth : null
+    },
+    projects: projects.map(({ name, slug, stack, live, source, categories }) => ({ name, slug, stack, live, source, categories }))
   });
   let rawJson = $derived(JSON.stringify(report, null, 2));
+  let visibleProjectCount = $derived(activeFilter === 'all' ? projects.length : projects.filter((project) => (project.categories ?? []).includes(activeFilter)).length);
 
   /** @param {string} filter */
   function setFilter(filter) {
@@ -59,17 +79,20 @@
     paletteOpen = true;
     query = '';
     selectedIndex = 0;
-    requestAnimationFrame(() => searchInput?.focus());
     if (!palette?.open) palette?.showModal();
+    requestAnimationFrame(() => searchInput?.focus());
   }
 
   function closePalette() {
     paletteOpen = false;
     if (palette?.open) palette.close();
+    requestAnimationFrame(() => paletteTrigger?.focus());
   }
 
-  /** @param {{label: string, keywords: string, run: () => void}} item */
-  function runCommand(item) {
+  /** @param {number} index */
+  function selectPaletteItem(index) {
+    const item = paletteItems[index];
+    if (!item) return;
     closePalette();
     item.run();
   }
@@ -79,24 +102,52 @@
     if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
       event.preventDefault();
       if (paletteOpen) closePalette(); else openPalette();
+      return;
     }
     if (!paletteOpen) return;
-    if (event.key === 'ArrowDown') { event.preventDefault(); selectedIndex = Math.min(selectedIndex + 1, visibleCommands.length - 1); }
-    if (event.key === 'ArrowUp') { event.preventDefault(); selectedIndex = Math.max(0, selectedIndex - 1); }
-    if (event.key === 'Enter' && visibleCommands[selectedIndex]) { event.preventDefault(); runCommand(visibleCommands[selectedIndex]); }
+    if (event.key === 'ArrowDown' && paletteItems.length) {
+      event.preventDefault();
+      selectedIndex = (selectedIndex + 1) % paletteItems.length;
+    }
+    if (event.key === 'ArrowUp' && paletteItems.length) {
+      event.preventDefault();
+      selectedIndex = (selectedIndex - 1 + paletteItems.length) % paletteItems.length;
+    }
+    if (event.key === 'Enter' && paletteItems[selectedIndex]) {
+      event.preventDefault();
+      selectPaletteItem(selectedIndex);
+    }
     if (event.key === 'Escape') closePalette();
   }
 
   async function collectDiagnostics() {
+    if (checking) return;
+    checking = true;
+    /** @type {any} */
+    const isolated = typeof window !== 'undefined' && window.crossOriginIsolated === true;
+    const sharedMemory = typeof SharedArrayBuffer === 'function';
     /** @type {any} */
     const result = {
-      webgpu: { available: !!Reflect.get(navigator, 'gpu'), adapter: null, vendor: null, architecture: null, fp16: false, maxBufferSizeBytes: null, maxBufferSize: 'Unavailable', error: null },
-      wasmThreads: { crossOriginIsolated: !!window.crossOriginIsolated, status: window.crossOriginIsolated ? 'Active (cross-origin isolated)' : 'Single-thread mode / isolation unavailable' },
-      memory: { deviceMemoryGB: Reflect.get(navigator, 'deviceMemory') ?? null },
-      display: { colorGamutP3: window.matchMedia('(color-gamut: p3)').matches, gamut: window.matchMedia('(color-gamut: p3)').matches ? 'Display P3 wide gamut' : 'sRGB or unknown' }
+      webgpu: { available: false, adapter: 'Checking…', vendor: null, architecture: null, fp16: false, maxBufferSizeBytes: null, maxBufferSize: 'Unavailable', maxStorageBufferBindingSize: null, error: null },
+      wasmThreads: {
+        crossOriginIsolated: isolated,
+        sharedArrayBuffer: sharedMemory,
+        status: isolated && sharedMemory ? 'Active (COOP/COEP + SharedArrayBuffer)' : 'Single-thread mode (isolation or SharedArrayBuffer unavailable)'
+      },
+      memory: {
+        deviceMemoryGB: Reflect.get(navigator, 'deviceMemory') ?? null,
+        hardwareConcurrency: navigator.hardwareConcurrency ?? null
+      },
+      display: {
+        colorGamutP3: window.matchMedia('(color-gamut: p3)').matches,
+        gamut: window.matchMedia('(color-gamut: p3)').matches ? 'Display P3 wide gamut' : 'sRGB or unknown',
+        devicePixelRatio: window.devicePixelRatio,
+        colorDepth: screen.colorDepth
+      }
     };
     const gpu = Reflect.get(navigator, 'gpu');
     if (gpu?.requestAdapter) {
+      result.webgpu.available = true;
       try {
         const adapter = await gpu.requestAdapter();
         if (adapter) {
@@ -108,6 +159,7 @@
           result.webgpu.fp16 = !!adapter.features?.has('shader-f16');
           result.webgpu.maxBufferSizeBytes = max;
           result.webgpu.maxBufferSize = max ? (max / 1024 ** 3 >= 1 ? (max / 1024 ** 3).toFixed(2) + ' GB' : Math.round(max / 1024 ** 2) + ' MB') : 'Not reported';
+          result.webgpu.maxStorageBufferBindingSize = adapter.limits?.maxStorageBufferBindingSize ?? null;
         } else result.webgpu.adapter = 'No compatible adapter';
       } catch (error) {
         result.webgpu.adapter = 'Adapter query failed';
@@ -115,15 +167,38 @@
       }
     } else result.webgpu.adapter = 'WebGPU unavailable';
     diagnostics = result;
+    lastChecked = new Date().toISOString();
+    checking = false;
+  }
+
+  /** @param {string} text */
+  async function writeClipboard(text) {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+    const field = document.createElement('textarea');
+    field.value = text;
+    field.setAttribute('readonly', '');
+    field.style.position = 'fixed';
+    field.style.opacity = '0';
+    document.body.append(field);
+    field.select();
+    let copied = false;
+    try { copied = document.execCommand('copy'); } finally { field.remove(); }
+    if (!copied) throw new Error('Clipboard access is unavailable');
+    return true;
   }
 
   async function copyReport() {
     try {
-      await navigator.clipboard.writeText(rawJson);
+      await writeClipboard(JSON.stringify({ ...report, generatedAt: new Date().toISOString() }, null, 2));
       reportCopied = true;
+      copyStatus = 'Diagnostics JSON copied to clipboard.';
       setTimeout(() => reportCopied = false, 1800);
     } catch {
       reportCopied = false;
+      copyStatus = 'Clipboard unavailable. Use Raw JSON to select and copy the report.';
     }
   }
 
@@ -140,38 +215,59 @@
       });
     };
     window.addEventListener('pointermove', moveSpotlight, { passive: true });
+
     const stored = (() => {
       try { return JSON.parse(sessionStorage.getItem('leenus_lab_repos_v1') || 'null'); } catch { return null; }
     })();
     const now = Date.now();
-    const cacheFresh = stored?.timestamp && now - stored.timestamp < 3600000 && Array.isArray(stored.data);
+    const cacheFresh = Number.isFinite(stored?.timestamp) && stored.timestamp <= now && now - stored.timestamp < 3600000 && Array.isArray(stored.data);
     /** @param {any[]} repos */
     const applyRepos = (repos) => {
       for (const project of projects) {
         const repoName = project.source.split('/').pop()?.toLowerCase();
         const repo = repos.find((item) => item.name?.toLowerCase() === repoName);
         const target = /** @type {HTMLElement | null} */ (document.querySelector('[data-repo-meta="' + project.slug + '"]'));
-        if (target && repo) {
-          const ago = relativeTime(repo.pushed_at);
-          target.textContent = 'Updated ' + ago;
+        const stars = /** @type {HTMLElement | null} */ (document.querySelector('[data-repo-stars="' + project.slug + '"]'));
+        if (target && repo?.pushed_at) {
+          target.textContent = 'Updated ' + relativeTime(repo.pushed_at);
           target.hidden = false;
-          const stars = /** @type {HTMLElement | null} */ (document.querySelector('[data-repo-stars="' + project.slug + '"]'));
-          if (stars && repo.stargazers_count > 0) { stars.textContent = '★ ' + repo.stargazers_count; stars.hidden = false; }
+        }
+        if (stars && Number(repo?.stargazers_count) > 0) {
+          stars.textContent = '★ ' + repo.stargazers_count;
+          stars.hidden = false;
         }
       }
     };
     if (cacheFresh) applyRepos(stored.data);
-    else fetch('https://api.github.com/users/leenusdarnal/repos?sort=updated&per_page=100', { headers: { Accept: 'application/vnd.github+json' } })
-      .then((response) => { if (!response.ok) throw new Error('GitHub API unavailable'); return response.json(); })
-      .then((data) => { applyRepos(data); try { sessionStorage.setItem('leenus_lab_repos_v1', JSON.stringify({ timestamp: Date.now(), data })); } catch {} })
-      .catch(() => {});
-    return () => { window.removeEventListener('pointermove', moveSpotlight); cancelAnimationFrame(frame); };
+    const controller = new AbortController();
+    if (!cacheFresh) {
+      fetch('https://api.github.com/users/leenusdarnal/repos?sort=updated&per_page=100', {
+        headers: { Accept: 'application/vnd.github+json' },
+        signal: controller.signal
+      })
+        .then((response) => {
+          if (!response.ok) throw new Error('GitHub API unavailable');
+          return response.json();
+        })
+        .then((data) => {
+          if (!Array.isArray(data)) throw new Error('Unexpected GitHub API response');
+          applyRepos(data);
+          try { sessionStorage.setItem('leenus_lab_repos_v1', JSON.stringify({ timestamp: Date.now(), data })); } catch {}
+        })
+        .catch(() => {});
+    }
+    return () => {
+      controller.abort();
+      window.removeEventListener('pointermove', moveSpotlight);
+      cancelAnimationFrame(frame);
+    };
   });
 
   /** @param {string} value */
   function relativeTime(value) {
-    if (!value) return 'recently';
-    const seconds = Math.max(0, Math.floor((Date.now() - new Date(value).getTime()) / 1000));
+    const timestamp = Date.parse(value);
+    if (!Number.isFinite(timestamp)) return 'date unavailable';
+    const seconds = Math.max(0, Math.floor((Date.now() - timestamp) / 1000));
     /** @type {Array<[string, number]>} */
     const units = [['y', 31536000], ['mo', 2592000], ['d', 86400], ['h', 3600], ['m', 60]];
     for (const [label, size] of units) if (seconds >= size) return Math.floor(seconds / size) + label + ' ago';
@@ -186,24 +282,28 @@
     <div class="flex flex-wrap gap-2" aria-label="Filter projects">
       {#each filters as filter}
         <button type="button" aria-pressed={activeFilter === filter.id} onclick={() => setFilter(filter.id)} class:active={activeFilter === filter.id} class="filter-pill">
-          {filter.label} ({filter.id === 'all' ? projects.length : projects.filter((project) => project.categories.includes(filter.id)).length})
+          {filter.label} ({filter.id === 'all' ? projects.length : projects.filter((project) => (project.categories ?? []).includes(filter.id)).length})
         </button>
       {/each}
     </div>
     <div class="flex flex-wrap gap-2">
-      <button type="button" class="tool-pill" onclick={openPalette}>⌘K <span class="sr-only">Open command palette</span></button>
+      <button bind:this={paletteTrigger} type="button" class="tool-pill" onclick={openPalette}>⌘K <span class="sr-only">Open command palette</span></button>
       <button type="button" class="tool-pill" aria-pressed={rawMode} onclick={() => rawMode = !rawMode}>{'{ }'} Raw</button>
     </div>
   </div>
 
+  <p class="sr-only" aria-live="polite">{visibleProjectCount} projects shown.</p>
   {#if rawMode}
     <pre class="raw-json" aria-label="Raw project and client diagnostics JSON">{rawJson}</pre>
   {/if}
 
   <div class="terminal-card mt-5">
     <div class="terminal-header">
-      <div class="flex items-center gap-2"><span class="terminal-dots" aria-hidden="true"><span class="terminal-dot"></span><span class="terminal-dot"></span><span class="terminal-dot"></span></span><span>runtime_inspector.sh · Client Diagnostics</span></div>
-      <button type="button" class="tool-pill" onclick={copyReport}>{reportCopied ? 'Copied!' : 'Copy JSON Report'}</button>
+      <div class="flex flex-wrap items-center gap-2"><span class="terminal-dots" aria-hidden="true"><span class="terminal-dot"></span><span class="terminal-dot"></span><span class="terminal-dot"></span></span><span>runtime_inspector.sh · Client Diagnostics</span></div>
+      <div class="flex flex-wrap items-center gap-2">
+        <button type="button" class="tool-pill" onclick={collectDiagnostics} disabled={checking}>{checking ? 'Checking…' : 'Refresh'}</button>
+        <button type="button" class="tool-pill" onclick={copyReport}>{reportCopied ? 'Copied!' : 'Copy JSON Report'}</button>
+      </div>
     </div>
     <div class="diagnostic-grid">
       <div><span>GPU adapter</span><strong>{diagnostics.webgpu?.adapter ?? 'Checking…'}</strong></div>
@@ -212,9 +312,11 @@
       <div><span>Max compute buffer</span><strong>{diagnostics.webgpu?.maxBufferSize ?? 'Checking…'}</strong></div>
       <div><span>WASM shared memory</span><strong>{diagnostics.wasmThreads?.status ?? 'Checking…'}</strong></div>
       <div><span>Device memory tier</span><strong>{diagnostics.memory?.deviceMemoryGB ? diagnostics.memory.deviceMemoryGB + ' GB (reported)' : 'Not exposed by browser'}</strong></div>
+      <div><span>CPU threads</span><strong>{diagnostics.memory?.hardwareConcurrency ?? 'Not exposed by browser'}</strong></div>
       <div><span>Display gamut</span><strong>{diagnostics.display?.gamut ?? 'Checking…'}</strong></div>
     </div>
-    <p class="px-4 pb-4 text-[10px] leading-5 text-[var(--muted)]">Browser-exposed capability data only. A reported adapter or feature does not mean every project uses that execution path.</p>
+    <p class="px-4 pb-2 text-[10px] leading-5 text-[var(--muted)]">Last checked: {lastChecked ? new Date(lastChecked).toLocaleTimeString() : 'Checking…'} · Browser-exposed capability data only. A reported adapter or feature does not mean every project uses that execution path.</p>
+    <p class="sr-only" aria-live="polite">{copyStatus}</p>
   </div>
 </section>
 
@@ -225,16 +327,13 @@
       <button type="button" class="tool-pill" onclick={closePalette}>Esc</button>
     </div>
     <input bind:this={searchInput} bind:value={query} oninput={() => selectedIndex = 0} class="command-input" placeholder="Search projects, tags or commands…" aria-label="Search commands and projects" />
-    <div class="max-h-[min(55vh,420px)] overflow-y-auto p-2">
-      {#each visibleCommands as item, index}
-        <button type="button" class="command-item" class:selected={selectedIndex === index} onclick={() => runCommand(item)}>
-          <span>{item.label}</span><kbd>↵</kbd>
+    <div class="max-h-[min(55vh,420px)] overflow-y-auto p-2" role="listbox" aria-label="Command and project results">
+      {#each paletteItems as item, index}
+        <button type="button" role="option" aria-selected={selectedIndex === index} class="command-item" class:selected={selectedIndex === index} onclick={() => selectPaletteItem(index)} onmouseenter={() => selectedIndex = index}>
+          <span>{item.label}</span><kbd>{item.kind === 'project' ? '↗' : '↵'}</kbd>
         </button>
       {/each}
-      {#each matchingProjects as project}
-        <a class="command-item" href={project.live} target="_blank" rel="noopener noreferrer"><span>Project: {project.name}</span><kbd>↗</kbd></a>
-      {/each}
-      {#if visibleCommands.length === 0 && matchingProjects.length === 0}<p class="p-4 text-sm text-[var(--muted)]">No matching commands, projects or tags.</p>{/if}
+      {#if paletteItems.length === 0}<p class="p-4 text-sm text-[var(--muted)]">No matching commands, projects or tags.</p>{/if}
     </div>
     <p class="border-t border-[var(--line)] px-4 py-3 text-[10px] text-[var(--muted)]">↑ ↓ navigate · Enter run · Esc close</p>
   </div>

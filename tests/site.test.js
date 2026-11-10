@@ -350,3 +350,42 @@ test('keyboard palette and raw JSON view are available without a UI dependency',
 test('external font stylesheet requests are removed in favour of local system fallbacks', () => {
   assert.doesNotMatch(appHtmlSource, /fonts\.googleapis\.com|fonts\.gstatic\.com/);
 });
+
+
+test('command palette keyboard selection spans both commands and projects', () => {
+  assert.match(labControls, /paletteItems = \$derived/);
+  assert.match(labControls, /matchingProjects\.map/);
+  assert.match(labControls, /\(selectedIndex \+ 1\) % paletteItems\.length/);
+  assert.match(labControls, /\(selectedIndex - 1 \+ paletteItems\.length\) % paletteItems\.length/);
+  assert.match(labControls, /onToggleTheme/);
+  assert.match(source, /onToggleTheme=\{toggleTheme\}/);
+});
+
+test('hardware diagnostics include SharedArrayBuffer, CPU, display and refresh telemetry', () => {
+  for (const term of ['SharedArrayBuffer', 'crossOriginIsolated', 'hardwareConcurrency', 'maxStorageBufferBindingSize', 'devicePixelRatio', 'colorDepth', 'Refresh']) {
+    assert.ok(labControls.includes(term), 'Missing diagnostics detail: ' + term);
+  }
+  assert.match(labControls, /Last checked:/);
+});
+
+test('copy actions include a clipboard fallback and accessible confirmation', () => {
+  assert.match(labControls, /document\.execCommand\('copy'\)/);
+  assert.match(projectActions, /document\.execCommand\('copy'\)/);
+  assert.match(projectActions, /aria-live="polite"/);
+  assert.match(labControls, /Clipboard unavailable/);
+});
+
+test('architecture drawers and command palette retain visible keyboard focus', () => {
+  assert.match(css, /architecture-toggle/);
+  assert.match(css, /command-item\[aria-selected="true"\]/);
+  assert.match(css, /focus-visible/);
+  assert.match(labControls, /role="listbox"/);
+  assert.match(labControls, /aria-selected=\{selectedIndex === index\}/);
+});
+
+test('GitHub metadata cache validates TTL and aborts pending requests on unmount', () => {
+  assert.match(labControls, /stored\.timestamp <= now/);
+  assert.match(labControls, /AbortController/);
+  assert.match(labControls, /controller\.abort\(\)/);
+  assert.match(labControls, /Array\.isArray\(data\)/);
+});
