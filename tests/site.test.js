@@ -36,6 +36,15 @@ test('homepage includes a concise About section and navigation link', () => {
   assert.match(html, /Browser-native tools and practical web applications/);
 });
 
+
+test('homepage is framed as a personal project space, not a job-search portfolio', () => {
+  assert.match(html, />Projects<\\/a>/);
+  assert.match(html, /Projects &amp; experiments/);
+  assert.match(html, /Things I like exploring/);
+  assert.match(source, /personal space for practical web tools/);
+  assert.doesNotMatch(source, /resume|résumé|download cv|hire me|open to work|job seeking|personal developer portfolio/i);
+});
+
 test('theme colour metadata follows the selected theme', () => {
   assert.match(source, /content=\{theme === "dark" \? "#0d100e" : "#f5f4ee"\}/);
 });
