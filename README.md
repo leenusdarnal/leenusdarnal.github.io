@@ -57,4 +57,5 @@ The site has dedicated project notes for PixelForge Studio, Metronome, Sikkim Go
 - Canonical URL, Open Graph/Twitter metadata with a PNG social preview, Person/Website structured data, sitemap and robots file.
 - Theme-aware browser chrome, system theme detection, persistent theme preference and an Apple touch icon.
 - Inter and Fira Code are bundled locally; the published site does not request Google Fonts at runtime.
+- A root-scoped service worker adds `Cross-Origin-Opener-Policy: same-origin` and `Cross-Origin-Embedder-Policy: credentialless` to same-origin document navigations. After it takes control, the runtime inspector offers a one-time reload to activate cross-origin isolation; no HTML is cached by the worker.
 - A scheduled uptime workflow checks the portfolio and linked project demos once per day.
