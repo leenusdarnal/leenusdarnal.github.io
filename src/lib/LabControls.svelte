@@ -76,7 +76,6 @@
     </div>
     <div class="flex flex-wrap gap-2">
       <button type="button" class="tool-pill" aria-expanded={toolsOpen} aria-controls="developer-tools-panel" onclick={toggleDeveloperTools}>{toolsOpen ? 'Hide developer tools' : 'Open developer tools'}</button>
-      <button type="button" class="tool-pill" onclick={() => loadDeveloperTools(true)}>⌘K <span class="sr-only">Open command palette</span></button>
     </div>
   </div>
   <p class="sr-only" aria-live="polite">{visibleProjectCount} projects shown.</p>
