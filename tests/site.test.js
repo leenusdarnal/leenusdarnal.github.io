@@ -1,5 +1,8 @@
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { mkdtemp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { spawnSync } from 'node:child_process';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import test from 'node:test';
 
 const buildUrl = new URL('../build/', import.meta.url);
@@ -705,4 +708,52 @@ test('secure configuration publisher only accepts an allow-listed exported draft
   assert.match(workflow, /workflow_dispatch/);
   assert.match(workflow, /pull-requests: write/);
   assert.match(workflow, /gh pr create/);
+});
+
+
+test('configuration publishing applies only validated fields and synchronises metadata', async () => {
+  const root = await mkdtemp(join(tmpdir(), 'leenus-config-publisher-'));
+  try {
+    await mkdir(join(root, 'src/lib'), { recursive: true });
+    await mkdir(join(root, 'scripts'), { recursive: true });
+    await writeFile(join(root, 'src/lib/personal-space.config.ts'), personalSpaceConfigSource);
+    const publisher = await readFile(new URL('../scripts/publish-personal-space-config.mjs', import.meta.url), 'utf8');
+    const publisherPath = join(root, 'scripts/publish-personal-space-config.mjs');
+    await writeFile(publisherPath, publisher);
+    const config = {
+      name: 'Test Person',
+      title: 'Test personal site',
+      description: 'A test description.',
+      githubUrl: 'https://github.com/test-person',
+      contactEmail: 'test@example.com',
+      headline: 'Build useful things',
+      heroDescription: 'A test hero description.',
+      palette: 'Test palette',
+      defaultTheme: 'light',
+      sections: { projects: true, sourceExperiments: false, personalSpace: true, about: true, contact: false }
+    };
+    const run = (value) => spawnSync(process.execPath, [publisherPath], {
+      cwd: root,
+      encoding: 'utf8',
+      env: { ...process.env, CONFIG_JSON: JSON.stringify({ config: value }) }
+    });
+    const valid = run(config);
+    assert.equal(valid.status, 0, valid.stderr);
+    const updated = await readFile(join(root, 'src/lib/personal-space.config.ts'), 'utf8');
+    assert.match(updated, /name: "Test Person"/);
+    assert.match(updated, /firstName: "Test"/);
+    assert.match(updated, /lastName: "Person"/);
+    assert.match(updated, /author: "Test Person"/);
+    assert.match(updated, /url: "https:\\/\\/github\\.com\\/test-person"/);
+    assert.match(updated, /headline: "Build useful things"/);
+    assert.match(updated, /sourceExperiments: false/);
+    assert.match(updated, /contact: false/);
+
+    const beforeInvalid = updated;
+    const invalid = run({ ...config, githubUrl: 'javascript:alert(1)' });
+    assert.notEqual(invalid.status, 0, 'Unsafe GitHub URL must be rejected');
+    assert.equal(await readFile(join(root, 'src/lib/personal-space.config.ts'), 'utf8'), beforeInvalid);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
 });
