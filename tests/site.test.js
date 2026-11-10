@@ -463,6 +463,8 @@ test('cross-origin isolation shim scopes COOP and credentialless COEP to documen
   assert.match(registration, /controllerchange/);
   assert.match(source, /registerCrossOriginIsolation/);
   assert.match(labControls, /Reload to enable shared memory/);
+  assert.match(labControls, /reloadAttempted/);
+  assert.match(labControls, /Cross-origin isolation did not activate in this browser/);
   assert.match(labControls, /crossOriginIsolation: isolationState/);
   assert.match(html, /runtime_inspector\.sh/);
 });
