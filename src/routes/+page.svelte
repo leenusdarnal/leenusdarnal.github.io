@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import LabControls from '../lib/LabControls.svelte';
   import ProjectActions from '../lib/ProjectActions.svelte';
+  import { personalSpaceConfig } from '../lib/personal-space.config';
 
   let theme = $state('dark');
 
@@ -313,27 +314,59 @@
       </div>
     </section>
 
-    <section aria-label="A note from this little corner of the internet" class="pb-4 pt-2">
+    <section id="space" aria-labelledby="space-heading" class="space-config-section pb-4 pt-2">
+      <div class="space-config-intro">
+        <div>
+          <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--accent)]">01 / PERSONAL SPACE</p>
+          <h2 id="space-heading">A little about this corner<span>.</span></h2>
+        </div>
+        <p>This is less of a showcase and more of a workbench: useful things, small experiments and whatever I am learning next.</p>
+      </div>
+
       <div class="terminal-card">
         <div class="terminal-header">
           <div class="terminal-dots" aria-hidden="true">
             <span class="terminal-dot"></span><span class="terminal-dot"></span><span class="terminal-dot"></span>
           </div>
-          <span>personal-space.config.ts</span>
-          <span class="hidden text-[var(--accent)] sm:inline">SLATE &amp; EMERALD</span>
+          <div class="terminal-file">
+            <span>personal-space.config.ts</span>
+            <span class="terminal-language">TypeScript</span>
+          </div>
+          <span class="terminal-status">THE SHORT VERSION</span>
         </div>
-        <div class="terminal-body">
-          <pre><code><span class="code-comment">// A small note about this corner of the internet</span>
-<span class="code-accent">export const</span> thisSpace = &#123;
-  palette: <span class="code-accent">'Slate & Emerald'</span>,
-  madeFor: <span class="code-accent">'curiosity, useful things & experiments'</span>,
-  interests: [
-    <span class="code-accent">'browser experiments'</span>,
-    <span class="code-accent">'privacy-first tools'</span>,
-    <span class="code-accent">'learning by building'</span>
-  ],
-  <span class="code-comment">// Just things I make and explore.</span>
-&#125;;</code></pre>
+
+        <div class="terminal-layout">
+          <div class="terminal-body">
+            <pre aria-label="Personal space configuration preview"><code><span class="code-line"><span class="code-comment">// Just things I make and explore.</span></span><span class="code-line"><span class="code-keyword">export const</span> <span class="code-name">personalSpaceConfig</span> = &#123;</span><span class="code-line">  <span class="code-property">owner</span>: <span class="code-string">{JSON.stringify(personalSpaceConfig.owner)}</span>,</span><span class="code-line">  <span class="code-property">handle</span>: <span class="code-string">{JSON.stringify(personalSpaceConfig.handle)}</span>,</span><span class="code-line">  <span class="code-property">headline</span>: <span class="code-string">{JSON.stringify(personalSpaceConfig.headline)}</span>,</span><span class="code-line">  <span class="code-property">purpose</span>: <span class="code-string">{JSON.stringify(personalSpaceConfig.statement)}</span>,</span><span class="code-line">  <span class="code-property">palette</span>: <span class="code-string">{JSON.stringify(personalSpaceConfig.palette)}</span>,</span><span class="code-line">  <span class="code-property">hosting</span>: <span class="code-string">{JSON.stringify(personalSpaceConfig.hosting)}</span>,</span><span class="code-line">  <span class="code-property">focus</span>: [</span>{#each personalSpaceConfig.focus as item, index}<span class="code-line">    <span class="code-string">{JSON.stringify(item)}</span>{index < personalSpaceConfig.focus.length - 1 ? ',' : ''}</span>{/each}<span class="code-line">  ],</span><span class="code-line">  <span class="code-property">principles</span>: [</span>{#each personalSpaceConfig.principles as item, index}<span class="code-line">    <span class="code-string">{JSON.stringify(item)}</span>{index < personalSpaceConfig.principles.length - 1 ? ',' : ''}</span>{/each}<span class="code-line">  ]</span><span class="code-line">&#125; <span class="code-keyword">as const</span>;</span></code></pre>
+          </div>
+
+          <aside class="terminal-aside" aria-label="What this space is about">
+            <div>
+              <p class="terminal-label">THE IDEA</p>
+              <h3>{personalSpaceConfig.headline}</h3>
+              <p class="terminal-description">{personalSpaceConfig.statement}</p>
+            </div>
+
+            <div>
+              <p class="terminal-label">WHAT YOU'LL FIND HERE</p>
+              <ul class="terminal-focus-list">
+                {#each personalSpaceConfig.focus as item, index}
+                  <li><span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>{item}</li>
+                {/each}
+              </ul>
+            </div>
+
+            <div class="terminal-principles" aria-label="Personal principles">
+              {#each personalSpaceConfig.principles as principle}
+                <span>{principle}</span>
+              {/each}
+            </div>
+
+            <div class="terminal-meta">
+              <span>HOME</span>
+              <strong>{personalSpaceConfig.hosting}</strong>
+            </div>
+          </aside>
         </div>
       </div>
     </section>

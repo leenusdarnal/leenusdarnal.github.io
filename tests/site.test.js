@@ -7,6 +7,7 @@ const html = await readFile(new URL('index.html', buildUrl), 'utf8');
 const robots = await readFile(new URL('robots.txt', buildUrl), 'utf8');
 const sitemap = await readFile(new URL('sitemap.xml', buildUrl), 'utf8');
 const source = await readFile(new URL('../src/routes/+page.svelte', import.meta.url), 'utf8');
+const personalSpaceConfigSource = await readFile(new URL('../src/lib/personal-space.config.ts', import.meta.url), 'utf8');
 const appHtmlSource = await readFile(new URL('../src/app.html', import.meta.url), 'utf8');
 const css = await readFile(new URL('../src/app.css', import.meta.url), 'utf8');
 const labControls = await readFile(new URL('../src/lib/LabControls.svelte', import.meta.url), 'utf8');
@@ -305,11 +306,28 @@ test('Slate & Emerald reference palette and sticky glass navigation are applied'
   assert.match(css, /backdrop-filter:\s*blur\(12px\)/);
   assert.match(source, /site-header/);
   assert.match(source, /personal-space\.config\.ts/);
-  assert.match(source, /Just things I make and explore/);
+  assert.match(source, /import \{ personalSpaceConfig \}/);
+  assert.match(personalSpaceConfigSource, /export const personalSpaceConfig =/);
+  assert.match(personalSpaceConfigSource, /palette: 'Slate & Emerald'/);
+  assert.match(personalSpaceConfigSource, /hosting: 'GitHub Pages'/);
   assert.match(css, /--font-mono: "Fira Code"/);
 });
 
 
+
+
+test('personal-space panel is driven by a dedicated TypeScript config module', () => {
+  for (const field of ['owner', 'handle', 'headline', 'statement', 'palette', 'hosting', 'focus', 'principles']) {
+    assert.ok(personalSpaceConfigSource.includes(`${field}:`), `Missing config field: ${field}`);
+  }
+  assert.match(source, /personalSpaceConfig\.focus/);
+  assert.match(source, /personalSpaceConfig\.principles/);
+  assert.match(html, /personal-space\.config\.ts/);
+  assert.match(html, /leenus\.lab/);
+  assert.match(html, /GitHub Pages/);
+  assert.match(html, /Useful over flashy/);
+  assert.match(html, /Curiosity over perfection/);
+});
 
 test('theme colour metadata matches the current Slate & Emerald surfaces', () => {
   assert.ok(source.includes('content={theme === "dark" ? "#0b0f19" : "#f8fafc"}'));
