@@ -67,6 +67,7 @@
   <meta property="og:title" content={personalSpaceConfig.site.title} />
   <meta property="og:description" content={personalSpaceConfig.site.description} />
   <link rel="canonical" href={personalSpaceConfig.site.url} />
+  <link rel="alternate" type="application/rss+xml" title={personalSpaceConfig.site.title + ' — RSS'} href="/feed.xml" />
   <meta property="og:url" content={personalSpaceConfig.site.url} />
   <meta property="og:image" content={personalSpaceConfig.site.socialImage.url} />
   <meta property="og:image:type" content={personalSpaceConfig.site.socialImage.type} />
