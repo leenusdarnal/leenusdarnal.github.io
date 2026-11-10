@@ -7,6 +7,7 @@ const html = await readFile(new URL('index.html', buildUrl), 'utf8');
 const robots = await readFile(new URL('robots.txt', buildUrl), 'utf8');
 const sitemap = await readFile(new URL('sitemap.xml', buildUrl), 'utf8');
 const source = await readFile(new URL('../src/routes/+page.svelte', import.meta.url), 'utf8');
+const appHtmlSource = await readFile(new URL('../src/app.html', import.meta.url), 'utf8');
 const css = await readFile(new URL('../src/app.css', import.meta.url), 'utf8');
 const monitorWorkflow = await readFile(new URL('../.github/workflows/monitor-sites.yml', import.meta.url), 'utf8');
 
@@ -93,7 +94,10 @@ test('external links opened in new tabs use safe rel attributes', () => {
 
 test('canonical and social metadata use the primary site URL', () => {
   assert.match(html, /rel="canonical" href="https:\/\/leenusdarnal\.github\.io\//);
-  assert.match(html, /property="og:image" content="https:\/\/leenusdarnal\.github\.io\/og-image\.svg"/);
+  assert.match(html, /property="og:image" content="https:\/\/leenusdarnal\.github\.io\/og-image\.png"/);
+  assert.match(html, /property="og:image:type" content="image\/png"/);
+  assert.match(html, /property="og:image:width" content="1200"/);
+  assert.match(html, /property="og:image:height" content="630"/);
   assert.match(html, /name="twitter:card" content="summary_large_image"/);
   assert.match(html, /application\/ld\+json/);
 });
@@ -275,4 +279,11 @@ test('the home link accessible name includes its visible brand label', () => {
 
 test('small decorative editor status text remains readable', () => {
   assert.ok(html.includes('text-white/70'));
+});
+
+
+test('homepage social preview uses a PNG and an Apple touch icon is linked', () => {
+  assert.match(html, /og-image\.png/);
+  assert.match(html, /twitter:image" content="https:\/\/leenusdarnal\.github\.io\/og-image\.png"/);
+  assert.match(appHtmlSource, /apple-touch-icon\.png/);
 });

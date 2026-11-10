@@ -61,11 +61,13 @@
         '@type': 'Person',
         name: 'Leenus Darnal',
         url: 'https://leenusdarnal.github.io/',
+        description: 'A personal developer portfolio featuring practical web applications, browser-based tools and experiments.',
         sameAs: ['https://github.com/leenusdarnal']
       },
       {
         '@type': 'WebSite',
         name: 'Leenus Darnal — I build useful things',
+        description: 'Practical web applications, browser-based tools and experiments.',
         url: 'https://leenusdarnal.github.io/',
         publisher: { '@type': 'Person', name: 'Leenus Darnal' }
       }
@@ -104,12 +106,15 @@
   <meta property="og:description" content="A collection of useful web tools, projects and experiments by Leenus Darnal." />
   <link rel="canonical" href="https://leenusdarnal.github.io/" />
   <meta property="og:url" content="https://leenusdarnal.github.io/" />
-  <meta property="og:image" content="https://leenusdarnal.github.io/og-image.svg" />
+  <meta property="og:image" content="https://leenusdarnal.github.io/og-image.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="Leenus Darnal — I build useful things" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Leenus Darnal — I build useful things" />
   <meta name="twitter:description" content="A collection of useful web tools, projects and experiments by Leenus Darnal." />
-  <meta name="twitter:image" content="https://leenusdarnal.github.io/og-image.svg" />
+  <meta name="twitter:image" content="https://leenusdarnal.github.io/og-image.png" />
   <script type="application/ld+json">{structuredData}</script>
 </svelte:head>
 
