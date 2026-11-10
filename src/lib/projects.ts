@@ -25,6 +25,9 @@ export interface ProjectRecord {
     description: string;
     role: string;
     highlights: readonly string[];
+    approach?: readonly string[];
+    constraints?: readonly string[];
+    nextSteps?: readonly string[];
     previewImage?: string;
     previewAlt?: string;
     previewSourceUrl?: string;
@@ -52,6 +55,9 @@ export const projects: readonly ProjectRecord[] = [
       description: 'PixelForge Studio brings common image-editing workflows into a browser-based workspace. Its feature set includes layers, masks, selection tools and editable text, with local autosave and portable .pfs project files so work can remain on the user’s device.',
       role: 'Independent project',
       highlights: ['Editable text layers', '24 MP document target', 'Offline-first local projects', 'Portable .pfs project files'],
+      approach: ['SvelteKit and Svelte 5 provide the application shell and workbench.', 'Canvas APIs handle the editing surface; IndexedDB stores local autosaves and recovery copies.', 'Portable .pfs project files provide a separate backup path without cloud sync.'],
+      constraints: ['The editor targets 24 megapixels and a maximum 6,000-pixel document side.', 'Actual performance depends on device memory, layer count, masks and browser limits.', 'Web Workers are documented as planned, not active in the current release.'],
+      nextSteps: ['Continue splitting the transitional canvas runtime into smaller feature modules.'],
       privacy: 'Projects and autosaves are stored locally in the browser. Export a .pfs project file to keep a separate backup.'
     }
   },
@@ -73,6 +79,8 @@ export const projects: readonly ProjectRecord[] = [
       description: 'A lightweight browser tool for keeping a steady practice tempo. The interface focuses on quick tempo adjustment, playback and selecting a time signature without unnecessary setup.',
       role: 'Independent project',
       highlights: ['Tempo control', 'Playback controls', 'Selectable time signatures'],
+      approach: ['The interface centres the practice loop on tempo, playback and time-signature selection.', 'The implementation uses React, TypeScript and Vite.'],
+      constraints: ['The portfolio describes the visible product scope and does not claim unverified advanced practice features.'],
       previewImage: 'https://raw.githubusercontent.com/leenusdarnal/react-metronome/master/screenshots/react-metronome.png',
       previewAlt: 'Screenshot of the Metronome web app interface from its source repository.',
       previewSourceUrl: 'https://github.com/leenusdarnal/react-metronome/tree/master/screenshots'
@@ -96,6 +104,8 @@ export const projects: readonly ProjectRecord[] = [
       description: 'The calculator is intended as a convenient reference for exploring salary estimates. Actual pay depends on the applicable service rules, current rates, individual allowances and deductions, so results should be verified against official orders and payroll records.',
       role: 'Independent project',
       highlights: ['Gross pay estimates', 'Common deduction estimates', 'Estimated in-hand pay'],
+      approach: ['The main flow starts with pay level, basic pay and DA before exposing optional tools.', 'Rates and historical schedules are source-referenced and effective-dated where supported.', 'Employee-specific records remain in browser-local storage; the app does not request payroll credentials.'],
+      constraints: ['It is an independent estimate tool, not an official payroll system or pay-fixation authority.', 'Promotion fixation, retrospective arrears and other rule-dependent cases remain guarded where full validation is incomplete.', 'Verify current rates and employee eligibility against signed orders and the DDO / Accounts section.'],
       disclaimer: 'This is not an official Government of Sikkim calculator. It is an independent reference tool and should not be treated as an authoritative pay determination.'
     }
   },
@@ -117,6 +127,8 @@ export const projects: readonly ProjectRecord[] = [
       description: 'PixelCutout offers a choice between AI-powered subject detection and a no-AI colour-selection mode. It also includes local erase and restore controls and supports common image export formats.',
       role: 'Independent project',
       highlights: ['AI and no-AI removal modes', 'Local erase and restore tools', 'PNG, JPEG and WebP export'],
+      approach: ['AI mode uses MODNet with WebGPU attempted first and a WASM fallback.', 'No-AI mode uses local colour selection and does not download the model.', 'Brush edits, crop composition and export run in the browser; image pixels are not uploaded.'],
+      constraints: ['MODNet is primarily a portrait-matting model and may be less reliable for pets, products, glass and complex scenes.', 'First-time AI use requires an internet connection to download model assets.', 'Batch queues, ZIP export and a draggable crop frame are not part of the current release.'],
       privacy: 'The portfolio describes the editing workflow as local to the device. Check the project documentation for the exact model/runtime behaviour and browser requirements.'
     }
   }
