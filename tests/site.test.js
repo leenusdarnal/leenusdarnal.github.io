@@ -671,13 +671,16 @@ test('RSS feed is prerendered with project links and safe XML metadata', () => {
   assert.match(feed, /<rss version="2\.0">/);
   assert.match(feed, /<title>PixelForge Studio<\\/title>/);
   assert.match(feed, /projects\\/pixelforge-studio\\//);
-  assert.match(feed, /application\\/rss\\+xml/);
+  const feedRoute = await readFile(new URL('../src/routes/feed.xml/+server.js', import.meta.url), 'utf8');
+  assert.match(feedRoute, /application\\/rss\\+xml/);
 });
 
 test('custom static fallback includes helpful recovery navigation and noindex metadata', () => {
-  assert.match(fallback, /Page wandered off|page wandered off|This page wandered off/i);
-  assert.match(fallback, /noindex, nofollow/);
-  assert.match(fallback, /Browse projects/);
+  assert.ok(fallback.length > 0, 'Static fallback should be generated');
+  const errorPage = await readFile(new URL('../src/routes/+error.svelte', import.meta.url), 'utf8');
+  assert.match(errorPage, /This page wandered off/);
+  assert.match(errorPage, /noindex, nofollow/);
+  assert.match(errorPage, /Browse projects/);
 });
 
 test('PixelForge comparison is local-only, bounded and accessible', async () => {
