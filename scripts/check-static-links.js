@@ -1,5 +1,5 @@
 import { readdir, stat } from 'node:fs/promises';
-import { dirname, extname, relative, resolve, sep } from 'node:path';
+import { dirname, extname, join, relative, resolve, sep } from 'node:path';
 
 const root = resolve('build');
 const htmlFiles = [];
@@ -35,7 +35,7 @@ async function checkReference(raw, htmlFile) {
   const fromPage = relative(root, dirname(htmlFile));
   const candidate = decoded.startsWith('/')
     ? decoded.slice(1)
-    : resolve(fromPage, decoded);
+    : join(fromPage, decoded);
   const target = resolve(root, candidate || '.');
   if (target !== root && !target.startsWith(root + sep)) {
     broken.push({ page: relative(root, htmlFile), url: value, reason: 'path escapes build output' });
