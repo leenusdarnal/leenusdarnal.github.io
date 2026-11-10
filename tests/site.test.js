@@ -390,6 +390,8 @@ test('copy actions include a clipboard fallback and accessible confirmation', ()
   assert.match(labControls, /document\.execCommand\('copy'\)/);
   assert.match(projectActions, /document\.execCommand\('copy'\)/);
   assert.match(projectActions, /aria-live="polite"/);
+  assert.match(projectActions, /Could not copy the clone command/);
+  assert.match(projectActions, /copyStatus/);
   assert.match(labControls, /Clipboard unavailable/);
 });
 
