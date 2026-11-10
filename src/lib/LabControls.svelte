@@ -30,7 +30,7 @@
     { label: 'Open: GitHub Profile (github.com/leenusdarnal)', keywords: 'github profile source', run: () => window.open('https://github.com/leenusdarnal', '_blank', 'noopener,noreferrer') }
   ];
 
-  let visibleCommands = $derived(commands.filter((item) => (item.label + ' ' + item.keywords + ' ' + projects.map((p) => p.name + ' ' + p.stack.join(' ')).join(' ')).toLowerCase().includes(query.toLowerCase())));
+  let visibleCommands = $derived(commands.filter((item) => (item.label + ' ' + item.keywords).toLowerCase().includes(query.toLowerCase())));
   let report = $derived({
     generatedAt: new Date().toISOString(),
     browser: { userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : null, language: typeof navigator !== 'undefined' ? navigator.language : null, platform: typeof navigator !== 'undefined' ? navigator.platform : null },
