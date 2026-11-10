@@ -418,3 +418,31 @@ test('Inter and Fira Code are bundled locally instead of relying on remote font 
   assert.match(css, /--font-mono: "Fira Code"/);
   assert.doesNotMatch(appHtmlSource, /fonts\.googleapis\.com|fonts\.gstatic\.com/);
 });
+
+
+test('source-only architecture experiments document verified repositories without inventing live demos', () => {
+  const componentPath = new URL('../src/lib/ArchitectureExperiments.svelte', import.meta.url);
+  return readFile(componentPath, 'utf8').then((component) => {
+    for (const [name, repository] of [
+      ['Breadit', 'https://github.com/leenusdarnal/breadit'],
+      ['Chirp', 'https://github.com/leenusdarnal/chirp'],
+      ['ROFC Web Hub', 'https://github.com/leenusdarnal/rofc-website']
+    ]) {
+      assert.ok(component.includes(name), 'Missing source experiment: ' + name);
+      assert.ok(component.includes(repository), 'Missing source repository link: ' + repository);
+    }
+    assert.match(component, /Source only/);
+    assert.match(component, /Inspect Architecture/);
+    assert.match(component, /Browse source repository/);
+    assert.doesNotMatch(component, /Launch App|Live Demo|vercel\.app/);
+    for (const detail of [
+      'Next.js App Router', 'NextAuth GitHub OAuth', 'PostgreSQL',
+      'Next.js Pages Router', 'Clerk middleware', 'tRPC',
+      'Upstash Redis', 'SvelteKit', 'Svelte 4', 'local WebP assets'
+    ]) {
+      assert.ok(component.includes(detail), 'Missing verified architecture detail: ' + detail);
+    }
+    assert.match(html, /More things in the workshop/);
+    assert.match(html, /Source only/);
+  });
+});
