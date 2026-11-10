@@ -3,7 +3,6 @@
   import { personalSpaceConfig } from './personal-space.config';
 
   const storageKey = 'leenus-lab-config-draft-v1';
-  const sectionKeys = ['projects', 'sourceExperiments', 'personalSpace', 'about', 'contact'] as const;
   const defaults = {
     name: personalSpaceConfig.identity.name,
     title: personalSpaceConfig.site.title,
@@ -16,6 +15,8 @@
     defaultTheme: personalSpaceConfig.appearance.defaultTheme,
     sections: { ...personalSpaceConfig.sections }
   };
+  /** @type {Array<keyof typeof defaults.sections>} */
+  const sectionKeys = Object.keys(defaults.sections);
 
   let draft = $state(structuredClone(defaults));
   let status = $state('No local draft saved');
