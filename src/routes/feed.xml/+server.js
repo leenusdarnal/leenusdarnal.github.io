@@ -3,14 +3,17 @@ import { projects } from '../../lib/projects';
 
 export const prerender = true;
 
+/** @param {string} value */
 function escapeXml(value) {
-  return String(value).replace(/[<>&'"]/g, (character) => ({
+  /** @type {Record<string, string>} */
+  const entities = {
     '<': '&lt;',
     '>': '&gt;',
     '&': '&amp;',
     "'": '&apos;',
     '"': '&quot;'
-  })[character]);
+  };
+  return String(value).replace(/[<>&'"]/g, (character) => entities[character] ?? character);
 }
 
 export function GET() {
