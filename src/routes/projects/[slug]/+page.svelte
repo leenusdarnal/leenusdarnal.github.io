@@ -23,7 +23,7 @@
 <div class="mx-auto min-h-screen w-full max-w-5xl px-4 py-6 sm:px-8 sm:py-10 lg:px-10">
   <header class="detail-header -mx-4 flex items-center justify-between border-b border-[var(--line)] px-4 pb-5 pt-2 sm:-mx-8 sm:px-8 lg:-mx-10 lg:px-10">
     <a href="/" class="flex items-center gap-3 text-sm font-semibold no-underline">
-      <span aria-hidden="true" class="grid size-9 place-items-center rounded-full bg-[var(--accent)] font-black text-[var(--accent-contrast)]" style="color: var(--accent-contrast)">L.</span>
+      <span aria-hidden="true" class="grid size-9 place-items-center rounded-full bg-[var(--accent)] font-black text-[var(--accent-contrast)]" style="color: var(--accent-contrast)" style="color: var(--accent-contrast)">L.</span>
       Leenus Darnal<span class="text-[var(--accent)]">.</span>
     </a>
     <a href="/#work" class="inline-flex min-h-11 items-center rounded-full border border-[var(--line)] px-4 text-sm text-[var(--muted)] transition hover:border-[var(--accent)] hover:text-[var(--ink)]">All projects</a>
@@ -38,7 +38,7 @@
 
       <div class="mt-10 flex flex-wrap gap-3">
         {#if project.live}
-          <a href={project.live} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center gap-2 rounded-full bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[var(--accent-contrast)] transition hover:-translate-y-0.5" style="color: var(--accent-contrast)">Open project ↗</a>
+          <a href={project.live} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center gap-2 rounded-full bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[var(--accent-contrast)] transition hover:-translate-y-0.5" style="color: var(--accent-contrast)" style="color: var(--accent-contrast)">Open project ↗</a>
         {/if}
         <a href={project.source} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center gap-2 rounded-full border border-[var(--line)] px-5 py-3 text-sm font-semibold transition hover:border-[var(--accent)]">View source code ↗</a>
       </div>
@@ -57,7 +57,7 @@
             <p class="mt-2 text-sm leading-6 text-[var(--muted)]">An authentic screenshot is not yet available for this project. Open the live application to see its current interface.</p>
           </div>
           {#if project.live}
-            <a href={project.live} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 shrink-0 items-center justify-center rounded-full bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[var(--accent-contrast)]" style="color: var(--accent-contrast)">View live app ↗</a>
+            <a href={project.live} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 shrink-0 items-center justify-center rounded-full bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[var(--accent-contrast)]" style="color: var(--accent-contrast)" style="color: var(--accent-contrast)">View live app ↗</a>
           {/if}
         </aside>
       {/if}
@@ -109,7 +109,7 @@
       <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--accent)]">404 / NOT FOUND</p>
       <h1 class="mt-4 text-4xl font-semibold tracking-[-0.06em]">Project not found.</h1>
       <p class="mt-4 max-w-lg leading-7 text-[var(--muted)]">This project page may have moved. Return to the homepage to browse the projects and experiments.</p>
-      <a href="/#work" class="mt-7 inline-flex min-h-11 w-fit items-center rounded-full bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[var(--accent-contrast)]" style="color: var(--accent-contrast)">Explore all projects</a>
+      <a href="/#work" class="mt-7 inline-flex min-h-11 w-fit items-center rounded-full bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[var(--accent-contrast)]" style="color: var(--accent-contrast)" style="color: var(--accent-contrast)">Explore all projects</a>
     </main>
   {/if}
 
