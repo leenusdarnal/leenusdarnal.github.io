@@ -19,6 +19,8 @@ const projectDetailSource = await readFile(new URL('../src/routes/projects/[slug
 const appHtmlSource = await readFile(new URL('../src/app.html', import.meta.url), 'utf8');
 const css = await readFile(new URL('../src/app.css', import.meta.url), 'utf8');
 const labControls = await readFile(new URL('../src/lib/LabControls.svelte', import.meta.url), 'utf8');
+const developerTools = await readFile(new URL('../src/lib/DeveloperTools.svelte', import.meta.url), 'utf8');
+const repoMetadata = await readFile(new URL('../src/lib/RepoMetadata.svelte', import.meta.url), 'utf8');
 const projectActions = await readFile(new URL('../src/lib/ProjectActions.svelte', import.meta.url), 'utf8');
 const monitorWorkflow = await readFile(new URL('../.github/workflows/monitor-sites.yml', import.meta.url), 'utf8');
 
@@ -364,26 +366,26 @@ test('accent foregrounds are explicitly applied to visible CTA text', async () =
 test('project cards expose category filters, live GitHub metadata and quick clone actions', () => {
   assert.match(source, /data-project-card/);
   assert.match(projectsSource, /categories: \['client-compute', 'svelte'\]/);
-  assert.match(labControls, /leenus_lab_repos_v1/);
-  assert.match(labControls, /3600000/);
-  assert.match(labControls, /stargazers_count/);
-  assert.match(labControls, /pushed_at/);
+  assert.match(repoMetadata, /leenus_lab_repos_v1/);
+  assert.match(repoMetadata, /3600000/);
+  assert.match(repoMetadata, /stargazers_count/);
+  assert.match(repoMetadata, /pushed_at/);
   assert.match(projectActions, /git clone /);
   assert.match(projectActions, /Inspect Architecture/);
 });
 
 test('client diagnostics report WebGPU, FP16, buffer limits, isolation and display capabilities', () => {
   for (const term of ['requestAdapter', 'shader-f16', 'maxBufferSize', 'crossOriginIsolated', 'deviceMemory', 'color-gamut: p3', 'Copy JSON Report']) {
-    assert.ok(labControls.includes(term), 'Missing diagnostics capability: ' + term);
+    assert.ok(developerTools.includes(term), 'Missing diagnostics capability: ' + term);
   }
 });
 
 test('keyboard palette and raw JSON view are available without a UI dependency', () => {
-  assert.match(labControls, /metaKey \|\| event\.ctrlKey/);
-  assert.match(labControls, /ArrowDown/);
-  assert.match(labControls, /ArrowUp/);
-  assert.match(labControls, /Toggle Raw JSON Mode/);
-  assert.match(labControls, /<dialog/);
+  assert.match(developerTools, /metaKey \|\| event\.ctrlKey/);
+  assert.match(developerTools, /ArrowDown/);
+  assert.match(developerTools, /ArrowUp/);
+  assert.match(developerTools, /Toggle Raw JSON Mode/);
+  assert.match(developerTools, /<dialog/);
 });
 
 test('external font stylesheet requests are removed in favour of local system fallbacks', () => {
@@ -392,43 +394,43 @@ test('external font stylesheet requests are removed in favour of local system fa
 
 
 test('command palette keyboard selection spans both commands and projects', () => {
-  assert.match(labControls, /paletteItems = \$derived/);
-  assert.match(labControls, /matchingProjects\.map/);
-  assert.match(labControls, /\(selectedIndex \+ 1\) % paletteItems\.length/);
-  assert.match(labControls, /\(selectedIndex - 1 \+ paletteItems\.length\) % paletteItems\.length/);
-  assert.match(labControls, /onToggleTheme/);
+  assert.match(developerTools, /paletteItems = \$derived/);
+  assert.match(developerTools, /matchingProjects\.map/);
+  assert.match(developerTools, /\(selectedIndex \+ 1\) % paletteItems\.length/);
+  assert.match(developerTools, /\(selectedIndex - 1 \+ paletteItems\.length\) % paletteItems\.length/);
+  assert.match(developerTools, /onToggleTheme/);
   assert.match(source, /onToggleTheme=\{toggleTheme\}/);
 });
 
 test('hardware diagnostics include SharedArrayBuffer, CPU, display and refresh telemetry', () => {
   for (const term of ['SharedArrayBuffer', 'crossOriginIsolated', 'hardwareConcurrency', 'maxStorageBufferBindingSize', 'devicePixelRatio', 'colorDepth', 'Refresh']) {
-    assert.ok(labControls.includes(term), 'Missing diagnostics detail: ' + term);
+    assert.ok(developerTools.includes(term), 'Missing diagnostics detail: ' + term);
   }
-  assert.match(labControls, /Last checked:/);
+  assert.match(developerTools, /Last checked:/);
 });
 
 test('copy actions include a clipboard fallback and accessible confirmation', () => {
-  assert.match(labControls, /document\.execCommand\('copy'\)/);
+  assert.match(developerTools, /document\.execCommand\('copy'\)/);
   assert.match(projectActions, /document\.execCommand\('copy'\)/);
   assert.match(projectActions, /aria-live="polite"/);
   assert.match(projectActions, /Could not copy the clone command/);
   assert.match(projectActions, /copyStatus/);
-  assert.match(labControls, /Clipboard unavailable/);
+  assert.match(developerTools, /Clipboard unavailable/);
 });
 
 test('architecture drawers and command palette retain visible keyboard focus', () => {
   assert.match(css, /architecture-toggle/);
   assert.match(css, /command-item\[aria-selected="true"\]/);
   assert.match(css, /focus-visible/);
-  assert.match(labControls, /role="listbox"/);
-  assert.match(labControls, /aria-selected=\{selectedIndex === index\}/);
+  assert.match(developerTools, /role="listbox"/);
+  assert.match(developerTools, /aria-selected=\{selectedIndex === index\}/);
 });
 
 test('GitHub metadata cache validates TTL and aborts pending requests on unmount', () => {
-  assert.match(labControls, /stored\.timestamp <= now/);
-  assert.match(labControls, /AbortController/);
-  assert.match(labControls, /controller\.abort\(\)/);
-  assert.match(labControls, /Array\.isArray\(data\)/);
+  assert.match(developerTools, /stored\.timestamp <= now/);
+  assert.match(developerTools, /AbortController/);
+  assert.match(developerTools, /controller\.abort\(\)/);
+  assert.match(developerTools, /Array\.isArray\(data\)/);
 });
 
 
@@ -549,10 +551,10 @@ test('Runtime Inspector reports real page performance, network and origin storag
   ]) {
     assert.ok(labControls.includes(term), 'Missing Runtime Inspector v2 capability: ' + term);
   }
-  assert.match(labControls, /window\.addEventListener\('online'/);
-  assert.match(labControls, /window\.addEventListener\('offline'/);
-  assert.match(labControls, /window\.removeEventListener\('online'/);
-  assert.match(labControls, /aria-live="polite"/);
+  assert.match(developerTools, /window\.addEventListener\('online'/);
+  assert.match(developerTools, /window\.addEventListener\('offline'/);
+  assert.match(developerTools, /window\.removeEventListener\('online'/);
+  assert.match(developerTools, /aria-live="polite"/);
   assert.match(css, /\.diagnostic-details > summary:focus-visible/);
   assert.match(css, /\.terminal-state\[data-online="false"\]/);
 });
@@ -759,4 +761,13 @@ test('configuration publishing applies only validated fields and synchronises me
   } finally {
     await rm(root, { recursive: true, force: true });
   }
+});
+
+
+test('developer tools and configurator are code-split until the user opens them', async () => {
+  assert.match(labControls, /import\('\.\/DeveloperTools\.svelte'\)/);
+  assert.match(homepageSource, /import\('\.\.\/lib\/PersonalSpaceConfigurator\.svelte'\)/);
+  assert.match(labControls, /aria-expanded=\{toolsOpen\}/);
+  assert.match(homepageSource, /aria-expanded=\{configuratorOpen\}/);
+  assert.match(repoMetadata, /setTimeout\(\(\) =>/);
 });
