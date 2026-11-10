@@ -11,7 +11,8 @@
   function loadImage(event, side) {
     const file = event.currentTarget.files?.[0];
     if (!file) return;
-    if (!file.type.startsWith('image/')) {
+    const supportedTypes = ['image/png', 'image/jpeg', 'image/webp', 'image/gif', 'image/avif'];
+    if (!supportedTypes.includes(file.type)) {
       error = 'Choose a valid image file.';
       event.currentTarget.value = '';
       return;
@@ -22,16 +23,29 @@
       return;
     }
     const url = URL.createObjectURL(file);
-    if (side === 'before') {
-      if (beforeUrl) URL.revokeObjectURL(beforeUrl);
-      beforeUrl = url;
-      beforeName = file.name;
-    } else {
-      if (afterUrl) URL.revokeObjectURL(afterUrl);
-      afterUrl = url;
-      afterName = file.name;
-    }
-    error = '';
+    const probe = new Image();
+    probe.onload = () => {
+      if (!probe.naturalWidth || !probe.naturalHeight || probe.naturalWidth * probe.naturalHeight > 40000000) {
+        URL.revokeObjectURL(url);
+        error = 'Choose an image up to 40 megapixels.';
+        return;
+      }
+      if (side === 'before') {
+        if (beforeUrl) URL.revokeObjectURL(beforeUrl);
+        beforeUrl = url;
+        beforeName = file.name;
+      } else {
+        if (afterUrl) URL.revokeObjectURL(afterUrl);
+        afterUrl = url;
+        afterName = file.name;
+      }
+      error = '';
+    };
+    probe.onerror = () => {
+      URL.revokeObjectURL(url);
+      error = 'The selected image could not be decoded.';
+    };
+    probe.src = url;
   }
 
   onDestroy(() => {
