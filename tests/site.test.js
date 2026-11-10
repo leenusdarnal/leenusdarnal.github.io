@@ -667,15 +667,15 @@ test('project imagery never labels generated mockups as authentic application sc
 });
 
 
-test('RSS feed is prerendered with project links and safe XML metadata', () => {
+test('RSS feed is prerendered with project links and safe XML metadata', async () => {
   assert.match(feed, /<rss version="2\.0">/);
-  assert.match(feed, /<title>PixelForge Studio<\\/title>/);
-  assert.match(feed, /projects\\/pixelforge-studio\\//);
+  assert.match(feed, /<title>PixelForge Studio<\/title>/);
+  assert.match(feed, /projects\/pixelforge-studio\//);
   const feedRoute = await readFile(new URL('../src/routes/feed.xml/+server.js', import.meta.url), 'utf8');
-  assert.match(feedRoute, /application\\/rss\\+xml/);
+  assert.match(feedRoute, /application\/rss\+xml/);
 });
 
-test('custom static fallback includes helpful recovery navigation and noindex metadata', () => {
+test('custom static fallback includes helpful recovery navigation and noindex metadata', async () => {
   assert.ok(fallback.length > 0, 'Static fallback should be generated');
   const errorPage = await readFile(new URL('../src/routes/+error.svelte', import.meta.url), 'utf8');
   assert.match(errorPage, /This page wandered off/);
