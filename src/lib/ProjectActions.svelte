@@ -1,6 +1,7 @@
 <script>
   let { project } = $props();
   let copied = $state(false);
+  let copyStatus = $state('');
   /** @type {Map<string, string[]>} */
   const architecture = new Map([
     ['pixelforge-studio', ['Browser-based image editing with a canvas-oriented workflow.', 'Published features include layers, masks, selection tools, editable text and local .pfs project files.', 'Offline-first behaviour and local autosaves are described in the project notes. Runtime details such as WebGPU, ONNX or worker isolation are not asserted here.']],
@@ -25,8 +26,15 @@
         if (!ok) throw new Error('Clipboard unavailable');
       }
       copied = true;
-      setTimeout(() => copied = false, 1800);
-    } catch { copied = false; }
+      copyStatus = 'Clone command copied to clipboard.';
+      setTimeout(() => {
+        copied = false;
+        copyStatus = '';
+      }, 1800);
+    } catch {
+      copied = false;
+      copyStatus = 'Could not copy the clone command. Open Source Code to copy the repository URL manually.';
+    }
   }
 </script>
 
@@ -35,7 +43,7 @@
   <a href={project.source} target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--muted)] hover:text-[var(--ink)]">Source Code ↗</a>
   <a href={"/projects/" + project.slug + "/"} class="font-semibold text-[var(--muted)] hover:text-[var(--ink)]">Project Notes ↗</a>
   <button type="button" class="clone-button" onclick={copyClone} aria-label="Copy git clone command" title="Copy git clone command">{copied ? 'Copied!' : '⧉ Clone'}</button>
-  <span class="sr-only" aria-live="polite">{copied ? 'Clone command copied to clipboard.' : ''}</span>
+  <span class="sr-only" aria-live="polite" aria-atomic="true">{copyStatus}</span>
 </div>
 <details class="architecture-drawer mt-4">
   <summary aria-label={"Inspect " + project.name + " architecture"}>Inspect Architecture <span class="architecture-toggle" aria-hidden="true">＋</span></summary>
