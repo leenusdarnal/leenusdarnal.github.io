@@ -3,6 +3,7 @@
   import { personalSpaceConfig } from './personal-space.config';
 
   const storageKey = 'leenus-lab-config-draft-v1';
+  const sectionKeys = ['projects', 'sourceExperiments', 'personalSpace', 'about', 'contact'] as const;
   const defaults = {
     name: personalSpaceConfig.identity.name,
     title: personalSpaceConfig.site.title,
@@ -141,7 +142,7 @@
         <div class="border-t border-[var(--line)] pt-5">
           <p class="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--muted)]">04 / SECTION VISIBILITY</p>
           <div class="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
-            {#each Object.keys(draft.sections) as section}
+            {#each sectionKeys as section}
               <label class="config-toggle">
                 <input type="checkbox" bind:checked={draft.sections[section]} />
                 <span>{section === 'sourceExperiments' ? 'Source experiments' : section === 'personalSpace' ? 'Personal space' : section.charAt(0).toUpperCase() + section.slice(1)}</span>
@@ -173,7 +174,7 @@
             <p class="mt-1 break-words text-xs leading-5 text-[var(--muted)]">{draft.description}</p>
           </div>
           <div class="mt-4 flex flex-wrap gap-2">
-            {#each Object.entries(draft.sections).filter(([, enabled]) => enabled) as [section]}
+            {#each sectionKeys.filter((section) => draft.sections[section]) as section}
               <span class="rounded-full border border-[var(--line)] px-2.5 py-1 font-mono text-[9px] text-[var(--muted)]">{section}</span>
             {/each}
           </div>
