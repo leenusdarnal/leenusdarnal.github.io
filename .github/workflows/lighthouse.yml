@@ -38,13 +38,15 @@ jobs:
             --only-categories=performance,accessibility,best-practices,seo \
             --output=json --output-path=./lighthouse-report.json
 
-      - name: Summarise audit scores and enforce quality floor
-        run: node scripts/report-lighthouse.js
-
       - name: Upload Lighthouse report
+        if: always()
         uses: actions/upload-artifact@v6
         with:
           name: lighthouse-report
           path: lighthouse-report.json
-          if-no-files-found: error
+          if-no-files-found: warn
           retention-days: 14
+
+      - name: Summarise audit scores and enforce quality floor
+        if: always() && hashFiles('lighthouse-report.json') != ''
+        run: node scripts/report-lighthouse.js
