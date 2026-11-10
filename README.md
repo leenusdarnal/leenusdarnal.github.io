@@ -48,7 +48,7 @@ The homepage is a personal space for sharing projects, experiments and things le
 
 ## Project notes
 
-The site has dedicated project notes for PixelForge Studio, Metronome, Sikkim Government Salary Calculator, and PixelCutout. Each page is a lightweight project note with an overview, key features, technology stack, and links to the live project and source code.
+The site has dedicated project notes for PixelForge Studio, Metronome, Sikkim Government Salary Calculator, and PixelCutout. It also lists Breadit, Chirp and ROFC Web Hub as source-only code experiments, with repository links and architecture notes but no implied live demos.
 
 ## Site quality
 
