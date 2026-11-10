@@ -9,6 +9,8 @@ const sitemap = await readFile(new URL('sitemap.xml', buildUrl), 'utf8');
 const source = await readFile(new URL('../src/routes/+page.svelte', import.meta.url), 'utf8');
 const appHtmlSource = await readFile(new URL('../src/app.html', import.meta.url), 'utf8');
 const css = await readFile(new URL('../src/app.css', import.meta.url), 'utf8');
+const labControls = await readFile(new URL('../src/lib/LabControls.svelte', import.meta.url), 'utf8');
+const projectActions = await readFile(new URL('../src/lib/ProjectActions.svelte', import.meta.url), 'utf8');
 const monitorWorkflow = await readFile(new URL('../.github/workflows/monitor-sites.yml', import.meta.url), 'utf8');
 
 test('homepage includes a meaningful page title and description', () => {
@@ -74,7 +76,7 @@ test('PixelCutout is listed with its source and local-processing features', () =
   assert.match(source, /https:\/\/github\.com\/leenusdarnal\/pixelcutout/);
   assert.match(source, /AI and no-AI removal modes/);
   assert.match(source, /Images stay on your device/);
-  assert.match(source, /\{#if project\.live\}/);
+  assert.match(projectActions, /\{#if project\.live\}/);
 });
 
 test('PixelForge portfolio details match its current SvelteKit project', () => {
@@ -317,4 +319,34 @@ test('accent foregrounds are explicitly applied to visible CTA text', async () =
   assert.ok(source.includes('style="color: var(--accent-contrast)"'));
   const detail = await readFile(new URL('../src/routes/projects/[slug]/+page.svelte', import.meta.url), 'utf8');
   assert.ok(detail.includes('style="color: var(--accent-contrast)"'));
+});
+
+
+test('project cards expose category filters, live GitHub metadata and quick clone actions', () => {
+  assert.match(source, /data-project-card/);
+  assert.match(source, /categories: \['client-compute', 'svelte'\]/);
+  assert.match(labControls, /leenus_lab_repos_v1/);
+  assert.match(labControls, /3600000/);
+  assert.match(labControls, /stargazers_count/);
+  assert.match(labControls, /pushed_at/);
+  assert.match(projectActions, /git clone /);
+  assert.match(projectActions, /Inspect Architecture/);
+});
+
+test('client diagnostics report WebGPU, FP16, buffer limits, isolation and display capabilities', () => {
+  for (const term of ['requestAdapter', 'shader-f16', 'maxBufferSize', 'crossOriginIsolated', 'deviceMemory', 'color-gamut: p3', 'Copy JSON Report']) {
+    assert.ok(labControls.includes(term), 'Missing diagnostics capability: ' + term);
+  }
+});
+
+test('keyboard palette and raw JSON view are available without a UI dependency', () => {
+  assert.match(labControls, /metaKey \|\| event\.ctrlKey/);
+  assert.match(labControls, /ArrowDown/);
+  assert.match(labControls, /ArrowUp/);
+  assert.match(labControls, /Toggle Raw JSON Mode/);
+  assert.match(labControls, /<dialog/);
+});
+
+test('external font stylesheet requests are removed in favour of local system fallbacks', () => {
+  assert.doesNotMatch(appHtmlSource, /fonts\.googleapis\.com|fonts\.gstatic\.com/);
 });
