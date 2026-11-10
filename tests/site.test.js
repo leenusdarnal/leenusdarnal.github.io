@@ -744,7 +744,7 @@ test('configuration publishing applies only validated fields and synchronises me
     assert.match(updated, /firstName: "Test"/);
     assert.match(updated, /lastName: "Person"/);
     assert.match(updated, /author: "Test Person"/);
-    assert.match(updated, /url: "https:\\/\\/github\\.com\\/test-person"/);
+    assert.ok(updated.includes('url: "https://github.com/test-person"'));
     assert.match(updated, /headline: "Build useful things"/);
     assert.match(updated, /sourceExperiments: false/);
     assert.match(updated, /contact: false/);
