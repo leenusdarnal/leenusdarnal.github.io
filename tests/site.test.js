@@ -310,3 +310,14 @@ test('Slate & Emerald reference palette and sticky glass navigation are applied'
   assert.match(source, /Just things I make and explore/);
   assert.match(css, /--font-mono: "Fira Code"/);
 });
+
+
+test('theme colour metadata matches the current Slate & Emerald surfaces', () => {
+  assert.match(source, /content=\\{theme === "dark" \\? "#0b0f19" : "#f8fafc"\\}/);
+});
+
+test('accent foregrounds are explicitly applied to visible CTA text', async () => {
+  assert.ok((source.match(/style="color: var\\(--accent-contrast\\)"/g) ?? []).length >= 2);
+  const detail = await readFile(new URL('../src/routes/projects/[slug]/+page.svelte', import.meta.url), 'utf8');
+  assert.ok((detail.match(/style="color: var\\(--accent-contrast\\)"/g) ?? []).length >= 2);
+});
