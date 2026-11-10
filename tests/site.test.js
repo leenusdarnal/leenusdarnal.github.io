@@ -610,3 +610,29 @@ test('project social image settings are centralized with the other site metadata
   assert.match(projectDetailSource, /personalSpaceConfig\.site\.projectSocialImage\.url/);
   assert.match(projectDetailSource, /personalSpaceConfig\.site\.url/);
 });
+
+
+test('Personal Space Configurator provides safe local drafts and a live preview', async () => {
+  const configurator = await readFile(new URL('../src/lib/PersonalSpaceConfigurator.svelte', import.meta.url), 'utf8');
+  assert.match(source, /import PersonalSpaceConfigurator from '\.\.\/lib\/PersonalSpaceConfigurator\.svelte'/);
+  assert.match(source, /<PersonalSpaceConfigurator \/>/);
+  for (const feature of [
+    'leenus-lab-config-draft-v1',
+    'localStorage.setItem',
+    'localStorage.getItem',
+    'localStorage.removeItem',
+    'URL.createObjectURL',
+    'leenus-lab-config-draft.json',
+    'aria-live="polite"',
+    'LIVE PREVIEW',
+    'UNPUBLISHED',
+    'src/lib/personal-space.config.ts',
+    'Drafts stay in this browser'
+  ]) {
+    assert.ok(configurator.includes(feature), 'Missing configurator capability: ' + feature);
+  }
+  assert.match(configurator, /bind:value=\{draft\.headline\}/);
+  assert.match(configurator, /bind:checked=\{draft\.sections\[section\]\}/);
+  assert.match(configurator, /function resetDraft\(\)/);
+  assert.match(configurator, /function exportDraft\(\)/);
+});

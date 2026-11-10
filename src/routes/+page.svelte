@@ -4,6 +4,7 @@
   import ProjectActions from '../lib/ProjectActions.svelte';
   import ArchitectureExperiments from '../lib/ArchitectureExperiments.svelte';
   import { personalSpaceConfig } from '../lib/personal-space.config';
+  import PersonalSpaceConfigurator from '../lib/PersonalSpaceConfigurator.svelte';
   import { projects } from '../lib/projects';
   import { registerCrossOriginIsolation } from '../lib/cross-origin-isolation.js';
 
@@ -334,6 +335,8 @@
           </aside>
         </div>
       </div>
+
+      <PersonalSpaceConfigurator />
     </section>
     {/if}
 
