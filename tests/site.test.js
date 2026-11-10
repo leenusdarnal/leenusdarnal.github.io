@@ -487,10 +487,10 @@ test('cross-origin isolation shim scopes COOP and credentialless COEP to documen
   assert.match(registration, /window\.isSecureContext/);
   assert.match(registration, /controllerchange/);
   assert.match(source, /registerCrossOriginIsolation/);
-  assert.match(labControls, /Reload to enable shared memory/);
-  assert.match(labControls, /reloadAttempted/);
-  assert.match(labControls, /Cross-origin isolation did not activate in this browser/);
-  assert.match(labControls, /crossOriginIsolation: isolationState/);
+  assert.match(developerTools, /Reload to enable shared memory/);
+  assert.match(developerTools, /reloadAttempted/);
+  assert.match(developerTools, /Cross-origin isolation did not activate in this browser/);
+  assert.match(developerTools, /crossOriginIsolation: isolationState/);
   assert.match(html, /runtime_inspector\.sh/);
 });
 
@@ -549,7 +549,7 @@ test('Runtime Inspector reports real page performance, network and origin storag
     'Storage & device context',
     'Nothing is uploaded'
   ]) {
-    assert.ok(labControls.includes(term), 'Missing Runtime Inspector v2 capability: ' + term);
+    assert.ok(developerTools.includes(term), 'Missing Runtime Inspector v2 capability: ' + term);
   }
   assert.match(developerTools, /window\.addEventListener\('online'/);
   assert.match(developerTools, /window\.addEventListener\('offline'/);
@@ -560,10 +560,10 @@ test('Runtime Inspector reports real page performance, network and origin storag
 });
 
 test('Runtime Inspector clearly qualifies browser hints and restricted transfer-size data', () => {
-  assert.match(labControls, /not a guaranteed internet-reachability test/);
-  assert.match(labControls, /cached resources/);
-  assert.match(labControls, /estimates for this site’s origin/);
-  assert.match(labControls, /does not read your files, browsing history or other sites’ storage/);
+  assert.match(developerTools, /not a guaranteed internet-reachability test/);
+  assert.match(developerTools, /cached resources/);
+  assert.match(developerTools, /estimates for this site’s origin/);
+  assert.match(developerTools, /does not read your files, browsing history or other sites’ storage/);
 });
 
 
@@ -766,8 +766,8 @@ test('configuration publishing applies only validated fields and synchronises me
 
 test('developer tools and configurator are code-split until the user opens them', async () => {
   assert.match(labControls, /import\('\.\/DeveloperTools\.svelte'\)/);
-  assert.match(homepageSource, /import\('\.\.\/lib\/PersonalSpaceConfigurator\.svelte'\)/);
+  assert.match(source, /import\('\.\.\/lib\/PersonalSpaceConfigurator\.svelte'\)/);
   assert.match(labControls, /aria-expanded=\{toolsOpen\}/);
-  assert.match(homepageSource, /aria-expanded=\{configuratorOpen\}/);
+  assert.match(source, /aria-expanded=\{configuratorOpen\}/);
   assert.match(repoMetadata, /setTimeout\(\(\) =>/);
 });
