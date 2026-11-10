@@ -74,6 +74,22 @@ function setString(block, key, value) {
   source = source.slice(0, absolute) + JSON.stringify(value) + source.slice(start + cursor + 1);
 }
 
+function setFirstSocialProfileUrl(value) {
+  const [siteStart, siteEnd] = findBlock('site');
+  const sitePart = source.slice(siteStart, siteEnd);
+  const listStart = sitePart.indexOf('socialProfiles: [');
+  if (listStart < 0) throw new Error('Could not find socialProfiles list.');
+  const objectStart = sitePart.indexOf('{', listStart);
+  const objectEnd = sitePart.indexOf('}', objectStart);
+  if (objectStart < 0 || objectEnd < 0) throw new Error('Could not find the GitHub social profile.');
+  const profile = sitePart.slice(objectStart, objectEnd + 1);
+  const match = /\\burl:\\s*(['"])(?:\\\\.|[^'"])*\\1/.exec(profile);
+  if (!match) throw new Error('Could not find the GitHub social profile URL.');
+  const absolute = siteStart + objectStart + match.index;
+  const prefix = match[0].slice(0, match[0].indexOf(match[1]));
+  source = source.slice(0, absolute) + prefix + JSON.stringify(value) + source.slice(absolute + match[0].length);
+}
+
 function setBoolean(block, key, value) {
   const [start, end] = findBlock(block);
   const part = source.slice(start, end);
@@ -89,7 +105,8 @@ const nameParts = draft.name.trim().split(/\s+/);
 setString('identity', 'firstName', nameParts.shift());
 setString('identity', 'lastName', nameParts.join(' '));
 setString('identity', 'monogram', draft.name.trim().slice(0, 1).toUpperCase() + '.');
-for (const [key, value] of Object.entries({ title: draft.title.trim(), description: draft.description.trim(), githubUrl: draft.githubUrl.trim(), contactEmail: draft.contactEmail.trim() })) setString('site', key, value);
+for (const [key, value] of Object.entries({ title: draft.title.trim(), description: draft.description.trim(), author: draft.name.trim(), githubUrl: draft.githubUrl.trim(), contactEmail: draft.contactEmail.trim() })) setString('site', key, value);
+setFirstSocialProfileUrl(draft.githubUrl.trim());
 for (const [key, value] of Object.entries({ palette: draft.palette.trim(), defaultTheme: draft.defaultTheme })) setString('appearance', key, value);
 for (const key of sectionKeys) setBoolean('sections', key, draft.sections[key]);
 for (const [key, value] of Object.entries({ headline: draft.headline.trim(), description: draft.heroDescription.trim() })) setString('hero', key, value);
