@@ -81,7 +81,7 @@
   <p class="sr-only" aria-live="polite">{visibleProjectCount} projects shown.</p>
   <div id="developer-tools-panel" class="mt-4">
     {#if toolsOpen && DeveloperTools}
-      <svelte:component this={DeveloperTools} {projects} {onToggleTheme} {openPaletteOnMount} onPaletteOpened={() => openPaletteOnMount = false} />
+      <DeveloperTools {projects} {onToggleTheme} {openPaletteOnMount} onPaletteOpened={() => openPaletteOnMount = false} />
     {:else if toolsLoading}
       <p class="mt-4 rounded-xl border border-[var(--line)] p-4 text-sm text-[var(--muted)]" role="status">Loading developer tools…</p>
     {:else if loadError}
