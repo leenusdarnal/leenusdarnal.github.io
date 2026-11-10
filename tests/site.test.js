@@ -771,3 +771,17 @@ test('developer tools and configurator are code-split until the user opens them'
   assert.match(source, /aria-expanded=\{configuratorOpen\}/);
   assert.match(repoMetadata, /setTimeout\(\(\) =>/);
 });
+
+
+test('CI performs dependency and generated internal-link audits', async () => {
+  const verifyWorkflow = await readFile(new URL('../.github/workflows/verify-sveltekit.yml', import.meta.url), 'utf8');
+  const deployWorkflow = await readFile(new URL('../.github/workflows/deploy.yml', import.meta.url), 'utf8');
+  const linkChecker = await readFile(new URL('../scripts/check-static-links.js', import.meta.url), 'utf8');
+  assert.match(verifyWorkflow, /npm audit --audit-level=high/);
+  assert.match(deployWorkflow, /npm audit --audit-level=high/);
+  assert.match(verifyWorkflow, /node scripts\/check-static-links\.js/);
+  assert.match(deployWorkflow, /node scripts\/check-static-links\.js/);
+  assert.match(linkChecker, /target not found in build output/);
+  assert.match(linkChecker, /path escapes build output/);
+  assert.match(linkChecker, /srcset/);
+});
