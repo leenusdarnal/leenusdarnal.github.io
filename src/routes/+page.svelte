@@ -242,7 +242,7 @@
           </div>
 
           <div class="flex min-w-0 flex-col justify-center p-5 sm:p-8 lg:p-12">
-            <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--accent)]">FEATURED PROJECT · IMAGE EDITOR</p>
+            <div class="flex flex-wrap items-center justify-between gap-2"><p class="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--accent)]">FEATURED PROJECT · IMAGE EDITOR</p><span class="repo-stars" data-repo-stars="pixelforge-studio" hidden></span></div>
             <h3 id="project-pixelforge-title" class="mt-3 text-2xl font-semibold tracking-[-0.06em] sm:mt-4 sm:text-3xl lg:text-4xl">PixelForge Studio</h3>
             <p id="project-pixelforge-description" class="mt-5 text-sm leading-7 text-[var(--muted)]">A mobile-friendly, offline-first editor with layers, masks, selection tools and editable text. Projects and autosaves stay on your device, with .pfs files available for separate backups.</p>
             <ul aria-label="PixelForge Studio highlights" class="mt-5 flex flex-wrap gap-x-4 gap-y-2 text-xs text-[var(--muted)]">
@@ -294,7 +294,7 @@
               <p class="absolute bottom-4 right-5 rounded-full bg-[var(--panel)]/90 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.12em] text-[var(--muted)]">{project.visual === 'metro' ? 'Actual app screenshot' : 'Interface illustration'} · {project.number}</p>
             </div>
             <div class="min-w-0 p-5 sm:p-7 lg:p-8">
-              <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--accent)]">{project.type}</p>
+              <div class="flex flex-wrap items-center justify-between gap-2"><p class="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--accent)]">{project.type}</p><span class="repo-stars" data-repo-stars={project.slug} hidden></span></div>
               <h3 id="project-{project.visual}-title" class="mt-3 text-2xl font-semibold tracking-[-0.05em]">{project.name}</h3>
               <p id="project-{project.visual}-description" class="mt-3 text-sm leading-7 text-[var(--muted)] sm:min-h-[72px]">{project.description}</p>
               <ul aria-label="{project.name} highlights" class="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-xs text-[var(--muted)]">
