@@ -52,7 +52,7 @@
       const url = new URL(draft.githubUrl);
       if (url.protocol !== 'https:' || url.hostname !== 'github.com') return 'Use a valid HTTPS GitHub profile URL.';
     } catch { return 'Enter a valid GitHub profile URL.'; }
-    if (draft.contactEmail && !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(draft.contactEmail)) return 'Enter a valid contact email or leave it blank.';
+    if (draft.contactEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(draft.contactEmail)) return 'Enter a valid contact email or leave it blank.';
     if (draft.contactEmail.length > 254) return 'Contact email is too long.';
     return '';
   }
