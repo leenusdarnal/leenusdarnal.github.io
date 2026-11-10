@@ -636,3 +636,27 @@ test('Personal Space Configurator provides safe local drafts and a live preview'
   assert.match(configurator, /function resetDraft\(\)/);
   assert.match(configurator, /function exportDraft\(\)/);
 });
+
+
+test('Personal Space Configurator validates and bounds local drafts before save or export', async () => {
+  const configurator = await readFile(new URL('../src/lib/PersonalSpaceConfigurator.svelte', import.meta.url), 'utf8');
+  assert.match(configurator, /function validateDraft\(\)/);
+  assert.match(configurator, /new URL\(draft\.githubUrl\)/);
+  assert.match(configurator, /url\.protocol !== 'https:'/);
+  assert.match(configurator, /url\.hostname !== 'github\.com'/);
+  assert.match(configurator, /16384/);
+  assert.match(configurator, /saved\.length > 16384/);
+  assert.match(configurator, /Array\.isArray\(parsed\)/);
+  assert.match(configurator, /maxlength="120"/);
+  assert.match(configurator, /maxlength="254"/);
+  assert.match(configurator, /const error = validateDraft\(\)/);
+});
+
+test('project imagery never labels generated mockups as authentic application screenshots', async () => {
+  const homepage = await readFile(new URL('../src/routes/+page.svelte', import.meta.url), 'utf8');
+  const projects = await readFile(new URL('../src/lib/projects.ts', import.meta.url), 'utf8');
+  assert.match(homepage, /icons\/icon\.svg/);
+  assert.match(homepage, /pixelcutout-icon\.svg/);
+  assert.match(projects, /previewSourceUrl/);
+  assert.match(homepage, /Authentic application screenshot/);
+});
