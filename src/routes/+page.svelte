@@ -1,7 +1,7 @@
 <script>
   import { onMount } from 'svelte';
-  import LabControls from '$lib/LabControls.svelte';
-  import ProjectActions from '$lib/ProjectActions.svelte';
+  import LabControls from '../lib/LabControls.svelte';
+  import ProjectActions from '../lib/ProjectActions.svelte';
 
   let theme = $state('dark');
 
