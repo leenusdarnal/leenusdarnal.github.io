@@ -124,7 +124,7 @@
   }
 
   function updateIsolationState() {
-    const supported = 'serviceWorker' in navigator;
+    const supported = 'serviceWorker' in navigator && window.isSecureContext;
     isolationState = {
       checked: true,
       supported,
