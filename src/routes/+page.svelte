@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import LabControls from '../lib/LabControls.svelte';
   import ProjectActions from '../lib/ProjectActions.svelte';
+  import ArchitectureExperiments from '../lib/ArchitectureExperiments.svelte';
   import { personalSpaceConfig } from '../lib/personal-space.config';
 
   let theme = $state('dark');
@@ -313,6 +314,8 @@
         {/each}
       </div>
     </section>
+
+    <ArchitectureExperiments />
 
     <section id="space" aria-labelledby="space-heading" class="space-config-section pb-4 pt-2">
       <div class="space-config-intro">
