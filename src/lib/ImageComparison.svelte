@@ -8,18 +8,20 @@
   let position = $state(50);
   let error = $state('');
 
+  /** @param {Event} event @param {'before' | 'after'} side */
   function loadImage(event, side) {
-    const file = event.currentTarget.files?.[0];
+    const input = /** @type {HTMLInputElement} */ (event.currentTarget);
+    const file = input.files?.[0];
     if (!file) return;
     const supportedTypes = ['image/png', 'image/jpeg', 'image/webp', 'image/gif', 'image/avif'];
     if (!supportedTypes.includes(file.type)) {
       error = 'Choose a valid image file.';
-      event.currentTarget.value = '';
+      input.value = '';
       return;
     }
     if (file.size > 20 * 1024 * 1024) {
       error = 'Each image must be 20 MB or smaller.';
-      event.currentTarget.value = '';
+      input.value = '';
       return;
     }
     const url = URL.createObjectURL(file);
@@ -81,8 +83,8 @@
   {#if beforeUrl && afterUrl}
     <div class="mt-5">
       <div class="relative isolate aspect-[16/10] overflow-hidden rounded-2xl border border-[var(--line)] bg-[#101512]" style="--reveal: {position}%">
-        <img src={afterUrl} alt="Edited image" class="absolute inset-0 size-full object-contain" />
-        <img src={beforeUrl} alt="Original image" class="absolute inset-0 size-full object-contain" style="clip-path: inset(0 calc(100% - var(--reveal)) 0 0)" />
+        <img src={afterUrl} alt={afterName ? 'Edited: ' + afterName : 'Edited image'} class="absolute inset-0 size-full object-contain" />
+        <img src={beforeUrl} alt={beforeName ? 'Original: ' + beforeName : 'Original image'} class="absolute inset-0 size-full object-contain" style="clip-path: inset(0 calc(100% - var(--reveal)) 0 0)" />
         <div aria-hidden="true" class="pointer-events-none absolute inset-y-0 z-10 w-px bg-white shadow-[0_0_0_1px_#111]" style="left: var(--reveal)">
           <span class="absolute left-1/2 top-1/2 grid size-10 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-white/70 bg-black/70 text-lg text-white">↔</span>
         </div>
