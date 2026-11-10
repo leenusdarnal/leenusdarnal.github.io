@@ -318,7 +318,7 @@ test('Slate & Emerald reference palette and sticky glass navigation are applied'
 
 test('personal-space panel is driven by a dedicated TypeScript config module', () => {
   for (const field of ['owner', 'handle', 'headline', 'statement', 'palette', 'hosting', 'focus', 'principles']) {
-    assert.match(personalSpaceConfigSource, new RegExp('\\\\b' + field + '\\\\s*:'));
+    assert.ok(personalSpaceConfigSource.includes(`${field}:`), `Missing config field: ${field}`);
   }
   assert.match(source, /personalSpaceConfig\.focus/);
   assert.match(source, /personalSpaceConfig\.principles/);
