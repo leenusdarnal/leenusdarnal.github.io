@@ -324,7 +324,7 @@
         </div>
         <div class="terminal-body">
           <pre><code><span class="code-comment">// A small note about this corner of the internet</span>
-<span class="code-accent">export const</span> thisSpace = {
+<span class="code-accent">export const</span> thisSpace = &#123;
   palette: <span class="code-accent">'Slate & Emerald'</span>,
   madeFor: <span class="code-accent">'curiosity, useful things & experiments'</span>,
   interests: [
@@ -333,7 +333,7 @@
     <span class="code-accent">'learning by building'</span>
   ],
   <span class="code-comment">// No résumé. Just things I make and explore.</span>
-};</code></pre>
+&#125;;</code></pre>
         </div>
       </div>
     </section>
