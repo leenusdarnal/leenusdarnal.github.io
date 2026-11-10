@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [main]
   push:
-    branches: [main, improve/portfolio-quality-ci]
+    branches: [main, improve/portfolio-quality-ci, improve/personal-homepage-not-portfolio]
 
 permissions:
   contents: read
