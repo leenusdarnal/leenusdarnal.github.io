@@ -16,7 +16,7 @@
     sections: { ...personalSpaceConfig.sections }
   };
   /** @type {Array<keyof typeof defaults.sections>} */
-  const sectionKeys = Object.keys(defaults.sections);
+  const sectionKeys = ['projects', 'sourceExperiments', 'personalSpace', 'about', 'contact'];
 
   let draft = $state(structuredClone(defaults));
   let status = $state('No local draft saved');
