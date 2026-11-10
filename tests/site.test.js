@@ -589,7 +589,7 @@ test('site identity, SEO, theme defaults, navigation and section visibility are 
 
 
 test('homepage and case-study routes use the same single typed project catalogue', () => {
-  assert.match(projectRouteSource, /import \{ projects \} from '\$lib\/projects'/);
+  assert.match(projectRouteSource, /import \{ projects \} from '\.\.\/\.\.\/\.\.\/lib\/projects'/);
   assert.match(projectRouteSource, /projects\.map\(\(\{ slug \}\)/);
   assert.doesNotMatch(projectRouteSource, /const projects = \[/);
   assert.match(projectDetailSource, /project\.caseStudy\.summary/);
