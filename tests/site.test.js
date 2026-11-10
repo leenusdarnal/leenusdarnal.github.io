@@ -459,7 +459,7 @@ test('cross-origin isolation shim scopes COOP and credentialless COEP to documen
   assert.doesNotMatch(worker, /caches\.open|caches\.match/);
   assert.match(registration, /navigator\.serviceWorker\.register\('\/coi-serviceworker\.js'/);
   assert.match(registration, /updateViaCache: 'none'/);
-  assert.match(registration, /https:/);
+  assert.match(registration, /window\.isSecureContext/);
   assert.match(registration, /controllerchange/);
   assert.match(source, /registerCrossOriginIsolation/);
   assert.match(labControls, /Reload to enable shared memory/);
