@@ -307,6 +307,6 @@ test('Slate & Emerald reference palette and sticky glass navigation are applied'
   assert.match(css, /backdrop-filter:\s*blur\(12px\)/);
   assert.match(source, /site-header/);
   assert.match(source, /personal-space\.config\.ts/);
-  assert.match(source, /No résumé/);
+  assert.match(source, /Just things I make and explore/);
   assert.match(css, /--font-mono: "Fira Code"/);
 });
