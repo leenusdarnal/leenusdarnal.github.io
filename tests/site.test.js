@@ -45,7 +45,7 @@ test('homepage is framed as a personal project space, not a job-search portfolio
   assert.match(html, />Projects<\/a>/);
   assert.match(html, /PROJECTS &amp; EXPERIMENTS/);
   assert.match(html, /Things I like exploring/);
-  assert.match(source, /personal space for practical web tools/i);
+  assert.match(personalSpaceConfigSource, /A personal space for useful web tools/);
   assert.doesNotMatch(source, /resume|résumé|download cv|hire me|open to work|job seeking|personal developer portfolio/i);
 });
 
@@ -338,7 +338,8 @@ test('personal-space panel is driven by a dedicated TypeScript config module', (
 });
 
 test('theme colour metadata matches the current Slate & Emerald surfaces', () => {
-  assert.ok(source.includes('content={theme === "dark" ? "#0b0f19" : "#f8fafc"}'));
+  assert.match(source, /personalSpaceConfig\.appearance\.themeColors\.dark/);
+  assert.match(source, /personalSpaceConfig\.appearance\.themeColors\.light/);
 });
 
 test('accent foregrounds are explicitly applied to visible CTA text', async () => {
