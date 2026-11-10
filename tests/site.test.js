@@ -505,3 +505,40 @@ test('source-only experiments provide a quick clone action without implying a li
     assert.ok(component.includes(repository), 'Missing quick-clone repository: ' + repository);
   }
 });
+
+
+test('Runtime Inspector reports real page performance, network and origin storage diagnostics', () => {
+  for (const term of [
+    'schemaVersion: 2',
+    'getEntriesByType(\'navigation\')',
+    'first-contentful-paint',
+    'timeToFirstByteMs',
+    'domContentLoadedMs',
+    'reportedTransferBytes',
+    'navigator.onLine',
+    'effectiveType',
+    'downlinkMbps',
+    'storageApi.estimate',
+    'storageApi.persisted',
+    'viewportWidth',
+    'prefers-reduced-motion',
+    'Page performance & network',
+    'Storage & device context',
+    'Nothing is uploaded'
+  ]) {
+    assert.ok(labControls.includes(term), 'Missing Runtime Inspector v2 capability: ' + term);
+  }
+  assert.match(labControls, /window\.addEventListener\('online'/);
+  assert.match(labControls, /window\.addEventListener\('offline'/);
+  assert.match(labControls, /window\.removeEventListener\('online'/);
+  assert.match(labControls, /aria-live="polite"/);
+  assert.match(css, /\.diagnostic-details > summary:focus-visible/);
+  assert.match(css, /\.terminal-state\[data-online="false"\]/);
+});
+
+test('Runtime Inspector clearly qualifies browser hints and restricted transfer-size data', () => {
+  assert.match(labControls, /not a guaranteed internet-reachability test/);
+  assert.match(labControls, /cached resources/);
+  assert.match(labControls, /estimates for this site’s origin/);
+  assert.match(labControls, /does not read your files, browsing history or other sites’ storage/);
+});

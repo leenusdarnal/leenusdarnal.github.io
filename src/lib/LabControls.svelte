@@ -12,6 +12,7 @@
   let reportCopied = $state(false);
   let copyStatus = $state('');
   let checking = $state(false);
+  let online = $state(true);
   let lastChecked = $state('');
   let isolationState = $state({ checked: false, supported: false, controlled: false, isolated: false, reloadAttempted: false });
   let isolationNeedsReload = $derived(isolationState.checked && isolationState.supported && isolationState.controlled && !isolationState.isolated && !isolationState.reloadAttempted);
@@ -47,8 +48,13 @@
     ...matchingProjects.map((project) => ({ kind: 'project', label: 'Project: ' + project.name, run: () => window.open(project.live, '_blank', 'noopener,noreferrer') }))
   ]);
   let report = $derived({
+    schemaVersion: 2,
     generatedAt: lastChecked || null,
     crossOriginIsolation: isolationState,
+    network: { ...(diagnostics.network ?? {}), online },
+    performance: diagnostics.performance ?? {},
+    storage: diagnostics.storage ?? {},
+    environment: diagnostics.environment ?? {},
     browser: {
       userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : null,
       language: typeof navigator !== 'undefined' ? navigator.language : null,
@@ -145,55 +151,118 @@
     window.location.reload();
   }
 
+  /** @param {number | null | undefined} value */
+  function formatDuration(value) {
+    if (typeof value !== 'number' || !Number.isFinite(value) || value < 0) return 'Not available';
+    return Math.round(value) + ' ms';
+  }
+
+  /** @param {number | null | undefined} value */
+  function formatBytes(value) {
+    if (typeof value !== 'number' || !Number.isFinite(value) || value < 0) return 'Not available';
+    if (value < 1024) return Math.round(value) + ' B';
+    if (value < 1024 ** 2) return (value / 1024).toFixed(1) + ' KB';
+    if (value < 1024 ** 3) return (value / 1024 ** 2).toFixed(1) + ' MB';
+    return (value / 1024 ** 3).toFixed(2) + ' GB';
+  }
+
   async function collectDiagnostics() {
     if (checking) return;
     checking = true;
-    /** @type {any} */
-    const isolated = typeof window !== 'undefined' && window.crossOriginIsolated === true;
-    const sharedMemory = typeof SharedArrayBuffer === 'function';
-    /** @type {any} */
-    const result = {
-      webgpu: { available: false, adapter: 'Checking…', vendor: null, architecture: null, fp16: false, maxBufferSizeBytes: null, maxBufferSize: 'Unavailable', maxStorageBufferBindingSize: null, error: null },
-      wasmThreads: {
-        crossOriginIsolated: isolated,
-        sharedArrayBuffer: sharedMemory,
-        status: isolated && sharedMemory ? 'Active (COOP/COEP + SharedArrayBuffer)' : 'Single-thread mode (isolation or SharedArrayBuffer unavailable)'
-      },
-      memory: {
-        deviceMemoryGB: Reflect.get(navigator, 'deviceMemory') ?? null,
-        hardwareConcurrency: navigator.hardwareConcurrency ?? null
-      },
-      display: {
-        colorGamutP3: window.matchMedia('(color-gamut: p3)').matches,
-        gamut: window.matchMedia('(color-gamut: p3)').matches ? 'Display P3 wide gamut' : 'sRGB or unknown',
-        devicePixelRatio: window.devicePixelRatio,
-        colorDepth: screen.colorDepth
+    try {
+      const isolated = window.crossOriginIsolated === true;
+      const sharedMemory = typeof SharedArrayBuffer === 'function';
+      const navEntry = /** @type {PerformanceNavigationTiming | undefined} */ (performance.getEntriesByType('navigation')[0]) ?? null;
+      const paintEntries = performance.getEntriesByType('paint');
+      const fcp = paintEntries.find((entry) => entry.name === 'first-contentful-paint');
+      const resources = performance.getEntriesByType('resource').map((entry) => /** @type {PerformanceResourceTiming} */ (entry));
+      const reportedTransferBytes = resources.reduce((total, entry) => total + (Number(entry.transferSize) || 0), 0);
+      const connection = Reflect.get(navigator, 'connection') ?? Reflect.get(navigator, 'mozConnection') ?? Reflect.get(navigator, 'webkitConnection');
+      const storageApi = Reflect.get(navigator, 'storage');
+      /** @type {{ supported: boolean, usageBytes: number | null, quotaBytes: number | null, persisted: boolean | null, error?: string }} */
+      let storage = { supported: !!storageApi?.estimate, usageBytes: null, quotaBytes: null, persisted: null };
+      if (storageApi?.estimate) {
+        try {
+          const estimate = await storageApi.estimate();
+          storage.usageBytes = typeof estimate.usage === 'number' && Number.isFinite(estimate.usage) ? estimate.usage : null;
+          storage.quotaBytes = typeof estimate.quota === 'number' && Number.isFinite(estimate.quota) ? estimate.quota : null;
+          if (typeof storageApi.persisted === 'function') storage.persisted = await storageApi.persisted();
+        } catch {
+          storage = { ...storage, error: 'Storage estimate unavailable' };
+        }
       }
-    };
-    const gpu = Reflect.get(navigator, 'gpu');
-    if (gpu?.requestAdapter) {
-      result.webgpu.available = true;
-      try {
-        const adapter = await gpu.requestAdapter();
-        if (adapter) {
-          const info = adapter.info ?? {};
-          const max = adapter.limits?.maxBufferSize ?? null;
-          result.webgpu.adapter = 'Available';
-          result.webgpu.vendor = info.vendor || 'Not disclosed';
-          result.webgpu.architecture = info.architecture || 'Not disclosed';
-          result.webgpu.fp16 = !!adapter.features?.has('shader-f16');
-          result.webgpu.maxBufferSizeBytes = max;
-          result.webgpu.maxBufferSize = max ? (max / 1024 ** 3 >= 1 ? (max / 1024 ** 3).toFixed(2) + ' GB' : Math.round(max / 1024 ** 2) + ' MB') : 'Not reported';
-          result.webgpu.maxStorageBufferBindingSize = adapter.limits?.maxStorageBufferBindingSize ?? null;
-        } else result.webgpu.adapter = 'No compatible adapter';
-      } catch (error) {
-        result.webgpu.adapter = 'Adapter query failed';
-        result.webgpu.error = error instanceof Error ? error.message : String(error);
-      }
-    } else result.webgpu.adapter = 'WebGPU unavailable';
-    diagnostics = result;
-    lastChecked = new Date().toISOString();
-    checking = false;
+      /** @type {any} */
+      const result = {
+        webgpu: { available: false, adapter: 'Checking…', vendor: null, architecture: null, fp16: false, maxBufferSizeBytes: null, maxBufferSize: 'Unavailable', maxStorageBufferBindingSize: null, error: null },
+        wasmThreads: {
+          crossOriginIsolated: isolated,
+          sharedArrayBuffer: sharedMemory,
+          status: isolated && sharedMemory ? 'Active (COOP/COEP + SharedArrayBuffer)' : 'Single-thread mode (isolation or SharedArrayBuffer unavailable)'
+        },
+        memory: {
+          deviceMemoryGB: Reflect.get(navigator, 'deviceMemory') ?? null,
+          hardwareConcurrency: navigator.hardwareConcurrency ?? null
+        },
+        display: {
+          colorGamutP3: window.matchMedia('(color-gamut: p3)').matches,
+          gamut: window.matchMedia('(color-gamut: p3)').matches ? 'Display P3 wide gamut' : 'sRGB or unknown',
+          devicePixelRatio: window.devicePixelRatio,
+          colorDepth: screen.colorDepth
+        },
+        network: {
+          online: navigator.onLine,
+          effectiveType: connection?.effectiveType ?? null,
+          downlinkMbps: Number.isFinite(connection?.downlink) ? connection.downlink : null,
+          rttMs: Number.isFinite(connection?.rtt) ? connection.rtt : null,
+          saveData: typeof connection?.saveData === 'boolean' ? connection.saveData : null
+        },
+        performance: {
+          navigationType: navEntry?.type ?? null,
+          timeToFirstByteMs: navEntry && navEntry.responseStart > 0 ? navEntry.responseStart - navEntry.requestStart : null,
+          domContentLoadedMs: typeof navEntry?.domContentLoadedEventEnd === 'number' && navEntry.domContentLoadedEventEnd > 0 ? navEntry.domContentLoadedEventEnd : null,
+          loadCompleteMs: typeof navEntry?.loadEventEnd === 'number' && navEntry.loadEventEnd > 0 ? navEntry.loadEventEnd : null,
+          firstContentfulPaintMs: fcp?.startTime ?? null,
+          resourceCount: resources.length,
+          reportedTransferBytes
+        },
+        storage,
+        environment: {
+          viewportWidth: window.innerWidth,
+          viewportHeight: window.innerHeight,
+          visibilityState: document.visibilityState,
+          reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+          devicePixelRatio: window.devicePixelRatio
+        }
+      };
+
+      const gpu = Reflect.get(navigator, 'gpu');
+      if (gpu?.requestAdapter) {
+        result.webgpu.available = true;
+        try {
+          const adapter = await gpu.requestAdapter();
+          if (adapter) {
+            const info = adapter.info ?? {};
+            const max = adapter.limits?.maxBufferSize ?? null;
+            result.webgpu.adapter = 'Available';
+            result.webgpu.vendor = info.vendor || 'Not disclosed';
+            result.webgpu.architecture = info.architecture || 'Not disclosed';
+            result.webgpu.fp16 = !!adapter.features?.has('shader-f16');
+            result.webgpu.maxBufferSizeBytes = max;
+            result.webgpu.maxBufferSize = max ? formatBytes(max) : 'Not reported';
+            result.webgpu.maxStorageBufferBindingSize = adapter.limits?.maxStorageBufferBindingSize ?? null;
+          } else result.webgpu.adapter = 'No compatible adapter';
+        } catch (error) {
+          result.webgpu.adapter = 'Adapter query failed';
+          result.webgpu.error = error instanceof Error ? error.message : String(error);
+        }
+      } else result.webgpu.adapter = 'WebGPU unavailable';
+
+      online = navigator.onLine;
+      diagnostics = result;
+      lastChecked = new Date().toISOString();
+    } finally {
+      checking = false;
+    }
   }
 
   /** @param {string} text */
@@ -228,8 +297,15 @@
   }
 
   onMount(() => {
+    online = navigator.onLine;
     collectDiagnostics();
     updateIsolationState();
+    const handleOnlineChange = () => {
+      online = navigator.onLine;
+      diagnostics = { ...diagnostics, network: { ...(diagnostics.network ?? {}), online } };
+    };
+    window.addEventListener('online', handleOnlineChange);
+    window.addEventListener('offline', handleOnlineChange);
     const handleIsolationChange = () => updateIsolationState();
     window.addEventListener('coi-service-worker-statechange', handleIsolationChange);
     if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('controllerchange', handleIsolationChange);
@@ -288,6 +364,8 @@
     return () => {
       controller.abort();
       window.removeEventListener('coi-service-worker-statechange', handleIsolationChange);
+      window.removeEventListener('online', handleOnlineChange);
+      window.removeEventListener('offline', handleOnlineChange);
       if ('serviceWorker' in navigator) navigator.serviceWorker.removeEventListener('controllerchange', handleIsolationChange);
       window.removeEventListener('pointermove', moveSpotlight);
       cancelAnimationFrame(frame);
@@ -330,7 +408,7 @@
 
   <div class="terminal-card mt-5">
     <div class="terminal-header">
-      <div class="flex flex-wrap items-center gap-2"><span class="terminal-dots" aria-hidden="true"><span class="terminal-dot"></span><span class="terminal-dot"></span><span class="terminal-dot"></span></span><span>runtime_inspector.sh · Client Diagnostics</span></div>
+      <div class="flex flex-wrap items-center gap-2"><span class="terminal-dots" aria-hidden="true"><span class="terminal-dot"></span><span class="terminal-dot"></span><span class="terminal-dot"></span></span><span>runtime_inspector.sh · Client Diagnostics</span><span class="terminal-state" data-online={online}>{online ? "ONLINE" : "OFFLINE"}</span></div>
       <div class="flex flex-wrap items-center gap-2">
         <button type="button" class="tool-pill" onclick={collectDiagnostics} disabled={checking}>{checking ? 'Checking…' : 'Refresh'}</button>
         <button type="button" class="tool-pill" onclick={copyReport}>{reportCopied ? 'Copied!' : 'Copy JSON Report'}</button>
@@ -347,6 +425,34 @@
       <div><span>CPU threads</span><strong>{diagnostics.memory?.hardwareConcurrency ?? 'Not exposed by browser'}</strong></div>
       <div><span>Display gamut</span><strong>{diagnostics.display?.gamut ?? 'Checking…'}</strong></div>
     </div>
+    <details class="diagnostic-details" open>
+      <summary><span>Page performance & network</span><span class="diagnostic-hint">Browser timing APIs</span></summary>
+      <div class="diagnostic-grid">
+        <div><span>Browser connectivity</span><strong>{online ? 'Online (browser hint)' : 'Offline'}</strong></div>
+        <div><span>Connection class</span><strong>{diagnostics.network?.effectiveType ?? 'Not exposed by browser'}</strong></div>
+        <div><span>Downlink / round-trip</span><strong>{diagnostics.network?.downlinkMbps != null ? diagnostics.network.downlinkMbps + ' Mbps' : 'Downlink not exposed'} · {diagnostics.network?.rttMs != null ? diagnostics.network.rttMs + ' ms RTT' : 'RTT not exposed'}</strong></div>
+        <div><span>Data saver</span><strong>{diagnostics.network?.saveData == null ? 'Not exposed by browser' : diagnostics.network.saveData ? 'Enabled' : 'Disabled'}</strong></div>
+        <div><span>First contentful paint</span><strong>{formatDuration(diagnostics.performance?.firstContentfulPaintMs)}</strong></div>
+        <div><span>Time to first byte</span><strong>{formatDuration(diagnostics.performance?.timeToFirstByteMs)}</strong></div>
+        <div><span>DOM content loaded</span><strong>{formatDuration(diagnostics.performance?.domContentLoadedMs)}</strong></div>
+        <div><span>Page load event</span><strong>{formatDuration(diagnostics.performance?.loadCompleteMs)}</strong></div>
+        <div><span>Resources observed</span><strong>{diagnostics.performance?.resourceCount ?? 'Checking…'}</strong></div>
+        <div><span>Transfer size reported</span><strong>{diagnostics.performance?.reportedTransferBytes > 0 ? formatBytes(diagnostics.performance.reportedTransferBytes) : 'Not reported (cache / browser limits)'}</strong></div>
+      </div>
+      <p class="diagnostic-footnote">Timing values describe this page load. Transfer sizes can be zero for cached resources or when the browser withholds cross-origin timing details. Network status is a browser hint, not a guaranteed internet-reachability test.</p>
+    </details>
+    <details class="diagnostic-details">
+      <summary><span>Storage & device context</span><span class="diagnostic-hint">Local browser estimates</span></summary>
+      <div class="diagnostic-grid">
+        <div><span>Origin storage used</span><strong>{diagnostics.storage?.usageBytes != null ? formatBytes(diagnostics.storage.usageBytes) : 'Not available'}</strong></div>
+        <div><span>Origin storage quota</span><strong>{diagnostics.storage?.quotaBytes != null ? formatBytes(diagnostics.storage.quotaBytes) : 'Not available'}</strong></div>
+        <div><span>Persistent storage</span><strong>{diagnostics.storage?.persisted == null ? 'Not reported' : diagnostics.storage.persisted ? 'Granted' : 'Not granted'}</strong></div>
+        <div><span>Viewport</span><strong>{diagnostics.environment?.viewportWidth ?? '—'} × {diagnostics.environment?.viewportHeight ?? '—'}</strong></div>
+        <div><span>Page visibility</span><strong>{diagnostics.environment?.visibilityState ?? 'Not available'}</strong></div>
+        <div><span>Reduced motion</span><strong>{diagnostics.environment?.reducedMotion == null ? 'Not available' : diagnostics.environment.reducedMotion ? 'Preferred' : 'Not requested'}</strong></div>
+      </div>
+      <p class="diagnostic-footnote">Storage figures are estimates for this site’s origin. The inspector does not read your files, browsing history or other sites’ storage.</p>
+    </details>
     <div class="coi-status">
       {#if isolationNeedsReload}
         <span>Service worker is ready. Reload this page once to activate cross-origin isolation and shared-memory features.</span>
@@ -363,7 +469,7 @@
         <span>Checking shared-memory mode…</span>
       {/if}
     </div>
-    <p class="px-4 pb-2 text-[10px] leading-5 text-[var(--muted)]">Last checked: {lastChecked ? new Date(lastChecked).toLocaleTimeString() : 'Checking…'} · Browser-exposed capability data only. A reported adapter or feature does not mean every project uses that execution path.</p>
+    <p class="px-4 pb-2 text-[10px] leading-5 text-[var(--muted)]">Last checked: {lastChecked ? new Date(lastChecked).toLocaleTimeString() : 'Checking…'} · All diagnostics are measured in this browser tab. Nothing is uploaded; the JSON is copied only when you choose Copy JSON Report.</p>
     <p class="sr-only" aria-live="polite">{copyStatus}</p>
   </div>
 </section>
