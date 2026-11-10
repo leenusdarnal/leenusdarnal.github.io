@@ -45,10 +45,6 @@ test('homepage is framed as a personal project space, not a job-search portfolio
   assert.doesNotMatch(source, /resume|résumé|download cv|hire me|open to work|job seeking|personal developer portfolio/i);
 });
 
-test('theme colour metadata follows the selected theme', () => {
-  assert.match(source, /content=\{theme === "dark" \? "#0d100e" : "#f5f4ee"\}/);
-});
-
 test('all existing live project destinations are preserved', () => {
   for (const url of [
     'https://pixelforge-studio-pied.vercel.app/',
@@ -309,4 +305,16 @@ test('Slate & Emerald reference palette and sticky glass navigation are applied'
   assert.match(source, /personal-space\.config\.ts/);
   assert.match(source, /Just things I make and explore/);
   assert.match(css, /--font-mono: "Fira Code"/);
+});
+
+
+
+test('theme colour metadata matches the current Slate & Emerald surfaces', () => {
+  assert.ok(source.includes('content={theme === "dark" ? "#0b0f19" : "#f8fafc"}'));
+});
+
+test('accent foregrounds are explicitly applied to visible CTA text', async () => {
+  assert.ok(source.includes('style="color: var(--accent-contrast)"'));
+  const detail = await readFile(new URL('../src/routes/projects/[slug]/+page.svelte', import.meta.url), 'utf8');
+  assert.ok(detail.includes('style="color: var(--accent-contrast)"'));
 });
