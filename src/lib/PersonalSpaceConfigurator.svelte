@@ -20,7 +20,9 @@
   /** @type {Array<'name' | 'title' | 'description' | 'githubUrl' | 'contactEmail' | 'headline' | 'heroDescription' | 'palette'>} */
   const draftStringKeys = ['name', 'title', 'description', 'githubUrl', 'contactEmail', 'headline', 'heroDescription', 'palette'];
 
-  let draft = $state(structuredClone(defaults));
+  /** @typedef {{ name: string; title: string; description: string; githubUrl: string; contactEmail: string; headline: string; heroDescription: string; palette: string; defaultTheme: 'system' | 'light' | 'dark'; sections: Record<string, boolean> }} ConfigDraft */
+  /** @type {ConfigDraft} */
+  let draft = $state(/** @type {ConfigDraft} */ (structuredClone(defaults)));
   let status = $state('No local draft saved');
   let hasSavedDraft = $state(false);
 
