@@ -7,7 +7,7 @@ const STATE_EVENT = 'coi-service-worker-statechange';
  */
 export function registerCrossOriginIsolation() {
   if (typeof window === 'undefined' || typeof navigator === 'undefined') return;
-  if (!('serviceWorker' in navigator) || window.location.protocol !== 'https:') {
+  if (!('serviceWorker' in navigator) || !window.isSecureContext) {
     window.dispatchEvent(new Event(STATE_EVENT));
     return;
   }
