@@ -360,7 +360,7 @@
           <p class="mt-5 max-w-lg text-sm leading-7 text-[var(--muted)]">I'm always happy to hear about ideas, useful tools and interesting projects.</p>
         </div>
         <div class="flex flex-wrap gap-3 text-sm font-semibold sm:gap-4">
-          <a class="inline-flex min-h-11 items-center gap-2 rounded-full bg-[var(--accent)] px-4 py-3 text-[var(--accent-contrast)] transition hover:-translate-y-0.5 sm:px-5" style="color: var(--accent-contrast)" href="mailto:leenus.darnal@gmail.com" style="color: var(--accent-contrast)">Send an email ↗</a>
+          <a class="inline-flex min-h-11 items-center gap-2 rounded-full bg-[var(--accent)] px-4 py-3 text-[var(--accent-contrast)] transition hover:-translate-y-0.5 sm:px-5" href="mailto:leenus.darnal@gmail.com" style="color: var(--accent-contrast)">Send an email ↗</a>
           <a class="inline-flex min-h-11 items-center gap-2 rounded-full border border-[var(--line)] px-4 py-3 transition hover:border-[var(--accent)] sm:px-5" href="https://github.com/leenusdarnal" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
         </div>
       </div>
