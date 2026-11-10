@@ -266,7 +266,7 @@ test('homepage uses genuine application branding and the source screenshot disti
   assert.ok(html.includes('https://pixelforge-studio-pied.vercel.app/icons/icon.svg'));
   assert.ok(html.includes('https://pixelcutout-three.vercel.app/pixelcutout-icon.svg'));
   assert.doesNotMatch(html, /Interface illustration/);
-  assert.match(projectsSource, /react-metronome\\/master\\/screenshots\\/react-metronome\\.png/);
+  assert.ok(projectsSource.includes('react-metronome/master/screenshots/react-metronome.png'));
 });
 
 
@@ -614,7 +614,7 @@ test('homepage and case-study routes use the same single typed project catalogue
 
 test('project social image settings are centralized with the other site metadata', () => {
   assert.match(personalSpaceConfigSource, /projectSocialImage:/);
-  assert.match(personalSpaceConfigSource, /og-image\.svg/);
+  assert.ok(personalSpaceConfigSource.includes('og-image.png'));
   assert.match(projectDetailSource, /personalSpaceConfig\.site\.projectSocialImage\.url/);
   assert.match(projectDetailSource, /personalSpaceConfig\.site\.url/);
 });
