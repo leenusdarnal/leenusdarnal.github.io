@@ -1,5 +1,6 @@
 <script>
   import { personalSpaceConfig } from '../../../lib/personal-space.config';
+  import ImageComparison from '../../../lib/ImageComparison.svelte';
 
   let { data } = $props();
   let project = $derived(data.project);
@@ -63,6 +64,10 @@
             <a href={project.live} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 shrink-0 items-center justify-center rounded-full bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[var(--accent-contrast)]" style="color: var(--accent-contrast)">View live app ↗</a>
           {/if}
         </aside>
+      {/if}
+
+      {#if project.slug === 'pixelforge-studio'}
+        <ImageComparison />
       {/if}
 
       <div class="mt-16 grid gap-12 border-t border-[var(--line)] pt-10 md:grid-cols-[minmax(0,1fr)_260px] md:gap-16">
