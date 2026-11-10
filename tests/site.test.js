@@ -597,7 +597,7 @@ test('homepage and case-study routes use the same single typed project catalogue
   assert.match(projectDetailSource, /project\.caseStudy\.highlights/);
   assert.match(projectDetailSource, /personalSpaceConfig\.identity\.name/);
   assert.match(projectDetailSource, /personalSpaceConfig\.site\.projectSocialImage/);
-  assert.match(projectsSource, /satisfies readonly ProjectRecord\[\]/);
+  assert.match(projectsSource, /readonly ProjectRecord\[\] = \[/);
   for (const slug of ['pixelforge-studio', 'metronome', 'sikkim-government-salary-calculator', 'pixelcutout']) {
     assert.ok(projectsSource.includes(slug), 'Missing shared project record: ' + slug);
     assert.ok(projectsSource.includes('caseStudy:'), 'Missing case study content in shared catalogue');
