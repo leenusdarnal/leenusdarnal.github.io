@@ -4,11 +4,33 @@
   import ProjectActions from '../lib/ProjectActions.svelte';
   import ArchitectureExperiments from '../lib/ArchitectureExperiments.svelte';
   import { personalSpaceConfig } from '../lib/personal-space.config';
-  import PersonalSpaceConfigurator from '../lib/PersonalSpaceConfigurator.svelte';
+  import RepoMetadata from '../lib/RepoMetadata.svelte';
   import { projects } from '../lib/projects';
   import { registerCrossOriginIsolation } from '../lib/cross-origin-isolation.js';
 
   let theme = $state('dark');
+  let configuratorOpen = $state(false);
+  let configuratorLoading = $state(false);
+  let configuratorStatus = $state('');
+  /** @type {any} */
+  let ConfiguratorComponent = $state(null);
+
+  async function toggleConfigurator() {
+    if (configuratorOpen) { configuratorOpen = false; return; }
+    if (!ConfiguratorComponent && !configuratorLoading) {
+      configuratorLoading = true;
+      configuratorStatus = '';
+      try {
+        const module = await import('../lib/PersonalSpaceConfigurator.svelte');
+        ConfiguratorComponent = module.default;
+      } catch {
+        configuratorStatus = 'The configuration playground could not be loaded. Refresh the page and try again.';
+      } finally {
+        configuratorLoading = false;
+      }
+    }
+    if (ConfiguratorComponent) configuratorOpen = true;
+  }
 
   const navigation = personalSpaceConfig.navigation.filter((item) => personalSpaceConfig.sections[item.section]);
 
@@ -80,6 +102,8 @@
   <meta name="twitter:image" content={personalSpaceConfig.site.socialImage.url} />
   <script type="application/ld+json">{structuredData}</script>
 </svelte:head>
+
+<RepoMetadata {projects} />
 <div class="mx-auto w-full max-w-6xl px-4 min-[480px]:px-5 sm:px-8 lg:px-10">
   <a class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-[var(--ink)] focus:px-4 focus:py-3 focus:text-[var(--page)]" href="#main">Skip to content</a>
 
@@ -311,7 +335,18 @@
         </div>
       </div>
 
-      <PersonalSpaceConfigurator />
+      <div class="mt-5">
+        <button type="button" class="tool-pill" aria-expanded={configuratorOpen} aria-controls="personal-space-configurator" onclick={toggleConfigurator}>{configuratorOpen ? 'Hide configuration playground' : 'Edit this space & preview changes'}</button>
+        <div id="personal-space-configurator" class="mt-4">
+          {#if configuratorOpen && ConfiguratorComponent}
+            <svelte:component this={ConfiguratorComponent} />
+          {:else if configuratorLoading}
+            <p class="rounded-xl border border-[var(--line)] p-4 text-sm text-[var(--muted)]" role="status">Loading configuration playground…</p>
+          {:else if configuratorStatus}
+            <p class="rounded-xl border border-[var(--line)] p-4 text-sm text-[var(--muted)]" role="alert">{configuratorStatus}</p>
+          {/if}
+        </div>
+      </div>
     </section>
     {/if}
 
