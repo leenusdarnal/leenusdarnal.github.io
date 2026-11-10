@@ -30,7 +30,7 @@
         publisher: { '@type': 'Person', name: personalSpaceConfig.identity.name }
       }
     ]
-  });;
+  });
 
   onMount(() => {
     try {
@@ -58,27 +58,26 @@
 </script>
 
 <svelte:head>
-  <title>Leenus Darnal — I build useful things</title>
-  <meta name="description" content="The personal site of Leenus Darnal. A collection of useful web tools, projects and experiments." />
-  <meta name="author" content="Leenus Darnal" />
-  <meta name="theme-color" content={theme === "dark" ? "#0b0f19" : "#f8fafc"} />
+  <title>{personalSpaceConfig.site.title}</title>
+  <meta name="description" content={personalSpaceConfig.site.description} />
+  <meta name="author" content={personalSpaceConfig.site.author} />
+  <meta name="theme-color" content={theme === 'dark' ? personalSpaceConfig.appearance.themeColors.dark : personalSpaceConfig.appearance.themeColors.light} />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Leenus Darnal — I build useful things" />
-  <meta property="og:description" content="A collection of useful web tools, projects and experiments by Leenus Darnal." />
-  <link rel="canonical" href="https://leenusdarnal.github.io/" />
-  <meta property="og:url" content="https://leenusdarnal.github.io/" />
-  <meta property="og:image" content="https://leenusdarnal.github.io/og-image.png" />
-  <meta property="og:image:type" content="image/png" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Leenus Darnal — I build useful things" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Leenus Darnal — I build useful things" />
-  <meta name="twitter:description" content="A collection of useful web tools, projects and experiments by Leenus Darnal." />
-  <meta name="twitter:image" content="https://leenusdarnal.github.io/og-image.png" />
+  <meta property="og:title" content={personalSpaceConfig.site.title} />
+  <meta property="og:description" content={personalSpaceConfig.site.description} />
+  <link rel="canonical" href={personalSpaceConfig.site.url} />
+  <meta property="og:url" content={personalSpaceConfig.site.url} />
+  <meta property="og:image" content={personalSpaceConfig.site.socialImage.url} />
+  <meta property="og:image:type" content={personalSpaceConfig.site.socialImage.type} />
+  <meta property="og:image:width" content={String(personalSpaceConfig.site.socialImage.width)} />
+  <meta property="og:image:height" content={String(personalSpaceConfig.site.socialImage.height)} />
+  <meta property="og:image:alt" content={personalSpaceConfig.site.socialImage.alt} />
+  <meta name="twitter:card" content={personalSpaceConfig.site.twitterCard} />
+  <meta name="twitter:title" content={personalSpaceConfig.site.title} />
+  <meta name="twitter:description" content={personalSpaceConfig.site.description} />
+  <meta name="twitter:image" content={personalSpaceConfig.site.socialImage.url} />
   <script type="application/ld+json">{structuredData}</script>
 </svelte:head>
-
 <div class="mx-auto w-full max-w-6xl px-4 min-[480px]:px-5 sm:px-8 lg:px-10">
   <a class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-[var(--ink)] focus:px-4 focus:py-3 focus:text-[var(--page)]" href="#main">Skip to content</a>
 
@@ -134,9 +133,11 @@
           {/each}
         </ul>
         <div class="mt-7 flex flex-wrap items-center gap-3 sm:mt-9">
-          <a href="#work" class="inline-flex min-h-11 items-center gap-2 rounded-full bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[var(--accent-contrast)] transition hover:-translate-y-0.5 sm:gap-3 sm:px-6 sm:py-3.5 hover:shadow-[0_12px_30px_color-mix(in_srgb,var(--accent)_20%,transparent)]" style="color: var(--accent-contrast)">
-            Explore projects <span aria-hidden="true">↓</span>
-          </a>
+          {#if personalSpaceConfig.sections.projects}
+            <a href="#work" class="inline-flex min-h-11 items-center gap-2 rounded-full bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[var(--accent-contrast)] transition hover:-translate-y-0.5 sm:gap-3 sm:px-6 sm:py-3.5 hover:shadow-[0_12px_30px_color-mix(in_srgb,var(--accent)_20%,transparent)]" style="color: var(--accent-contrast)">
+              Explore projects <span aria-hidden="true">↓</span>
+            </a>
+          {/if}
           <a href={personalSpaceConfig.site.githubUrl} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center gap-2 rounded-full border border-[var(--line)] px-5 py-3 text-sm font-medium text-[var(--ink)] transition hover:border-[var(--accent)] sm:px-6 sm:py-3.5">
             GitHub <span aria-hidden="true">↗</span>
           </a>
@@ -345,7 +346,7 @@
         </div>
         <div class="max-w-2xl">
           {#each personalSpaceConfig.content.about.paragraphs as paragraph, index}
-            <p class:text-base={index === 0} class:mt-5={index > 0} class="leading-8 text-[var(--muted)] sm:text-lg">{paragraph}</p>
+            <p class:mt-5={index > 0} class="text-base leading-8 text-[var(--muted)] sm:text-lg">{paragraph}</p>
           {/each}
           <a href={personalSpaceConfig.site.githubUrl} target="_blank" rel="noopener noreferrer" class="mt-7 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[var(--accent)] transition hover:gap-3">More on GitHub <span aria-hidden="true">↗</span></a>
         </div>
@@ -363,7 +364,7 @@
         </div>
         <div class="flex flex-wrap gap-3 text-sm font-semibold sm:gap-4">
           <a class="inline-flex min-h-11 items-center gap-2 rounded-full bg-[var(--accent)] px-4 py-3 text-[var(--accent-contrast)] transition hover:-translate-y-0.5 sm:px-5" href={"mailto:" + personalSpaceConfig.site.contactEmail} style="color: var(--accent-contrast)">Send an email ↗</a>
-          <a class="inline-flex min-h-11 items-center gap-2 rounded-full border border-[var(--line)] px-4 py-3 transition hover:border-[var(--accent)] sm:px-5" href="https://github.com/leenusdarnal" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+          <a class="inline-flex min-h-11 items-center gap-2 rounded-full border border-[var(--line)] px-4 py-3 transition hover:border-[var(--accent)] sm:px-5" href={personalSpaceConfig.site.githubUrl} target="_blank" rel="noopener noreferrer">GitHub ↗</a>
         </div>
       </div>
     </section>
