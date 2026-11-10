@@ -8,6 +8,7 @@ const robots = await readFile(new URL('robots.txt', buildUrl), 'utf8');
 const sitemap = await readFile(new URL('sitemap.xml', buildUrl), 'utf8');
 const source = await readFile(new URL('../src/routes/+page.svelte', import.meta.url), 'utf8');
 const personalSpaceConfigSource = await readFile(new URL('../src/lib/personal-space.config.ts', import.meta.url), 'utf8');
+const projectsSource = await readFile(new URL('../src/lib/projects.ts', import.meta.url), 'utf8');
 const appHtmlSource = await readFile(new URL('../src/app.html', import.meta.url), 'utf8');
 const css = await readFile(new URL('../src/app.css', import.meta.url), 'utf8');
 const labControls = await readFile(new URL('../src/lib/LabControls.svelte', import.meta.url), 'utf8');
@@ -16,7 +17,7 @@ const monitorWorkflow = await readFile(new URL('../.github/workflows/monitor-sit
 
 test('homepage includes a meaningful page title and description', () => {
   assert.match(html, /<title>Leenus Darnal — I build useful things<\/title>/);
-  assert.match(html, /<meta name="description" content="The personal site of Leenus Darnal\./);
+  assert.match(html, /<meta name="description" content="A personal space for useful web tools/);
 });
 
 test('homepage exposes the primary landmarks and skip link', () => {
@@ -44,7 +45,7 @@ test('homepage is framed as a personal project space, not a job-search portfolio
   assert.match(html, />Projects<\/a>/);
   assert.match(html, /PROJECTS &amp; EXPERIMENTS/);
   assert.match(html, /Things I like exploring/);
-  assert.match(source, /personal space for practical web tools/i);
+  assert.match(personalSpaceConfigSource, /A personal space for useful web tools/);
   assert.doesNotMatch(source, /resume|résumé|download cv|hire me|open to work|job seeking|personal developer portfolio/i);
 });
 
@@ -72,24 +73,24 @@ test('daily uptime monitoring covers every live project demo', () => {
 });
 
 test('PixelCutout is listed with its source and local-processing features', () => {
-  assert.match(source, /name: 'PixelCutout'/);
-  assert.match(source, /https:\/\/pixelcutout-three\.vercel\.app\//);
-  assert.match(source, /https:\/\/github\.com\/leenusdarnal\/pixelcutout/);
-  assert.match(source, /AI and no-AI removal modes/);
-  assert.match(source, /Images stay on your device/);
+  assert.match(projectsSource, /name: 'PixelCutout'/);
+  assert.match(projectsSource, /https:\/\/pixelcutout-three\.vercel\.app\//);
+  assert.match(projectsSource, /https:\/\/github\.com\/leenusdarnal\/pixelcutout/);
+  assert.match(projectsSource, /AI and no-AI removal modes/);
+  assert.match(projectsSource, /Images stay on your device/);
   assert.match(projectActions, /\{#if project\.live\}/);
 });
 
 test('PixelForge portfolio details match its current SvelteKit project', () => {
-  assert.match(source, /stack: \['SvelteKit', 'Tailwind CSS', 'Canvas API'\]/);
-  assert.match(source, /Editable text layers/);
-  assert.match(source, /24 MP document target/);
-  assert.match(source, /offline-first editor/);
-  assert.match(source, /local \.pfs project files/);
+  assert.match(projectsSource, /stack: \['SvelteKit', 'Tailwind CSS', 'Canvas API'\]/);
+  assert.match(projectsSource, /Editable text layers/);
+  assert.match(projectsSource, /24 MP document target/);
+  assert.match(projectsSource, /offline-first image editor/);
+  assert.match(projectsSource, /local \.pfs project files/);
 });
 
 test('salary calculator is clearly identified as an independent reference tool', () => {
-  assert.match(source, /not an official Government of Sikkim calculator/);
+  assert.match(projectsSource, /not an official Government of Sikkim calculator/);
 });
 
 test('external links opened in new tabs use safe rel attributes', () => {
@@ -310,6 +311,8 @@ test('Slate & Emerald reference palette and sticky glass navigation are applied'
   assert.match(personalSpaceConfigSource, /export const personalSpaceConfig =/);
   assert.match(personalSpaceConfigSource, /palette: 'Slate & Emerald'/);
   assert.match(personalSpaceConfigSource, /hosting: 'GitHub Pages'/);
+  assert.match(personalSpaceConfigSource, /defaultTheme: 'system'/);
+  assert.match(personalSpaceConfigSource, /themeStorageKey: 'site-theme'/);
   assert.match(css, /--font-mono: "Fira Code"/);
 });
 
@@ -317,11 +320,16 @@ test('Slate & Emerald reference palette and sticky glass navigation are applied'
 
 
 test('personal-space panel is driven by a dedicated TypeScript config module', () => {
-  for (const field of ['owner', 'handle', 'headline', 'statement', 'palette', 'hosting', 'focus', 'principles']) {
-    assert.ok(personalSpaceConfigSource.includes(`${field}:`), `Missing config field: ${field}`);
+  for (const field of ['identity:', 'site:', 'appearance:', 'sections:', 'navigation:', 'content:', 'focus:', 'principles:', 'socialImage:', 'defaultTheme:']) {
+    assert.ok(personalSpaceConfigSource.includes(field), `Missing config field: ${field}`);
   }
-  assert.match(source, /personalSpaceConfig\.focus/);
-  assert.match(source, /personalSpaceConfig\.principles/);
+  assert.match(source, /personalSpaceConfig\.content\.personalSpace\.focus/);
+  assert.match(source, /personalSpaceConfig\.content\.personalSpace\.principles/);
+  assert.match(source, /personalSpaceConfig\.site\.title/);
+  assert.match(source, /personalSpaceConfig\.appearance\.themeStorageKey/);
+  assert.match(source, /personalSpaceConfig\.sections\.projects/);
+  assert.match(source, /personalSpaceConfig\.navigation\.filter/);
+  assert.match(source, /JSON\.stringify\(\{/);
   assert.match(html, /personal-space\.config\.ts/);
   assert.match(html, /leenus\.lab/);
   assert.match(html, /GitHub Pages/);
@@ -330,7 +338,8 @@ test('personal-space panel is driven by a dedicated TypeScript config module', (
 });
 
 test('theme colour metadata matches the current Slate & Emerald surfaces', () => {
-  assert.ok(source.includes('content={theme === "dark" ? "#0b0f19" : "#f8fafc"}'));
+  assert.match(source, /personalSpaceConfig\.appearance\.themeColors\.dark/);
+  assert.match(source, /personalSpaceConfig\.appearance\.themeColors\.light/);
 });
 
 test('accent foregrounds are explicitly applied to visible CTA text', async () => {
@@ -342,7 +351,7 @@ test('accent foregrounds are explicitly applied to visible CTA text', async () =
 
 test('project cards expose category filters, live GitHub metadata and quick clone actions', () => {
   assert.match(source, /data-project-card/);
-  assert.match(source, /categories: \['client-compute', 'svelte'\]/);
+  assert.match(projectsSource, /categories: \['client-compute', 'svelte'\]/);
   assert.match(labControls, /leenus_lab_repos_v1/);
   assert.match(labControls, /3600000/);
   assert.match(labControls, /stargazers_count/);
@@ -541,4 +550,35 @@ test('Runtime Inspector clearly qualifies browser hints and restricted transfer-
   assert.match(labControls, /cached resources/);
   assert.match(labControls, /estimates for this site’s origin/);
   assert.match(labControls, /does not read your files, browsing history or other sites’ storage/);
+});
+
+
+test('projects are maintained in a dedicated typed catalogue, separate from page layout', () => {
+  assert.match(source, /import \{ projects \} from '\.\.\/lib\/projects'/);
+  assert.match(projectsSource, /export const projects = \[/);
+  for (const slug of ['pixelforge-studio', 'metronome', 'sikkim-government-salary-calculator', 'pixelcutout']) {
+    assert.ok(projectsSource.includes(slug), 'Missing project data: ' + slug);
+  }
+  assert.doesNotMatch(source, /const projects = \[/);
+});
+
+test('site identity, SEO, theme defaults, navigation and section visibility are config-driven', () => {
+  for (const path of [
+    'personalSpaceConfig.identity.name',
+    'personalSpaceConfig.site.title',
+    'personalSpaceConfig.site.description',
+    'personalSpaceConfig.site.socialImage.url',
+    'personalSpaceConfig.appearance.defaultTheme',
+    'personalSpaceConfig.appearance.themeColors',
+    'personalSpaceConfig.sections.about',
+    'personalSpaceConfig.sections.contact',
+    'personalSpaceConfig.content.hero.tags',
+    'personalSpaceConfig.content.about.paragraphs',
+    'personalSpaceConfig.content.contact.description'
+  ]) {
+    assert.ok(source.includes(path), 'Homepage is not wired to ' + path);
+  }
+  assert.match(source, /item\.section/);
+  assert.match(source, /personalSpaceConfig\.site\.contactEmail/);
+  assert.match(source, /personalSpaceConfig\.site\.repositoryUrl/);
 });
