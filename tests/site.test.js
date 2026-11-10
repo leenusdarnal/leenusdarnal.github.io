@@ -428,7 +428,7 @@ test('architecture drawers and command palette retain visible keyboard focus', (
 
 test('GitHub metadata cache validates TTL and aborts pending requests on unmount', () => {
   assert.match(developerTools, /stored\.timestamp <= now/);
-  assert.match(developerTools, /AbortController/);
+  assert.match(repoMetadata, /AbortController/);
   assert.match(developerTools, /controller\.abort\(\)/);
   assert.match(developerTools, /Array\.isArray\(data\)/);
 });
@@ -491,7 +491,7 @@ test('cross-origin isolation shim scopes COOP and credentialless COEP to documen
   assert.match(developerTools, /reloadAttempted/);
   assert.match(developerTools, /Cross-origin isolation did not activate in this browser/);
   assert.match(developerTools, /crossOriginIsolation: isolationState/);
-  assert.match(html, /runtime_inspector\.sh/);
+  assert.match(developerTools, /runtime_inspector\\.sh/);
 });
 
 
@@ -624,8 +624,8 @@ test('project social image settings are centralized with the other site metadata
 
 test('Personal Space Configurator provides safe local drafts and a live preview', async () => {
   const configurator = await readFile(new URL('../src/lib/PersonalSpaceConfigurator.svelte', import.meta.url), 'utf8');
-  assert.match(source, /import PersonalSpaceConfigurator from '\.\.\/lib\/PersonalSpaceConfigurator\.svelte'/);
-  assert.match(source, /<PersonalSpaceConfigurator \/>/);
+  assert.match(source, /import\\('\\.\\.\\/lib\\/PersonalSpaceConfigurator\\.svelte'\\)/);
+  assert.match(source, /<ConfiguratorComponent \\/>/);
   for (const feature of [
     'leenus-lab-config-draft-v1',
     'localStorage.setItem',
