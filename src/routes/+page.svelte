@@ -98,7 +98,7 @@
   <title>Leenus Darnal — I build useful things</title>
   <meta name="description" content="The personal site of Leenus Darnal. A collection of useful web tools, projects and experiments." />
   <meta name="author" content="Leenus Darnal" />
-  <meta name="theme-color" content="#0b0d0c" />
+  <meta name="theme-color" content={theme === "dark" ? "#0d100e" : "#f5f4ee"} />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Leenus Darnal — I build useful things" />
   <meta property="og:description" content="A collection of useful web tools, projects and experiments by Leenus Darnal." />
@@ -124,6 +124,7 @@
 
     <nav aria-label="Main navigation" class="flex shrink-0 items-center gap-1 text-xs font-medium text-[var(--muted)] sm:gap-4 sm:text-sm lg:gap-7">
       <a href="#work" class="inline-flex min-h-11 items-center rounded-full px-2 transition-colors hover:text-[var(--ink)] sm:px-1">Work</a>
+      <a href="#about" class="inline-flex min-h-11 items-center rounded-full px-2 transition-colors hover:text-[var(--ink)] sm:px-1">About</a>
       <a href="#contact" class="inline-flex min-h-11 items-center rounded-full px-2 transition-colors hover:text-[var(--ink)] sm:px-1">Contact</a>
       <a href="https://github.com/leenusdarnal" target="_blank" rel="noopener noreferrer" class="hidden transition-colors hover:text-[var(--ink)] sm:inline">GitHub ↗</a>
       <button
@@ -159,8 +160,14 @@
           I build useful things<span class="text-[var(--accent)]">.</span>
         </p>
         <p class="mt-4 max-w-xl text-sm leading-7 text-[var(--muted)] sm:text-base sm:leading-8 lg:text-lg">
-          Small web tools, practical applications and experiments made to simplify everyday tasks.
+          Browser-native tools and practical web applications, built to make everyday tasks simpler. I care about useful details, thoughtful interfaces and keeping the web fast and accessible.
         </p>
+        <ul aria-label="Technologies and interests" class="mt-5 flex flex-wrap gap-2 font-mono text-[10px] uppercase tracking-[0.12em] text-[var(--muted)] sm:mt-6">
+          <li class="rounded-full border border-[var(--line)] px-3 py-1.5">SvelteKit</li>
+          <li class="rounded-full border border-[var(--line)] px-3 py-1.5">JavaScript</li>
+          <li class="rounded-full border border-[var(--line)] px-3 py-1.5">Browser APIs</li>
+          <li class="rounded-full border border-[var(--line)] px-3 py-1.5">Open-source projects</li>
+        </ul>
         <div class="mt-7 flex flex-wrap items-center gap-3 sm:mt-9">
           <a href="#work" class="inline-flex min-h-11 items-center gap-2 rounded-full bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[var(--accent-contrast)] transition hover:-translate-y-0.5 sm:gap-3 sm:px-6 sm:py-3.5 hover:shadow-[0_12px_30px_color-mix(in_srgb,var(--accent)_20%,transparent)]">
             Explore my work <span aria-hidden="true">↓</span>
@@ -301,8 +308,22 @@
       </div>
     </section>
 
+    <section id="about" aria-labelledby="about-heading" class="scroll-mt-12 border-t border-[var(--line)] py-16 sm:py-20 lg:py-24">
+      <div class="grid gap-8 md:grid-cols-[0.7fr_1.3fr] md:gap-16">
+        <div>
+          <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--accent)]">02 / A LITTLE ABOUT ME</p>
+          <h2 id="about-heading" class="mt-4 text-[clamp(2rem,6vw,3.25rem)] font-semibold leading-[1.02] tracking-[-0.07em]">Curious by nature.<br />Practical by design.</h2>
+        </div>
+        <div class="max-w-2xl">
+          <p class="text-base leading-8 text-[var(--muted)] sm:text-lg">I enjoy turning everyday problems and small ideas into useful digital tools. My work tends to live at the intersection of clean interfaces, browser capabilities and practical problem-solving.</p>
+          <p class="mt-5 text-base leading-8 text-[var(--muted)] sm:text-lg">I like building things that feel simple to use, respect people's privacy and work well across devices. This site is where I share those experiments, the projects that grow from them and what I learn along the way.</p>
+          <a href="https://github.com/leenusdarnal" target="_blank" rel="noopener noreferrer" class="mt-7 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[var(--accent)] transition hover:gap-3">More on GitHub <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </section>
+
     <section id="contact" aria-labelledby="contact-heading" class="scroll-mt-12 border-y border-[var(--line)] py-16 sm:py-20 lg:py-24">
-      <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--accent)]">02 / SAY HELLO</p>
+      <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--accent)]">03 / SAY HELLO</p>
       <div class="mt-5 grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
         <div>
           <h2 id="contact-heading" class="max-w-2xl text-[clamp(2.25rem,7vw,3.75rem)] font-semibold leading-[1.02] tracking-[-0.07em] sm:text-6xl">Have something<br class="hidden sm:block" /> interesting in mind?</h2>
