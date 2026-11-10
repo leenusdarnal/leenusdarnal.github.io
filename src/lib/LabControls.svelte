@@ -35,7 +35,7 @@
     generatedAt: new Date().toISOString(),
     browser: { userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : null, language: typeof navigator !== 'undefined' ? navigator.language : null, platform: typeof navigator !== 'undefined' ? navigator.platform : null },
     compute: diagnostics,
-    display: { deviceMemoryGB: typeof navigator !== 'undefined' ? navigator.deviceMemory ?? null : null, colorGamutP3: typeof window !== 'undefined' ? window.matchMedia('(color-gamut: p3)').matches : null },
+    display: { deviceMemoryGB: typeof navigator !== 'undefined' ? Reflect.get(navigator, 'deviceMemory') ?? null : null, colorGamutP3: typeof window !== 'undefined' ? window.matchMedia('(color-gamut: p3)').matches : null },
     projects: projects.map(({ name, slug, stack, live, source }) => ({ name, slug, stack, live, source }))
   });
   let rawJson = $derived(JSON.stringify(report, null, 2));
@@ -81,14 +81,15 @@
 
   async function collectDiagnostics() {
     const result = {
-      webgpu: { available: !!navigator.gpu, adapter: null, vendor: null, architecture: null, fp16: false, maxBufferSizeBytes: null, maxBufferSize: 'Unavailable' },
+      webgpu: { available: !!Reflect.get(navigator, 'gpu'), adapter: null, vendor: null, architecture: null, fp16: false, maxBufferSizeBytes: null, maxBufferSize: 'Unavailable' },
       wasmThreads: { crossOriginIsolated: !!window.crossOriginIsolated, status: window.crossOriginIsolated ? 'Active (cross-origin isolated)' : 'Single-thread mode / isolation unavailable' },
-      memory: { deviceMemoryGB: navigator.deviceMemory ?? null },
+      memory: { deviceMemoryGB: Reflect.get(navigator, 'deviceMemory') ?? null },
       display: { colorGamutP3: window.matchMedia('(color-gamut: p3)').matches, gamut: window.matchMedia('(color-gamut: p3)').matches ? 'Display P3 wide gamut' : 'sRGB or unknown' }
     };
-    if (navigator.gpu?.requestAdapter) {
+    const gpu = Reflect.get(navigator, 'gpu');
+    if (gpu?.requestAdapter) {
       try {
-        const adapter = await navigator.gpu.requestAdapter();
+        const adapter = await gpu.requestAdapter();
         if (adapter) {
           const info = adapter.info ?? {};
           const max = adapter.limits?.maxBufferSize ?? null;
