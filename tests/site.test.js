@@ -28,6 +28,17 @@ test('theme control has an accessible name and describes both states', () => {
   assert.match(source, /aria-label=\{theme === 'dark' \? 'Switch to light theme' : 'Switch to dark theme'\}/);
 });
 
+test('homepage includes a concise About section and navigation link', () => {
+  assert.match(html, /href="#about"[^>]*>About<\/a>/);
+  assert.match(html, /id="about"/);
+  assert.match(html, /Curious by nature/);
+  assert.match(html, /Browser-native tools and practical web applications/);
+});
+
+test('theme colour metadata follows the selected theme', () => {
+  assert.match(source, /content=\{theme === "dark" \? "#0d100e" : "#f5f4ee"\}/);
+});
+
 test('all existing live project destinations are preserved', () => {
   for (const url of [
     'https://pixelforge-studio-pied.vercel.app/',
