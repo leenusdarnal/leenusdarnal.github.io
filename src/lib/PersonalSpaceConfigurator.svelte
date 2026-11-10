@@ -152,7 +152,7 @@
         <div class="mb-5 border-t border-[var(--line)] pt-5">
           <p class="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--muted)]">03 / APPEARANCE</p>
           <div class="mt-3 grid gap-3 sm:grid-cols-2">
-            <label class="config-field">Palette label
+            <label class="config-field">Palette label (display name only)
               <input bind:value={draft.palette} maxlength="40" />
             </label>
             <label class="config-field">Default theme
@@ -190,7 +190,7 @@
           <p class="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--accent)]">LIVE PREVIEW</p>
           <span class="font-mono text-[9px] text-[var(--muted)]">UNPUBLISHED</span>
         </div>
-        <div class="mt-4 rounded-xl border border-[var(--line)] bg-[var(--panel)] p-4 sm:p-5">
+        <div class="mt-4 rounded-xl border border-[var(--line)] bg-[var(--panel)] p-4 sm:p-5" style={draft.defaultTheme === 'light' ? '--page:#f8fafc;--panel:#ffffff;--panel-soft:#f1f5f9;--ink:#0f172a;--muted:#64748b;--line:#e2e8f0' : draft.defaultTheme === 'dark' ? '--page:#0b0f19;--panel:#111827;--panel-soft:#172033;--ink:#f8fafc;--muted:#94a3b8;--line:#293548' : ''}>
           <p class="font-mono text-[9px] uppercase tracking-[0.15em] text-[var(--muted)]">{draft.name || 'Your name'} · {draft.palette || 'Palette'}</p>
           <h3 class="mt-4 break-words text-2xl font-semibold leading-tight tracking-[-0.06em] text-[var(--ink)]">{draft.headline || 'Your headline'}<span class="text-[var(--accent)]">.</span></h3>
           <p class="mt-3 break-words text-sm leading-6 text-[var(--muted)]">{draft.heroDescription || 'Your introduction will appear here.'}</p>
