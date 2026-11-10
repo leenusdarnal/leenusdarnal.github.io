@@ -19,6 +19,7 @@
 <div class="mt-5 flex flex-wrap items-center gap-x-4 gap-y-3 text-sm">
   {#if project.live}<a href={project.live} target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--accent)] hover:underline">Launch App ↗</a>{/if}
   <a href={project.source} target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--muted)] hover:text-[var(--ink)]">Source Code ↗</a>
+  <a href={"/projects/" + project.slug + "/"} class="font-semibold text-[var(--muted)] hover:text-[var(--ink)]">Project Notes ↗</a>
   <button type="button" class="clone-button" onclick={copyClone} aria-label="Copy git clone command">{copied ? 'Copied!' : '⧉ Clone'}</button>
 </div>
 <details class="architecture-drawer mt-4">
