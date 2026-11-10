@@ -170,33 +170,15 @@
 
       <article data-project-card data-category={projects[0].categories.join(' ')} aria-labelledby="project-pixelforge-title" aria-describedby="project-pixelforge-description" class="project-card group overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--panel)] transition duration-300 hover:-translate-y-1 hover:border-[color-mix(in_srgb,var(--accent)_55%,var(--line))]">
         <div class="grid lg:grid-cols-[1.12fr_0.88fr]">
-          <div aria-hidden="true" class="relative min-h-[220px] overflow-hidden bg-[var(--panel-soft)] p-3 sm:min-h-[300px] sm:p-6 lg:min-h-[370px] lg:p-8">
-            <div class="absolute inset-0 opacity-70" style="background: radial-gradient(circle at 48% 50%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 55%);"></div>
-            <div class="relative mx-auto flex h-full min-h-[200px] min-w-0 max-w-[600px] overflow-hidden rounded-xl border border-[var(--line)] bg-[#101512] shadow-2xl sm:min-h-[280px] sm:rounded-2xl lg:min-h-[315px]">
-              <div class="flex w-9 shrink-0 flex-col items-center gap-3 border-r border-white/10 bg-[#171e19] py-3 text-[10px] text-white/55 sm:w-14 sm:gap-5 sm:py-6 lg:w-16">
-                <span class="text-lg text-[#b9ef70]">✳</span><span>⌖</span><span>◩</span><span>✎</span><span>◌</span><span>⌘</span>
-              </div>
-              <div class="flex min-w-0 flex-1 flex-col">
-                <div class="flex h-9 items-center justify-between gap-2 border-b border-white/10 px-2 text-[8px] text-white/55 sm:h-12 sm:px-4 sm:text-[10px]">
-                  <span>PIXELFORGE STUDIO</span><span class="rounded-full bg-[#b9ef70]/15 px-2 py-1 text-[#b9ef70]">Untitled project</span>
-                </div>
-                <div class="flex min-w-0 flex-1 items-center justify-center p-2 sm:p-6 lg:p-8">
-                  <div class="relative aspect-[4/3] w-full max-w-[330px] overflow-hidden rounded-lg bg-gradient-to-br from-[#d2e2bb] via-[#829f70] to-[#263d31] shadow-xl">
-                    <div class="absolute -left-8 top-8 size-32 rounded-full bg-[#d6edb4]/80 blur-[1px] sm:size-44"></div>
-                    <div class="absolute -bottom-10 right-3 size-40 rounded-full bg-[#243b31]/80 sm:size-52"></div>
-                    <div class="absolute right-8 top-8 h-24 w-16 rotate-12 rounded-full border border-white/50 bg-white/15 backdrop-blur-sm sm:right-12 sm:top-12 sm:h-32 sm:w-24"></div>
-                    <div class="absolute bottom-5 left-5 font-mono text-[9px] uppercase tracking-[0.2em] text-white/80">Canvas / 01</div>
-                  </div>
-                </div>
-                <div class="flex h-8 items-center justify-between gap-2 border-t border-white/10 px-2 text-[7px] text-white/70 sm:h-10 sm:px-4 sm:text-[9px]"><span>100% · RGB</span><span>Layers&nbsp;&nbsp; Adjust&nbsp;&nbsp; History</span></div>
-              </div>
-              <div class="hidden w-24 flex-col gap-3 border-l border-white/10 bg-[#171e19] p-3 text-[9px] text-white/45 sm:flex sm:w-32 sm:p-4">
-                <span class="mb-2 text-[8px] uppercase tracking-widest">Layers</span>
-                <span class="rounded bg-white/10 p-2 text-white/80">◧ Background</span><span class="p-2">◧ Shape 01</span><span class="p-2">◧ Shape 02</span>
-              </div>
+          <div aria-hidden="true" class="relative flex min-h-[220px] items-center justify-center overflow-hidden bg-[var(--panel-soft)] p-6 sm:min-h-[300px] sm:p-8 lg:min-h-[370px]">
+            <div class="flex w-full max-w-[520px] flex-col items-center justify-center rounded-2xl border border-[var(--line)] bg-[var(--panel)] px-6 py-10 text-center shadow-xl sm:py-14">
+              <img src="https://pixelforge-studio-pied.vercel.app/icons/icon.svg" alt="" width="72" height="72" loading="lazy" decoding="async" class="size-16 sm:size-20" />
+              <p class="mt-5 font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--accent)]">Actual application icon</p>
+              <p class="mt-2 text-2xl font-semibold tracking-[-0.05em] text-[var(--ink)]">PixelForge Studio</p>
+              <p class="mt-2 max-w-xs text-xs leading-6 text-[var(--muted)]">Open the live editor to see the real canvas, tools, layers and responsive workspace.</p>
+              <span class="mt-5 rounded-full border border-[var(--line)] px-3 py-1.5 font-mono text-[9px] text-[var(--muted)]">LIVE BROWSER APP</span>
             </div>
-            <p class="relative mt-3 text-right font-mono text-[9px] uppercase tracking-[0.15em] text-[var(--muted)]">01 — Browser image editor</p>
-          </div>
+            <p class="absolute bottom-4 right-5 font-mono text-[9px] uppercase tracking-[0.15em] text-[var(--muted)]">01 — Live application</p></div>
 
           <div class="flex min-w-0 flex-col justify-center p-5 sm:p-8 lg:p-12">
             <div class="flex flex-wrap items-center justify-between gap-2"><p class="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--accent)]">FEATURED PROJECT · IMAGE EDITOR</p><span class="repo-stars" data-repo-stars="pixelforge-studio" hidden></span></div>
@@ -220,35 +202,27 @@
       <div class="mt-5 grid gap-5 lg:grid-cols-2">
         {#each projects.slice(1) as project}
           <article data-project-card data-category={project.categories.join(' ')} aria-labelledby="project-{project.visual}-title" aria-describedby="project-{project.visual}-description" class="project-card group overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--panel)] transition duration-300 hover:-translate-y-1 hover:border-[color-mix(in_srgb,var(--accent)_55%,var(--line))]">
-            <div aria-hidden="true" class="relative flex min-h-[210px] items-center justify-center overflow-hidden bg-[var(--panel-soft)] p-4 sm:min-h-[270px] sm:p-6">
+            <div aria-hidden="true" class="relative flex min-h-[210px] items-center justify-center overflow-hidden bg-[var(--panel-soft)] p-5 sm:min-h-[270px] sm:p-6">
               {#if project.visual === 'metro'}
                 <div class="w-full max-w-[560px] overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--panel)] shadow-xl">
-                  <img src="https://raw.githubusercontent.com/leenusdarnal/react-metronome/master/screenshots/react-metronome.png" alt="" aria-hidden="true" width="416" height="314" sizes="(max-width: 560px) 100vw, 560px" loading="lazy" decoding="async" class="block h-auto w-full object-contain" />
-                </div>              {:else if project.visual === 'salary'}
-                <div class="w-full max-w-sm rounded-2xl border border-[var(--line)] bg-[var(--panel)] p-5 shadow-xl sm:p-6">
-                  <div class="flex items-center justify-between"><span class="font-mono text-[9px] uppercase tracking-[0.16em] text-[var(--muted)]">Pay estimate</span><span class="rounded-full bg-[var(--accent-soft)] px-2 py-1 text-[9px] text-[var(--accent)]">Reference</span></div>
-                  <div class="mt-6 text-xs text-[var(--muted)]">Pay level</div>
-                  <div class="mt-1 flex items-center justify-between border-b border-[var(--line)] pb-3 text-lg font-semibold">Level 17 <span class="text-sm text-[var(--muted)]">⌄</span></div>
-                  <div class="mt-4 grid grid-cols-2 gap-3">
-                    <div class="rounded-xl bg-[var(--panel-soft)] p-3"><div class="text-[9px] text-[var(--muted)]">Basic pay</div><div class="mt-2 text-lg font-semibold">Enter amount</div></div>
-                    <div class="rounded-xl bg-[var(--panel-soft)] p-3"><div class="text-[9px] text-[var(--muted)]">DA rate</div><div class="mt-2 text-lg font-semibold">Set rate</div></div>
-                  </div>
-                  <div class="mt-4 flex items-center justify-between border-t border-[var(--line)] pt-4 text-xs"><span class="text-[var(--muted)]">Estimated in-hand</span><span class="font-semibold text-[var(--accent)]">Estimate salary →</span></div>
+                  <img src="https://raw.githubusercontent.com/leenusdarnal/react-metronome/master/screenshots/react-metronome.png" alt="" width="416" height="314" sizes="(max-width: 560px) 100vw, 560px" loading="lazy" decoding="async" class="block h-auto w-full object-contain" />
+                </div>
+                <p class="absolute bottom-4 right-5 rounded-full bg-[var(--panel)]/90 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.12em] text-[var(--muted)]">Source repository screenshot</p>
+              {:else if project.visual === 'cutout'}
+                <div class="flex w-full max-w-sm flex-col items-center justify-center rounded-2xl border border-[var(--line)] bg-[var(--panel)] px-5 py-8 text-center shadow-xl">
+                  <img src="https://pixelcutout-three.vercel.app/pixelcutout-icon.svg" alt="" width="64" height="64" loading="lazy" decoding="async" class="size-16" />
+                  <p class="mt-4 font-mono text-[9px] uppercase tracking-[0.15em] text-[var(--accent)]">Actual application icon</p>
+                  <p class="mt-2 text-sm font-semibold text-[var(--ink)]">PixelCutout</p>
+                  <p class="mt-1 text-xs text-[var(--muted)]">Open the live app for the real editing workspace.</p>
                 </div>
               {:else}
-                <div class="grid w-full max-w-sm grid-cols-2 gap-3 sm:gap-4">
-                  <div class="relative aspect-[4/5] overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--panel)] p-3 shadow-lg sm:p-4">
-                    <div class="absolute inset-0 opacity-70" style="background: radial-gradient(circle at 50% 38%, #d7b08a, transparent 42%), linear-gradient(145deg, #9a765d, #33453d);"></div>
-                    <div class="absolute bottom-0 left-1/2 h-[72%] w-[48%] -translate-x-1/2 rounded-t-[48%] bg-[#e2c1a1] shadow-xl"></div>
-                    <span class="absolute left-3 top-3 rounded-full bg-black/45 px-2 py-1 font-mono text-[8px] text-white">ORIGINAL</span>
-                  </div>
-                  <div class="relative flex aspect-[4/5] items-center justify-center overflow-hidden rounded-2xl border border-[var(--line)] p-3 shadow-lg sm:p-4" style="background-color:var(--panel);background-image:linear-gradient(45deg,var(--line) 25%,transparent 25%),linear-gradient(-45deg,var(--line) 25%,transparent 25%),linear-gradient(45deg,transparent 75%,var(--line) 75%),linear-gradient(-45deg,transparent 75%,var(--line) 75%);background-size:18px 18px;background-position:0 0,0 9px,9px -9px,-9px 0;">
-                    <div class="relative h-[72%] w-[48%] rounded-t-[48%] bg-[#e2c1a1] shadow-xl"></div>
-                    <span class="absolute left-3 top-3 rounded-full bg-[var(--accent)] px-2 py-1 font-mono text-[8px] text-[var(--accent-contrast)]" style="color: var(--accent-contrast)">CUTOUT</span>
-                  </div>
+                <div class="flex w-full max-w-sm flex-col items-center justify-center rounded-2xl border border-[var(--line)] bg-[var(--panel)] px-5 py-8 text-center shadow-xl">
+                  <span class="grid size-16 place-items-center rounded-2xl border border-[var(--line)] font-mono text-3xl font-semibold text-[var(--accent)]" aria-hidden="true">₹</span>
+                  <p class="mt-4 font-mono text-[9px] uppercase tracking-[0.15em] text-[var(--accent)]">Live application</p>
+                  <p class="mt-2 text-sm font-semibold text-[var(--ink)]">Sikkim Government Salary Calculator</p>
+                  <p class="mt-1 text-xs text-[var(--muted)]">Open the live calculator to explore the current salary workflow.</p>
                 </div>
               {/if}
-              <p class="absolute bottom-4 right-5 rounded-full bg-[var(--panel)]/90 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.12em] text-[var(--muted)]">{project.visual === 'metro' ? 'Actual app screenshot' : 'Interface illustration'} · {project.number}</p>
             </div>
             <div class="min-w-0 p-5 sm:p-7 lg:p-8">
               <div class="flex flex-wrap items-center justify-between gap-2"><p class="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--accent)]">{project.type}</p><span class="repo-stars" data-repo-stars={project.slug} hidden></span></div>
