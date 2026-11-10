@@ -11,7 +11,7 @@
     <meta property="og:title" content={`${project.name} — Leenus Darnal`} />
     <meta property="og:description" content={project.summary} />
     <meta property="og:image" content="https://leenusdarnal.github.io/og-image.svg" />
-    <meta property="og:image:alt" content="Leenus Darnal — project case study" />
+    <meta property="og:image:alt" content="Leenus Darnal — project notes" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={`${project.name} — Leenus Darnal`} />
     <meta name="twitter:description" content={project.summary} />
@@ -31,7 +31,7 @@
 
   {#if project}
     <main class="py-14 sm:py-20">
-      <a href="/#work" class="text-sm font-medium text-[var(--muted)] transition hover:text-[var(--accent)]">← Back to selected work</a>
+      <a href="/#work" class="text-sm font-medium text-[var(--muted)] transition hover:text-[var(--accent)]">← Back to projects</a>
       <p class="mt-12 font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--accent)]">{project.number} / {project.category}</p>
       <h1 class="mt-4 max-w-4xl text-[clamp(2.7rem,9vw,5.8rem)] font-semibold leading-[0.96] tracking-[-0.075em]">{project.name}<span class="text-[var(--accent)]">.</span></h1>
       <p class="mt-7 max-w-3xl text-xl leading-relaxed tracking-[-0.03em] text-[var(--muted)] sm:text-2xl">{project.summary}</p>
@@ -108,7 +108,7 @@
     <main class="grid min-h-[60vh] content-center py-16">
       <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--accent)]">404 / NOT FOUND</p>
       <h1 class="mt-4 text-4xl font-semibold tracking-[-0.06em]">Project not found.</h1>
-      <p class="mt-4 max-w-lg leading-7 text-[var(--muted)]">This project page may have moved. Return to the homepage to browse the current portfolio.</p>
+      <p class="mt-4 max-w-lg leading-7 text-[var(--muted)]">This project page may have moved. Return to the homepage to browse the projects and experiments.</p>
       <a href="/#work" class="mt-7 inline-flex min-h-11 w-fit items-center rounded-full bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[var(--accent-contrast)]">Explore all projects</a>
     </main>
   {/if}

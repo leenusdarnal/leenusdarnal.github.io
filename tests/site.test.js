@@ -33,7 +33,16 @@ test('homepage includes a concise About section and navigation link', () => {
   assert.match(html, /href="#about"[^>]*>About<\/a>/);
   assert.match(html, /id="about"/);
   assert.match(html, /Curious by nature/);
-  assert.match(html, /Browser-native tools and practical web applications/);
+  assert.match(html, /little corner of the internet for browser-native tools/);
+});
+
+
+test('homepage is framed as a personal project space, not a job-search portfolio', () => {
+  assert.match(html, />Projects<\/a>/);
+  assert.match(html, /PROJECTS &amp; EXPERIMENTS/);
+  assert.match(html, /Things I like exploring/);
+  assert.match(source, /personal space for practical web tools/i);
+  assert.doesNotMatch(source, /resume|résumé|download cv|hire me|open to work|job seeking|personal developer portfolio/i);
 });
 
 test('theme colour metadata follows the selected theme', () => {

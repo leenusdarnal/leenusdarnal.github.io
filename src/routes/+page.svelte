@@ -61,13 +61,13 @@
         '@type': 'Person',
         name: 'Leenus Darnal',
         url: 'https://leenusdarnal.github.io/',
-        description: 'A personal developer portfolio featuring practical web applications, browser-based tools and experiments.',
+        description: 'A personal space for practical web tools, playful experiments and things I am curious about.',
         sameAs: ['https://github.com/leenusdarnal']
       },
       {
         '@type': 'WebSite',
         name: 'Leenus Darnal — I build useful things',
-        description: 'Practical web applications, browser-based tools and experiments.',
+        description: 'A personal corner of the internet for useful tools, side projects and experiments.',
         url: 'https://leenusdarnal.github.io/',
         publisher: { '@type': 'Person', name: 'Leenus Darnal' }
       }
@@ -128,7 +128,7 @@
     </a>
 
     <nav aria-label="Main navigation" class="flex shrink-0 items-center gap-1 text-xs font-medium text-[var(--muted)] sm:gap-4 sm:text-sm lg:gap-7">
-      <a href="#work" class="inline-flex min-h-11 items-center rounded-full px-2 transition-colors hover:text-[var(--ink)] sm:px-1">Work</a>
+      <a href="#work" class="inline-flex min-h-11 items-center rounded-full px-2 transition-colors hover:text-[var(--ink)] sm:px-1">Projects</a>
       <a href="#about" class="inline-flex min-h-11 items-center rounded-full px-2 transition-colors hover:text-[var(--ink)] sm:px-1">About</a>
       <a href="#contact" class="inline-flex min-h-11 items-center rounded-full px-2 transition-colors hover:text-[var(--ink)] sm:px-1">Contact</a>
       <a href="https://github.com/leenusdarnal" target="_blank" rel="noopener noreferrer" class="hidden transition-colors hover:text-[var(--ink)] sm:inline">GitHub ↗</a>
@@ -165,17 +165,17 @@
           I build useful things<span class="text-[var(--accent)]">.</span>
         </p>
         <p class="mt-4 max-w-xl text-sm leading-7 text-[var(--muted)] sm:text-base sm:leading-8 lg:text-lg">
-          Browser-native tools and practical web applications, built to make everyday tasks simpler. I care about useful details, thoughtful interfaces and keeping the web fast and accessible.
+          This is my little corner of the internet for browser-native tools, practical web apps and experiments. I like making everyday tasks simpler, exploring what the web can do and sharing what I learn.
         </p>
-        <ul aria-label="Technologies and interests" class="mt-5 flex flex-wrap gap-2 font-mono text-[10px] uppercase tracking-[0.12em] text-[var(--muted)] sm:mt-6">
-          <li class="rounded-full border border-[var(--line)] px-3 py-1.5">SvelteKit</li>
-          <li class="rounded-full border border-[var(--line)] px-3 py-1.5">JavaScript</li>
-          <li class="rounded-full border border-[var(--line)] px-3 py-1.5">Browser APIs</li>
-          <li class="rounded-full border border-[var(--line)] px-3 py-1.5">Open-source projects</li>
+        <ul aria-label="Things I like exploring" class="mt-5 flex flex-wrap gap-2 font-mono text-[10px] uppercase tracking-[0.12em] text-[var(--muted)] sm:mt-6">
+          <li class="rounded-full border border-[var(--line)] px-3 py-1.5">Useful tools</li>
+          <li class="rounded-full border border-[var(--line)] px-3 py-1.5">Browser experiments</li>
+          <li class="rounded-full border border-[var(--line)] px-3 py-1.5">Privacy-first apps</li>
+          <li class="rounded-full border border-[var(--line)] px-3 py-1.5">Learning by building</li>
         </ul>
         <div class="mt-7 flex flex-wrap items-center gap-3 sm:mt-9">
           <a href="#work" class="inline-flex min-h-11 items-center gap-2 rounded-full bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[var(--accent-contrast)] transition hover:-translate-y-0.5 sm:gap-3 sm:px-6 sm:py-3.5 hover:shadow-[0_12px_30px_color-mix(in_srgb,var(--accent)_20%,transparent)]">
-            Explore my work <span aria-hidden="true">↓</span>
+            Explore projects <span aria-hidden="true">↓</span>
           </a>
           <a href="https://github.com/leenusdarnal" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center gap-2 rounded-full border border-[var(--line)] px-5 py-3 text-sm font-medium text-[var(--ink)] transition hover:border-[var(--accent)] sm:px-6 sm:py-3.5">
             GitHub <span aria-hidden="true">↗</span>
@@ -197,10 +197,10 @@
     <section id="work" aria-labelledby="work-heading" class="scroll-mt-12 pb-20 pt-4 sm:pb-28 sm:pt-8">
       <div class="mb-7 flex flex-wrap items-start justify-between gap-3 border-b border-[var(--line)] pb-5 sm:mb-9 sm:items-end sm:gap-4">
         <div>
-          <p class="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--accent)]">01 / SELECTED WORK</p>
-          <h2 id="work-heading" class="text-[clamp(1.8rem,7vw,2.25rem)] font-semibold tracking-[-0.06em] sm:text-4xl">Things I've made<span class="text-[var(--accent)]">.</span></h2>
+          <p class="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--accent)]">01 / PROJECTS & EXPERIMENTS</p>
+          <h2 id="work-heading" class="text-[clamp(1.8rem,7vw,2.25rem)] font-semibold tracking-[-0.06em] sm:text-4xl">Things I've made & explored<span class="text-[var(--accent)]">.</span></h2>
         </div>
-        <p class="w-full max-w-xs text-sm leading-6 text-[var(--muted)] sm:w-auto">A few projects built to solve small problems and make everyday tasks easier.</p>
+        <p class="w-full max-w-xs text-sm leading-6 text-[var(--muted)] sm:w-auto">A growing collection of useful tools, side projects and experiments.</p>
       </div>
 
       <article aria-labelledby="project-pixelforge-title" aria-describedby="project-pixelforge-description" class="group overflow-hidden rounded-3xl border border-[var(--line)] bg-[var(--panel)] transition duration-300 hover:-translate-y-1 hover:border-[color-mix(in_srgb,var(--accent)_55%,var(--line))]">
@@ -247,7 +247,7 @@
             </div>
             <div class="mt-7 flex flex-wrap gap-x-5 gap-y-3 text-sm font-semibold sm:mt-9">
               <a class="inline-flex items-center gap-2 text-[var(--accent)] transition hover:gap-3" href={projects[0].live} target="_blank" rel="noopener noreferrer">Open editor <span>↗</span></a>
-              <a class="inline-flex items-center gap-2 text-[var(--muted)] transition hover:text-[var(--ink)]" href="/projects/{projects[0].slug}/">Read case study <span>↗</span></a>
+              <a class="inline-flex items-center gap-2 text-[var(--muted)] transition hover:text-[var(--ink)]" href="/projects/{projects[0].slug}/">Project notes <span>↗</span></a>
               <a class="inline-flex items-center gap-2 text-[var(--muted)] transition hover:text-[var(--ink)]" href={projects[0].source} target="_blank" rel="noopener noreferrer">Source code <span>↗</span></a>
             </div>
             <p class="mt-6 text-[11px] leading-5 text-[var(--muted)]">Offline-first editing with local autosaves. Export a .pfs project file to keep a separate backup of your work.</p>
@@ -304,7 +304,7 @@
                 {#if project.live}
                   <a class="inline-flex items-center gap-2 text-[var(--accent)] transition hover:gap-3" href={project.live} target="_blank" rel="noopener noreferrer">Open project <span>↗</span></a>
                 {/if}
-                <a class="inline-flex items-center gap-2 text-[var(--muted)] transition hover:text-[var(--ink)]" href="/projects/{project.slug}/">Read case study <span>↗</span></a>
+                <a class="inline-flex items-center gap-2 text-[var(--muted)] transition hover:text-[var(--ink)]" href="/projects/{project.slug}/">Project notes <span>↗</span></a>
                 <a class="inline-flex items-center gap-2 text-[var(--muted)] transition hover:text-[var(--ink)]" href={project.source} target="_blank" rel="noopener noreferrer">Source code <span>↗</span></a>
               </div>
             </div>
@@ -320,8 +320,8 @@
           <h2 id="about-heading" class="mt-4 text-[clamp(2rem,6vw,3.25rem)] font-semibold leading-[1.02] tracking-[-0.07em]">Curious by nature.<br />Practical by design.</h2>
         </div>
         <div class="max-w-2xl">
-          <p class="text-base leading-8 text-[var(--muted)] sm:text-lg">I enjoy turning everyday problems and small ideas into useful digital tools. My work tends to live at the intersection of clean interfaces, browser capabilities and practical problem-solving.</p>
-          <p class="mt-5 text-base leading-8 text-[var(--muted)] sm:text-lg">I like building things that feel simple to use, respect people's privacy and work well across devices. This site is where I share those experiments, the projects that grow from them and what I learn along the way.</p>
+          <p class="text-base leading-8 text-[var(--muted)] sm:text-lg">I enjoy turning everyday problems and passing ideas into useful digital tools. The things I make tend to sit somewhere between clean interfaces, browser capabilities and practical problem-solving.</p>
+          <p class="mt-5 text-base leading-8 text-[var(--muted)] sm:text-lg">I like making things that feel simple to use, respect people's privacy and work well across devices. This site is where I keep a record of those experiments, share the projects that grow from them and collect what I learn along the way.</p>
           <a href="https://github.com/leenusdarnal" target="_blank" rel="noopener noreferrer" class="mt-7 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[var(--accent)] transition hover:gap-3">More on GitHub <span aria-hidden="true">↗</span></a>
         </div>
       </div>
