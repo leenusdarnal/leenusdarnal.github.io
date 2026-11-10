@@ -88,6 +88,7 @@
   }
 
   async function collectDiagnostics() {
+    /** @type {any} */
     const result = {
       webgpu: { available: !!Reflect.get(navigator, 'gpu'), adapter: null, vendor: null, architecture: null, fp16: false, maxBufferSizeBytes: null, maxBufferSize: 'Unavailable', error: null },
       wasmThreads: { crossOriginIsolated: !!window.crossOriginIsolated, status: window.crossOriginIsolated ? 'Active (cross-origin isolated)' : 'Single-thread mode / isolation unavailable' },
