@@ -83,11 +83,23 @@ function setFirstSocialProfileUrl(value) {
   const objectEnd = sitePart.indexOf('}', objectStart);
   if (objectStart < 0 || objectEnd < 0) throw new Error('Could not find the GitHub social profile.');
   const profile = sitePart.slice(objectStart, objectEnd + 1);
-  const match = /\\burl:\\s*(['"])(?:\\\\.|[^'"])*\\1/.exec(profile);
-  if (!match) throw new Error('Could not find the GitHub social profile URL.');
-  const absolute = siteStart + objectStart + match.index;
-  const prefix = match[0].slice(0, match[0].indexOf(match[1]));
-  source = source.slice(0, absolute) + prefix + JSON.stringify(value) + source.slice(absolute + match[0].length);
+  const propertyStart = profile.indexOf('url:');
+  if (propertyStart < 0) throw new Error('Could not find the GitHub social profile URL.');
+  let valueStart = propertyStart + 4;
+  while (/\\s/.test(profile[valueStart] ?? '')) valueStart++;
+  const quote = profile[valueStart];
+  if (quote !== "'" && quote !== '"') throw new Error('Expected a quoted social profile URL.');
+  let cursor = valueStart + 1;
+  let escaped = false;
+  for (; cursor < profile.length; cursor++) {
+    const ch = profile[cursor];
+    if (escaped) escaped = false;
+    else if (ch === '\\\\') escaped = true;
+    else if (ch === quote) break;
+  }
+  if (cursor >= profile.length) throw new Error('Unterminated social profile URL.');
+  const absolute = siteStart + objectStart + valueStart;
+  source = source.slice(0, absolute) + JSON.stringify(value) + source.slice(siteStart + objectStart + cursor + 1);
 }
 
 function setBoolean(block, key, value) {
