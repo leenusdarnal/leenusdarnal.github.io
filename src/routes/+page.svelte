@@ -82,7 +82,7 @@
   <a class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-[var(--ink)] focus:px-4 focus:py-3 focus:text-[var(--page)]" href="#main">Skip to content</a>
 
   <header class="site-header -mx-4 flex items-center justify-between gap-3 px-4 py-4 sm:-mx-8 sm:px-8 sm:py-5 lg:-mx-10 lg:px-10">
-    <a href="#top" aria-label={personalSpaceConfig.identity.name + " — home"} class="group flex min-w-0 shrink-0 items-center gap-2 text-xs font-semibold tracking-tight no-underline sm:gap-3 sm:text-sm">
+    <a href="#top" aria-label={personalSpaceConfig.identity.monogram + " " + personalSpaceConfig.identity.name + ". — home"} class="group flex min-w-0 shrink-0 items-center gap-2 text-xs font-semibold tracking-tight no-underline sm:gap-3 sm:text-sm">
       <span aria-hidden="true" class="grid size-8 place-items-center rounded-full bg-[var(--accent)] text-sm font-black text-[var(--accent-contrast)] sm:size-9" style="color: var(--accent-contrast)">{personalSpaceConfig.identity.monogram}</span>
       <span>{personalSpaceConfig.identity.name}<span class="text-[var(--accent)]">.</span></span>
     </a>
