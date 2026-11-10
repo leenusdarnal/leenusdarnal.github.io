@@ -332,7 +332,7 @@
     <span class="code-accent">'privacy-first tools'</span>,
     <span class="code-accent">'learning by building'</span>
   ],
-  <span class="code-comment">// No résumé. Just things I make and explore.</span>
+  <span class="code-comment">// Just things I make and explore.</span>
 &#125;;</code></pre>
         </div>
       </div>
