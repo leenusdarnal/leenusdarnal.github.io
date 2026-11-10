@@ -1,0 +1,69 @@
+name: Publish Personal Space configuration
+
+on:
+  workflow_dispatch:
+    inputs:
+      config_json:
+        description: Paste the exported Personal Space JSON (minified JSON recommended)
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-personal-space-config
+  cancel-in-progress: false
+
+jobs:
+  propose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Validate and apply allow-listed configuration
+        env:
+          CONFIG_JSON: ${{ inputs.config_json }}
+        run: node scripts/publish-personal-space-config.mjs
+
+      - name: Create review pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          if git diff --quiet; then
+            echo "The exported configuration matches the published settings; nothing to propose."
+            exit 0
+          fi
+          branch="config/personal-space-${RUN_ID}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$branch"
+          git add src/lib/personal-space.config.ts
+          git commit -m "chore: update Personal Space configuration"
+          git push origin "$branch"
+          gh pr create \
+            --base main \
+            --head "$branch" \
+            --title "chore: publish Personal Space configuration" \
+            --body "## Configuration update
+
+          This pull request was generated from an explicitly submitted Personal Space JSON draft.
+
+          - Only allow-listed text, appearance and section-visibility fields were changed.
+          - Input validation ran before file changes.
+          - No arbitrary code or workflow files are accepted.
+          - Review the diff and automated checks before merging."
