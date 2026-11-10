@@ -468,3 +468,20 @@ test('cross-origin isolation shim scopes COOP and credentialless COEP to documen
   assert.match(labControls, /crossOriginIsolation: isolationState/);
   assert.match(html, /runtime_inspector\.sh/);
 });
+
+
+test('Lighthouse retains its raw report even when quality thresholds fail', async () => {
+  const workflow = await readFile(new URL('../.github/workflows/lighthouse.yml', import.meta.url), 'utf8');
+  const reporter = await readFile(new URL('../scripts/report-lighthouse.js', import.meta.url), 'utf8');
+  const uploadIndex = workflow.indexOf('name: Upload Lighthouse report');
+  const gateIndex = workflow.indexOf('name: Summarise audit scores and enforce quality floor');
+  assert.ok(uploadIndex >= 0 && gateIndex > uploadIndex, 'The report must upload before the quality gate');
+  assert.match(workflow.slice(uploadIndex, gateIndex), /if: always\(\)/);
+  assert.match(workflow.slice(uploadIndex, gateIndex), /if-no-files-found: warn/);
+  assert.match(reporter, /first-contentful-paint/);
+  assert.match(reporter, /largest-contentful-paint/);
+  assert.match(reporter, /total-blocking-time/);
+  assert.match(reporter, /cumulative-layout-shift/);
+  assert.match(reporter, /overallSavingsMs/);
+  assert.match(reporter, /GITHUB_STEP_SUMMARY/);
+});
