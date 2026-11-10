@@ -559,7 +559,7 @@ test('Runtime Inspector clearly qualifies browser hints and restricted transfer-
 
 test('projects are maintained in a dedicated typed catalogue, separate from page layout', () => {
   assert.match(source, /import \{ projects \} from '\.\.\/lib\/projects'/);
-  assert.match(projectsSource, /export const projects = \[/);
+  assert.match(projectsSource, /export const projects: readonly ProjectRecord\[\] = \[/);
   for (const slug of ['pixelforge-studio', 'metronome', 'sikkim-government-salary-calculator', 'pixelcutout']) {
     assert.ok(projectsSource.includes(slug), 'Missing project data: ' + slug);
   }
