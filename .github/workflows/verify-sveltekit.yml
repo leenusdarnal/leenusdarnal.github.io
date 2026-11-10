@@ -32,6 +32,9 @@ jobs:
       - name: Check Svelte files
         run: npm run check
 
+      - name: Syntax-check configuration publisher
+        run: node --check scripts/publish-personal-space-config.mjs
+
       - name: Build static site
         run: npm run build
 
