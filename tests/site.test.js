@@ -38,10 +38,10 @@ test('homepage includes a concise About section and navigation link', () => {
 
 
 test('homepage is framed as a personal project space, not a job-search portfolio', () => {
-  assert.match(html, />Projects<\\/a>/);
-  assert.match(html, /Projects &amp; experiments/);
+  assert.match(html, />Projects<\/a>/);
+  assert.match(html, /PROJECTS &amp; EXPERIMENTS/);
   assert.match(html, /Things I like exploring/);
-  assert.match(source, /personal space for practical web tools/);
+  assert.match(source, /personal space for practical web tools/i);
   assert.doesNotMatch(source, /resume|résumé|download cv|hire me|open to work|job seeking|personal developer portfolio/i);
 });
 
