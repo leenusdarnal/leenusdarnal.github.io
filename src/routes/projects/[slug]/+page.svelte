@@ -1,5 +1,5 @@
 <script>
-  import { personalSpaceConfig } from '$lib/personal-space.config';
+  import { personalSpaceConfig } from '../../../lib/personal-space.config';
 
   let { data } = $props();
   let project = $derived(data.project);
