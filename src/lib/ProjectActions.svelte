@@ -3,11 +3,11 @@
   let copied = $state(false);
   /** @type {Map<string, string[]>} */
   const architecture = new Map([
-    ['pixelforge-studio', ['Browser-based image editing with a canvas-oriented workflow.', 'Published features include layers, masks, selection tools, editable text and local .pfs project files.', 'Offline-first behaviour and local autosaves are described in the project notes. Runtime details such as WebGPU, ONNX or worker isolation are not asserted here.'],
-    ['metronome', ['React + TypeScript + Vite application.', 'Published functionality includes tempo control, playback and selectable time signatures.', 'The current homepage does not document backend services or a server-side feed architecture.'],
-    ['sikkim-government-salary-calculator', ['Standalone browser reference calculator built with JavaScript, HTML and CSS.', 'Estimates gross pay, common deductions and in-hand salary.', 'It is an independent estimate tool, not an official Government of Sikkim calculator.'],
-    ['pixelcutout', ['SvelteKit application using Transformers.js and ONNX Runtime.', 'Published features include AI and no-AI removal modes, local erase/restore tools and PNG, JPEG and WebP export.', 'The homepage describes local image handling; exact model/provider selection is not specified here.']
-  };
+    ['pixelforge-studio', ['Browser-based image editing with a canvas-oriented workflow.', 'Published features include layers, masks, selection tools, editable text and local .pfs project files.', 'Offline-first behaviour and local autosaves are described in the project notes. Runtime details such as WebGPU, ONNX or worker isolation are not asserted here.']],
+    ['metronome', ['React + TypeScript + Vite application.', 'Published functionality includes tempo control, playback and selectable time signatures.', 'The current homepage does not document backend services or a server-side feed architecture.']],
+    ['sikkim-government-salary-calculator', ['Standalone browser reference calculator built with JavaScript, HTML and CSS.', 'Estimates gross pay, common deductions and in-hand salary.', 'It is an independent estimate tool, not an official Government of Sikkim calculator.']],
+    ['pixelcutout', ['SvelteKit application using Transformers.js and ONNX Runtime.', 'Published features include AI and no-AI removal modes, local erase/restore tools and PNG, JPEG and WebP export.', 'The homepage describes local image handling; exact model/provider selection is not specified here.']]
+  ]);
   async function copyClone() {
     try {
       await navigator.clipboard.writeText('git clone ' + project.source + '.git');
