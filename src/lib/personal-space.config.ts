@@ -28,6 +28,7 @@ export interface PersonalSpaceConfig {
     twitterCard: 'summary' | 'summary_large_image';
     socialProfiles: readonly { label: string; url: string }[];
     socialImage: { url: string; type: string; width: number; height: number; alt: string };
+    projectSocialImage: { url: string; type: string; alt: string };
   };
   appearance: {
     palette: string;
@@ -101,6 +102,11 @@ export const personalSpaceConfig = {
       width: 1200,
       height: 630,
       alt: 'Leenus Darnal — I build useful things'
+    },
+    projectSocialImage: {
+      url: 'https://leenusdarnal.github.io/og-image.svg',
+      type: 'image/svg+xml',
+      alt: 'Leenus Darnal — project notes'
     }
   },
   appearance: {
