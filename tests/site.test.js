@@ -296,3 +296,17 @@ test('homepage social preview uses a PNG and an Apple touch icon is linked', () 
   assert.match(html, /twitter:image" content="https:\/\/leenusdarnal\.github\.io\/og-image\.png"/);
   assert.match(appHtmlSource, /apple-touch-icon\.png/);
 });
+
+test('Slate & Emerald reference palette and sticky glass navigation are applied', () => {
+  assert.match(css, /--page:\s*#f8fafc/);
+  assert.match(css, /--panel:\s*#ffffff/);
+  assert.match(css, /--panel-soft:\s*#f1f5f9/);
+  assert.match(css, /--page:\s*#0b0f19/);
+  assert.match(css, /--panel:\s*#111827/);
+  assert.match(css, /--panel-soft:\s*#1e293b/);
+  assert.match(css, /backdrop-filter:\s*blur\(12px\)/);
+  assert.match(source, /site-header/);
+  assert.match(source, /personal-space\.config\.ts/);
+  assert.match(source, /No résumé/);
+  assert.match(css, /--font-mono: "Fira Code"/);
+});
