@@ -151,10 +151,12 @@
     window.location.reload();
   }
 
+  /** @param {number | null | undefined} value */
   function formatDuration(value) {
     return Number.isFinite(value) && value >= 0 ? Math.round(value) + ' ms' : 'Not available';
   }
 
+  /** @param {number | null | undefined} value */
   function formatBytes(value) {
     if (!Number.isFinite(value) || value < 0) return 'Not available';
     if (value < 1024) return Math.round(value) + ' B';
@@ -169,13 +171,14 @@
     try {
       const isolated = window.crossOriginIsolated === true;
       const sharedMemory = typeof SharedArrayBuffer === 'function';
-      const navEntry = performance.getEntriesByType('navigation')[0] ?? null;
+      const navEntry = /** @type {PerformanceNavigationTiming | undefined} */ (performance.getEntriesByType('navigation')[0]) ?? null;
       const paintEntries = performance.getEntriesByType('paint');
       const fcp = paintEntries.find((entry) => entry.name === 'first-contentful-paint');
-      const resources = performance.getEntriesByType('resource');
+      const resources = performance.getEntriesByType('resource').map((entry) => /** @type {PerformanceResourceTiming} */ (entry));
       const reportedTransferBytes = resources.reduce((total, entry) => total + (Number(entry.transferSize) || 0), 0);
       const connection = Reflect.get(navigator, 'connection') ?? Reflect.get(navigator, 'mozConnection') ?? Reflect.get(navigator, 'webkitConnection');
       const storageApi = Reflect.get(navigator, 'storage');
+      /** @type {{ supported: boolean, usageBytes: number | null, quotaBytes: number | null, persisted: boolean | null, error?: string }} */
       let storage = { supported: !!storageApi?.estimate, usageBytes: null, quotaBytes: null, persisted: null };
       if (storageApi?.estimate) {
         try {
@@ -187,6 +190,7 @@
           storage = { ...storage, error: 'Storage estimate unavailable' };
         }
       }
+      /** @type {any} */
       const result = {
         webgpu: { available: false, adapter: 'Checking…', vendor: null, architecture: null, fp16: false, maxBufferSizeBytes: null, maxBufferSize: 'Unavailable', maxStorageBufferBindingSize: null, error: null },
         wasmThreads: {
