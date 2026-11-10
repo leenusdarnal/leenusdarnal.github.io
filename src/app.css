@@ -473,3 +473,18 @@ button, a {
   .source-experiments-grid { grid-template-columns: minmax(0, 1fr); }
   .source-experiment-summary { min-height: 0; }
 }
+
+
+.coi-status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  border-top: 1px solid var(--line);
+  padding: .7rem 1rem;
+  color: var(--muted);
+  font-size: .68rem;
+  line-height: 1.6;
+}
+.coi-status > span { min-width: 0; flex: 1 1 16rem; }

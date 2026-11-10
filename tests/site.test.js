@@ -446,3 +446,25 @@ test('source-only architecture experiments document verified repositories withou
     assert.match(html, /Source only/);
   });
 });
+
+
+test('cross-origin isolation shim scopes COOP and credentialless COEP to document navigations', async () => {
+  const worker = await readFile(new URL('../static/coi-serviceworker.js', import.meta.url), 'utf8');
+  const registration = await readFile(new URL('../src/lib/cross-origin-isolation.js', import.meta.url), 'utf8');
+  assert.match(worker, /request\.mode !== 'navigate'/);
+  assert.match(worker, /url\.origin !== self\.location\.origin/);
+  assert.match(worker, /Cross-Origin-Opener-Policy', 'same-origin'/);
+  assert.match(worker, /Cross-Origin-Embedder-Policy', 'credentialless'/);
+  assert.match(worker, /new Response\(response\.body/);
+  assert.doesNotMatch(worker, /caches\.open|caches\.match/);
+  assert.match(registration, /navigator\.serviceWorker\.register\('\/coi-serviceworker\.js'/);
+  assert.match(registration, /updateViaCache: 'none'/);
+  assert.match(registration, /window\.isSecureContext/);
+  assert.match(registration, /controllerchange/);
+  assert.match(source, /registerCrossOriginIsolation/);
+  assert.match(labControls, /Reload to enable shared memory/);
+  assert.match(labControls, /reloadAttempted/);
+  assert.match(labControls, /Cross-origin isolation did not activate in this browser/);
+  assert.match(labControls, /crossOriginIsolation: isolationState/);
+  assert.match(html, /runtime_inspector\.sh/);
+});

@@ -4,6 +4,7 @@
   import ProjectActions from '../lib/ProjectActions.svelte';
   import ArchitectureExperiments from '../lib/ArchitectureExperiments.svelte';
   import { personalSpaceConfig } from '../lib/personal-space.config';
+  import { registerCrossOriginIsolation } from '../lib/cross-origin-isolation.js';
 
   let theme = $state('dark');
 
@@ -91,6 +92,7 @@
       theme = 'dark';
     }
     document.documentElement.dataset.theme = theme;
+    registerCrossOriginIsolation();
   });
 
   function toggleTheme() {

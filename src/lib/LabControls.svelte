@@ -13,6 +13,8 @@
   let copyStatus = $state('');
   let checking = $state(false);
   let lastChecked = $state('');
+  let isolationState = $state({ checked: false, supported: false, controlled: false, isolated: false, reloadAttempted: false });
+  let isolationNeedsReload = $derived(isolationState.checked && isolationState.supported && isolationState.controlled && !isolationState.isolated && !isolationState.reloadAttempted);
   /** @type {HTMLDialogElement | null} */
   let palette = $state(null);
   /** @type {HTMLInputElement | null} */
@@ -46,6 +48,7 @@
   ]);
   let report = $derived({
     generatedAt: lastChecked || null,
+    crossOriginIsolation: isolationState,
     browser: {
       userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : null,
       language: typeof navigator !== 'undefined' ? navigator.language : null,
@@ -118,6 +121,28 @@
       selectPaletteItem(selectedIndex);
     }
     if (event.key === 'Escape') closePalette();
+  }
+
+  function updateIsolationState() {
+    const supported = 'serviceWorker' in navigator && window.isSecureContext;
+    const isolated = window.crossOriginIsolated === true;
+    let reloadAttempted = false;
+    try {
+      reloadAttempted = sessionStorage.getItem('coi-isolation-reload-v1') === '1';
+      if (isolated) sessionStorage.removeItem('coi-isolation-reload-v1');
+    } catch {}
+    isolationState = {
+      checked: true,
+      supported,
+      controlled: supported && Boolean(navigator.serviceWorker.controller),
+      isolated,
+      reloadAttempted: reloadAttempted && !isolated
+    };
+  }
+
+  function reloadForIsolation() {
+    try { sessionStorage.setItem('coi-isolation-reload-v1', '1'); } catch {}
+    window.location.reload();
   }
 
   async function collectDiagnostics() {
@@ -204,6 +229,10 @@
 
   onMount(() => {
     collectDiagnostics();
+    updateIsolationState();
+    const handleIsolationChange = () => updateIsolationState();
+    window.addEventListener('coi-service-worker-statechange', handleIsolationChange);
+    if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('controllerchange', handleIsolationChange);
     let frame = 0;
     /** @param {PointerEvent} event */
     const moveSpotlight = (event) => {
@@ -258,6 +287,8 @@
     }
     return () => {
       controller.abort();
+      window.removeEventListener('coi-service-worker-statechange', handleIsolationChange);
+      if ('serviceWorker' in navigator) navigator.serviceWorker.removeEventListener('controllerchange', handleIsolationChange);
       window.removeEventListener('pointermove', moveSpotlight);
       cancelAnimationFrame(frame);
     };
@@ -311,9 +342,26 @@
       <div><span>FP16 shader</span><strong>{diagnostics.webgpu ? diagnostics.webgpu.fp16 ? 'Supported (half precision)' : 'FP32 only / unavailable' : 'Checking…'}</strong></div>
       <div><span>Max compute buffer</span><strong>{diagnostics.webgpu?.maxBufferSize ?? 'Checking…'}</strong></div>
       <div><span>WASM shared memory</span><strong>{diagnostics.wasmThreads?.status ?? 'Checking…'}</strong></div>
+      <div><span>Cross-origin isolation</span><strong>{!isolationState.checked ? 'Checking…' : isolationState.isolated ? 'Active' : isolationState.controlled ? 'Ready after reload' : isolationState.supported ? 'Service worker installing' : 'Unavailable in this browser'}</strong></div>
       <div><span>Device memory tier</span><strong>{diagnostics.memory?.deviceMemoryGB ? diagnostics.memory.deviceMemoryGB + ' GB (reported)' : 'Not exposed by browser'}</strong></div>
       <div><span>CPU threads</span><strong>{diagnostics.memory?.hardwareConcurrency ?? 'Not exposed by browser'}</strong></div>
       <div><span>Display gamut</span><strong>{diagnostics.display?.gamut ?? 'Checking…'}</strong></div>
+    </div>
+    <div class="coi-status">
+      {#if isolationNeedsReload}
+        <span>Service worker is ready. Reload this page once to activate cross-origin isolation and shared-memory features.</span>
+        <button type="button" class="tool-pill" onclick={reloadForIsolation}>Reload to enable shared memory</button>
+      {:else if isolationState.isolated}
+        <span>Cross-origin isolation is active for this page.</span>
+      {:else if isolationState.reloadAttempted}
+        <span>Cross-origin isolation did not activate in this browser. The standard fallback remains available.</span>
+      {:else if isolationState.checked && isolationState.supported}
+        <span>Preparing shared-memory mode. The current page remains in standard mode until the service worker controls a reload.</span>
+      {:else if isolationState.checked}
+        <span>Service workers are unavailable; browser diagnostics will use the standard fallback.</span>
+      {:else}
+        <span>Checking shared-memory mode…</span>
+      {/if}
     </div>
     <p class="px-4 pb-2 text-[10px] leading-5 text-[var(--muted)]">Last checked: {lastChecked ? new Date(lastChecked).toLocaleTimeString() : 'Checking…'} · Browser-exposed capability data only. A reported adapter or feature does not mean every project uses that execution path.</p>
     <p class="sr-only" aria-live="polite">{copyStatus}</p>
