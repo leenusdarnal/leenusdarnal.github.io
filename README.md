@@ -45,7 +45,7 @@ A scheduled and manually triggerable Lighthouse workflow audits the published Gi
 
 The homepage is a personal space for sharing projects, experiments and things learned along the way. It is not a résumé or job-search portfolio. Its light/dark theme follows the saved preference or system setting, and the browser theme colour tracks the active theme. Social sharing uses a dedicated 1200 × 630 PNG preview image.
 
-## Project case studies
+## Project notes
 
 The site has dedicated project notes for PixelForge Studio, Metronome, Sikkim Government Salary Calculator, and PixelCutout. Each page is a lightweight project note with an overview, key features, technology stack, and links to the live project and source code.
 
