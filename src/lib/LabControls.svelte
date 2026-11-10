@@ -13,8 +13,8 @@
   let copyStatus = $state('');
   let checking = $state(false);
   let lastChecked = $state('');
-  let isolationState = $state({ checked: false, supported: false, controlled: false, isolated: false });
-  let isolationNeedsReload = $derived(isolationState.checked && isolationState.supported && isolationState.controlled && !isolationState.isolated);
+  let isolationState = $state({ checked: false, supported: false, controlled: false, isolated: false, reloadAttempted: false });
+  let isolationNeedsReload = $derived(isolationState.checked && isolationState.supported && isolationState.controlled && !isolationState.isolated && !isolationState.reloadAttempted);
   /** @type {HTMLDialogElement | null} */
   let palette = $state(null);
   /** @type {HTMLInputElement | null} */
@@ -125,12 +125,24 @@
 
   function updateIsolationState() {
     const supported = 'serviceWorker' in navigator && window.isSecureContext;
+    const isolated = window.crossOriginIsolated === true;
+    let reloadAttempted = false;
+    try {
+      reloadAttempted = sessionStorage.getItem('coi-isolation-reload-v1') === '1';
+      if (isolated) sessionStorage.removeItem('coi-isolation-reload-v1');
+    } catch {}
     isolationState = {
       checked: true,
       supported,
       controlled: supported && Boolean(navigator.serviceWorker.controller),
-      isolated: window.crossOriginIsolated === true
+      isolated,
+      reloadAttempted: reloadAttempted && !isolated
     };
+  }
+
+  function reloadForIsolation() {
+    try { sessionStorage.setItem('coi-isolation-reload-v1', '1'); } catch {}
+    window.location.reload();
   }
 
   async function collectDiagnostics() {
@@ -338,9 +350,11 @@
     <div class="coi-status">
       {#if isolationNeedsReload}
         <span>Service worker is ready. Reload this page once to activate cross-origin isolation and shared-memory features.</span>
-        <button type="button" class="tool-pill" onclick={() => window.location.reload()}>Reload to enable shared memory</button>
+        <button type="button" class="tool-pill" onclick={reloadForIsolation}>Reload to enable shared memory</button>
       {:else if isolationState.isolated}
         <span>Cross-origin isolation is active for this page.</span>
+      {:else if isolationState.reloadAttempted}
+        <span>Cross-origin isolation did not activate in this browser. The standard fallback remains available.</span>
       {:else if isolationState.checked && isolationState.supported}
         <span>Preparing shared-memory mode. The current page remains in standard mode until the service worker controls a reload.</span>
       {:else if isolationState.checked}
