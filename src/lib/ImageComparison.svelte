@@ -30,6 +30,7 @@
       if (!probe.naturalWidth || !probe.naturalHeight || probe.naturalWidth * probe.naturalHeight > 40000000) {
         URL.revokeObjectURL(url);
         error = 'Choose an image up to 40 megapixels.';
+        input.value = '';
         return;
       }
       if (side === 'before') {
@@ -45,6 +46,7 @@
     };
     probe.onerror = () => {
       URL.revokeObjectURL(url);
+      input.value = '';
       error = 'The selected image could not be decoded.';
     };
     probe.src = url;
@@ -69,7 +71,7 @@
   <div class="mt-5 grid gap-3 sm:grid-cols-2">
     <label class="grid gap-2 rounded-xl border border-[var(--line)] p-3 text-xs text-[var(--muted)]">
       <span class="font-mono uppercase tracking-[0.12em]">Original image</span>
-      <input type="file" accept="image/*" onchange={(event) => loadImage(event, 'before')} class="block w-full text-xs file:mr-3 file:rounded-full file:border-0 file:bg-[var(--accent)] file:px-3 file:py-2 file:font-semibold file:text-[var(--accent-contrast)]" />
+      <input type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/avif" onchange={(event) => loadImage(event, 'before')} class="block w-full text-xs file:mr-3 file:rounded-full file:border-0 file:bg-[var(--accent)] file:px-3 file:py-2 file:font-semibold file:text-[var(--accent-contrast)]" />
       <span class="truncate" title={beforeName}>{beforeName || 'Choose a file · max 20 MB'}</span>
     </label>
     <label class="grid gap-2 rounded-xl border border-[var(--line)] p-3 text-xs text-[var(--muted)]">
@@ -83,8 +85,8 @@
   {#if beforeUrl && afterUrl}
     <div class="mt-5">
       <div class="relative isolate aspect-[16/10] overflow-hidden rounded-2xl border border-[var(--line)] bg-[#101512]" style="--reveal: {position}%">
-        <img src={afterUrl} alt={afterName ? 'Edited: ' + afterName : 'Edited image'} class="absolute inset-0 size-full object-contain" />
-        <img src={beforeUrl} alt={beforeName ? 'Original: ' + beforeName : 'Original image'} class="absolute inset-0 size-full object-contain" style="clip-path: inset(0 calc(100% - var(--reveal)) 0 0)" />
+        <img src={afterUrl} alt={afterName} class="absolute inset-0 size-full object-contain" />
+        <img src={beforeUrl} alt={beforeName} class="absolute inset-0 size-full object-contain" style="clip-path: inset(0 calc(100% - var(--reveal)) 0 0)" />
         <div aria-hidden="true" class="pointer-events-none absolute inset-y-0 z-10 w-px bg-white shadow-[0_0_0_1px_#111]" style="left: var(--reveal)">
           <span class="absolute left-1/2 top-1/2 grid size-10 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-white/70 bg-black/70 text-lg text-white">↔</span>
         </div>
