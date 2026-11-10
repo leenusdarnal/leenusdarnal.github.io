@@ -430,7 +430,7 @@ test('GitHub metadata cache validates TTL and aborts pending requests on unmount
   assert.match(repoMetadata, /stored\.timestamp <= now/);
   assert.match(repoMetadata, /AbortController/);
   assert.match(repoMetadata, /controller\.abort\(\)/);
-  assert.match(developerTools, /Array\.isArray\(data\)/);
+  assert.match(repoMetadata, /Array\.isArray\(data\)/);
 });
 
 
