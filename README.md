@@ -47,7 +47,7 @@ The homepage is a personal space for sharing projects, experiments and things le
 
 ## Project case studies
 
-The portfolio includes dedicated pages for PixelForge Studio, Metronome, Sikkim Government Salary Calculator, and PixelCutout. Each page is a lightweight project note with an overview, key features, technology stack, and links to the live project and source code.
+The site has dedicated project notes for PixelForge Studio, Metronome, Sikkim Government Salary Calculator, and PixelCutout. Each page is a lightweight project note with an overview, key features, technology stack, and links to the live project and source code.
 
 ## Site quality
 
