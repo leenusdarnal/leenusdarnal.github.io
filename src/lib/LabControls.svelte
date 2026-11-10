@@ -11,7 +11,7 @@
   let diagnostics = $state({});
   let reportCopied = $state(false);
   let copyStatus = $state('');
-  let checking = $state(true);
+  let checking = $state(false);
   let lastChecked = $state('');
   /** @type {HTMLDialogElement | null} */
   let palette = $state(null);
