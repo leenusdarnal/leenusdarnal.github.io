@@ -295,8 +295,9 @@ test('the home link accessible name includes its visible brand label', () => {
   assert.ok(html.includes('aria-label="L. Leenus Darnal. — home"'));
 });
 
-test('small decorative editor status text remains readable', () => {
-  assert.ok(html.includes('text-white/70'));
+test('homepage project preview panels use real app brand assets', () => {
+  assert.ok(html.includes('https://pixelforge-studio-pied.vercel.app/icons/icon.svg'));
+  assert.ok(html.includes('https://pixelcutout-three.vercel.app/pixelcutout-icon.svg'));
 });
 
 
