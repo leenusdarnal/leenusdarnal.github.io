@@ -33,7 +33,7 @@ test('homepage includes a concise About section and navigation link', () => {
   assert.match(html, /href="#about"[^>]*>About<\/a>/);
   assert.match(html, /id="about"/);
   assert.match(html, /Curious by nature/);
-  assert.match(html, /Browser-native tools and practical web applications/);
+  assert.match(html, /little corner of the internet for browser-native tools/);
 });
 
 
