@@ -27,10 +27,20 @@ jobs:
           node-version: 24
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --no-audit --no-fund
+
+      - name: Export generated dependency lockfile
+        uses: actions/upload-artifact@v6
+        with:
+          name: generated-package-lock
+          path: package-lock.json
+          retention-days: 1
 
       - name: Check Svelte files
         run: npm run check
+
+      - name: Syntax-check configuration publisher
+        run: node --check scripts/publish-personal-space-config.mjs
 
       - name: Build static site
         run: npm run build

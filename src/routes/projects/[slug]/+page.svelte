@@ -1,5 +1,6 @@
 <script>
   import { personalSpaceConfig } from '../../../lib/personal-space.config';
+  import ImageComparison from '../../../lib/ImageComparison.svelte';
 
   let { data } = $props();
   let project = $derived(data.project);
@@ -65,6 +66,10 @@
         </aside>
       {/if}
 
+      {#if project.slug === 'pixelforge-studio'}
+        <ImageComparison />
+      {/if}
+
       <div class="mt-16 grid gap-12 border-t border-[var(--line)] pt-10 md:grid-cols-[minmax(0,1fr)_260px] md:gap-16">
         <section aria-labelledby="overview-heading">
           <h2 id="overview-heading" class="text-2xl font-semibold tracking-[-0.05em]">Overview</h2>
@@ -77,6 +82,32 @@
               </li>
             {/each}
           </ul>
+          {#if project.caseStudy.approach?.length}
+            <h2 class="mt-12 text-2xl font-semibold tracking-[-0.05em]">Implementation notes</h2>
+            <ul class="mt-5 grid gap-3">
+              {#each project.caseStudy.approach as item}
+                <li class="rounded-2xl border border-[var(--line)] bg-[var(--panel)] p-4 text-sm leading-7 text-[var(--muted)]">{item}</li>
+              {/each}
+            </ul>
+          {/if}
+          {#if project.caseStudy.constraints?.length}
+            <h2 class="mt-12 text-2xl font-semibold tracking-[-0.05em]">Constraints & trade-offs</h2>
+            <ul class="mt-5 grid gap-3">
+              {#each project.caseStudy.constraints as item}
+                <li class="flex gap-3 rounded-2xl border border-[var(--line)] bg-[var(--panel-soft)] p-4 text-sm leading-7 text-[var(--muted)]">
+                  <span aria-hidden="true" class="mt-2 size-2 shrink-0 rounded-full bg-[var(--accent)]"></span>{item}
+                </li>
+              {/each}
+            </ul>
+          {/if}
+          {#if project.caseStudy.nextSteps?.length}
+            <h2 class="mt-12 text-2xl font-semibold tracking-[-0.05em]">Next steps</h2>
+            <ul class="mt-5 grid gap-3">
+              {#each project.caseStudy.nextSteps as item}
+                <li class="rounded-2xl border border-[var(--line)] p-4 text-sm leading-7 text-[var(--muted)]">{item}</li>
+              {/each}
+            </ul>
+          {/if}
           {#if project.caseStudy.disclaimer}
             <aside class="mt-8 rounded-2xl border border-[var(--line)] bg-[var(--panel-soft)] p-5">
               <h2 class="font-semibold">Important note</h2>

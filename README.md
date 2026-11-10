@@ -59,3 +59,19 @@ The site has dedicated project notes for PixelForge Studio, Metronome, Sikkim Go
 - Inter and Fira Code are bundled locally; the published site does not request Google Fonts at runtime.
 - A root-scoped service worker adds `Cross-Origin-Opener-Policy: same-origin` and `Cross-Origin-Embedder-Policy: credentialless` to same-origin document navigations. After it takes control, the runtime inspector offers a one-time reload to activate cross-origin isolation; no HTML is cached by the worker.
 - A scheduled uptime workflow checks the portfolio and linked project demos once per day.
+
+
+## Configuration publishing
+
+The Personal Space editor saves drafts only in the current browser and can export a JSON file. To publish an approved draft, open **Actions → Publish Personal Space configuration → Run workflow**, paste the exported JSON into the `config_json` input (minified JSON is easiest), and run it. The workflow validates the supported fields, updates only the allow-listed values in `src/lib/personal-space.config.ts`, and opens a pull request. It does not deploy directly or accept arbitrary code. Review the pull request and its checks before merging; the normal GitHub Pages workflow then deploys the approved change.
+
+The workflow requires repository write access and uses a short-lived, least-privilege `GITHUB_TOKEN`. Drafts are not sent anywhere until you explicitly run the workflow.
+
+
+## Publishing and project previews
+
+The PixelForge case study includes a before/after comparison control. Choose your own original and edited images; the preview uses temporary browser object URLs only, applies a 20 MB per-image limit, and never uploads or stores the files.
+
+The homepage uses authentic app icons and the Metronome screenshot from its source repository. Where a project has not published a screenshot, the site links to the live app rather than inventing a product screenshot.
+
+An RSS 2.0 feed is available at [`/feed.xml`](https://leenusdarnal.github.io/feed.xml). Unknown routes use a custom recovery page and the static `404.html` fallback.

@@ -104,9 +104,9 @@ export const personalSpaceConfig = {
       alt: 'Leenus Darnal — I build useful things'
     },
     projectSocialImage: {
-      url: 'https://leenusdarnal.github.io/og-image.svg',
-      type: 'image/svg+xml',
-      alt: 'Leenus Darnal — project notes'
+      url: 'https://leenusdarnal.github.io/og-image.png',
+      type: 'image/png',
+      alt: 'Leenus Darnal — projects and experiments'
     }
   },
   appearance: {

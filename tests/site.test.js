@@ -1,11 +1,16 @@
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { mkdtemp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { spawnSync } from 'node:child_process';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import test from 'node:test';
 
 const buildUrl = new URL('../build/', import.meta.url);
 const html = await readFile(new URL('index.html', buildUrl), 'utf8');
 const robots = await readFile(new URL('robots.txt', buildUrl), 'utf8');
 const sitemap = await readFile(new URL('sitemap.xml', buildUrl), 'utf8');
+const feed = await readFile(new URL('feed.xml', buildUrl), 'utf8');
+const fallback = await readFile(new URL('404.html', buildUrl), 'utf8');
 const source = await readFile(new URL('../src/routes/+page.svelte', import.meta.url), 'utf8');
 const personalSpaceConfigSource = await readFile(new URL('../src/lib/personal-space.config.ts', import.meta.url), 'utf8');
 const projectsSource = await readFile(new URL('../src/lib/projects.ts', import.meta.url), 'utf8');
@@ -256,10 +261,12 @@ test('projects without verified screenshots are not presented as photographed in
   }
 });
 
-test('homepage labels illustrative project art and the real screenshot distinctly', () => {
-  assert.match(html, /Actual app screenshot/);
-  assert.match(html, /Interface illustration/);
-  assert.match(projectsSource, /react-metronome\/master\/screenshots\/react-metronome\.png/);
+test('homepage uses genuine application branding and the source screenshot distinctly', () => {
+  assert.match(html, /Source repository screenshot/);
+  assert.ok(html.includes('https://pixelforge-studio-pied.vercel.app/icons/icon.svg'));
+  assert.ok(html.includes('https://pixelcutout-three.vercel.app/pixelcutout-icon.svg'));
+  assert.doesNotMatch(html, /Interface illustration/);
+  assert.ok(projectsSource.includes('react-metronome/master/screenshots/react-metronome.png'));
 });
 
 
@@ -290,8 +297,9 @@ test('the home link accessible name includes its visible brand label', () => {
   assert.ok(html.includes('aria-label="L. Leenus Darnal. — home"'));
 });
 
-test('small decorative editor status text remains readable', () => {
-  assert.ok(html.includes('text-white/70'));
+test('homepage project preview panels use real app brand assets', () => {
+  assert.ok(html.includes('https://pixelforge-studio-pied.vercel.app/icons/icon.svg'));
+  assert.ok(html.includes('https://pixelcutout-three.vercel.app/pixelcutout-icon.svg'));
 });
 
 
@@ -606,7 +614,7 @@ test('homepage and case-study routes use the same single typed project catalogue
 
 test('project social image settings are centralized with the other site metadata', () => {
   assert.match(personalSpaceConfigSource, /projectSocialImage:/);
-  assert.match(personalSpaceConfigSource, /og-image\.svg/);
+  assert.ok(personalSpaceConfigSource.includes('og-image.png'));
   assert.match(projectDetailSource, /personalSpaceConfig\.site\.projectSocialImage\.url/);
   assert.match(projectDetailSource, /personalSpaceConfig\.site\.url/);
 });
@@ -635,4 +643,120 @@ test('Personal Space Configurator provides safe local drafts and a live preview'
   assert.match(configurator, /bind:checked=\{draft\.sections\[section\]\}/);
   assert.match(configurator, /function resetDraft\(\)/);
   assert.match(configurator, /function exportDraft\(\)/);
+});
+
+
+test('Personal Space Configurator validates and bounds local drafts before save or export', async () => {
+  const configurator = await readFile(new URL('../src/lib/PersonalSpaceConfigurator.svelte', import.meta.url), 'utf8');
+  assert.match(configurator, /function validateDraft\(\)/);
+  assert.match(configurator, /new URL\(draft\.githubUrl\)/);
+  assert.match(configurator, /url\.protocol !== 'https:'/);
+  assert.match(configurator, /url\.hostname !== 'github\.com'/);
+  assert.match(configurator, /16384/);
+  assert.match(configurator, /saved\.length > 16384/);
+  assert.match(configurator, /Array\.isArray\(parsed\)/);
+  assert.match(configurator, /maxlength="120"/);
+  assert.match(configurator, /maxlength="254"/);
+  assert.match(configurator, /const error = validateDraft\(\)/);
+});
+
+test('project imagery never labels generated mockups as authentic application screenshots', async () => {
+  const homepage = await readFile(new URL('../src/routes/+page.svelte', import.meta.url), 'utf8');
+  const projects = await readFile(new URL('../src/lib/projects.ts', import.meta.url), 'utf8');
+  assert.match(homepage, /icons\/icon\.svg/);
+  assert.match(homepage, /pixelcutout-icon\.svg/);
+  assert.match(projects, /previewSourceUrl/);
+  const detail = await readFile(new URL('../src/routes/projects/[slug]/+page.svelte', import.meta.url), 'utf8');
+  assert.match(detail, /Actual application screenshot/);
+  assert.doesNotMatch(homepage, /Interface illustration/);
+  assert.doesNotMatch(homepage, /Enter amount/);
+});
+
+
+test('RSS feed is prerendered with project links and safe XML metadata', async () => {
+  assert.match(feed, /<rss version="2\.0">/);
+  assert.match(feed, /<title>PixelForge Studio<\/title>/);
+  assert.match(feed, /projects\/pixelforge-studio\//);
+  const feedRoute = await readFile(new URL('../src/routes/feed.xml/+server.js', import.meta.url), 'utf8');
+  assert.match(feedRoute, /application\/rss\+xml/);
+});
+
+test('custom static fallback includes helpful recovery navigation and noindex metadata', async () => {
+  assert.ok(fallback.length > 0, 'Static fallback should be generated');
+  const errorPage = await readFile(new URL('../src/routes/+error.svelte', import.meta.url), 'utf8');
+  assert.match(errorPage, /This page wandered off/);
+  assert.match(errorPage, /noindex, nofollow/);
+  assert.match(errorPage, /Browse projects/);
+});
+
+test('PixelForge comparison is local-only, bounded and accessible', async () => {
+  const component = await readFile(new URL('../src/lib/ImageComparison.svelte', import.meta.url), 'utf8');
+  assert.match(component, /URL\.createObjectURL/);
+  assert.match(component, /URL\.revokeObjectURL/);
+  assert.match(component, /20 \* 1024 \* 1024/);
+  assert.match(component, /type="range"/);
+  assert.match(component, /aria-label="Reveal original image"/);
+  assert.match(component, /never uploaded/);
+  assert.match(component, /clip-path/);
+});
+
+test('secure configuration publisher only accepts an allow-listed exported draft', async () => {
+  const publisher = await readFile(new URL('../scripts/publish-personal-space-config.mjs', import.meta.url), 'utf8');
+  const workflow = await readFile(new URL('../.github/workflows/publish-personal-space.yml', import.meta.url), 'utf8');
+  assert.match(publisher, /const configStart = source\.indexOf/);
+  assert.match(publisher, /github\.hostname !== 'github\.com'/);
+  assert.match(publisher, /sectionKeys/);
+  assert.match(publisher, /writeFile\(file, source\)/);
+  assert.doesNotMatch(publisher, /eval\(|new Function\(/);
+  assert.match(workflow, /workflow_dispatch/);
+  assert.match(workflow, /pull-requests: write/);
+  assert.match(workflow, /gh pr create/);
+});
+
+
+test('configuration publishing applies only validated fields and synchronises metadata', async () => {
+  const root = await mkdtemp(join(tmpdir(), 'leenus-config-publisher-'));
+  try {
+    await mkdir(join(root, 'src/lib'), { recursive: true });
+    await mkdir(join(root, 'scripts'), { recursive: true });
+    await writeFile(join(root, 'src/lib/personal-space.config.ts'), personalSpaceConfigSource);
+    const publisher = await readFile(new URL('../scripts/publish-personal-space-config.mjs', import.meta.url), 'utf8');
+    const publisherPath = join(root, 'scripts/publish-personal-space-config.mjs');
+    await writeFile(publisherPath, publisher);
+    const config = {
+      name: 'Test Person',
+      title: 'Test personal site',
+      description: 'A test description.',
+      githubUrl: 'https://github.com/test-person',
+      contactEmail: 'test@example.com',
+      headline: 'Build useful things',
+      heroDescription: 'A test hero description.',
+      palette: 'Test palette',
+      defaultTheme: 'light',
+      sections: { projects: true, sourceExperiments: false, personalSpace: true, about: true, contact: false }
+    };
+    const run = (value) => spawnSync(process.execPath, [publisherPath], {
+      cwd: root,
+      encoding: 'utf8',
+      env: { ...process.env, CONFIG_JSON: JSON.stringify({ config: value }) }
+    });
+    const valid = run(config);
+    assert.equal(valid.status, 0, valid.stderr);
+    const updated = await readFile(join(root, 'src/lib/personal-space.config.ts'), 'utf8');
+    assert.match(updated, /name: "Test Person"/);
+    assert.match(updated, /firstName: "Test"/);
+    assert.match(updated, /lastName: "Person"/);
+    assert.match(updated, /author: "Test Person"/);
+    assert.ok(updated.includes('url: "https://github.com/test-person"'));
+    assert.match(updated, /headline: "Build useful things"/);
+    assert.match(updated, /sourceExperiments: false/);
+    assert.match(updated, /contact: false/);
+
+    const beforeInvalid = updated;
+    const invalid = run({ ...config, githubUrl: 'javascript:alert(1)' });
+    assert.notEqual(invalid.status, 0, 'Unsafe GitHub URL must be rejected');
+    assert.equal(await readFile(join(root, 'src/lib/personal-space.config.ts'), 'utf8'), beforeInvalid);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
 });
