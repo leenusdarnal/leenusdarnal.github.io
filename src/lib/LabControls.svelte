@@ -11,6 +11,7 @@
   let reportCopied = $state(false);
   let palette;
   let searchInput;
+  let matchingProjects = $derived(projects.filter((p) => (p.name + ' ' + p.slug + ' ' + p.stack.join(' ')).toLowerCase().includes(query.toLowerCase())));
 
   const filters = [
     { id: 'all', label: 'All' },
@@ -118,6 +119,16 @@
 
   onMount(() => {
     collectDiagnostics();
+    let frame = 0;
+    const moveSpotlight = (event) => {
+      if (!window.matchMedia('(pointer: fine)').matches) return;
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        document.documentElement.style.setProperty('--mouse-x', event.clientX + 'px');
+        document.documentElement.style.setProperty('--mouse-y', event.clientY + 'px');
+      });
+    };
+    window.addEventListener('pointermove', moveSpotlight, { passive: true });
     const stored = (() => {
       try { return JSON.parse(sessionStorage.getItem('leenus_lab_repos_v1') || 'null'); } catch { return null; }
     })();
@@ -138,8 +149,9 @@
     if (cacheFresh) applyRepos(stored.data);
     else fetch('https://api.github.com/users/leenusdarnal/repos?sort=updated&per_page=100', { headers: { Accept: 'application/vnd.github+json' } })
       .then((response) => { if (!response.ok) throw new Error('GitHub API unavailable'); return response.json(); })
-      .then((data) => { sessionStorage.setItem('leenus_lab_repos_v1', JSON.stringify({ timestamp: Date.now(), data })); applyRepos(data); })
+      .then((data) => { applyRepos(data); try { sessionStorage.setItem('leenus_lab_repos_v1', JSON.stringify({ timestamp: Date.now(), data })); } catch {} })
       .catch(() => {});
+    return () => { window.removeEventListener('pointermove', moveSpotlight); cancelAnimationFrame(frame); };
   });
 
   function relativeTime(value) {
@@ -203,7 +215,10 @@
           <span>{item.label}</span><kbd>↵</kbd>
         </button>
       {/each}
-      {#if visibleCommands.length === 0}<p class="p-4 text-sm text-[var(--muted)]">No matching commands or tags.</p>{/if}
+      {#each matchingProjects as project}
+        <a class="command-item" href={project.live} target="_blank" rel="noopener noreferrer"><span>Project: {project.name}</span><kbd>↗</kbd></a>
+      {/each}
+      {#if visibleCommands.length === 0 && matchingProjects.length === 0}<p class="p-4 text-sm text-[var(--muted)]">No matching commands, projects or tags.</p>{/if}
     </div>
     <p class="border-t border-[var(--line)] px-4 py-3 text-[10px] text-[var(--muted)]">↑ ↓ navigate · Enter run · Esc close</p>
   </div>
