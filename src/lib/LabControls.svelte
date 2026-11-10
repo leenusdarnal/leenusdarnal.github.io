@@ -141,8 +141,10 @@
         const target = document.querySelector('[data-repo-meta="' + project.slug + '"]');
         if (target && repo) {
           const ago = relativeTime(repo.pushed_at);
-          target.textContent = (repo.stargazers_count > 0 ? '★ ' + repo.stargazers_count + ' · ' : '') + 'Updated ' + ago;
+          target.textContent = 'Updated ' + ago;
           target.hidden = false;
+          const stars = document.querySelector('[data-repo-stars="' + project.slug + '"]');
+          if (stars && repo.stargazers_count > 0) { stars.textContent = '★ ' + repo.stargazers_count; stars.hidden = false; }
         }
       }
     };
@@ -170,7 +172,7 @@
     <div class="flex flex-wrap gap-2" aria-label="Filter projects">
       {#each filters as filter}
         <button type="button" aria-pressed={activeFilter === filter.id} onclick={() => setFilter(filter.id)} class:active={activeFilter === filter.id} class="filter-pill">
-          {filter.label}{#if filter.id === 'all'} ({projects.length}){/if}
+          {filter.label} ({filter.id === 'all' ? projects.length : projects.filter((project) => project.categories.includes(filter.id)).length})
         </button>
       {/each}
     </div>
