@@ -6,6 +6,8 @@ const buildUrl = new URL('../build/', import.meta.url);
 const html = await readFile(new URL('index.html', buildUrl), 'utf8');
 const robots = await readFile(new URL('robots.txt', buildUrl), 'utf8');
 const sitemap = await readFile(new URL('sitemap.xml', buildUrl), 'utf8');
+const feed = await readFile(new URL('feed.xml', buildUrl), 'utf8');
+const fallback = await readFile(new URL('404.html', buildUrl), 'utf8');
 const source = await readFile(new URL('../src/routes/+page.svelte', import.meta.url), 'utf8');
 const personalSpaceConfigSource = await readFile(new URL('../src/lib/personal-space.config.ts', import.meta.url), 'utf8');
 const projectsSource = await readFile(new URL('../src/lib/projects.ts', import.meta.url), 'utf8');
@@ -662,4 +664,42 @@ test('project imagery never labels generated mockups as authentic application sc
   assert.match(detail, /Actual application screenshot/);
   assert.doesNotMatch(homepage, /Interface illustration/);
   assert.doesNotMatch(homepage, /Enter amount/);
+});
+
+
+test('RSS feed is prerendered with project links and safe XML metadata', () => {
+  assert.match(feed, /<rss version="2\.0">/);
+  assert.match(feed, /<title>PixelForge Studio<\\/title>/);
+  assert.match(feed, /projects\\/pixelforge-studio\\//);
+  assert.match(feed, /application\\/rss\\+xml/);
+});
+
+test('custom static fallback includes helpful recovery navigation and noindex metadata', () => {
+  assert.match(fallback, /Page wandered off|page wandered off|This page wandered off/i);
+  assert.match(fallback, /noindex, nofollow/);
+  assert.match(fallback, /Browse projects/);
+});
+
+test('PixelForge comparison is local-only, bounded and accessible', async () => {
+  const component = await readFile(new URL('../src/lib/ImageComparison.svelte', import.meta.url), 'utf8');
+  assert.match(component, /URL\.createObjectURL/);
+  assert.match(component, /URL\.revokeObjectURL/);
+  assert.match(component, /20 \* 1024 \* 1024/);
+  assert.match(component, /type="range"/);
+  assert.match(component, /aria-label="Reveal original image"/);
+  assert.match(component, /never uploaded/);
+  assert.match(component, /clip-path/);
+});
+
+test('secure configuration publisher only accepts an allow-listed exported draft', async () => {
+  const publisher = await readFile(new URL('../scripts/publish-personal-space-config.mjs', import.meta.url), 'utf8');
+  const workflow = await readFile(new URL('../.github/workflows/publish-personal-space.yml', import.meta.url), 'utf8');
+  assert.match(publisher, /const configStart = source\.indexOf/);
+  assert.match(publisher, /github\.hostname !== 'github\.com'/);
+  assert.match(publisher, /sectionKeys/);
+  assert.match(publisher, /writeFile\(file, source\)/);
+  assert.doesNotMatch(publisher, /eval\(|new Function\(/);
+  assert.match(workflow, /workflow_dispatch/);
+  assert.match(workflow, /pull-requests: write/);
+  assert.match(workflow, /gh pr create/);
 });
