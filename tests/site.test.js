@@ -261,10 +261,12 @@ test('projects without verified screenshots are not presented as photographed in
   }
 });
 
-test('homepage labels illustrative project art and the real screenshot distinctly', () => {
-  assert.match(html, /Actual app screenshot/);
-  assert.match(html, /Interface illustration/);
-  assert.match(projectsSource, /react-metronome\/master\/screenshots\/react-metronome\.png/);
+test('homepage uses genuine application branding and the source screenshot distinctly', () => {
+  assert.match(html, /Source repository screenshot/);
+  assert.ok(html.includes('https://pixelforge-studio-pied.vercel.app/icons/icon.svg'));
+  assert.ok(html.includes('https://pixelcutout-three.vercel.app/pixelcutout-icon.svg'));
+  assert.doesNotMatch(html, /Interface illustration/);
+  assert.match(projectsSource, /react-metronome\\/master\\/screenshots\\/react-metronome\\.png/);
 });
 
 
