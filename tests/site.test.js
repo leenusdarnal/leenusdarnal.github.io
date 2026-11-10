@@ -658,5 +658,8 @@ test('project imagery never labels generated mockups as authentic application sc
   assert.match(homepage, /icons\/icon\.svg/);
   assert.match(homepage, /pixelcutout-icon\.svg/);
   assert.match(projects, /previewSourceUrl/);
-  assert.match(homepage, /Authentic application screenshot/);
+  const detail = await readFile(new URL('../src/routes/projects/[slug]/+page.svelte', import.meta.url), 'utf8');
+  assert.match(detail, /Actual application screenshot/);
+  assert.doesNotMatch(homepage, /Interface illustration/);
+  assert.doesNotMatch(homepage, /Enter amount/);
 });
