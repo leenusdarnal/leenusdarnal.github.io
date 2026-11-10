@@ -1,5 +1,7 @@
 <script>
   import { onMount } from 'svelte';
+  import LabControls from '$lib/LabControls.svelte';
+  import ProjectActions from '$lib/ProjectActions.svelte';
 
   let theme = $state('dark');
 
@@ -7,6 +9,7 @@
     {
       number: '01',
       slug: 'pixelforge-studio',
+      categories: ['svelte'],
       name: 'PixelForge Studio',
       type: 'IMAGE EDITOR · BROWSER APP',
       description: 'A mobile-friendly, offline-first image editor with layers, masks, selection tools, editable text and local .pfs project files. It targets 24 MP documents and autosaves on your device.',
@@ -19,6 +22,7 @@
     {
       number: '02',
       slug: 'metronome',
+      categories: ['react'],
       name: 'Metronome',
       type: 'MUSIC PRACTICE · WEB APP',
       description: 'A straightforward practice metronome with tempo control, playback and selectable time signatures.',
@@ -31,6 +35,7 @@
     {
       number: '03',
       slug: 'sikkim-government-salary-calculator',
+      categories: [],
       name: 'Sikkim Government Salary Calculator',
       type: 'REFERENCE TOOL · SIKKIM',
       description: 'An independent browser-based reference calculator for estimating gross pay, common deductions and in-hand salary. It is not an official Government of Sikkim calculator.',
@@ -43,6 +48,7 @@
     {
       number: '04',
       slug: 'pixelcutout',
+      categories: ['client-compute', 'svelte'],
       name: 'PixelCutout',
       type: 'IMAGE TOOL · PRIVACY-FIRST',
       description: 'A browser-based background remover with a choice of AI-powered subject detection or a no-AI colour selection mode. Images stay on your device while you edit and export.',
@@ -203,7 +209,9 @@
         <p class="w-full max-w-xs text-sm leading-6 text-[var(--muted)] sm:w-auto">A growing collection of useful tools, side projects and experiments.</p>
       </div>
 
-      <article aria-labelledby="project-pixelforge-title" aria-describedby="project-pixelforge-description" class="project-card group overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--panel)] transition duration-300 hover:-translate-y-1 hover:border-[color-mix(in_srgb,var(--accent)_55%,var(--line))]">
+      <LabControls {projects} />
+
+      <article data-project-card data-category={projects[0].categories.join(' ')} data-repo-meta="pixelforge-studio" aria-labelledby="project-pixelforge-title" aria-describedby="project-pixelforge-description" class="project-card group overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--panel)] transition duration-300 hover:-translate-y-1 hover:border-[color-mix(in_srgb,var(--accent)_55%,var(--line))]">
         <div class="grid lg:grid-cols-[1.12fr_0.88fr]">
           <div aria-hidden="true" class="relative min-h-[220px] overflow-hidden bg-[var(--panel-soft)] p-3 sm:min-h-[300px] sm:p-6 lg:min-h-[370px] lg:p-8">
             <div class="absolute inset-0 opacity-70" style="background: radial-gradient(circle at 48% 50%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 55%);"></div>
@@ -245,11 +253,8 @@
             <div class="mt-6 flex flex-wrap gap-2">
               {#each projects[0].stack as item}<span class="rounded-full border border-[var(--line)] px-3 py-1.5 font-mono text-[10px] text-[var(--muted)]">{item}</span>{/each}
             </div>
-            <div class="mt-7 flex flex-wrap gap-x-5 gap-y-3 text-sm font-semibold sm:mt-9">
-              <a class="inline-flex items-center gap-2 text-[var(--accent)] transition hover:gap-3" href={projects[0].live} target="_blank" rel="noopener noreferrer">Open editor <span>↗</span></a>
-              <a class="inline-flex items-center gap-2 text-[var(--muted)] transition hover:text-[var(--ink)]" href="/projects/{projects[0].slug}/">Project notes <span>↗</span></a>
-              <a class="inline-flex items-center gap-2 text-[var(--muted)] transition hover:text-[var(--ink)]" href={projects[0].source} target="_blank" rel="noopener noreferrer">Source code <span>↗</span></a>
-            </div>
+            <ProjectActions project={projects[0]} />
+            <p class="mt-4 font-mono text-[10px] text-[var(--muted)]" data-repo-meta="pixelforge-studio" hidden></p>
             <p class="mt-6 text-[11px] leading-5 text-[var(--muted)]">Offline-first editing with local autosaves. Export a .pfs project file to keep a separate backup of your work.</p>
           </div>
         </div>
@@ -257,7 +262,7 @@
 
       <div class="mt-5 grid gap-5 lg:grid-cols-2">
         {#each projects.slice(1) as project}
-          <article aria-labelledby="project-{project.visual}-title" aria-describedby="project-{project.visual}-description" class="project-card group overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--panel)] transition duration-300 hover:-translate-y-1 hover:border-[color-mix(in_srgb,var(--accent)_55%,var(--line))]">
+          <article data-project-card data-category={project.categories.join(' ')} data-repo-meta={project.slug} aria-labelledby="project-{project.visual}-title" aria-describedby="project-{project.visual}-description" class="project-card group overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--panel)] transition duration-300 hover:-translate-y-1 hover:border-[color-mix(in_srgb,var(--accent)_55%,var(--line))]">
             <div aria-hidden="true" class="relative flex min-h-[210px] items-center justify-center overflow-hidden bg-[var(--panel-soft)] p-4 sm:min-h-[270px] sm:p-6">
               {#if project.visual === 'metro'}
                 <div class="w-full max-w-[560px] overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--panel)] shadow-xl">
@@ -300,13 +305,8 @@
               <div class="mt-5 flex flex-wrap gap-2">
                 {#each project.stack as item}<span class="rounded-full border border-[var(--line)] px-3 py-1.5 font-mono text-[10px] text-[var(--muted)]">{item}</span>{/each}
               </div>
-              <div class="mt-6 flex flex-wrap gap-x-5 gap-y-3 text-sm font-semibold sm:mt-7">
-                {#if project.live}
-                  <a class="inline-flex items-center gap-2 text-[var(--accent)] transition hover:gap-3" href={project.live} target="_blank" rel="noopener noreferrer">Open project <span>↗</span></a>
-                {/if}
-                <a class="inline-flex items-center gap-2 text-[var(--muted)] transition hover:text-[var(--ink)]" href="/projects/{project.slug}/">Project notes <span>↗</span></a>
-                <a class="inline-flex items-center gap-2 text-[var(--muted)] transition hover:text-[var(--ink)]" href={project.source} target="_blank" rel="noopener noreferrer">Source code <span>↗</span></a>
-              </div>
+              <ProjectActions {project} />
+              <p class="mt-4 font-mono text-[10px] text-[var(--muted)]" data-repo-meta={project.slug} hidden></p>
             </div>
           </article>
         {/each}
