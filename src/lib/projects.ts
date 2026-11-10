@@ -1,60 +1,123 @@
 /**
- * Homepage project catalogue.
+ * Shared project catalogue for homepage cards and prerendered case studies.
  *
- * Keep project facts and links here; presentation and interaction belong in
- * the Svelte components that consume this data.
+ * Keep a project's identity, links, stack and long-form notes together here.
+ * UI components own only presentation; route files select records by slug.
  */
-export const projects = [
-    {
-      number: '01',
-      slug: 'pixelforge-studio',
-      categories: ['svelte'],
-      name: 'PixelForge Studio',
-      type: 'IMAGE EDITOR · BROWSER APP',
-      description: 'A mobile-friendly, offline-first image editor with layers, masks, selection tools, editable text and local .pfs project files. It targets 24 MP documents and autosaves on your device.',
-      stack: ['SvelteKit', 'Tailwind CSS', 'Canvas API'],
-      features: ['Editable text layers', '24 MP document target', 'Offline-first local projects'],
-      live: 'https://pixelforge-studio-pied.vercel.app/',
-      source: 'https://github.com/leenusdarnal/pixelforge-studio',
-      visual: 'pixel'
-    },
-    {
-      number: '02',
-      slug: 'metronome',
-      categories: ['react'],
-      name: 'Metronome',
-      type: 'MUSIC PRACTICE · WEB APP',
-      description: 'A straightforward practice metronome with tempo control, playback and selectable time signatures.',
-      stack: ['React', 'TypeScript', 'Vite'],
-      features: ['Tempo control', 'Playback controls', 'Selectable time signatures'],
-      live: 'https://react-metronome-dusky.vercel.app/',
-      source: 'https://github.com/leenusdarnal/react-metronome',
-      visual: 'metro'
-    },
-    {
-      number: '03',
-      slug: 'sikkim-government-salary-calculator',
-      categories: [],
-      name: 'Sikkim Government Salary Calculator',
-      type: 'REFERENCE TOOL · SIKKIM',
-      description: 'An independent browser-based reference calculator for estimating gross pay, common deductions and in-hand salary. It is not an official Government of Sikkim calculator.',
-      stack: ['JavaScript', 'HTML', 'CSS'],
-      features: ['Gross pay estimates', 'Common deductions', 'In-hand pay estimates'],
-      live: 'https://sikkim-government-salary-calculator.vercel.app/',
-      source: 'https://github.com/leenusdarnal/SIKKIM-GOVERNMENT-SALARY-CALCULATOR',
-      visual: 'salary'
-    },
-    {
-      number: '04',
-      slug: 'pixelcutout',
-      categories: ['client-compute', 'svelte'],
-      name: 'PixelCutout',
-      type: 'IMAGE TOOL · PRIVACY-FIRST',
-      description: 'A browser-based background remover with a choice of AI-powered subject detection or a no-AI colour selection mode. Images stay on your device while you edit and export.',
-      stack: ['SvelteKit', 'Transformers.js', 'ONNX Runtime'],
-      features: ['AI and no-AI removal modes', 'Local erase and restore tools', 'PNG, JPEG and WebP export'],
-      live: 'https://pixelcutout-three.vercel.app/',
-      source: 'https://github.com/leenusdarnal/pixelcutout',
-      visual: 'cutout'
+export type ProjectCategory = 'client-compute' | 'full-stack' | 'svelte' | 'react';
+export type ProjectVisual = 'pixel' | 'metro' | 'salary' | 'cutout';
+
+export interface ProjectRecord {
+  number: string;
+  slug: string;
+  categories: readonly ProjectCategory[];
+  name: string;
+  type: string;
+  description: string;
+  stack: readonly string[];
+  features: readonly string[];
+  live: string;
+  source: string;
+  visual: ProjectVisual;
+  caseStudy: {
+    category: string;
+    summary: string;
+    description: string;
+    role: string;
+    highlights: readonly string[];
+    previewImage?: string;
+    previewAlt?: string;
+    previewSourceUrl?: string;
+    privacy?: string;
+    disclaimer?: string;
+  };
+}
+
+export const projects: readonly ProjectRecord[] = [
+  {
+    number: '01',
+    slug: 'pixelforge-studio',
+    categories: ['svelte'],
+    name: 'PixelForge Studio',
+    type: 'IMAGE EDITOR · BROWSER APP',
+    description: 'A mobile-friendly, offline-first image editor with layers, masks, selection tools, editable text and local .pfs project files. It targets 24 MP documents and autosaves on your device.',
+    stack: ['SvelteKit', 'Tailwind CSS', 'Canvas API'],
+    features: ['Editable text layers', '24 MP document target', 'Offline-first local projects'],
+    live: 'https://pixelforge-studio-pied.vercel.app/',
+    source: 'https://github.com/leenusdarnal/pixelforge-studio',
+    visual: 'pixel',
+    caseStudy: {
+      category: 'Image editor · Browser app',
+      summary: 'A mobile-friendly, offline-first image editor designed to make practical image editing available directly in the browser.',
+      description: 'PixelForge Studio brings common image-editing workflows into a browser-based workspace. Its feature set includes layers, masks, selection tools and editable text, with local autosave and portable .pfs project files so work can remain on the user’s device.',
+      role: 'Independent project',
+      highlights: ['Editable text layers', '24 MP document target', 'Offline-first local projects', 'Portable .pfs project files'],
+      privacy: 'Projects and autosaves are stored locally in the browser. Export a .pfs project file to keep a separate backup.'
     }
-] as const;
+  },
+  {
+    number: '02',
+    slug: 'metronome',
+    categories: ['react'],
+    name: 'Metronome',
+    type: 'MUSIC PRACTICE · WEB APP',
+    description: 'A straightforward practice metronome with tempo control, playback and selectable time signatures.',
+    stack: ['React', 'TypeScript', 'Vite'],
+    features: ['Tempo control', 'Playback controls', 'Selectable time signatures'],
+    live: 'https://react-metronome-dusky.vercel.app/',
+    source: 'https://github.com/leenusdarnal/react-metronome',
+    visual: 'metro',
+    caseStudy: {
+      category: 'Music practice · Web app',
+      summary: 'A focused practice metronome with tempo and time-signature controls.',
+      description: 'A lightweight browser tool for keeping a steady practice tempo. The interface focuses on quick tempo adjustment, playback and selecting a time signature without unnecessary setup.',
+      role: 'Independent project',
+      highlights: ['Tempo control', 'Playback controls', 'Selectable time signatures'],
+      previewImage: 'https://raw.githubusercontent.com/leenusdarnal/react-metronome/master/screenshots/react-metronome.png',
+      previewAlt: 'Screenshot of the Metronome web app interface from its source repository.',
+      previewSourceUrl: 'https://github.com/leenusdarnal/react-metronome/tree/master/screenshots'
+    }
+  },
+  {
+    number: '03',
+    slug: 'sikkim-government-salary-calculator',
+    categories: [],
+    name: 'Sikkim Government Salary Calculator',
+    type: 'REFERENCE TOOL · SIKKIM',
+    description: 'An independent browser-based reference calculator for estimating gross pay, common deductions and in-hand salary. It is not an official Government of Sikkim calculator.',
+    stack: ['JavaScript', 'HTML', 'CSS'],
+    features: ['Gross pay estimates', 'Common deductions', 'In-hand pay estimates'],
+    live: 'https://sikkim-government-salary-calculator.vercel.app/',
+    source: 'https://github.com/leenusdarnal/SIKKIM-GOVERNMENT-SALARY-CALCULATOR',
+    visual: 'salary',
+    caseStudy: {
+      category: 'Reference tool · Sikkim',
+      summary: 'An independent browser-based reference tool for estimating gross pay, common deductions and in-hand salary.',
+      description: 'The calculator is intended as a convenient reference for exploring salary estimates. Actual pay depends on the applicable service rules, current rates, individual allowances and deductions, so results should be verified against official orders and payroll records.',
+      role: 'Independent project',
+      highlights: ['Gross pay estimates', 'Common deduction estimates', 'Estimated in-hand pay'],
+      disclaimer: 'This is not an official Government of Sikkim calculator. It is an independent reference tool and should not be treated as an authoritative pay determination.'
+    }
+  },
+  {
+    number: '04',
+    slug: 'pixelcutout',
+    categories: ['client-compute', 'svelte'],
+    name: 'PixelCutout',
+    type: 'IMAGE TOOL · PRIVACY-FIRST',
+    description: 'A browser-based background remover with a choice of AI-powered subject detection or a no-AI colour selection mode. Images stay on your device while you edit and export.',
+    stack: ['SvelteKit', 'Transformers.js', 'ONNX Runtime'],
+    features: ['AI and no-AI removal modes', 'Local erase and restore tools', 'PNG, JPEG and WebP export'],
+    live: 'https://pixelcutout-three.vercel.app/',
+    source: 'https://github.com/leenusdarnal/pixelcutout',
+    visual: 'cutout',
+    caseStudy: {
+      category: 'Image tool · Privacy-first',
+      summary: 'A browser-based background remover with AI-assisted and colour-selection workflows.',
+      description: 'PixelCutout offers a choice between AI-powered subject detection and a no-AI colour-selection mode. It also includes local erase and restore controls and supports common image export formats.',
+      role: 'Independent project',
+      highlights: ['AI and no-AI removal modes', 'Local erase and restore tools', 'PNG, JPEG and WebP export'],
+      privacy: 'The portfolio describes the editing workflow as local to the device. Check the project documentation for the exact model/runtime behaviour and browser requirements.'
+    }
+  }
+];

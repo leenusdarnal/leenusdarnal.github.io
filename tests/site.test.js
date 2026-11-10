@@ -9,6 +9,8 @@ const sitemap = await readFile(new URL('sitemap.xml', buildUrl), 'utf8');
 const source = await readFile(new URL('../src/routes/+page.svelte', import.meta.url), 'utf8');
 const personalSpaceConfigSource = await readFile(new URL('../src/lib/personal-space.config.ts', import.meta.url), 'utf8');
 const projectsSource = await readFile(new URL('../src/lib/projects.ts', import.meta.url), 'utf8');
+const projectRouteSource = await readFile(new URL('../src/routes/projects/[slug]/+page.js', import.meta.url), 'utf8');
+const projectDetailSource = await readFile(new URL('../src/routes/projects/[slug]/+page.svelte', import.meta.url), 'utf8');
 const appHtmlSource = await readFile(new URL('../src/app.html', import.meta.url), 'utf8');
 const css = await readFile(new URL('../src/app.css', import.meta.url), 'utf8');
 const labControls = await readFile(new URL('../src/lib/LabControls.svelte', import.meta.url), 'utf8');
@@ -236,8 +238,10 @@ test('Pages deployment uses reproducible cached installs and only deploys main',
 });
 
 
-test('Metronome case study uses its genuine source-repository screenshot', async () => {
+test('Metronome case study uses its genuine source-repository screenshot from the shared catalogue', async () => {
   const page = await readFile(new URL('projects/metronome/index.html', buildUrl), 'utf8');
+  assert.ok(projectsSource.includes('https://raw.githubusercontent.com/leenusdarnal/react-metronome/master/screenshots/react-metronome.png'));
+  assert.match(projectsSource, /previewSourceUrl:/);
   assert.ok(page.includes('https://raw.githubusercontent.com/leenusdarnal/react-metronome/master/screenshots/react-metronome.png'));
   assert.match(page, /Actual application screenshot/);
   assert.match(page, /alt="Screenshot of the Metronome web app interface/);
@@ -255,7 +259,7 @@ test('projects without verified screenshots are not presented as photographed in
 test('homepage labels illustrative project art and the real screenshot distinctly', () => {
   assert.match(html, /Actual app screenshot/);
   assert.match(html, /Interface illustration/);
-  assert.match(source, /react-metronome\/master\/screenshots\/react-metronome\.png/);
+  assert.match(projectsSource, /react-metronome\/master\/screenshots\/react-metronome\.png/);
 });
 
 
@@ -555,7 +559,7 @@ test('Runtime Inspector clearly qualifies browser hints and restricted transfer-
 
 test('projects are maintained in a dedicated typed catalogue, separate from page layout', () => {
   assert.match(source, /import \{ projects \} from '\.\.\/lib\/projects'/);
-  assert.match(projectsSource, /export const projects = \[/);
+  assert.match(projectsSource, /export const projects: readonly ProjectRecord\[\] = \[/);
   for (const slug of ['pixelforge-studio', 'metronome', 'sikkim-government-salary-calculator', 'pixelcutout']) {
     assert.ok(projectsSource.includes(slug), 'Missing project data: ' + slug);
   }
@@ -581,4 +585,28 @@ test('site identity, SEO, theme defaults, navigation and section visibility are 
   assert.match(source, /item\.section/);
   assert.match(source, /personalSpaceConfig\.site\.contactEmail/);
   assert.match(source, /personalSpaceConfig\.site\.repositoryUrl/);
+});
+
+
+test('homepage and case-study routes use the same single typed project catalogue', () => {
+  assert.match(projectRouteSource, /import \{ projects \} from '\.\.\/\.\.\/\.\.\/lib\/projects'/);
+  assert.match(projectRouteSource, /projects\.map\(\(\{ slug \}\)/);
+  assert.doesNotMatch(projectRouteSource, /const projects = \[/);
+  assert.match(projectDetailSource, /project\.caseStudy\.summary/);
+  assert.match(projectDetailSource, /project\.caseStudy\.description/);
+  assert.match(projectDetailSource, /project\.caseStudy\.highlights/);
+  assert.match(projectDetailSource, /personalSpaceConfig\.identity\.name/);
+  assert.match(projectDetailSource, /personalSpaceConfig\.site\.projectSocialImage/);
+  assert.match(projectsSource, /readonly ProjectRecord\[\] = \[/);
+  for (const slug of ['pixelforge-studio', 'metronome', 'sikkim-government-salary-calculator', 'pixelcutout']) {
+    assert.ok(projectsSource.includes(slug), 'Missing shared project record: ' + slug);
+    assert.ok(projectsSource.includes('caseStudy:'), 'Missing case study content in shared catalogue');
+  }
+});
+
+test('project social image settings are centralized with the other site metadata', () => {
+  assert.match(personalSpaceConfigSource, /projectSocialImage:/);
+  assert.match(personalSpaceConfigSource, /og-image\.svg/);
+  assert.match(projectDetailSource, /personalSpaceConfig\.site\.projectSocialImage\.url/);
+  assert.match(projectDetailSource, /personalSpaceConfig\.site\.url/);
 });

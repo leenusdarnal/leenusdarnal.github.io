@@ -1,30 +1,33 @@
 <script>
+  import { personalSpaceConfig } from '../../../lib/personal-space.config';
+
   let { data } = $props();
   let project = $derived(data.project);
 </script>
 
 <svelte:head>
-  <title>{project ? `${project.name} — Leenus Darnal` : 'Project not found — Leenus Darnal'}</title>
-  <meta name="description" content={project?.summary ?? 'Project details from Leenus Darnal.'} />
+  <title>{project ? `${project.name} — ${personalSpaceConfig.identity.name}` : `Project not found — ${personalSpaceConfig.identity.name}`}</title>
+  <meta name="description" content={project?.caseStudy.summary ?? `Project details from ${personalSpaceConfig.identity.name}.`} />
+  <meta name="author" content={personalSpaceConfig.site.author} />
   {#if project}
     <meta property="og:type" content="article" />
-    <meta property="og:title" content={`${project.name} — Leenus Darnal`} />
-    <meta property="og:description" content={project.summary} />
-    <meta property="og:image" content="https://leenusdarnal.github.io/og-image.svg" />
-    <meta property="og:image:alt" content="Leenus Darnal — project notes" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={`${project.name} — Leenus Darnal`} />
-    <meta name="twitter:description" content={project.summary} />
-    <meta name="twitter:image" content="https://leenusdarnal.github.io/og-image.svg" />
-    <link rel="canonical" href={`https://leenusdarnal.github.io/projects/${project.slug}/`} />
+    <meta property="og:title" content={`${project.name} — ${personalSpaceConfig.identity.name}`} />
+    <meta property="og:description" content={project.caseStudy.summary} />
+    <meta property="og:image" content={personalSpaceConfig.site.projectSocialImage.url} />
+    <meta property="og:image:type" content={personalSpaceConfig.site.projectSocialImage.type} />
+    <meta property="og:image:alt" content={personalSpaceConfig.site.projectSocialImage.alt} />
+    <meta name="twitter:card" content={personalSpaceConfig.site.twitterCard} />
+    <meta name="twitter:title" content={`${project.name} — ${personalSpaceConfig.identity.name}`} />
+    <meta name="twitter:description" content={project.caseStudy.summary} />
+    <meta name="twitter:image" content={personalSpaceConfig.site.projectSocialImage.url} />
+    <link rel="canonical" href={`${personalSpaceConfig.site.url}projects/${project.slug}/`} />
   {/if}
 </svelte:head>
-
 <div class="mx-auto min-h-screen w-full max-w-5xl px-4 py-6 sm:px-8 sm:py-10 lg:px-10">
   <header class="detail-header -mx-4 flex items-center justify-between border-b border-[var(--line)] px-4 pb-5 pt-2 sm:-mx-8 sm:px-8 lg:-mx-10 lg:px-10">
     <a href="/" class="flex items-center gap-3 text-sm font-semibold no-underline">
-      <span aria-hidden="true" class="grid size-9 place-items-center rounded-full bg-[var(--accent)] font-black text-[var(--accent-contrast)]" style="color: var(--accent-contrast)">L.</span>
-      Leenus Darnal<span class="text-[var(--accent)]">.</span>
+      <span aria-hidden="true" class="grid size-9 place-items-center rounded-full bg-[var(--accent)] font-black text-[var(--accent-contrast)]" style="color: var(--accent-contrast)">{personalSpaceConfig.identity.monogram}</span>
+      {personalSpaceConfig.identity.name}<span class="text-[var(--accent)]">.</span>
     </a>
     <a href="/#work" class="inline-flex min-h-11 items-center rounded-full border border-[var(--line)] px-4 text-sm text-[var(--muted)] transition hover:border-[var(--accent)] hover:text-[var(--ink)]">All projects</a>
   </header>
@@ -32,9 +35,9 @@
   {#if project}
     <main class="py-14 sm:py-20">
       <a href="/#work" class="text-sm font-medium text-[var(--muted)] transition hover:text-[var(--accent)]">← Back to projects</a>
-      <p class="mt-12 font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--accent)]">{project.number} / {project.category}</p>
+      <p class="mt-12 font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--accent)]">{project.number} / {project.caseStudy.category}</p>
       <h1 class="mt-4 max-w-4xl text-[clamp(2.7rem,9vw,5.8rem)] font-semibold leading-[0.96] tracking-[-0.075em]">{project.name}<span class="text-[var(--accent)]">.</span></h1>
-      <p class="mt-7 max-w-3xl text-xl leading-relaxed tracking-[-0.03em] text-[var(--muted)] sm:text-2xl">{project.summary}</p>
+      <p class="mt-7 max-w-3xl text-xl leading-relaxed tracking-[-0.03em] text-[var(--muted)] sm:text-2xl">{project.caseStudy.summary}</p>
 
       <div class="mt-10 flex flex-wrap gap-3">
         {#if project.live}
@@ -43,11 +46,11 @@
         <a href={project.source} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center gap-2 rounded-full border border-[var(--line)] px-5 py-3 text-sm font-semibold transition hover:border-[var(--accent)]">View source code ↗</a>
       </div>
 
-      {#if project.previewImage}
+      {#if project.caseStudy.previewImage}
         <figure class="mt-14 overflow-hidden rounded-3xl border border-[var(--line)] bg-[var(--panel)]">
-          <img src={project.previewImage} alt={project.previewAlt} width="416" height="314" sizes="(max-width: 768px) calc(100vw - 2rem), 896px" loading="lazy" decoding="async" class="block h-auto w-full object-contain" />
+          <img src={project.caseStudy.previewImage} alt={project.caseStudy.previewAlt} width="416" height="314" sizes="(max-width: 768px) calc(100vw - 2rem), 896px" loading="lazy" decoding="async" class="block h-auto w-full object-contain" />
           <figcaption class="border-t border-[var(--line)] px-4 py-3 text-xs text-[var(--muted)] sm:px-6">
-            Actual application screenshot · <a href="https://github.com/leenusdarnal/react-metronome/tree/master/screenshots" target="_blank" rel="noopener noreferrer" class="underline underline-offset-4">source repository</a>
+            Actual application screenshot · {#if project.caseStudy.previewSourceUrl}<a href={project.caseStudy.previewSourceUrl} target="_blank" rel="noopener noreferrer" class="underline underline-offset-4">source repository</a>{/if}
           </figcaption>
         </figure>
       {:else}
@@ -65,25 +68,25 @@
       <div class="mt-16 grid gap-12 border-t border-[var(--line)] pt-10 md:grid-cols-[minmax(0,1fr)_260px] md:gap-16">
         <section aria-labelledby="overview-heading">
           <h2 id="overview-heading" class="text-2xl font-semibold tracking-[-0.05em]">Overview</h2>
-          <p class="mt-5 text-base leading-8 text-[var(--muted)]">{project.description}</p>
+          <p class="mt-5 text-base leading-8 text-[var(--muted)]">{project.caseStudy.description}</p>
           <h2 class="mt-12 text-2xl font-semibold tracking-[-0.05em]">Key features</h2>
           <ul class="mt-5 grid gap-3 sm:grid-cols-2">
-            {#each project.highlights as item}
+            {#each project.caseStudy.highlights as item}
               <li class="flex gap-3 rounded-2xl border border-[var(--line)] bg-[var(--panel)] p-4 text-sm leading-6">
                 <span aria-hidden="true" class="mt-2 size-2 shrink-0 rounded-full bg-[var(--accent)]"></span>{item}
               </li>
             {/each}
           </ul>
-          {#if project.disclaimer}
+          {#if project.caseStudy.disclaimer}
             <aside class="mt-8 rounded-2xl border border-[var(--line)] bg-[var(--panel-soft)] p-5">
               <h2 class="font-semibold">Important note</h2>
-              <p class="mt-2 text-sm leading-7 text-[var(--muted)]">{project.disclaimer}</p>
+              <p class="mt-2 text-sm leading-7 text-[var(--muted)]">{project.caseStudy.disclaimer}</p>
             </aside>
           {/if}
-          {#if project.privacy}
+          {#if project.caseStudy.privacy}
             <aside class="mt-8 rounded-2xl border border-[var(--line)] bg-[var(--panel-soft)] p-5">
               <h2 class="font-semibold">Privacy and files</h2>
-              <p class="mt-2 text-sm leading-7 text-[var(--muted)]">{project.privacy}</p>
+              <p class="mt-2 text-sm leading-7 text-[var(--muted)]">{project.caseStudy.privacy}</p>
             </aside>
           {/if}
         </section>
@@ -99,7 +102,7 @@
           </section>
           <section aria-labelledby="role-heading">
             <h2 id="role-heading" class="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--accent)]">Project type</h2>
-            <p class="mt-3 text-sm text-[var(--muted)]">{project.role}</p>
+            <p class="mt-3 text-sm text-[var(--muted)]">{project.caseStudy.role}</p>
           </section>
         </aside>
       </div>
@@ -114,6 +117,6 @@
   {/if}
 
   <footer class="border-t border-[var(--line)] py-7 text-xs text-[var(--muted)]">
-    © {new Date().getFullYear()} Leenus Darnal · <a href="/" class="underline-offset-4 hover:underline">Homepage</a>
+    © {new Date().getFullYear()} {personalSpaceConfig.identity.name} · <a href="/" class="underline-offset-4 hover:underline">Homepage</a>
   </footer>
 </div>
