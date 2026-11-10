@@ -31,8 +31,9 @@
       if (saved.length > 16384) throw new Error('Saved draft is too large');
       const parsed = JSON.parse(saved);
       if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) throw new Error('Invalid draft format');
-      const next = { ...defaults };
-      for (const key of ['name', 'title', 'description', 'githubUrl', 'contactEmail', 'headline', 'heroDescription', 'palette']) {
+      /** @type {{ name: string; title: string; description: string; githubUrl: string; contactEmail: string; headline: string; heroDescription: string; palette: string; defaultTheme: 'system' | 'light' | 'dark'; sections: Record<string, boolean> }} */
+      const next = { ...defaults, sections: { ...defaults.sections } };
+      for (const key of draftStringKeys) {
         if (typeof parsed[key] === 'string' && parsed[key].length <= 2000) next[key] = parsed[key];
       }
       if (['system', 'light', 'dark'].includes(parsed.defaultTheme)) next.defaultTheme = parsed.defaultTheme;
