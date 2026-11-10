@@ -103,7 +103,7 @@
   <script type="application/ld+json">{structuredData}</script>
 </svelte:head>
 
-<RepoMetadata {projects} />
+<RepoMetadata projects={[...projects]} />
 <div class="mx-auto w-full max-w-6xl px-4 min-[480px]:px-5 sm:px-8 lg:px-10">
   <a class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-[var(--ink)] focus:px-4 focus:py-3 focus:text-[var(--page)]" href="#main">Skip to content</a>
 
@@ -339,7 +339,7 @@
         <button type="button" class="tool-pill" aria-expanded={configuratorOpen} aria-controls="personal-space-configurator" onclick={toggleConfigurator}>{configuratorOpen ? 'Hide configuration playground' : 'Edit this space & preview changes'}</button>
         <div id="personal-space-configurator" class="mt-4">
           {#if configuratorOpen && ConfiguratorComponent}
-            <svelte:component this={ConfiguratorComponent} />
+            <ConfiguratorComponent />
           {:else if configuratorLoading}
             <p class="rounded-xl border border-[var(--line)] p-4 text-sm text-[var(--muted)]" role="status">Loading configuration playground…</p>
           {:else if configuratorStatus}
