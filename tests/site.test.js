@@ -485,3 +485,21 @@ test('Lighthouse retains its raw report even when quality thresholds fail', asyn
   assert.match(reporter, /overallSavingsMs/);
   assert.match(reporter, /GITHUB_STEP_SUMMARY/);
 });
+
+
+test('source-only experiments provide a quick clone action without implying a live demo', async () => {
+  const component = await readFile(new URL('../src/lib/ArchitectureExperiments.svelte', import.meta.url), 'utf8');
+  assert.match(component, /async function copyClone\(repository\)/);
+  assert.match(component, /git clone ' \+ repository \+ '\.git'/);
+  assert.match(component, /navigator\.clipboard\?\.writeText/);
+  assert.match(component, /document\.execCommand\('copy'\)/);
+  assert.match(component, /aria-label=\{'Copy git clone command for ' \+ experiment\.name\}/);
+  assert.match(component, /aria-live="polite"/);
+  for (const repository of [
+    'https://github.com/leenusdarnal/breadit',
+    'https://github.com/leenusdarnal/chirp',
+    'https://github.com/leenusdarnal/rofc-website'
+  ]) {
+    assert.ok(component.includes(repository), 'Missing quick-clone repository: ' + repository);
+  }
+});

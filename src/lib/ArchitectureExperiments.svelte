@@ -1,4 +1,7 @@
 <script>
+  let copiedRepository = $state('');
+  let copyMessage = $state('');
+
   const experiments = [
     {
       name: 'Breadit',
@@ -40,6 +43,32 @@
       ]
     }
   ];
+
+  /** @param {string} repository */
+  async function copyClone(repository) {
+    const command = 'git clone ' + repository + '.git';
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(command);
+      } else {
+        const field = document.createElement('textarea');
+        field.value = command;
+        field.setAttribute('readonly', '');
+        field.style.position = 'fixed';
+        field.style.opacity = '0';
+        document.body.append(field);
+        field.select();
+        let copied = false;
+        try { copied = document.execCommand('copy'); } finally { field.remove(); }
+        if (!copied) throw new Error('Clipboard unavailable');
+      }
+      copiedRepository = repository;
+      copyMessage = 'Clone command copied to clipboard.';
+    } catch {
+      copiedRepository = '';
+      copyMessage = 'Clipboard unavailable. Open the repository link to copy its clone URL.';
+    }
+  }
 </script>
 
 <section class="source-experiments" aria-labelledby="source-experiments-heading">
@@ -75,10 +104,21 @@
             {/each}
           </ol>
         </details>
-        <a class="source-repository-link" href={experiment.repository} target="_blank" rel="noopener noreferrer">
-          Browse source repository ↗
-        </a>
+        <div class="source-experiment-actions">
+          <a class="source-repository-link" href={experiment.repository} target="_blank" rel="noopener noreferrer">
+            Browse source repository ↗
+          </a>
+          <button
+            type="button"
+            class="clone-button"
+            onclick={() => copyClone(experiment.repository)}
+            aria-label={'Copy git clone command for ' + experiment.name}
+          >
+            {copiedRepository === experiment.repository ? 'Copied!' : '⧉ Clone'}
+          </button>
+        </div>
       </article>
     {/each}
   </div>
+  <p class="sr-only" aria-live="polite">{copyMessage}</p>
 </section>
