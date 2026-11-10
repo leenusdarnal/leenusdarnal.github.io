@@ -126,6 +126,7 @@
     /** @type {any} */
     const isolated = typeof window !== 'undefined' && window.crossOriginIsolated === true;
     const sharedMemory = typeof SharedArrayBuffer === 'function';
+    /** @type {any} */
     const result = {
       webgpu: { available: false, adapter: 'Checking…', vendor: null, architecture: null, fp16: false, maxBufferSizeBytes: null, maxBufferSize: 'Unavailable', maxStorageBufferBindingSize: null, error: null },
       wasmThreads: {
@@ -170,6 +171,7 @@
     checking = false;
   }
 
+  /** @param {string} text */
   async function writeClipboard(text) {
     if (navigator.clipboard?.writeText) {
       await navigator.clipboard.writeText(text);
