@@ -86,7 +86,7 @@ function setFirstSocialProfileUrl(value) {
   const propertyStart = profile.indexOf('url:');
   if (propertyStart < 0) throw new Error('Could not find the GitHub social profile URL.');
   let valueStart = propertyStart + 4;
-  while (/\\s/.test(profile[valueStart] ?? '')) valueStart++;
+  while ((profile[valueStart] ?? '').trim() === '') valueStart++;
   const quote = profile[valueStart];
   if (quote !== "'" && quote !== '"') throw new Error('Expected a quoted social profile URL.');
   let cursor = valueStart + 1;
@@ -94,7 +94,7 @@ function setFirstSocialProfileUrl(value) {
   for (; cursor < profile.length; cursor++) {
     const ch = profile[cursor];
     if (escaped) escaped = false;
-    else if (ch === '\\\\') escaped = true;
+    else if (ch === String.fromCharCode(92)) escaped = true;
     else if (ch === quote) break;
   }
   if (cursor >= profile.length) throw new Error('Unterminated social profile URL.');
