@@ -44,7 +44,9 @@ jobs:
         run: node scripts/check-static-links.js
 
       - name: Syntax-check responsive browser QA
-        run: node --check scripts/check-responsive.mjs
+        run: |
+          node --check scripts/check-responsive.mjs
+          node --check scripts/check-accessibility.mjs
 
       - name: Run generated-site smoke tests
         run: npm test
