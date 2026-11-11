@@ -64,7 +64,7 @@ Accessibility automation was added in PR #66. The first live run surfaced a repe
 - [x] Move the authentic Metronome preview into the site's own static assets, update the homepage to use it, and self-host the authentic PixelForge and PixelCutout app icons.
 - [x] Add a deployed Playwright guard that fails if homepage images or initial resource loads use a cross-origin origin.
 - [~] Perform a targeted source-pattern scan of key application modules for network APIs and browser storage; findings and scope are recorded in PROJECT-PRIVACY-REVIEW.md. This is not a complete dependency or deployed-network audit.
-- [ ] Capture real interface screenshots for PixelForge, PixelCutout and Salary Calculator.
+- [x] Capture authentic PixelForge, PixelCutout and Salary Calculator interfaces with Playwright, commit compressed screenshots as same-origin assets, and integrate them into homepage cards and case studies. A post-deployment GitHub Actions job refreshes the captures.
 - [ ] Complete physical-device and manual screen-reader testing.
 - [ ] Capture clean-profile live network traces and inspect deployed browser storage for all data-sensitive apps.
 - [x] Re-run Lighthouse on the deployed commit and review the new artifact before closing performance work.
@@ -90,3 +90,12 @@ These are automated Chromium/Playwright and Lighthouse results for the homepage 
 - Salary estimates remain clearly labelled as independent and non-authoritative.
 - Existing SEO, RSS, theme, accessibility foundations and GitHub Pages deployment remain intact.
 - npm run check, npm run build and npm test pass before merge.
+
+
+## Authentic project preview capture — 11 November 2026
+
+PR [#76](https://github.com/leenusdarnal/leenusdarnal.github.io/pull/76) added a Playwright capture workflow, merged after all repository verification checks passed. The workflow runs after a successful GitHub Pages deployment and can also be run manually. It captures the real production interfaces for PixelForge Studio, PixelCutout and the Sikkim Government Salary Calculator in isolated Chromium contexts at 1440×900, checks the expected interface content and HTTP response, then commits compressed JPEGs to `static/images/project-previews/`.
+
+The first production capture completed successfully in [workflow run #42981740301](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/42981740301). The resulting files are approximately 103.5 KB (PixelForge), 73.8 KB (PixelCutout) and 78.1 KB (Salary Calculator). The homepage and case-study integration is tracked separately so the assets are not referenced until they exist on the default branch.
+
+Screenshot captures are visual evidence of the initial interface only. They do not imply successful interaction testing, certify privacy/network behaviour, or replace physical-device and manual assistive-technology checks.
