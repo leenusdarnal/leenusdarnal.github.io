@@ -22,11 +22,11 @@ A personal homepage and maker's notebook built with SvelteKit, Svelte 5 and Tail
 ## Development
 
 ```sh
-npm install
+npm ci
 npm run dev
 ```
 
-Use npm ci for clean local installs and CI. npm install is only the fallback in CI while the package-lock generation pull request is pending; once the lockfile is merged, the normal path is always npm ci.
+Use npm ci for clean local installs and CI. Run npm install only when intentionally changing dependencies, then commit package.json and package-lock.json together.
 
 ## Production checks
 
