@@ -363,15 +363,22 @@ test('accent foregrounds are explicitly applied to visible CTA text', async () =
 });
 
 
-test('project cards expose category filters, live GitHub metadata and quick clone actions', () => {
-  assert.match(source, /data-project-card/);
-  assert.match(projectsSource, /categories: \['client-compute', 'svelte'\]/);
-  assert.match(repoMetadata, /leenus_lab_repos_v1/);
-  assert.match(repoMetadata, /3600000/);
-  assert.match(repoMetadata, /stargazers_count/);
-  assert.match(repoMetadata, /pushed_at/);
+test('project catalogue is filter-free while developer tools remain optional', () => {
+  assert.match(source, /<LabControls projects=/);
+  assert.doesNotMatch(labControls, /Filter projects|filter-pill|activeFilter|setFilter/);
+  assert.match(labControls, /For developers: inspect this site/);
+  assert.match(labControls, /DeveloperTools/);
   assert.match(projectActions, /git clone /);
   assert.match(projectActions, /Inspect Architecture/);
+});
+
+test('homepage provides practical visitor FAQs and conservative privacy guidance', () => {
+  assert.match(html, /Before you get started/);
+  assert.match(html, /Do my files leave my device/);
+  assert.match(html, /Offline support varies/);
+  assert.match(html, /Are salary estimates official/);
+  assert.match(projectsSource, /documentation-level review/);
+  assert.match(projectsSource, /independent network-traffic verification/);
 });
 
 test('client diagnostics report WebGPU, FP16, buffer limits, isolation and display capabilities', () => {
