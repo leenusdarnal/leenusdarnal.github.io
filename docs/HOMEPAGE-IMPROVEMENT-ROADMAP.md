@@ -51,7 +51,7 @@ This file records homepage-specific decisions. Cross-repository implementation i
 
 ## Implementation update — 11 November 2026
 
-The homepage now presents a concise **Good for** and **First step** panel on each project card and case study, driven by the shared project catalogue. The PixelForge comparison now supports clearing both images, re-selecting the same file, stale image-decode protection and cleanup of pending object URLs when the component is removed. Regression checks cover these behaviours. Authentic screenshots remain a separate follow-up: the reviewed PixelForge, PixelCutout and Salary Calculator repositories currently publish app icons but no durable interface screenshots.
+The homepage now presents a concise **Good for** and **First step** panel on each project card and case study, driven by the shared project catalogue. The PixelForge comparison now supports clearing both images, re-selecting the same file, stale image-decode protection and cleanup of pending object URLs when the component is removed. Regression checks cover these behaviours. The latest continuation adds a Playwright capture pipeline for live PixelForge, PixelCutout and Salary Calculator desktop and phone previews. Screenshots are generated into the Pages build output and a 14-day CI artifact rather than committed as binary source files; same-origin app-icon fallbacks remain available when a demo cannot be captured. The preview task is not considered fully closed until the first production capture artifact is visually inspected.
 
 Responsive browser QA was added in PR #64 and passed against the deployed GitHub Pages commit on 11 November 2026. Playwright checked phone (360×800 and 390×844), tablet (768×1024), small desktop (1024×900) and desktop (1440×1000) profiles. Each profile passed horizontal-overflow checks, primary navigation, project-card/case-study link checks, theme switching and theme persistence after reload. The PixelForge mobile case study also passed its quick-start and local-comparison checks. The run reported no uncaught page errors. Screenshots and the JSON report are retained in [responsive browser QA run #42962341179](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/42962341179) for 14 days. These are browser-emulated viewport profiles, not physical-device certification.
 
@@ -64,7 +64,8 @@ Accessibility automation was added in PR #66. The first live run surfaced a repe
 - [x] Move the authentic Metronome preview into the site's own static assets, update the homepage to use it, and self-host the authentic PixelForge and PixelCutout app icons.
 - [x] Add a deployed Playwright guard that fails if homepage images or initial resource loads use a cross-origin origin.
 - [~] Perform a targeted source-pattern scan of key application modules for network APIs and browser storage; findings and scope are recorded in PROJECT-PRIVACY-REVIEW.md. This is not a complete dependency or deployed-network audit.
-- [ ] Capture real interface screenshots for PixelForge, PixelCutout and Salary Calculator.
+- [x] Add Playwright capture automation for PixelForge, PixelCutout and Salary Calculator at desktop and phone sizes, with local-image fallbacks and retained CI artifacts.
+- [ ] Inspect the first production screenshot artifact and confirm that all three captures show the intended live application interfaces.
 - [ ] Complete physical-device and manual screen-reader testing.
 - [ ] Capture clean-profile live network traces and inspect deployed browser storage for all data-sensitive apps.
 - [x] Re-run Lighthouse on the deployed commit and review the new artifact before closing performance work.
@@ -90,3 +91,12 @@ These are automated Chromium/Playwright and Lighthouse results for the homepage 
 - Salary estimates remain clearly labelled as independent and non-authoritative.
 - Existing SEO, RSS, theme, accessibility foundations and GitHub Pages deployment remain intact.
 - npm run check, npm run build and npm test pass before merge.
+
+
+## Live preview capture implementation — 11 November 2026
+
+A new Pages-build step runs a clean Chromium context against each live application and checks expected page content before capturing a 1440×1000 desktop view and a 390×844 phone view. The three preview PNGs are copied into the generated `build/images/project-previews/` tree; the full capture set and JSON report are uploaded as the `project-interface-previews` workflow artifact for 14 days. These generated images are not committed to the source tree.
+
+The homepage and case-study pages start with same-origin SVG icon fallbacks. After hydration, they attempt to upgrade to the corresponding same-origin preview PNG. The runtime upgrade rejects any candidate whose origin differs from the personal site. Missing or failed captures therefore leave the valid fallback in place rather than exposing a broken image or introducing third-party requests from homepage visitors.
+
+The capture step is deliberately non-blocking for the Pages deployment. If a live demo or browser installation is unavailable, the site can still be published with its fallback asset. A successful capture is evidence that the initial interface rendered in CI; it is not a privacy/network audit, a full workflow test, a physical-device test, or manual accessibility certification.
