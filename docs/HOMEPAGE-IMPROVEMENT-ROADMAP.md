@@ -59,14 +59,28 @@ Accessibility automation was added in PR #66. The first live run surfaced a repe
 
 ## Final quality pass — 11 November 2026
 
-- [x] Raise mobile monospace/code previews and technical micro-labels to a 12px minimum; add a Playwright assertion across the responsive viewport matrix.
+- [x] Enforce a 12px minimum for small utility and technical labels across all five responsive viewport profiles (360, 390, 768, 1024 and 1440 CSS px); add a Playwright assertion.
 - [x] Add a dated What's New section linking to the underlying changes and CI history.
-- [x] Move the authentic Metronome preview into the site's own static assets, removing its raw.githubusercontent.com runtime dependency.
+- [x] Move the authentic Metronome preview into the site's own static assets, update the homepage to use it, and self-host the authentic PixelForge and PixelCutout app icons.
+- [x] Add a deployed Playwright guard that fails if homepage images or initial resource loads use a cross-origin origin.
 - [~] Perform a targeted source-pattern scan of key application modules for network APIs and browser storage; findings and scope are recorded in PROJECT-PRIVACY-REVIEW.md. This is not a complete dependency or deployed-network audit.
 - [ ] Capture real interface screenshots for PixelForge, PixelCutout and Salary Calculator.
 - [ ] Complete physical-device and manual screen-reader testing.
 - [ ] Capture clean-profile live network traces and inspect deployed browser storage for all data-sensitive apps.
-- [ ] Re-run Lighthouse on the deployed commit and review the new artifact before closing performance work.
+- [x] Re-run Lighthouse on the deployed commit and review the new artifact before closing performance work.
+
+## Release verification — 11 November 2026
+
+The final homepage release is deployed at commit `dea5bb2ebd912600800a0479fa39d4db49ebf78b`.
+
+- PR [#72](https://github.com/leenusdarnal/leenusdarnal.github.io/pull/72) fixed the tablet text-size defect and established the 12px floor for utility/technical labels. The follow-up extended that floor to every viewport profile after the 1024px desktop profile exposed the same small labels.
+- PR [#73](https://github.com/leenusdarnal/leenusdarnal.github.io/pull/73) self-hosted the two authentic project icons, switched the homepage to the already-local Metronome screenshot, and added same-origin resource regression coverage.
+- [Responsive browser and accessibility QA](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/42974411330) passed at 360×800, 390×844, 768×1024, 1024×900 and 1440×1000. Navigation, project links, theme switching/persistence, overflow, PixelForge case-study behaviour and the Metronome local preview passed. The new initial-resource/image origin check also passed.
+- The same run passed eight axe-core 4.14.0 WCAG A/AA scans with zero violations and all nine keyboard checks. Axe incomplete checks still require manual review; automated scans are not a screen-reader certification.
+- [Lighthouse quality audit](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/42974411418) passed with 100/100 in Performance, Accessibility, Best Practices and SEO.
+- [Static build, generated-site checks and smoke tests](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/42974325867) passed.
+
+These are automated Chromium/Playwright and Lighthouse results for the homepage and the listed case-study routes. They do not certify physical devices, other browsers, manual screen-reader use, or the network/storage behaviour of the separate linked applications.
 
 ## Acceptance criteria
 

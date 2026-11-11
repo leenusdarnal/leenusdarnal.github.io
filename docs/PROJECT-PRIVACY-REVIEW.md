@@ -18,7 +18,19 @@ The homepage previously called the public GitHub API from the visitor's browser 
 
 The implementation branch for the current review removes the RepoMetadata component, its homepage references, and its sessionStorage cache. Project source links remain available as visitor-initiated links. The pull request includes a regression test requiring the homepage to contain no repository-metadata API call or related cache write.
 
-**Evidence limitation:** this is a source-level change plus CI regression coverage. A clean-profile deployed-browser network trace has not yet been captured, so this document does not claim independent runtime network certification.
+**Evidence limitation:** the source-level change and the homepage-only browser resource check below do not certify the runtime behaviour of the linked applications. Clean-profile traces for PixelForge, PixelCutout and the Salary Calculator remain outstanding.
+
+## Homepage-only resource verification — 11 November 2026
+
+A live extraction after the final deployment showed the three homepage project visuals served from the personal site's own origin:
+
+- `/images/project-icons/pixelforge-icon.svg`
+- `/images/metronome-preview.png`
+- `/images/project-icons/pixelcutout-icon.svg`
+
+PR [#73](https://github.com/leenusdarnal/leenusdarnal.github.io/pull/73) replaced the prior Vercel-hosted app-icon URLs and raw GitHub screenshot URL with these same-origin static assets. The deployed [responsive browser QA run](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/42974411330) now inspects image origins and Resource Timing entries in a fresh browser context at all five viewport profiles and passed without a cross-origin homepage resource.
+
+**Scope limitation:** this check covers the personal homepage's initial resource load and its image references. It does not follow project links, process user images, download PixelCutout AI models, inspect all routes/dependencies of the other apps, or certify that user data remains local in those apps. Those runtime traces and storage inspections remain open.
 
 ## Targeted source-level observations — 11 November 2026
 
