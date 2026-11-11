@@ -22,6 +22,7 @@
   let error = $state('');
   let destroyed = false;
 
+  /** @param {string} url */
   function revokeUrl(url) {
     if (!url) return;
     pendingUrls.delete(url);
