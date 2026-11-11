@@ -95,7 +95,7 @@ test('PixelForge portfolio details match its current SvelteKit project', () => {
   assert.match(projectsSource, /Editable text layers/);
   assert.match(projectsSource, /24 MP document target/);
   assert.match(projectsSource, /offline-first image editor/);
-  assert.match(projectsSource, /local \.pfs project files/);
+  assert.match(projectsSource, /export a \.pfs file for a separate backup/);
 });
 
 test('salary calculator is clearly identified as an independent reference tool', () => {
