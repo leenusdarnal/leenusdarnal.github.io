@@ -24,7 +24,7 @@ This file records homepage-specific decisions. Cross-repository implementation i
 
 ### P1 — visitor experience
 - [x] Keep the authentic Metronome screenshot in the homepage repository rather than requesting it from a third-party raw-image host.
-- [ ] Capture authentic screenshots for PixelForge, PixelCutout and Salary Calculator. Their source repositories currently have no durable interface screenshots; do not substitute generated mockups for real interfaces.
+- [x] Capture authentic screenshots for PixelForge, PixelCutout and Salary Calculator. PR [#77](https://github.com/leenusdarnal/leenusdarnal.github.io/pull/77) integrated the real Playwright captures as same-origin JPEG assets in the homepage cards and case studies; the post-deployment workflow refreshes them.
 - [x] Improve each project card's what-it-does / who-it-helps / first-action hierarchy with shared, catalogue-driven audience and first-step guidance.
 - Keep technical diagnostics collapsed and clearly labelled for developers.
 - Ensure project cards and case studies have clear feedback/source paths.
@@ -51,7 +51,7 @@ This file records homepage-specific decisions. Cross-repository implementation i
 
 ## Implementation update — 11 November 2026
 
-The homepage now presents a concise **Good for** and **First step** panel on each project card and case study, driven by the shared project catalogue. The PixelForge comparison now supports clearing both images, re-selecting the same file, stale image-decode protection and cleanup of pending object URLs when the component is removed. Regression checks cover these behaviours. Authentic screenshots remain a separate follow-up: the reviewed PixelForge, PixelCutout and Salary Calculator repositories currently publish app icons but no durable interface screenshots.
+The homepage now presents a concise **Good for** and **First step** panel on each project card and case study, driven by the shared project catalogue. The PixelForge comparison now supports clearing both images, re-selecting the same file, stale image-decode protection and cleanup of pending object URLs when the component is removed. Regression checks cover these behaviours. Authentic PixelForge, PixelCutout and Salary Calculator interface screenshots were subsequently captured from the live applications, committed as same-origin assets and integrated into the homepage and case studies in PR [#77](https://github.com/leenusdarnal/leenusdarnal.github.io/pull/77).
 
 Responsive browser QA was added in PR #64 and passed against the deployed GitHub Pages commit on 11 November 2026. Playwright checked phone (360×800 and 390×844), tablet (768×1024), small desktop (1024×900) and desktop (1440×1000) profiles. Each profile passed horizontal-overflow checks, primary navigation, project-card/case-study link checks, theme switching and theme persistence after reload. The PixelForge mobile case study also passed its quick-start and local-comparison checks. The run reported no uncaught page errors. Screenshots and the JSON report are retained in [responsive browser QA run #42962341179](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/42962341179) for 14 days. These are browser-emulated viewport profiles, not physical-device certification.
 
