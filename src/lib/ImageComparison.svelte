@@ -1,38 +1,69 @@
 <script>
   import { onDestroy } from 'svelte';
 
+  const supportedTypes = new Set([
+    'image/png',
+    'image/jpeg',
+    'image/webp',
+    'image/gif',
+    'image/avif'
+  ]);
+  const maxFileBytes = 20 * 1024 * 1024;
+  const maxImagePixels = 40_000_000;
+  const pendingUrls = new Set();
+  const selectionVersion = { before: 0, after: 0 };
+
   let beforeUrl = $state('');
   let afterUrl = $state('');
   let beforeName = $state('');
   let afterName = $state('');
   let position = $state(50);
   let error = $state('');
+  let destroyed = false;
+
+  function revokeUrl(url) {
+    if (!url) return;
+    pendingUrls.delete(url);
+    URL.revokeObjectURL(url);
+  }
 
   /** @param {Event} event @param {'before' | 'after'} side */
   function loadImage(event, side) {
     const input = /** @type {HTMLInputElement} */ (event.currentTarget);
     const file = input.files?.[0];
     if (!file) return;
-    const supportedTypes = ['image/png', 'image/jpeg', 'image/webp', 'image/gif', 'image/avif'];
-    if (!supportedTypes.includes(file.type)) {
-      error = 'Choose a valid image file.';
-      input.value = '';
+
+    // Reset immediately so selecting the same file again still fires change.
+    input.value = '';
+    const version = ++selectionVersion[side];
+
+    if (!supportedTypes.has(file.type)) {
+      error = 'Choose a PNG, JPEG, WebP, GIF or AVIF image.';
       return;
     }
-    if (file.size > 20 * 1024 * 1024) {
+    if (file.size > maxFileBytes) {
       error = 'Each image must be 20 MB or smaller.';
-      input.value = '';
       return;
     }
+
     const url = URL.createObjectURL(file);
+    pendingUrls.add(url);
     const probe = new Image();
+
     probe.onload = () => {
-      if (!probe.naturalWidth || !probe.naturalHeight || probe.naturalWidth * probe.naturalHeight > 40000000) {
+      if (!pendingUrls.has(url)) return;
+      pendingUrls.delete(url);
+
+      if (destroyed || version !== selectionVersion[side]) {
         URL.revokeObjectURL(url);
-        error = 'Choose an image up to 40 megapixels.';
-        input.value = '';
         return;
       }
+      if (!probe.naturalWidth || !probe.naturalHeight || probe.naturalWidth * probe.naturalHeight > maxImagePixels) {
+        URL.revokeObjectURL(url);
+        error = 'Choose an image up to 40 megapixels.';
+        return;
+      }
+
       if (side === 'before') {
         if (beforeUrl) URL.revokeObjectURL(beforeUrl);
         beforeUrl = url;
@@ -44,15 +75,36 @@
       }
       error = '';
     };
+
     probe.onerror = () => {
+      if (!pendingUrls.has(url)) return;
+      pendingUrls.delete(url);
       URL.revokeObjectURL(url);
-      input.value = '';
-      error = 'The selected image could not be decoded.';
+      if (!destroyed && version === selectionVersion[side]) {
+        error = 'The selected image could not be decoded.';
+      }
     };
     probe.src = url;
   }
 
+  function clearComparison() {
+    // Invalidate in-flight decodes before releasing their object URLs.
+    selectionVersion.before += 1;
+    selectionVersion.after += 1;
+    if (beforeUrl) URL.revokeObjectURL(beforeUrl);
+    if (afterUrl) URL.revokeObjectURL(afterUrl);
+    beforeUrl = '';
+    afterUrl = '';
+    beforeName = '';
+    afterName = '';
+    position = 50;
+    error = '';
+  }
+
   onDestroy(() => {
+    destroyed = true;
+    for (const url of pendingUrls) URL.revokeObjectURL(url);
+    pendingUrls.clear();
     if (beforeUrl) URL.revokeObjectURL(beforeUrl);
     if (afterUrl) URL.revokeObjectURL(afterUrl);
   });
@@ -65,7 +117,11 @@
       <h2 id="comparison-heading" class="mt-2 text-2xl font-semibold tracking-[-0.05em]">Compare your PixelForge edits.</h2>
       <p class="mt-2 max-w-2xl text-sm leading-6 text-[var(--muted)]">Choose an original image and an edited export, then drag the divider to inspect the difference. Files are previewed locally in this tab and are never uploaded.</p>
     </div>
-    <span class="rounded-full border border-[var(--line)] px-3 py-1.5 font-mono text-[9px] text-[var(--muted)]">NO UPLOADS</span>
+    {#if beforeUrl || afterUrl}
+      <button type="button" onclick={clearComparison} class="inline-flex min-h-11 items-center rounded-full border border-[var(--line)] px-4 py-2 text-xs font-medium text-[var(--muted)] transition hover:border-[var(--accent)] hover:text-[var(--ink)]">Clear images</button>
+    {:else}
+      <span class="rounded-full border border-[var(--line)] px-3 py-1.5 font-mono text-[9px] text-[var(--muted)]">NO UPLOADS</span>
+    {/if}
   </div>
 
   <div class="mt-5 grid gap-3 sm:grid-cols-2">
@@ -76,10 +132,20 @@
     </label>
     <label class="grid gap-2 rounded-xl border border-[var(--line)] p-3 text-xs text-[var(--muted)]">
       <span class="font-mono uppercase tracking-[0.12em]">Edited export</span>
-      <input type="file" accept="image/*" onchange={(event) => loadImage(event, 'after')} class="block w-full text-xs file:mr-3 file:rounded-full file:border-0 file:bg-[var(--accent)] file:px-3 file:py-2 file:font-semibold file:text-[var(--accent-contrast)]" />
+      <input type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/avif" onchange={(event) => loadImage(event, 'after')} class="block w-full text-xs file:mr-3 file:rounded-full file:border-0 file:bg-[var(--accent)] file:px-3 file:py-2 file:font-semibold file:text-[var(--accent-contrast)]" />
       <span class="truncate" title={afterName}>{afterName || 'Choose a file · max 20 MB'}</span>
     </label>
   </div>
+
+  <p class="sr-only" aria-live="polite" aria-atomic="true">
+    {#if beforeName && afterName}
+      Comparison ready for {beforeName} and {afterName}.
+    {:else if beforeName}
+      Original image loaded: {beforeName}.
+    {:else if afterName}
+      Edited image loaded: {afterName}.
+    {/if}
+  </p>
 
   {#if error}<p class="mt-3 text-sm text-[var(--accent)]" role="alert">{error}</p>{/if}
   {#if beforeUrl && afterUrl}
