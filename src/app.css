@@ -559,7 +559,7 @@ samp {
   font-size: max(0.75rem, 1em);
 }
 
-@media (max-width: 720px) {
+@media (max-width: 900px) {
   .font-mono {
     font-size: max(0.75rem, 1em);
   }
@@ -588,7 +588,7 @@ samp {
 
 
 /* Mobile legibility: raise small utility and technical labels without changing display headings. */
-@media (max-width: 720px) {
+@media (max-width: 900px) {
   .font-mono,
   .tool-pill,
   .clone-button,
@@ -609,6 +609,7 @@ samp {
   .source-only-label,
   .source-stack span,
   .coi-status,
+  [class~="text-[9px]"],
   [class~="text-[10px]"],
   [class~="text-[11px]"] {
     font-size: max(0.75rem, 1em) !important;
