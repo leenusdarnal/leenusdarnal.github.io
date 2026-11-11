@@ -219,6 +219,39 @@ try {
     await detailContext.close();
   }
 
+  const metronomeContext = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    isMobile: true,
+    hasTouch: true,
+    deviceScaleFactor: 2,
+    serviceWorkers: 'allow'
+  });
+  const metronomePage = await metronomeContext.newPage();
+  try {
+    const metronomeUrl = new URL('projects/metronome/', baseUrl).toString();
+    const response = await metronomePage.goto(metronomeUrl, { waitUntil: 'domcontentloaded', timeout: 60_000 });
+    assert.ok(response && response.status() < 400, 'Metronome case study did not load successfully');
+    const preview = metronomePage.locator('img[alt="Screenshot of the Metronome web app interface from its source repository."]');
+    await preview.waitFor({ state: 'visible', timeout: 20_000 });
+    await preview.evaluate((image) => image.decode());
+    const previewDetails = await preview.evaluate((image) => ({
+      src: image.currentSrc,
+      naturalWidth: image.naturalWidth,
+      naturalHeight: image.naturalHeight
+    }));
+    assert.equal(new URL(previewDetails.src).origin, new URL(baseUrl).origin, 'Metronome screenshot should be served by this site');
+    assert.ok(previewDetails.naturalWidth > 0 && previewDetails.naturalHeight > 0, 'Metronome screenshot did not decode');
+    report.metronomePreview = { url: metronomeUrl, ...previewDetails };
+    await metronomePage.screenshot({
+      path: outputDir + '/metronome-case-study-phone.png',
+      fullPage: true,
+      animations: 'disabled'
+    });
+    console.log('PASS locally hosted Metronome case-study preview');
+  } finally {
+    await metronomeContext.close();
+  }
+
   assert.deepEqual(browserErrors, [], 'Uncaught browser errors were recorded');
   await writeFile(outputDir + '/report.json', JSON.stringify(report, null, 2) + '\n');
   console.log('Responsive browser QA passed for all ' + viewports.length + ' viewport profiles and PixelForge case study.');
