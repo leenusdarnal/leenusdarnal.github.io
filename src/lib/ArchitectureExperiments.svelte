@@ -95,7 +95,7 @@
           {/each}
         </div>
         <details class="architecture-drawer source-architecture">
-          <summary aria-label={'Inspect ' + experiment.name + ' architecture'}>
+          <summary aria-label={'Inspect Architecture for ' + experiment.name}>
             Inspect Architecture <span class="architecture-toggle" aria-hidden="true">＋</span>
           </summary>
           <ol>

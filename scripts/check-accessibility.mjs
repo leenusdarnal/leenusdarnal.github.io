@@ -142,7 +142,7 @@ async function keyboardAudit() {
 
     await page.keyboard.press('Escape');
     await page.waitForFunction(() => !document.querySelector('#command-palette')?.open);
-    await page.waitForFunction(() => document.activeElement?.getAttribute('aria-label')?.includes('Open command palette'));
+    await page.waitForFunction(() => document.activeElement?.getAttribute('aria-haspopup') === 'dialog');
     assert.equal(await trigger.evaluate((element) => element === document.activeElement), true);
     result.commandPaletteEscapeRestoresFocus = true;
 

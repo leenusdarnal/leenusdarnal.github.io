@@ -46,7 +46,7 @@
   <span class="sr-only" aria-live="polite" aria-atomic="true">{copyStatus}</span>
 </div>
 <details class="architecture-drawer mt-4">
-  <summary aria-label={"Inspect " + project.name + " architecture"}>Inspect Architecture <span class="architecture-toggle" aria-hidden="true">＋</span></summary>
+  <summary aria-label={"Inspect Architecture for " + project.name}>Inspect Architecture <span class="architecture-toggle" aria-hidden="true">＋</span></summary>
   <ul>
     {#each architecture.get(project.slug) ?? ['Project implementation details have not yet been documented.'] as item}
       <li>{item}</li>
