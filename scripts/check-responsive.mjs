@@ -72,6 +72,15 @@ async function checkViewport(browser, viewport) {
     await page.locator('#work').waitFor({ state: 'attached', timeout: 20_000 });
     await page.getByRole('heading', { name: 'Before you get started.' }).waitFor({ state: 'visible' });
     await page.evaluate(() => document.fonts?.ready);
+    await page.getByRole('heading', { name: 'Recent improvements.' }).waitFor({ state: 'visible' });
+
+    const technicalTextFontSize = await page.locator('.terminal-body pre code').evaluate((element) =>
+      Number.parseFloat(getComputedStyle(element).fontSize)
+    );
+    assert.ok(
+      technicalTextFontSize >= 12,
+      viewport.name + ': technical preview text is smaller than 12px (' + technicalTextFontSize + 'px)'
+    );
 
     const initialLayout = await inspectOverflow(page);
     assert.equal(
@@ -141,6 +150,8 @@ async function checkViewport(browser, viewport) {
       finalLayout,
       projectCards: 4,
       themePersistence: true,
+      technicalTextFontSize,
+      recentUpdatesVisible: true,
       navigation: 'passed',
       browserErrors: pageErrors
     });
