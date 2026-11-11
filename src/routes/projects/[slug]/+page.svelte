@@ -5,6 +5,31 @@
 
   let { data } = $props();
   let project = $derived(data.project);
+
+  function upgradePreviewImage(event, imageUrl) {
+    const image = event.currentTarget;
+    if (!image || !imageUrl || image.dataset.previewUpgraded === 'true') return;
+
+    let candidateUrl;
+    try {
+      candidateUrl = new URL(imageUrl, window.location.href);
+    } catch {
+      return;
+    }
+    if (candidateUrl.origin !== window.location.origin || candidateUrl.href === image.currentSrc || candidateUrl.href === image.src) return;
+
+    const candidate = new Image();
+    candidate.decoding = 'async';
+    candidate.onload = () => {
+      if (!image.isConnected) return;
+      image.dataset.previewUpgraded = 'true';
+      image.src = candidateUrl.href;
+      image.classList.remove('size-20');
+      image.classList.add('h-auto', 'max-h-[560px]', 'w-full', 'object-contain');
+    };
+    candidate.src = candidateUrl.href;
+  }
+
 </script>
 
 <svelte:head>
@@ -51,20 +76,35 @@
 
       {#if project.caseStudy.previewImage}
         <figure class="mt-14 overflow-hidden rounded-3xl border border-[var(--line)] bg-[var(--panel)]">
-          <img src={project.caseStudy.previewImage} alt={project.caseStudy.previewAlt} width="416" height="314" sizes="(max-width: 768px) calc(100vw - 2rem), 896px" loading="lazy" decoding="async" class="block h-auto w-full object-contain" />
+          <div class="flex min-h-[260px] items-center justify-center bg-[var(--panel-soft)] p-5 sm:min-h-[340px] sm:p-8">
+            <img
+              src={project.caseStudy.previewFallback ?? project.caseStudy.previewImage}
+              alt={project.caseStudy.previewAlt ?? project.name + ' application preview'}
+              width={project.slug === 'metronome' ? 416 : 1440}
+              height={project.slug === 'metronome' ? 314 : 1000}
+              sizes="(max-width: 768px) calc(100vw - 2rem), 896px"
+              loading="lazy"
+              decoding="async"
+              onload={(event) => upgradePreviewImage(event, project.caseStudy.previewImage)}
+              class={project.slug === 'metronome' ? 'block h-auto w-full object-contain' : 'size-20 object-contain'}
+            />
+          </div>
           <figcaption class="border-t border-[var(--line)] px-4 py-3 text-xs text-[var(--muted)] sm:px-6">
-            Actual application screenshot · {#if project.caseStudy.previewSourceUrl}<a href={project.caseStudy.previewSourceUrl} target="_blank" rel="noopener noreferrer" class="underline underline-offset-4">source repository</a>{/if}
+            {project.slug === 'metronome' ? 'Source repository screenshot' : 'Live application screenshot'}
+            {#if project.caseStudy.previewSourceUrl}
+              · <a href={project.caseStudy.previewSourceUrl} target="_blank" rel="noopener noreferrer" class="underline underline-offset-4">
+                {project.slug === 'metronome' ? 'source repository' : 'live application'}
+              </a>
+            {/if}
           </figcaption>
         </figure>
-      {:else}
+      {:else if project.live}
         <aside class="mt-14 flex flex-col gap-3 rounded-3xl border border-[var(--line)] bg-[var(--panel)] p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
           <div>
             <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--accent)]">Live application</p>
-            <p class="mt-2 text-sm leading-6 text-[var(--muted)]">An authentic screenshot is not yet available for this project. Open the live application to see its current interface.</p>
+            <p class="mt-2 text-sm leading-6 text-[var(--muted)]">Open the application to see its current interface.</p>
           </div>
-          {#if project.live}
-            <a href={project.live} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 shrink-0 items-center justify-center rounded-full bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[var(--accent-contrast)]" style="color: var(--accent-contrast)">View live app ↗</a>
-          {/if}
+          <a href={project.live} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 shrink-0 items-center justify-center rounded-full bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[var(--accent-contrast)]" style="color: var(--accent-contrast)">View live app ↗</a>
         </aside>
       {/if}
 
