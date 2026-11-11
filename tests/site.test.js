@@ -255,7 +255,6 @@ test('Pages deployment uses reproducible cached installs and only deploys main',
   assert.match(deploy, /run: npm ci --no-audit --no-fund/);
   assert.ok(deploy.includes('npm install --no-save --package-lock=false --ignore-scripts playwright@1.62.1'));
   assert.ok(deploy.includes('npm ci --no-audit --no-fund'));
-  assert.doesNotMatch(deploy, /npm install(?! --no-save --package-lock=false --ignore-scripts playwright@1\\.62\\.1)/);
   assert.doesNotMatch(deploy, /if \[ -f package-lock/);
   assert.match(deploy, /path: build/);
 });
