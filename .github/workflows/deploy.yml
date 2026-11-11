@@ -16,6 +16,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
       contents: read
     steps:
@@ -47,9 +48,31 @@ jobs:
         run: |
           node --check scripts/check-responsive.mjs
           node --check scripts/check-accessibility.mjs
+          node --check scripts/capture-project-previews.mjs
 
       - name: Run generated-site smoke tests
         run: npm test
+
+      - name: Install pinned Playwright for live project previews
+        continue-on-error: true
+        run: npm install --no-save --package-lock=false --ignore-scripts playwright@1.62.1
+
+      - name: Install Chromium for live project previews
+        continue-on-error: true
+        run: npx playwright install --with-deps chromium
+
+      - name: Capture authentic live application previews
+        continue-on-error: true
+        run: node scripts/capture-project-previews.mjs
+
+      - name: Upload project preview screenshots and capture report
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: project-interface-previews
+          path: artifacts/project-previews/
+          if-no-files-found: warn
+          retention-days: 14
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6
