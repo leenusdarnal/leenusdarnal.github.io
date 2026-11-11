@@ -722,9 +722,9 @@ test('project previews are captured from live applications and retain honest pro
   assert.match(homepage, /previewFallback/);
 
 
-  assert.match(projects, /pixelforge-icon\\.svg/);
-  assert.match(projects, /pixelcutout-icon\\.svg/);
-  assert.match(projects, /salary-calculator-icon\\.svg/);
+  assert.match(projects, /pixelforge-icon\.svg/);
+  assert.match(projects, /pixelcutout-icon\.svg/);
+  assert.match(projects, /salary-calculator-icon\.svg/);
   assert.match(projects, /previewSourceUrl/);
   assert.match(projects, /previewAlt/);
   assert.match(projects, /previewFallback/);
