@@ -281,8 +281,8 @@ test('projects without verified screenshots are not presented as photographed in
 
 test('homepage uses genuine application branding and the source screenshot distinctly', () => {
   assert.match(html, /Source repository screenshot/);
-  assert.ok(html.includes('https://pixelforge-studio-pied.vercel.app/icons/icon.svg'));
-  assert.ok(html.includes('https://pixelcutout-three.vercel.app/pixelcutout-icon.svg'));
+  assert.ok(html.includes('/images/project-icons/pixelforge-icon.svg'));
+  assert.ok(html.includes('/images/project-icons/pixelcutout-icon.svg'));
   assert.doesNotMatch(html, /Interface illustration/);
   assert.ok(projectsSource.includes('leenusdarnal.github.io/images/metronome-preview.png'));
 });
@@ -317,8 +317,8 @@ test('the home link accessible name includes its visible brand label', () => {
 });
 
 test('homepage project preview panels use real app brand assets', () => {
-  assert.ok(html.includes('https://pixelforge-studio-pied.vercel.app/icons/icon.svg'));
-  assert.ok(html.includes('https://pixelcutout-three.vercel.app/pixelcutout-icon.svg'));
+  assert.ok(html.includes('/images/project-icons/pixelforge-icon.svg'));
+  assert.ok(html.includes('/images/project-icons/pixelcutout-icon.svg'));
 });
 
 
@@ -689,7 +689,7 @@ test('Personal Space Configurator validates and bounds local drafts before save 
 test('project imagery never labels generated mockups as authentic application screenshots', async () => {
   const homepage = await readFile(new URL('../src/routes/+page.svelte', import.meta.url), 'utf8');
   const projects = await readFile(new URL('../src/lib/projects.ts', import.meta.url), 'utf8');
-  assert.match(homepage, /icons\/icon\.svg/);
+  assert.match(homepage, /pixelforge-icon\\.svg/);
   assert.match(homepage, /pixelcutout-icon\.svg/);
   assert.match(projects, /previewSourceUrl/);
   const detail = await readFile(new URL('../src/routes/projects/[slug]/+page.svelte', import.meta.url), 'utf8');
