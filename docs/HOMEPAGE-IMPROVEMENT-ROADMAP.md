@@ -35,7 +35,7 @@ This file records homepage-specific decisions. Cross-repository implementation i
 - Add structured data only for applications with verified product metadata.
 
 ### P3 — quality and performance
-- Add browser-level end-to-end checks for mobile navigation, theme switching, project links, FAQ and case-study paths.
+- [x] Add responsive browser-level end-to-end checks for navigation, theme switching and persistence, project links, FAQ and the PixelForge case-study path at 360, 390, 768, 1024 and 1440 CSS-pixel viewport widths.
 - Add automated accessibility checks and keyboard/screen-reader review.
 - Generate repository metadata at build time or remove the runtime GitHub API dependency.
 - Review Core Web Vitals from real Lighthouse artifacts; do not report scores without reading the artifact.
@@ -48,6 +48,8 @@ This file records homepage-specific decisions. Cross-repository implementation i
 ## Implementation update — 11 November 2026
 
 The homepage now presents a concise **Good for** and **First step** panel on each project card and case study, driven by the shared project catalogue. The PixelForge comparison now supports clearing both images, re-selecting the same file, stale image-decode protection and cleanup of pending object URLs when the component is removed. Regression checks cover these behaviours. Authentic screenshots remain a separate follow-up: the reviewed PixelForge, PixelCutout and Salary Calculator repositories currently publish app icons but no durable interface screenshots.
+
+Responsive browser QA was added in PR #64 and passed against the deployed GitHub Pages commit on 11 November 2026. Playwright checked phone (360×800 and 390×844), tablet (768×1024), small desktop (1024×900) and desktop (1440×1000) profiles. Each profile passed horizontal-overflow checks, primary navigation, project-card/case-study link checks, theme switching and theme persistence after reload. The PixelForge mobile case study also passed its quick-start and local-comparison checks. The run reported no uncaught page errors. Screenshots and the JSON report are retained in [responsive browser QA run #42962341179](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/42962341179) for 14 days. These are browser-emulated viewport profiles, not physical-device certification.
 
 ## Acceptance criteria
 
