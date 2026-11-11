@@ -1,6 +1,7 @@
 <script>
   import { personalSpaceConfig } from '../../../lib/personal-space.config';
   import ImageComparison from '../../../lib/ImageComparison.svelte';
+  import ProjectQuickStart from '../../../lib/ProjectQuickStart.svelte';
 
   let { data } = $props();
   let project = $derived(data.project);
@@ -46,6 +47,7 @@
         {/if}
         <a href={project.source} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center gap-2 rounded-full border border-[var(--line)] px-5 py-3 text-sm font-semibold transition hover:border-[var(--accent)]">View source code ↗</a>
       </div>
+      <ProjectQuickStart audience={project.audience} firstAction={project.firstAction} />
 
       {#if project.caseStudy.previewImage}
         <figure class="mt-14 overflow-hidden rounded-3xl border border-[var(--line)] bg-[var(--panel)]">

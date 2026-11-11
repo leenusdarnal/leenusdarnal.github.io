@@ -23,8 +23,8 @@ This file records homepage-specific decisions. Cross-repository implementation i
 - Publish only privacy claims tied to a tested commit and dated evidence.
 
 ### P1 — visitor experience
-- Capture authentic screenshots for projects that currently have only icons/placeholder panels.
-- Improve each project card's what-it-does / who-it-helps / first-action hierarchy.
+- [ ] Capture authentic screenshots for projects that currently have only icons/placeholder panels. A source-repository asset review found a durable screenshot for Metronome, but only app icons for PixelForge, PixelCutout and Salary Calculator; do not substitute generated mockups for real interfaces.
+- [x] Improve each project card's what-it-does / who-it-helps / first-action hierarchy with shared, catalogue-driven audience and first-step guidance.
 - Keep technical diagnostics collapsed and clearly labelled for developers.
 - Ensure project cards and case studies have clear feedback/source paths.
 
@@ -44,6 +44,10 @@ This file records homepage-specific decisions. Cross-repository implementation i
 - Recheck external project links and privacy notes after releases.
 - Keep a lightweight changelog and a dated audit register.
 - Revisit project filters only when the catalogue is large enough to justify them.
+
+## Implementation update — 11 November 2026
+
+The homepage now presents a concise **Good for** and **First step** panel on each project card and case study, driven by the shared project catalogue. The PixelForge comparison now supports clearing both images, re-selecting the same file, stale image-decode protection and cleanup of pending object URLs when the component is removed. Regression checks cover these behaviours. Authentic screenshots remain a separate follow-up: the reviewed PixelForge, PixelCutout and Salary Calculator repositories currently publish app icons but no durable interface screenshots.
 
 ## Acceptance criteria
 

@@ -711,6 +711,32 @@ test('PixelForge comparison is local-only, bounded and accessible', async () => 
   assert.match(component, /clip-path/);
 });
 
+test('PixelForge comparison supports repeat selection, stale-decode protection and clear controls', async () => {
+  const component = await readFile(new URL('../src/lib/ImageComparison.svelte', import.meta.url), 'utf8');
+  assert.match(component, /selectionVersion/);
+  assert.match(component, /pendingUrls = new Set/);
+  assert.match(component, /function clearComparison\(\)/);
+  assert.match(component, /Clear images/);
+  assert.match(component, /input\.value = ''/);
+  assert.match(component, /aria-live="polite"/);
+  assert.equal((component.match(/accept="image\/png,image\/jpeg,image\/webp,image\/gif,image\/avif"/g) ?? []).length, 2);
+});
+
+test('project cards and case studies share audience and first-step guidance', async () => {
+  const catalogue = await readFile(new URL('../src/lib/projects.ts', import.meta.url), 'utf8');
+  const homepage = await readFile(new URL('../src/routes/+page.svelte', import.meta.url), 'utf8');
+  const detail = await readFile(new URL('../src/routes/projects/[slug]/+page.svelte', import.meta.url), 'utf8');
+  const quickStart = await readFile(new URL('../src/lib/ProjectQuickStart.svelte', import.meta.url), 'utf8');
+
+  assert.equal((catalogue.match(/audience: '/g) ?? []).length, 4);
+  assert.equal((catalogue.match(/firstAction: '/g) ?? []).length, 4);
+  assert.match(homepage, /<ProjectQuickStart audience=\{projects\[0\]\.audience\}/);
+  assert.match(homepage, /<ProjectQuickStart audience=\{project\.audience\}/);
+  assert.match(detail, /<ProjectQuickStart audience=\{project\.audience\}/);
+  assert.match(quickStart, /Good for/);
+  assert.match(quickStart, /First step/);
+});
+
 test('secure configuration publisher only accepts an allow-listed exported draft', async () => {
   const publisher = await readFile(new URL('../scripts/publish-personal-space-config.mjs', import.meta.url), 'utf8');
   const workflow = await readFile(new URL('../.github/workflows/publish-personal-space.yml', import.meta.url), 'utf8');

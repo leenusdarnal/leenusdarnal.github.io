@@ -14,6 +14,8 @@ export interface ProjectRecord {
   name: string;
   type: string;
   description: string;
+  audience: string;
+  firstAction: string;
   stack: readonly string[];
   features: readonly string[];
   live: string;
@@ -44,6 +46,8 @@ export const projects: readonly ProjectRecord[] = [
     name: 'PixelForge Studio',
     type: 'IMAGE EDITOR · BROWSER APP',
     description: 'Edit images in your browser with layers, masks, selection tools and editable text. Keep working with local autosaves and export a .pfs file for a separate backup.',
+    audience: 'People who want practical image edits with local projects and portable backups.',
+    firstAction: 'Open the editor, create a canvas or import an image, then export a .pfs backup.',
     stack: ['SvelteKit', 'Tailwind CSS', 'Canvas API'],
     features: ['Editable text layers', '24 MP document target', 'Offline-first local projects'],
     live: 'https://pixelforge-studio-pied.vercel.app/',
@@ -68,6 +72,8 @@ export const projects: readonly ProjectRecord[] = [
     name: 'Metronome',
     type: 'MUSIC PRACTICE · WEB APP',
     description: 'Keep a steady practice tempo with simple playback controls, adjustable BPM and selectable time signatures.',
+    audience: 'Musicians and learners who want a quick, focused practice tempo.',
+    firstAction: 'Set the BPM, choose a time signature and press Play.',
     stack: ['React', 'TypeScript', 'Vite'],
     features: ['Tempo control', 'Playback controls', 'Selectable time signatures'],
     live: 'https://react-metronome-dusky.vercel.app/',
@@ -93,6 +99,8 @@ export const projects: readonly ProjectRecord[] = [
     name: 'Sikkim Government Salary Calculator',
     type: 'REFERENCE TOOL · SIKKIM',
     description: 'Estimate basic pay plus DA first, then explore optional allowances, deductions and planning tools. An independent reference calculator, not an official payroll system.',
+    audience: 'Sikkim Government employees exploring a non-authoritative monthly pay estimate.',
+    firstAction: 'Choose a pay level and basic-pay cell, set the DA rate and calculate the base estimate.',
     stack: ['JavaScript', 'HTML', 'CSS'],
     features: ['Gross pay estimates', 'Common deductions', 'In-hand pay estimates'],
     live: 'https://sikkim-government-salary-calculator.vercel.app/',
@@ -117,6 +125,8 @@ export const projects: readonly ProjectRecord[] = [
     name: 'PixelCutout',
     type: 'IMAGE TOOL · PRIVACY-FIRST',
     description: 'Remove image backgrounds with AI-assisted subject detection or a no-AI colour-selection workflow, then refine and export your result in the browser.',
+    audience: 'People preparing portrait cutouts or removing simple, uniform backgrounds.',
+    firstAction: 'Choose AI automatic or no-AI colour removal, then select an image.',
     stack: ['SvelteKit', 'Transformers.js', 'ONNX Runtime'],
     features: ['AI and no-AI removal modes', 'Local erase and restore tools', 'PNG, JPEG and WebP export'],
     live: 'https://pixelcutout-three.vercel.app/',
