@@ -112,6 +112,7 @@ async function checkViewport(browser, viewport) {
       viewport.name + ': theme preference was not saved'
     );
     await page.reload({ waitUntil: 'domcontentloaded' });
+    await page.waitForFunction((expected) => document.documentElement.getAttribute('data-theme') === expected, themeAfter);
     assert.equal(
       await page.locator('html').getAttribute('data-theme'),
       themeAfter,
@@ -180,8 +181,8 @@ try {
     const response = await detailPage.goto(detailUrl, { waitUntil: 'domcontentloaded', timeout: 60_000 });
     assert.ok(response && response.status() < 400, 'PixelForge case study did not load successfully');
     await detailPage.getByRole('heading', { name: 'Compare your PixelForge edits.' }).waitFor({ state: 'visible' });
-    await detailPage.getByRole('term', { name: 'Good for' }).waitFor({ state: 'visible' });
-    await detailPage.getByRole('term', { name: 'First step' }).waitFor({ state: 'visible' });
+    await detailPage.getByText('Good for', { exact: true }).waitFor({ state: 'visible' });
+    await detailPage.getByText('First step', { exact: true }).waitFor({ state: 'visible' });
     assert.equal(await detailPage.locator('input[type="file"]').count(), 2, 'PixelForge comparison should expose two local file inputs');
     assert.equal(await detailPage.locator('input[type="range"]').count(), 0, 'Comparison slider should remain hidden until both images are selected');
 
