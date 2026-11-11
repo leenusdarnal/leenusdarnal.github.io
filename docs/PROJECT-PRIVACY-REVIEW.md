@@ -130,3 +130,11 @@ The three previously missing interface previews were captured from the live prod
 These screenshots document the initial interface appearance only. They are not a clean-profile network audit, an exhaustive dependency review, a privacy certification, or proof that every interactive workflow behaves as intended. The runtime network/storage and formula validation items under **Not yet verified** remain open.
 
 The capture workflow was run again after the 11 November deployment in [GitHub Actions run #42982484773](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/42982484773). PixelForge, PixelCutout and the Salary Calculator each returned HTTP 200 and passed the workflow's expected-visible-content check. The generated JPEGs were unchanged, so the workflow correctly skipped creating a redundant commit. A live check of the homepage and its four preview image URLs also returned HTTP 200 from the personal site's origin. These checks confirm availability and initial rendering only; they do not replace the runtime network/storage review above.
+
+
+## Homepage and case-study wording precision — 11 November 2026
+
+- The PixelCutout case-study category now describes its actual modes (AI and no-AI) rather than making a broad "privacy-first" label claim.
+- The architecture summary says image editing/export are designed to run in the browser and explicitly leaves independent runtime/network verification pending. The adjacent privacy note attributes the no-upload statement to the project's README and retains the documentation-level evidence qualification.
+- The Runtime Inspector footnote now states only that the inspector itself does not send diagnostics to a remote service and that report data is copied only on user action. It does not claim that every script or application linked from the homepage is incapable of making external requests.
+- Regression tests cover the exact copy and prevent the old overbroad wording from returning.

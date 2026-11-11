@@ -97,6 +97,9 @@ test('PixelCutout is listed with its source and local-processing features', () =
   assert.match(projectsSource, /https:\/\/pixelcutout-three\.vercel\.app\//);
   assert.match(projectsSource, /https:\/\/github\.com\/leenusdarnal\/pixelcutout/);
   assert.match(projectsSource, /AI and no-AI removal modes/);
+  assert.match(projectsSource, /category: 'Image tool · AI & no-AI modes'/);
+  assert.match(projectsSource, /designed to run in the browser; independent runtime\/network verification remains pending/);
+  assert.doesNotMatch(projectsSource, /category: 'Image tool · Privacy-first'/);
   assert.match(projectsSource, /Remove image backgrounds with AI-assisted subject detection/);
   assert.match(projectActions, /\{#if project\.live\}/);
 });
@@ -601,7 +604,7 @@ test('Runtime Inspector reports real page performance, network and origin storag
     'prefers-reduced-motion',
     'Page performance & network',
     'Storage & device context',
-    'Nothing is uploaded'
+    'not sent by this inspector to a remote service'
   ]) {
     assert.ok(developerTools.includes(term), 'Missing Runtime Inspector v2 capability: ' + term);
   }

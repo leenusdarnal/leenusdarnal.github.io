@@ -389,7 +389,7 @@
         <span>Checking shared-memory mode…</span>
       {/if}
     </div>
-    <p class="px-4 pb-2 text-[10px] leading-5 text-[var(--muted)]">Last checked: {lastChecked ? new Date(lastChecked).toLocaleTimeString() : 'Checking…'} · All diagnostics are measured in this browser tab. Nothing is uploaded; the JSON is copied only when you choose Copy JSON Report.</p>
+    <p class="px-4 pb-2 text-[10px] leading-5 text-[var(--muted)]">Last checked: {lastChecked ? new Date(lastChecked).toLocaleTimeString() : 'Checking…'} · Diagnostics are measured in this browser tab and are not sent by this inspector to a remote service. The JSON report is copied only when you choose Copy JSON Report.</p>
     <p class="sr-only" aria-live="polite">{copyStatus}</p>
   </div>
 </section>
