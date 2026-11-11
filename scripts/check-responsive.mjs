@@ -72,6 +72,29 @@ async function checkViewport(browser, viewport) {
     await page.locator('#work').waitFor({ state: 'attached', timeout: 20_000 });
     await page.getByRole('heading', { name: 'Before you get started.' }).waitFor({ state: 'visible' });
     await page.evaluate(() => document.fonts?.ready);
+
+    const imageAudit = await page.evaluate(() => {
+      const externalImages = [...document.images]
+        .map((image) => image.currentSrc || image.src)
+        .filter((src) => src && new URL(src, location.href).origin !== location.origin);
+      const externalResources = performance.getEntriesByType('resource')
+        .map((entry) => entry.name)
+        .filter((url) => {
+          try { return new URL(url, location.href).origin !== location.origin; }
+          catch { return false; }
+        });
+      return { externalImages, externalResources };
+    });
+    assert.deepEqual(
+      imageAudit.externalImages,
+      [],
+      viewport.name + ': homepage image assets must be served from this site: ' + JSON.stringify(imageAudit.externalImages)
+    );
+    assert.deepEqual(
+      imageAudit.externalResources,
+      [],
+      viewport.name + ': homepage loaded cross-origin resources: ' + JSON.stringify(imageAudit.externalResources)
+    );
     await page.getByRole('heading', { name: 'Recent improvements.' }).waitFor({ state: 'visible' });
 
     const technicalTextFontSize = await page.locator('.terminal-body pre code').evaluate((element) =>
@@ -172,6 +195,8 @@ async function checkViewport(browser, viewport) {
       themePersistence: true,
       technicalTextFontSize,
       smallReadableText,
+      sameOriginImageAssets: imageAudit.externalImages.length === 0,
+      sameOriginInitialResources: imageAudit.externalResources.length === 0,
       recentUpdatesVisible: true,
       navigation: 'passed',
       browserErrors: pageErrors

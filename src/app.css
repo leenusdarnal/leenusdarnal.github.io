@@ -587,8 +587,7 @@ samp {
 }
 
 
-/* Mobile legibility: raise small utility and technical labels without changing display headings. */
-@media (max-width: 900px) {
+/* Reading labels and technical microcopy meet a 12px minimum at every viewport width. */
   .font-mono,
   .tool-pill,
   .clone-button,
@@ -614,4 +613,3 @@ samp {
   [class~="text-[11px]"] {
     font-size: max(0.75rem, 1em) !important;
   }
-}

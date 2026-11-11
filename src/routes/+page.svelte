@@ -196,7 +196,7 @@
         <div class="grid lg:grid-cols-[1.12fr_0.88fr]">
           <div aria-hidden="true" class="relative flex min-h-[220px] items-center justify-center overflow-hidden bg-[var(--panel-soft)] p-6 sm:min-h-[300px] sm:p-8 lg:min-h-[370px]">
             <div class="flex w-full max-w-[520px] flex-col items-center justify-center rounded-2xl border border-[var(--line)] bg-[var(--panel)] px-6 py-10 text-center shadow-xl sm:py-14">
-              <img src="https://pixelforge-studio-pied.vercel.app/icons/icon.svg" alt="" width="72" height="72" loading="lazy" decoding="async" class="size-16 sm:size-20" />
+              <img src="/images/project-icons/pixelforge-icon.svg" alt="" width="72" height="72" loading="lazy" decoding="async" class="size-16 sm:size-20" />
               <p class="mt-5 font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--accent)]">Actual application icon</p>
               <p class="mt-2 text-2xl font-semibold tracking-[-0.05em] text-[var(--ink)]">PixelForge Studio</p>
               <p class="mt-2 max-w-xs text-xs leading-6 text-[var(--muted)]">Open the live editor to see the real canvas, tools, layers and responsive workspace.</p>
@@ -229,12 +229,12 @@
             <div aria-hidden="true" class="relative flex min-h-[210px] items-center justify-center overflow-hidden bg-[var(--panel-soft)] p-5 sm:min-h-[270px] sm:p-6">
               {#if project.visual === 'metro'}
                 <div class="w-full max-w-[560px] overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--panel)] shadow-xl">
-                  <img src="https://raw.githubusercontent.com/leenusdarnal/react-metronome/master/screenshots/react-metronome.png" alt="" width="416" height="314" sizes="(max-width: 560px) 100vw, 560px" loading="lazy" decoding="async" class="block h-auto w-full object-contain" />
+                  <img src="/images/metronome-preview.png" alt="" width="416" height="314" sizes="(max-width: 560px) 100vw, 560px" loading="lazy" decoding="async" class="block h-auto w-full object-contain" />
                 </div>
                 <p class="absolute bottom-4 right-5 rounded-full bg-[var(--panel)]/90 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.12em] text-[var(--muted)]">Source repository screenshot</p>
               {:else if project.visual === 'cutout'}
                 <div class="flex w-full max-w-sm flex-col items-center justify-center rounded-2xl border border-[var(--line)] bg-[var(--panel)] px-5 py-8 text-center shadow-xl">
-                  <img src="https://pixelcutout-three.vercel.app/pixelcutout-icon.svg" alt="" width="64" height="64" loading="lazy" decoding="async" class="size-16" />
+                  <img src="/images/project-icons/pixelcutout-icon.svg" alt="" width="64" height="64" loading="lazy" decoding="async" class="size-16" />
                   <p class="mt-4 font-mono text-[9px] uppercase tracking-[0.15em] text-[var(--accent)]">Actual application icon</p>
                   <p class="mt-2 text-sm font-semibold text-[var(--ink)]">PixelCutout</p>
                   <p class="mt-1 text-xs text-[var(--muted)]">Open the live app for the real editing workspace.</p>
