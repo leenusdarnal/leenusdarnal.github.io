@@ -269,6 +269,36 @@
     </section>
     {/if}
 
+    <section id="updates" aria-labelledby="updates-heading" class="scroll-mt-12 border-t border-[var(--line)] py-14 sm:py-16">
+      <div class="mb-7 flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--accent)]">WHAT'S NEW · 11 NOV 2026</p>
+          <h2 id="updates-heading" class="mt-3 text-[clamp(1.8rem,6vw,2.8rem)] font-semibold tracking-[-0.06em]">Recent improvements<span class="text-[var(--accent)]">.</span></h2>
+        </div>
+        <a href="https://github.com/leenusdarnal/leenusdarnal.github.io/commits/main" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center text-sm font-semibold text-[var(--accent)] hover:underline">Full change history ↗</a>
+      </div>
+      <div class="grid gap-4 md:grid-cols-3">
+        <article class="rounded-2xl border border-[var(--line)] bg-[var(--panel)] p-5">
+          <time datetime="2026-11-11" class="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--accent)]">11 Nov 2026 · Project guide</time>
+          <h3 class="mt-3 text-lg font-semibold tracking-tight">Know where to start</h3>
+          <p class="mt-2 text-sm leading-7 text-[var(--muted)]">Each featured project now explains who it helps and the first action to take, so you can choose the right tool before opening it.</p>
+          <a href="https://github.com/leenusdarnal/leenusdarnal.github.io/commit/6ad4f0f9e3860cb51714f1583da242ed2daf2210" target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex min-h-11 items-center text-sm font-semibold text-[var(--accent)] hover:underline">Project guide changes ↗</a>
+        </article>
+        <article class="rounded-2xl border border-[var(--line)] bg-[var(--panel)] p-5">
+          <time datetime="2026-11-11" class="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--accent)]">11 Nov 2026 · PixelForge</time>
+          <h3 class="mt-3 text-lg font-semibold tracking-tight">Safer image comparisons</h3>
+          <p class="mt-2 text-sm leading-7 text-[var(--muted)]">The before-and-after comparison now handles clearing, replacing and resetting images more reliably, including temporary preview cleanup.</p>
+          <a href="https://github.com/leenusdarnal/leenusdarnal.github.io/commit/6ad4f0f9e3860cb51714f1583da242ed2daf2210" target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex min-h-11 items-center text-sm font-semibold text-[var(--accent)] hover:underline">Comparison improvements ↗</a>
+        </article>
+        <article class="rounded-2xl border border-[var(--line)] bg-[var(--panel)] p-5">
+          <time datetime="2026-11-11" class="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--accent)]">11 Nov 2026 · Quality</time>
+          <h3 class="mt-3 text-lg font-semibold tracking-tight">More complete browser checks</h3>
+          <p class="mt-2 text-sm leading-7 text-[var(--muted)]">Automated checks now cover responsive layouts, theme persistence, keyboard navigation and WCAG A/AA rules across the homepage and project notes.</p>
+          <a href="https://github.com/leenusdarnal/leenusdarnal.github.io/actions" target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex min-h-11 items-center text-sm font-semibold text-[var(--accent)] hover:underline">Quality checks ↗</a>
+        </article>
+      </div>
+    </section>
+
     {#if personalSpaceConfig.sections.sourceExperiments}<ArchitectureExperiments />{/if}
 
     {#if personalSpaceConfig.sections.personalSpace}
