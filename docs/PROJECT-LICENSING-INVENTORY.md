@@ -16,7 +16,7 @@ This is a preliminary repository metadata and root-file inventory. It is not a l
 | React Metronome | GitHub metadata reports no licence; reviewed tree had no root licence | No reuse licence identified | Owner decision required |
 | Breadit | GitHub metadata reports no licence; reviewed tree had no root licence | No reuse licence identified | Owner decision required |
 | Chirp | GitHub metadata reports no licence; reviewed tree had no root licence | No reuse licence identified | Owner decision required |
-| ROFC Web Hub | Repository identity and licence evidence not confirmed | Unknown | Confirm repository before reviewing |
+| [ROFC Web Hub](https://github.com/leenusdarnal/rofc-website) | GitHub repository confirmed; no root licence file was present in the reviewed tree | No reuse licence identified | Owner decision required; review website imagery and other assets |
 
 ## Third-party materials to inventory
 
@@ -45,6 +45,6 @@ This is a preliminary repository metadata and root-file inventory. It is not a l
 - [ ] Select or explicitly decline a licence for Salary Calculator.
 - [ ] Select or explicitly decline a licence for React Metronome.
 - [ ] Decide whether Breadit and Chirp remain unlicensed experiments, receive a licence or are archived.
-- [ ] Confirm the repository identity for ROFC Web Hub.
+- [ ] Select or explicitly decline a licence for ROFC Web Hub (`leenusdarnal/rofc-website`).
 
 No licence files are added by this inventory. Choose intended terms before publishing a permission grant.
