@@ -300,7 +300,7 @@ test('homepage project cards use local fallbacks and upgrade to captured same-or
   assert.match(source, /new URL\(imageUrl, window\.location\.href\)/);
   assert.match(source, /candidateUrl\.origin !== window\.location\.origin/);
   assert.match(source, /upgradePreviewImage/);
-  assert.match(projectsSource, /leenusdarnal\.github\.io\/images\/metronome-preview\.png/);
+  assert.ok(projectsSource.includes("previewImage: '/images/metronome-preview.png'"));
 });
 
 test('the genuine Metronome screenshot reserves its intrinsic aspect ratio and loads lazily', async () => {
@@ -719,9 +719,12 @@ test('Personal Space Configurator validates and bounds local drafts before save 
 test('project previews are captured from live applications and retain honest provenance labels', async () => {
   const homepage = await readFile(new URL('../src/routes/+page.svelte', import.meta.url), 'utf8');
   const projects = await readFile(new URL('../src/lib/projects.ts', import.meta.url), 'utf8');
-  assert.match(homepage, /pixelforge-icon\.svg/);
-  assert.match(homepage, /pixelcutout-icon\.svg/);
-  assert.match(homepage, /salary-calculator-icon\.svg/);
+  assert.match(homepage, /previewFallback/);
+
+
+  assert.match(projects, /pixelforge-icon\\.svg/);
+  assert.match(projects, /pixelcutout-icon\\.svg/);
+  assert.match(projects, /salary-calculator-icon\\.svg/);
   assert.match(projects, /previewSourceUrl/);
   assert.match(projects, /previewAlt/);
   assert.match(projects, /previewFallback/);
