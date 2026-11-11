@@ -36,20 +36,20 @@ This is the master implementation register for the personal website and connecte
 
 ## Phase 0 — Reproducible builds and supply-chain security (P0)
 
-- [ ] Generate and commit the correct lockfile using each repository's package manager and Node version.
-- [ ] Switch CI from npm install to npm ci only after a valid lockfile is committed.
-- [ ] Enable npm caching only after a lockfile exists.
-- [~] Pin third-party GitHub Actions to verified immutable commit SHAs and retain release tags in comments in the personal site, PixelForge, PixelCutout, Salary Calculator and Metronome workflows reviewed in this pass; source-only experiments still need classification.
+- [x] Generate and commit package-lock.json in the personal site, PixelForge, PixelCutout and Salary Calculator; React Metronome already had a committed lockfile.
+- [x] Require npm ci in CI for all five maintained npm repositories; the personal site and Salary Calculator GitHub Pages build now use the same strict install.
+- [x] Enable setup-node npm caching in the maintained repositories that use npm ci.
+- [x] Pin the reviewed third-party GitHub Actions to verified immutable commit SHAs and retain release tags in comments across the personal site, PixelForge, PixelCutout, Salary Calculator and Metronome workflows. Source-only experiments still need classification.
 - [x] Set workflow and job permissions to the minimum required in the reviewed build/deploy workflows.
 - [x] Add CI timeouts and concurrency controls to the reviewed workflows where applicable.
 - [x] Enable weekly Dependabot checks for npm and GitHub Actions in the four maintained app repositories; the personal site already had dependency update configuration.
 - [ ] Review and triage actual dependency update PRs and audit findings; successful CI does not replace the review.
 - [ ] Check that secrets are not exposed to untrusted pull-request code.
-- [ ] Record Node.js and package-manager versions in development guides.
+- [~] Record Node.js and package-manager versions in development guides; the active app repositories now document supported Node/npm requirements where their current README provides them. Verify all remaining developer environments separately.
 
 **Acceptance:** Clean CI installs from the committed lockfile, runs all project checks and builds the production output. Dependency updates are reviewable and high-severity findings are resolved or explicitly documented.
 
-**Constraint:** The personal site currently has no committed lockfile. Its verification workflow creates one during CI and uploads it as a temporary artifact. Do not change it to npm ci before the real lockfile is generated and committed. Apply the same rule to other repositories without a lockfile.
+**Result:** Lockfiles have been committed and `npm ci` is now mandatory in all five maintained npm repositories. The former temporary lockfile artifact and conditional npm install fallback have been removed from the personal-site workflows.
 
 ## Phase 1 — Privacy and data-handling verification (P0)
 
@@ -62,7 +62,7 @@ This is the master implementation register for the personal website and connecte
 - [ ] Record storage keys, purpose, retention, deletion and backup behaviour.
 - [ ] Inspect third-party runtime, model, font, icon and CDN requests.
 - [ ] Tie public privacy claims to a tested commit and dated evidence.
-- [x] Remove the non-essential visitor-side GitHub repository metadata request and its sessionStorage cache; CI regression coverage added. Deployed runtime network trace remains pending.
+- [x] Remove the non-essential visitor-side GitHub repository metadata request and its sessionStorage cache; CI regression coverage added. The deployed runtime network trace remains pending.
 
 **Acceptance:** Each data-sensitive app has source-level and runtime evidence. User-data handling, remote dependencies and limitations are explained without unsupported absolute claims.
 
@@ -164,7 +164,7 @@ This is the master implementation register for the personal website and connecte
 - [x] Add matching bug and feature issue forms to PixelForge, PixelCutout, Salary Calculator and Metronome.
 - [x] Include reproduction steps and browser/app-version fields where relevant.
 - [x] Warn against attaching private images, payroll records, credentials or personal data.
-- [ ] Provide private security reporting where repository settings support it.
+- [~] Add security reporting guidance in the personal-site SECURITY.md and issue-template link. Confirm GitHub private vulnerability reporting availability and configure it in repository settings where supported.
 
 **Acceptance:** Reports help reproduce issues without encouraging disclosure of sensitive content.
 
@@ -221,7 +221,11 @@ This is the master implementation register for the personal website and connecte
 | 11 Nov 2026 | PixelCutout | New PR/main CI, Dependabot and privacy-aware issue forms | Merged PR #2; commit 2246838; build/typecheck/unit workflow succeeded |
 | 11 Nov 2026 | Salary Calculator | Pinned CI/Pages actions, least-privilege Pages deployment permissions, Dependabot and payroll-safe issue forms | Merged PR #19; commit 1426d19; CI and Pages build/deploy succeeded |
 | 11 Nov 2026 | React Metronome | Lockfile-based npm ci build, pinned CI actions, Dependabot and issue forms | Merged PR #6; commit c1dc47c; CI check succeeded |
-| 11 Nov 2026 | Personal site | Remove visitor-side GitHub metadata request and update regression test/privacy review | PR #54; CI rerun pending |
+| 11 Nov 2026 | Personal site | Remove visitor-side GitHub metadata request and update regression test/privacy review | Merged PR #54; commit 544c4d1; verify and Lighthouse audit succeeded |
+| 11 Nov 2026 | Personal site | Commit package-lock.json, make npm ci mandatory and enable npm caching | Merged PR #55 (lockfile) and PR #56 (strict installs); commits b4ed172 and 75329fd; CI passed |
+| 11 Nov 2026 | PixelForge Studio | Commit package-lock.json and require npm ci | Merged PR #11 (lockfile) and PR #12 (strict installs); commits d43db7f and 32931f1; CI passed |
+| 11 Nov 2026 | PixelCutout | Commit package-lock.json and require npm ci | Merged PR #10 (lockfile) and PR #11 (strict installs); commits ac6b676 and d8eab30; CI passed |
+| 11 Nov 2026 | Salary Calculator | Commit package-lock.json and require npm ci in quality and Pages workflows | Merged PR #27 (lockfile) and PR #28 (strict installs); commits 706e343 and 90646a8; CI including Playwright and Vercel build passed |
 
 ## Release definition
 
