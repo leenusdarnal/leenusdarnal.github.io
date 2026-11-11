@@ -28,6 +28,7 @@ jobs:
     timeout-minutes: 20
     permissions:
       contents: write
+      actions: write
     steps:
       - name: Check out the homepage repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -53,10 +54,12 @@ jobs:
         run: node scripts/capture-project-previews.mjs
 
       - name: Commit updated preview images
+        id: commit
         run: |
           git add static/images/project-previews/
           if git diff --cached --quiet; then
             echo "Project preview images are unchanged."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           git config user.name "github-actions[bot]"
@@ -65,3 +68,10 @@ jobs:
           git fetch origin main
           git rebase origin/main
           git push origin HEAD:main
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Deploy refreshed project previews
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy.yml --ref main
