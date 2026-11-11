@@ -1,15 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-  <rect width="1200" height="630" fill="#111614"/>
-  <circle cx="1020" cy="300" r="238" fill="#18241e"/>
-  <circle cx="1020" cy="300" r="176" fill="none" stroke="#365642" stroke-width="2"/>
-  <circle cx="1020" cy="300" r="130" fill="none" stroke="#365642" stroke-width="2"/>
-  <path d="M1020 120v360M840 300h360" stroke="#365642" stroke-width="2"/>
-  <text x="1020" y="333" text-anchor="middle" font-family="Arial,sans-serif" font-size="104" font-weight="700" fill="#a9d7b7">LD</text>
-  <text x="80" y="105" font-family="Arial,sans-serif" font-size="18" font-weight="700" letter-spacing="3" fill="#a9d7b7">PERSONAL NOTES &amp; SMALL TOOLS</text>
-  <text x="80" y="218" font-family="Arial,sans-serif" font-size="64" font-weight="700" fill="#f2f6f3">Leenus Darnal</text>
-  <text x="80" y="314" font-family="Arial,sans-serif" font-size="45" font-weight="700" fill="#f2f6f3">I make small tools to</text>
-  <text x="80" y="372" font-family="Arial,sans-serif" font-size="45" font-weight="700" fill="#f2f6f3">simplify everyday tasks.</text>
-  <text x="82" y="460" font-family="Arial,sans-serif" font-size="23" fill="#b2c0b7">Projects, notes and useful things worth keeping.</text>
-  <path d="M82 520H550" stroke="#486b55" stroke-width="3"/>
-  <text x="82" y="563" font-family="Arial,sans-serif" font-size="18" fill="#a9d7b7">leenusdarnal.github.io</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630"><rect width="1200" height="630" fill="#111614"/><circle cx="1020" cy="300" r="238" fill="#18241e"/><circle cx="1020" cy="300" r="176" fill="none" stroke="#365642" stroke-width="2"/><circle cx="1020" cy="300" r="130" fill="none" stroke="#365642" stroke-width="2"/><path stroke="#365642" stroke-width="2" d="M1020 120v360M840 300h360"/><text x="1020" y="333" fill="#a9d7b7" font-family="Arial,sans-serif" font-size="104" font-weight="700" text-anchor="middle">LD</text><text x="80" y="105" fill="#a9d7b7" font-family="Arial,sans-serif" font-size="18" font-weight="700" letter-spacing="3">PERSONAL NOTES &amp; SMALL TOOLS</text><text x="80" y="218" fill="#f2f6f3" font-family="Arial,sans-serif" font-size="64" font-weight="700">Leenus Darnal</text><text x="80" y="314" fill="#f2f6f3" font-family="Arial,sans-serif" font-size="45" font-weight="700">I make small tools to</text><text x="80" y="372" fill="#f2f6f3" font-family="Arial,sans-serif" font-size="45" font-weight="700">simplify everyday tasks.</text><text x="82" y="460" fill="#b2c0b7" font-family="Arial,sans-serif" font-size="23">Projects, notes and useful things worth keeping.</text><path stroke="#486b55" stroke-width="3" d="M82 520H550"/><text x="82" y="563" fill="#a9d7b7" font-family="Arial,sans-serif" font-size="18">leenusdarnal.github.io</text></svg>
