@@ -549,3 +549,39 @@ button, a {
   .diagnostic-details > summary { align-items: flex-start; }
   .diagnostic-hint { max-width: 42%; }
 }
+
+
+/* Mobile readability: keep technical previews and secondary labels comfortably legible. */
+pre,
+code,
+kbd,
+samp {
+  font-size: max(0.75rem, 1em);
+}
+
+@media (max-width: 720px) {
+  .font-mono {
+    font-size: max(0.75rem, 1em);
+  }
+
+  .terminal-body {
+    font-size: 0.75rem;
+  }
+
+  .terminal-language,
+  .terminal-status,
+  .terminal-label,
+  .terminal-focus-list li span,
+  .terminal-principles span,
+  .terminal-meta,
+  .terminal-state,
+  .diagnostic-grid span,
+  .diagnostic-hint,
+  .diagnostic-details > summary,
+  .source-experiment-meta,
+  .source-only-label,
+  .source-stack span,
+  .coi-status {
+    font-size: max(0.75rem, 1em);
+  }
+}
