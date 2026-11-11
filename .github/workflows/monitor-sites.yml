@@ -8,14 +8,20 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: live-site-monitor
+  cancel-in-progress: false
+
 jobs:
   uptime:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: Check portfolio and project demos
         shell: bash
         run: |
-          set -euo pipefail
+          set -uo pipefail
+          checked_at="$(date -u '+%Y-%m-%d %H:%M:%S UTC')"
           urls=(
             "https://leenusdarnal.github.io/"
             "https://leenusdarnal.vercel.app/"
@@ -24,8 +30,41 @@ jobs:
             "https://sikkim-government-salary-calculator.vercel.app/"
             "https://pixelcutout-three.vercel.app/"
           )
+          failures=()
+          {
+            echo "# Live-site availability check"
+            echo
+            echo "**Checked at:** ${checked_at}"
+            echo
+            echo "| Result | HTTP status | URL |"
+            echo "| --- | ---: | --- |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
           for url in "${urls[@]}"; do
-            status="$(curl --location --silent --show-error --output /dev/null --write-out '%{http_code}' --max-time 30 "$url")"
-            printf '%s %s\n' "$status" "$url"
-            test "$status" = "200"
+            if status="$(curl --location --silent --show-error --output /dev/null --write-out '%{http_code}' --connect-timeout 10 --max-time 30 --max-redirs 5 "$url" 2>/dev/null)"; then
+              if [[ "$status" == "200" ]]; then
+                result="PASS"
+              else
+                result="FAIL"
+                failures+=("$url returned HTTP $status")
+              fi
+            else
+              status="request error"
+              result="FAIL"
+              failures+=("$url could not be reached")
+            fi
+            printf '%s %s %s\n' "$result" "$status" "$url"
+            printf '| %s | %s | [%s](%s) |\n' "$result" "$status" "$url" "$url" >> "$GITHUB_STEP_SUMMARY"
           done
+
+          {
+            echo
+            echo "**Summary:** $(( ${#urls[@]} - ${#failures[@]} )) of ${#urls[@]} endpoints returned HTTP 200."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if (( ${#failures[@]} > 0 )); then
+            echo
+            echo "Failures:"
+            printf -- '- %s\n' "${failures[@]}"
+            exit 1
+          fi

@@ -2,7 +2,9 @@
 
 **Decision profile:** hybrid audience · remove project filters · audit privacy · full roadmap.
 
-## Completed in this change
+This file records homepage-specific decisions. Cross-repository implementation is tracked in the [master ecosystem implementation roadmap](./ECOSYSTEM-IMPLEMENTATION-ROADMAP.md), with release expectations in the [shared project quality standard](./PROJECT-QUALITY-STANDARD.md).
+
+## Completed in the homepage change
 
 - Replace filter pills with a clear optional developer entry point; keep the command palette and diagnostics available to technical visitors.
 - Reframe the hero around the visitor's two paths: use a tool or inspect how it is built.

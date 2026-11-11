@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a problem in a linked application
+    url: https://github.com/leenusdarnal
+    about: Open the relevant application repository and use its issue tracker. Do not include private user files or sensitive records.
+  - name: Security concerns
+    url: https://github.com/leenusdarnal/leenusdarnal.github.io/blob/main/SECURITY.md
+    about: Follow the security reporting guidance. Do not post secrets or exploit details in a public issue.
