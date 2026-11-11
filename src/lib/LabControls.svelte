@@ -1,32 +1,11 @@
 <script>
   let { projects = [], onToggleTheme = () => {} } = $props();
-  let activeFilter = $state('all');
   let toolsOpen = $state(false);
   let toolsLoading = $state(false);
   let openPaletteOnMount = $state(false);
   /** @type {any} */
   let DeveloperTools = $state(null);
   let loadError = $state('');
-
-  const filters = [
-    { id: 'all', label: 'All' },
-    { id: 'client-compute', label: 'Client Compute' },
-    { id: 'full-stack', label: 'Full-Stack' },
-    { id: 'svelte', label: 'Svelte' },
-    { id: 'react', label: 'React' }
-  ];
-  let visibleProjectCount = $derived(activeFilter === 'all' ? projects.length : projects.filter((project) => (project.categories ?? []).includes(activeFilter)).length);
-
-  /** @param {string} filter */
-  function setFilter(filter) {
-    activeFilter = filter;
-    if (typeof document !== 'undefined') {
-      document.querySelectorAll('[data-project-card]').forEach((element) => {
-        const card = /** @type {HTMLElement} */ (element);
-        card.hidden = filter !== 'all' && !card.dataset.category?.split(' ').includes(filter);
-      });
-    }
-  }
 
   async function loadDeveloperTools(launchPalette = false) {
     if (launchPalette) openPaletteOnMount = true;
@@ -65,20 +44,11 @@
 
 <svelte:window onkeydown={handleGlobalKeydown} />
 
-<section class="lab-controls" aria-label="Project filters and developer tools">
+<section class="lab-controls" aria-label="Developer tools">
   <div class="flex flex-wrap items-center justify-between gap-3">
-    <div class="flex flex-wrap gap-2" aria-label="Filter projects">
-      {#each filters as filter}
-        <button type="button" aria-pressed={activeFilter === filter.id} onclick={() => setFilter(filter.id)} class:active={activeFilter === filter.id} class="filter-pill">
-          {filter.label} ({filter.id === 'all' ? projects.length : projects.filter((project) => (project.categories ?? []).includes(filter.id)).length})
-        </button>
-      {/each}
-    </div>
-    <div class="flex flex-wrap gap-2">
-      <button type="button" class="tool-pill" aria-expanded={toolsOpen} aria-controls="developer-tools-panel" onclick={toggleDeveloperTools}>{toolsOpen ? 'Hide developer tools' : 'Open developer tools'}</button>
-    </div>
+    <p class="max-w-xl text-sm leading-6 text-[var(--muted)]">Want to explore the implementation? Open the optional developer tools for browser capabilities, diagnostics and the command palette.</p>
+    <button type="button" class="tool-pill" aria-expanded={toolsOpen} aria-controls="developer-tools-panel" onclick={toggleDeveloperTools}>{toolsOpen ? 'Hide developer tools' : 'For developers: inspect this site'}</button>
   </div>
-  <p class="sr-only" aria-live="polite">{visibleProjectCount} projects shown.</p>
   <div id="developer-tools-panel" class="mt-4">
     {#if toolsOpen && DeveloperTools}
       <DeveloperTools {projects} {onToggleTheme} {openPaletteOnMount} onPaletteOpened={() => openPaletteOnMount = false} />
