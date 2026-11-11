@@ -99,3 +99,26 @@ PR [#76](https://github.com/leenusdarnal/leenusdarnal.github.io/pull/76) added a
 The first production capture completed successfully in [workflow run #42981740301](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/42981740301). The resulting files are approximately 103.5 KB (PixelForge), 73.8 KB (PixelCutout) and 78.1 KB (Salary Calculator). PR [#77](https://github.com/leenusdarnal/leenusdarnal.github.io/pull/77) integrates the captured assets into the homepage cards and all four case-study pages, including the existing Metronome preview.
 
 Screenshot captures are visual evidence of the initial interface only. They do not imply successful interaction testing, certify privacy/network behaviour, or replace physical-device and manual assistive-technology checks.
+
+
+## Closure verification — 11 November 2026
+
+The current homepage source and refreshed preview images are on `main`. The most recent deployment from the merge of PRs #74 and #59 passed the static build, Svelte checks, high-severity dependency audit, generated-link validation and smoke tests in [deployment run #42988739521](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/42988739521). Subsequent live quality runs passed:
+
+- [Responsive browser and accessibility QA #42988832856](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/42988832856): five responsive profiles (360×800, 390×844, 768×1024, 1024×900 and 1440×1000), same-origin image/resource checks, navigation, theme persistence and case-study checks passed. Eight axe-core WCAG A/AA scans reported zero violations; keyboard checks passed.
+- [Lighthouse audit #42988832880](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/42988832880): Performance 99, Accessibility 100, Best Practices 100 and SEO 100. The report is retained as a GitHub Actions artifact. The 99 Performance result is reported as measured; no claim of a perfect 100 is made.
+- [Live preview capture #42988832889](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/42988832889): all three external application pages returned HTTP 200 and passed expected-content checks. Refreshed JPEG previews were committed as `43e751b93f24d4d59ae3d138eb0b67dd0c027c64`.
+
+A workflow gap was found during closure: preview captures were committed by `github-actions[bot]`, but that commit does not automatically trigger another `push` workflow. The capture workflow now explicitly dispatches the GitHub Pages deployment when it commits changed preview images. A regression test protects this behaviour. The next homepage merge will deploy the already-refreshed preview assets.
+
+The homepage privacy FAQ was tightened to avoid implying that model downloads prove the absence of image uploads. It now distinguishes PixelCutout's external model/runtime downloads from its intended in-browser image processing and explicitly discloses that clean-profile network and storage checks across the linked apps remain pending. PixelForge's browser-local autosave copy now also mentions browser-storage eviction and separate backups. The PixelCutout card label no longer makes an unverified "privacy-first" claim.
+
+### Remaining non-code verification gates
+
+The following are intentionally not marked complete by CI or source review alone:
+
+- Physical-device touch and assistive-technology testing, including Android/iOS and manual screen-reader review.
+- Clean-profile live network traces and browser-storage inspection across PixelForge, PixelCutout and the Salary Calculator.
+- Exhaustive source/dependency review and signed-order verification of the Salary Calculator's formulas/effective dates.
+
+These are evidence and human-validation tasks, not missing homepage features. The site continues to use conservative privacy language until those checks are completed. Keep untested device/browser combinations marked **Not tested** in the compatibility register.
