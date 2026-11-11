@@ -776,6 +776,15 @@ test('responsive browser QA runs after Pages deployment and covers phone, tablet
   assert.match(deploy, /node --check scripts\/check-responsive\.mjs/);
 });
 
+test('architecture disclosure names include their visible label for WCAG 2.5.3', async () => {
+  const actions = await readFile(new URL('../src/lib/ProjectActions.svelte', import.meta.url), 'utf8');
+  const experiments = await readFile(new URL('../src/lib/ArchitectureExperiments.svelte', import.meta.url), 'utf8');
+  assert.match(actions, /Inspect Architecture for /);
+  assert.match(experiments, /Inspect Architecture for /);
+  assert.doesNotMatch(actions, /aria-label=\{"Inspect " \+ project\.name \+ " architecture"\}/);
+  assert.doesNotMatch(experiments, /aria-label=\{'Inspect ' \+ experiment\.name \+ ' architecture'\}/);
+});
+
 test('accessibility QA audits WCAG 2.2 A/AA and keyboard interactions on published routes', async () => {
   const workflow = await readFile(new URL('../.github/workflows/responsive-browser-qa.yml', import.meta.url), 'utf8');
   const runner = await readFile(new URL('../scripts/check-accessibility.mjs', import.meta.url), 'utf8');
