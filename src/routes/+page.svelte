@@ -207,7 +207,7 @@
           <div class="flex min-w-0 flex-col justify-center p-5 sm:p-8 lg:p-12">
             <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--accent)]">FEATURED PROJECT · IMAGE EDITOR</p>
             <h3 id="project-pixelforge-title" class="mt-3 text-2xl font-semibold tracking-[-0.06em] sm:mt-4 sm:text-3xl lg:text-4xl">PixelForge Studio</h3>
-            <p id="project-pixelforge-description" class="mt-5 text-sm leading-7 text-[var(--muted)]">A mobile-friendly, offline-first editor with layers, masks, selection tools and editable text. Projects and autosaves stay on your device, with .pfs files available for separate backups.</p>
+            <p id="project-pixelforge-description" class="mt-5 text-sm leading-7 text-[var(--muted)]">A mobile-friendly, offline-first editor with layers, masks, selection tools and editable text. Projects and autosaves are stored in your browser. Export a .pfs file as a separate backup; browser storage may still be cleared or evicted.</p>
             <ProjectQuickStart audience={projects[0].audience} firstAction={projects[0].firstAction} />
             <ul aria-label="PixelForge Studio highlights" class="mt-5 flex flex-wrap gap-x-4 gap-y-2 text-xs text-[var(--muted)]">
               {#each projects[0].features as feature}
@@ -388,7 +388,7 @@
         </article>
         <article class="rounded-2xl border border-[var(--line)] bg-[var(--panel)] p-5">
           <h3 class="font-semibold">Do my files leave my device?</h3>
-          <p class="mt-2 text-sm leading-7 text-[var(--muted)]">That depends on the tool and the feature you use. Read the Privacy and files note on its project page before working with sensitive material. AI features may download model files without uploading your image.</p>
+          <p class="mt-2 text-sm leading-7 text-[var(--muted)]">That depends on the tool and feature. Read its Privacy and files note before processing sensitive material. PixelCutout's AI mode downloads model/runtime files from external hosts; its source is designed to process the selected image in the browser. A source-level review is documented, but clean-profile network and storage checks across the linked apps are still pending. Do not assume every feature is offline or makes no external requests.</p>
         </article>
         <article class="rounded-2xl border border-[var(--line)] bg-[var(--panel)] p-5">
           <h3 class="font-semibold">Can I use the tools offline?</h3>

@@ -141,7 +141,7 @@ export const projects: readonly ProjectRecord[] = [
     slug: 'pixelcutout',
     categories: ['client-compute', 'svelte'],
     name: 'PixelCutout',
-    type: 'IMAGE TOOL · PRIVACY-FIRST',
+    type: 'IMAGE TOOL · AI & NO-AI MODES',
     description: 'Remove image backgrounds with AI-assisted subject detection or a no-AI colour-selection workflow, then refine and export your result in the browser.',
     audience: 'People preparing portrait cutouts or removing simple, uniform backgrounds.',
     firstAction: 'Choose AI automatic or no-AI colour removal, then select an image.',
