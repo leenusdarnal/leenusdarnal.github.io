@@ -29,9 +29,10 @@ test('homepage includes a dated updates section with verified release links', ()
   assert.match(html, /Full change history/);
 });
 
-test('mobile technical previews enforce a readable minimum font size', () => {
+test('mobile technical previews enforce a readable minimum font size', async () => {
   assert.match(css, /pre,\s*code,\s*kbd,\s*samp\s*\{\s*font-size:\s*max\(0\.75rem,\s*1em\)/);
-  const responsive = readFile;
+  const responsive = await readFile(new URL('../scripts/check-responsive.mjs', import.meta.url), 'utf8');
+  assert.match(responsive, /technicalTextFontSize\s*>=\s*12/);
 });
 
 test('homepage includes a meaningful page title and description', () => {
