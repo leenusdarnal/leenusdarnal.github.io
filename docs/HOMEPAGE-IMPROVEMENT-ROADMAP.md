@@ -36,7 +36,9 @@ This file records homepage-specific decisions. Cross-repository implementation i
 
 ### P3 — quality and performance
 - [x] Add responsive browser-level end-to-end checks for navigation, theme switching and persistence, project links, FAQ and the PixelForge case-study path at 360, 390, 768, 1024 and 1440 CSS-pixel viewport widths.
-- Add automated accessibility checks and keyboard/screen-reader review.
+- [x] Add automated axe-core WCAG 2.2 A/AA checks for the homepage (light/dark), developer panel, command palette and all four case studies.
+- [x] Add keyboard-only checks for skip navigation, visible focus, theme activation/persistence, developer tools, command-palette arrow navigation and Escape focus restoration.
+- [ ] Complete manual screen-reader testing and review axe-incomplete checks for colour contrast, ARIA states and text-link distinction.
 - Generate repository metadata at build time or remove the runtime GitHub API dependency.
 - Review Core Web Vitals from real Lighthouse artifacts; do not report scores without reading the artifact.
 
@@ -50,6 +52,8 @@ This file records homepage-specific decisions. Cross-repository implementation i
 The homepage now presents a concise **Good for** and **First step** panel on each project card and case study, driven by the shared project catalogue. The PixelForge comparison now supports clearing both images, re-selecting the same file, stale image-decode protection and cleanup of pending object URLs when the component is removed. Regression checks cover these behaviours. Authentic screenshots remain a separate follow-up: the reviewed PixelForge, PixelCutout and Salary Calculator repositories currently publish app icons but no durable interface screenshots.
 
 Responsive browser QA was added in PR #64 and passed against the deployed GitHub Pages commit on 11 November 2026. Playwright checked phone (360×800 and 390×844), tablet (768×1024), small desktop (1024×900) and desktop (1440×1000) profiles. Each profile passed horizontal-overflow checks, primary navigation, project-card/case-study link checks, theme switching and theme persistence after reload. The PixelForge mobile case study also passed its quick-start and local-comparison checks. The run reported no uncaught page errors. Screenshots and the JSON report are retained in [responsive browser QA run #42962341179](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/42962341179) for 14 days. These are browser-emulated viewport profiles, not physical-device certification.
+
+Accessibility automation was added in PR #66. The first live run surfaced a repeated visible-label/accessibility-name mismatch on architecture disclosures and an overly strict focus-return assertion in the test. Both were corrected in PR #67. The corrected deployed run [#42963583197](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/42963583197) passed eight axe-core 4.14.0 scans (homepage light/dark, developer panel, open command palette and four case studies): **184 rules passed, zero WCAG A/AA violations**. All nine keyboard checks passed, including skip-link activation, focus visibility, theme keyboard activation/persistence, developer-tools activation, command-palette opening, arrow navigation and Escape focus restoration. The report still contains axe *incomplete* checks for manual review, including dynamic/variable colour contrast, some ARIA states and link distinction in text blocks. These are not confirmed violations. Manual screen-reader testing remains open; automated scans do not establish full accessibility conformance.
 
 ## Acceptance criteria
 
