@@ -259,32 +259,54 @@ test('Pages deployment uses reproducible cached installs and only deploys main',
 });
 
 
-test('Metronome case study uses its genuine source-repository screenshot from the shared catalogue', async () => {
+test('Metronome case study uses a same-origin source-repository screenshot', async () => {
   const page = await readFile(new URL('projects/metronome/index.html', buildUrl), 'utf8');
-  assert.ok(projectsSource.includes('https://leenusdarnal.github.io/images/metronome-preview.png'));
+  assert.ok(projectsSource.includes("previewImage: '/images/metronome-preview.png'"));
   const screenshot = await readFile(new URL('images/metronome-preview.png', buildUrl));
   assert.ok(screenshot.length > 1000, 'self-hosted Metronome screenshot should be present in the generated site');
   assert.match(projectsSource, /previewSourceUrl:/);
-  assert.ok(page.includes('https://leenusdarnal.github.io/images/metronome-preview.png'));
-  assert.match(page, /Actual application screenshot/);
+  assert.ok(page.includes('src="/images/metronome-preview.png"'));
+  assert.match(page, /Authentic interface preview/);
   assert.match(page, /alt="Screenshot of the Metronome web app interface/);
 });
 
-test('projects without verified screenshots are not presented as photographed interfaces', async () => {
-  const projects = ['pixelforge-studio', 'sikkim-government-salary-calculator', 'pixelcutout'];
-  for (const slug of projects) {
+test('all live project case studies use genuine, same-origin application previews', async () => {
+  const previews = [
+    ['pixelforge-studio', 'images/project-previews/pixelforge.jpg'],
+    ['sikkim-government-salary-calculator', 'images/project-previews/salary-calculator.jpg'],
+    ['pixelcutout', 'images/project-previews/pixelcutout.jpg'],
+    ['metronome', 'images/metronome-preview.png']
+  ];
+  for (const [slug, assetPath] of previews) {
     const page = await readFile(new URL(`projects/${slug}/index.html`, buildUrl), 'utf8');
-    assert.match(page, /An authentic screenshot is not yet available/);
-    assert.match(page, /View live app/);
+    const image = await readFile(new URL(assetPath, buildUrl));
+    assert.ok(image.length > 1000, 'Preview asset is missing or empty: ' + assetPath);
+    assert.ok(page.includes(`src="/${assetPath}"`), 'Case study must use a same-origin preview: ' + slug);
+    assert.match(page, /Authentic interface preview/);
+    assert.doesNotMatch(page, /An authentic screenshot is not yet available/);
+  }
+  for (const previewPath of [
+    'images/project-previews/pixelforge.jpg',
+    'images/project-previews/salary-calculator.jpg',
+    'images/project-previews/pixelcutout.jpg'
+  ]) {
+    assert.ok(projectsSource.includes(`/ ${previewPath}`.replace('/ ', '/')));
   }
 });
 
-test('homepage uses genuine application branding and the source screenshot distinctly', () => {
-  assert.match(html, /Source repository screenshot/);
+test('homepage uses live application screenshots and self-hosted brand assets', () => {
+  assert.match(html, /Live application preview/);
+  for (const path of [
+    '/images/project-previews/pixelforge.jpg',
+    '/images/project-previews/salary-calculator.jpg',
+    '/images/project-previews/pixelcutout.jpg',
+    '/images/metronome-preview.png'
+  ]) {
+    assert.ok(html.includes(path), 'Missing same-origin preview: ' + path);
+  }
   assert.ok(html.includes('/images/project-icons/pixelforge-icon.svg'));
   assert.ok(html.includes('/images/project-icons/pixelcutout-icon.svg'));
   assert.doesNotMatch(html, /Interface illustration/);
-  assert.ok(projectsSource.includes('leenusdarnal.github.io/images/metronome-preview.png'));
 });
 
 
@@ -316,7 +338,10 @@ test('the home link accessible name includes its visible brand label', () => {
   assert.ok(html.includes('aria-label="L. Leenus Darnal. — home"'));
 });
 
-test('homepage project preview panels use real app brand assets', () => {
+test('homepage project preview panels show screenshot imagery with real app brand markers', () => {
+  assert.ok(html.includes('/images/project-previews/pixelforge.jpg'));
+  assert.ok(html.includes('/images/project-previews/pixelcutout.jpg'));
+  assert.ok(html.includes('/images/project-previews/salary-calculator.jpg'));
   assert.ok(html.includes('/images/project-icons/pixelforge-icon.svg'));
   assert.ok(html.includes('/images/project-icons/pixelcutout-icon.svg'));
 });
