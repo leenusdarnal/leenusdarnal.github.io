@@ -97,6 +97,10 @@ test('PixelCutout is listed with its source and local-processing features', () =
   assert.match(projectsSource, /https:\/\/pixelcutout-three\.vercel\.app\//);
   assert.match(projectsSource, /https:\/\/github\.com\/leenusdarnal\/pixelcutout/);
   assert.match(projectsSource, /AI and no-AI removal modes/);
+  assert.match(projectsSource, /Batch processing for up to 20 images/);
+  assert.match(projectsSource, /ZIP export and local erase\/restore tools/);
+  assert.match(projectsSource, /batch processor handles up to 20 images/i);
+  assert.doesNotMatch(projectsSource, /Batch queues, ZIP export/);
   assert.match(projectsSource, /category: 'Image tool · AI & no-AI modes'/);
   assert.match(projectsSource, /designed to run in the browser; independent runtime\/network verification remains pending/);
   assert.doesNotMatch(projectsSource, /category: 'Image tool · Privacy-first'/);
@@ -112,8 +116,13 @@ test('PixelForge portfolio details match its current SvelteKit project', () => {
   assert.match(projectsSource, /export a \.pfs file for a separate backup/);
 });
 
-test('salary calculator is clearly identified as an independent reference tool', () => {
+test('salary calculator details match the current application and remain clearly non-authoritative', () => {
   assert.match(projectsSource, /not an official Government of Sikkim calculator/);
+  assert.match(projectsSource, /stack: \['SvelteKit 3', 'Svelte 5', 'TypeScript', 'Tailwind CSS 4'\]/);
+  assert.match(projectsSource, /23 pay levels · 794 cells/);
+  assert.match(projectsSource, /Temporary-pay and arrears planners/);
+  assert.match(projectsSource, /GPF, service history and payslip tools/);
+  assert.match(projectsSource, /temporary pay, arrears, GPF, pay progression and payslip generation/);
 });
 
 test('external links opened in new tabs use safe rel attributes', () => {

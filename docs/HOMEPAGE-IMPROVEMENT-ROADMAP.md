@@ -122,3 +122,17 @@ The following are intentionally not marked complete by CI or source review alone
 - Exhaustive source/dependency review and signed-order verification of the Salary Calculator's formulas/effective dates.
 
 These are evidence and human-validation tasks, not missing homepage features. The site continues to use conservative privacy language until those checks are completed. Keep untested device/browser combinations marked **Not tested** in the compatibility register.
+
+
+## Final production verification — 11 November 2026
+
+The homepage is deployed from `main` commit `56096739972e56f81b8eb3e12b5c61791f646886`. The final deployment and all post-deployment checks passed:
+
+- [GitHub Pages deployment #42990424192](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/42990424192): build, dependency audit, Svelte checks, generated internal links, smoke tests, Pages artifact and deployment all successful.
+- [Responsive and accessibility QA #42990517039](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/42990517039): 360×800, 390×844, 768×1024, 1024×900 and 1440×1000 passed; 8 axe-core scans returned zero WCAG A/AA violations; keyboard navigation and command-palette focus checks passed.
+- [Lighthouse audit #42990517096](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/42990517096): Performance 100, Accessibility 100, Best Practices 100 and SEO 100. FCP 1.3 s, LCP 1.3 s, TBT 30 ms and CLS 0.
+- [Live preview capture #42990517127](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/42990517127): PixelForge, PixelCutout and Salary Calculator interfaces returned HTTP 200 and the generated previews were unchanged after capture.
+
+A separate live content check successfully extracted both the application pages and project-detail pages for PixelForge Studio, Metronome, the Salary Calculator and PixelCutout. During that check, the PixelCutout case study was found to have stale limitations that said batch processing and ZIP export were unavailable, while the current application provides sequential batch processing for up to 20 images and ZIP export. The case study and card have been updated to match the current application. Its actual remaining crop limitation is a draggable crop frame; the available crop presets are centered or automatic. This content correction is covered by a regression test.
+
+The automated QA results do not substitute for physical Android/iOS testing, manual screen-reader review or clean-profile network/storage inspection across the linked applications. Those remain explicitly unverified evidence gates rather than homepage implementation blockers.
