@@ -43,6 +43,7 @@ jobs:
         run: |
           node --check scripts/check-responsive.mjs
           node --check scripts/check-accessibility.mjs
+          node --check scripts/capture-project-previews.mjs
 
       - name: Build static site
         run: npm run build
