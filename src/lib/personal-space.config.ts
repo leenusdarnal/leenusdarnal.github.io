@@ -132,7 +132,7 @@ export const personalSpaceConfig = {
   ],
   content: {
     hero: {
-      headline: 'Useful tools for everyday tasks. The details for curious builders.',
+      headline: 'Useful tools for everyday tasks. The details for curious builders',
       description: 'Explore practical browser tools, creative projects and small experiments. Open a tool and get started, or dig into how it works, what it stores and the choices behind it.',
       tags: ['Try the tools', 'How they work', 'Privacy notes', 'Open-source projects'],
       asideLines: ['Curious by nature.', 'Practical by design.', 'Always building.']
