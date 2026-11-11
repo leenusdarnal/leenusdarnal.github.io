@@ -253,7 +253,7 @@ test('Pages deployment uses reproducible cached installs and only deploys main',
   const deploy = await readFile(new URL('../.github/workflows/deploy.yml', import.meta.url), 'utf8');
   assert.match(deploy, /branches:\n\s+- main/);
   assert.match(deploy, /run: npm ci --no-audit --no-fund/);
-  assert.doesNotMatch(deploy, /npm install/);
+  assert.match(deploy, /npm install --no-save --package-lock=false --ignore-scripts playwright@1\\.62\\.1/);
   assert.doesNotMatch(deploy, /if \[ -f package-lock/);
   assert.match(deploy, /path: build/);
 });
