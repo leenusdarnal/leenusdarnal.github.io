@@ -350,6 +350,30 @@
     </section>
     {/if}
 
+    <section id="faq" aria-labelledby="faq-heading" class="scroll-mt-12 border-t border-[var(--line)] py-16 sm:py-20">
+      <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--accent)]">QUICK ANSWERS</p>
+      <h2 id="faq-heading" class="mt-3 text-[clamp(1.8rem,6vw,2.8rem)] font-semibold tracking-[-0.06em]">Before you get started<span class="text-[var(--accent)]">.</span></h2>
+      <div class="mt-8 grid gap-4 md:grid-cols-2">
+        <article class="rounded-2xl border border-[var(--line)] bg-[var(--panel)] p-5">
+          <h3 class="font-semibold">Are the tools free to use?</h3>
+          <p class="mt-2 text-sm leading-7 text-[var(--muted)]">The projects are published as browser apps. Check each live app for its current availability, browser requirements and any usage limits.</p>
+        </article>
+        <article class="rounded-2xl border border-[var(--line)] bg-[var(--panel)] p-5">
+          <h3 class="font-semibold">Do my files leave my device?</h3>
+          <p class="mt-2 text-sm leading-7 text-[var(--muted)]">That depends on the tool and the feature you use. Read the Privacy and files note on its project page before working with sensitive material. AI features may download model files without uploading your image.</p>
+        </article>
+        <article class="rounded-2xl border border-[var(--line)] bg-[var(--panel)] p-5">
+          <h3 class="font-semibold">Can I use the tools offline?</h3>
+          <p class="mt-2 text-sm leading-7 text-[var(--muted)]">Offline support varies. Some features need an initial download or an internet connection. Each project page explains known limitations; do not assume every feature works offline.</p>
+        </article>
+        <article class="rounded-2xl border border-[var(--line)] bg-[var(--panel)] p-5">
+          <h3 class="font-semibold">Are salary estimates official?</h3>
+          <p class="mt-2 text-sm leading-7 text-[var(--muted)]">No. The Sikkim Government Salary Calculator is an independent reference tool. Confirm pay rules, rates and eligibility with current signed orders and your DDO / Accounts section.</p>
+        </article>
+      </div>
+      <p class="mt-6 text-sm leading-7 text-[var(--muted)]">Found an issue or have an idea? Use the source link on the relevant project page to review the code or open its GitHub repository.</p>
+    </section>
+
     {#if personalSpaceConfig.sections.about}
     <section id="about" aria-labelledby="about-heading" class="scroll-mt-12 border-t border-[var(--line)] py-16 sm:py-20 lg:py-24">
       <div class="grid gap-8 md:grid-cols-[0.7fr_1.3fr] md:gap-16">

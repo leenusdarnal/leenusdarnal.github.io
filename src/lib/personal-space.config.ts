@@ -132,9 +132,9 @@ export const personalSpaceConfig = {
   ],
   content: {
     hero: {
-      headline: 'I build useful things',
-      description: 'This is my little corner of the internet for browser-native tools, practical web apps and experiments. I like making everyday tasks simpler, exploring what the web can do and sharing what I learn.',
-      tags: ['Useful tools', 'Browser experiments', 'Privacy-first apps', 'Learning by building'],
+      headline: 'Useful tools for everyday tasks. The details for curious builders.',
+      description: 'Explore practical browser tools, creative projects and small experiments. Open a tool and get started, or dig into how it works, what it stores and the choices behind it.',
+      tags: ['Try the tools', 'How they work', 'Privacy notes', 'Open-source projects'],
       asideLines: ['Curious by nature.', 'Practical by design.', 'Always building.']
     },
     personalSpace: {

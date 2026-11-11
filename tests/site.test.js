@@ -46,7 +46,7 @@ test('homepage includes a concise About section and navigation link', () => {
   assert.match(html, /href="#about"[^>]*>About<\/a>/);
   assert.match(html, /id="about"/);
   assert.match(html, /Curious by nature/);
-  assert.match(html, /little corner of the internet for browser-native tools/);
+  assert.match(html, /Open a tool and get started/);
 });
 
 
@@ -86,7 +86,7 @@ test('PixelCutout is listed with its source and local-processing features', () =
   assert.match(projectsSource, /https:\/\/pixelcutout-three\.vercel\.app\//);
   assert.match(projectsSource, /https:\/\/github\.com\/leenusdarnal\/pixelcutout/);
   assert.match(projectsSource, /AI and no-AI removal modes/);
-  assert.match(projectsSource, /Images stay on your device/);
+  assert.match(projectsSource, /Remove image backgrounds with AI-assisted subject detection/);
   assert.match(projectActions, /\{#if project\.live\}/);
 });
 
@@ -95,7 +95,7 @@ test('PixelForge portfolio details match its current SvelteKit project', () => {
   assert.match(projectsSource, /Editable text layers/);
   assert.match(projectsSource, /24 MP document target/);
   assert.match(projectsSource, /offline-first image editor/);
-  assert.match(projectsSource, /local \.pfs project files/);
+  assert.match(projectsSource, /export a \.pfs file for a separate backup/);
 });
 
 test('salary calculator is clearly identified as an independent reference tool', () => {
@@ -363,15 +363,22 @@ test('accent foregrounds are explicitly applied to visible CTA text', async () =
 });
 
 
-test('project cards expose category filters, live GitHub metadata and quick clone actions', () => {
-  assert.match(source, /data-project-card/);
-  assert.match(projectsSource, /categories: \['client-compute', 'svelte'\]/);
-  assert.match(repoMetadata, /leenus_lab_repos_v1/);
-  assert.match(repoMetadata, /3600000/);
-  assert.match(repoMetadata, /stargazers_count/);
-  assert.match(repoMetadata, /pushed_at/);
+test('project catalogue is filter-free while developer tools remain optional', () => {
+  assert.match(source, /<LabControls projects=/);
+  assert.doesNotMatch(labControls, /Filter projects|filter-pill|activeFilter|setFilter/);
+  assert.match(labControls, /For developers: inspect this site/);
+  assert.match(labControls, /DeveloperTools/);
   assert.match(projectActions, /git clone /);
   assert.match(projectActions, /Inspect Architecture/);
+});
+
+test('homepage provides practical visitor FAQs and conservative privacy guidance', () => {
+  assert.match(html, /Before you get started/);
+  assert.match(html, /Do my files leave my device/);
+  assert.match(html, /Offline support varies/);
+  assert.match(html, /Are salary estimates official/);
+  assert.match(projectsSource, /documentation-level review/);
+  assert.match(projectsSource, /not an independent network-traffic certification/);
 });
 
 test('client diagnostics report WebGPU, FP16, buffer limits, isolation and display capabilities', () => {
