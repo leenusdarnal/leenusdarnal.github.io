@@ -1,6 +1,6 @@
 # Leenus Darnal — Personal Website
 
-A personal homepage and maker's notebook built with SvelteKit, Svelte 5 and Tailwind CSS 4. It collects useful tools, side projects and experiments. The site is prerendered as static files and published exclusively to GitHub Pages.
+A personal homepage and maker's notebook built with SvelteKit, Svelte 5 and Tailwind CSS 4. It collects useful tools, side projects and experiments. The site is prerendered as static files and currently published to GitHub Pages. A second production deployment to Vercel is part of the hosting preference but is not yet documented or verified for this repository.
 
 ## Live website
 
@@ -38,7 +38,7 @@ npm run build
 npm test
 ```
 
-GitHub Actions runs the checks on pull requests and pushes to main. After a successful build and test run, the Pages workflow publishes the generated build/ directory to GitHub Pages. GitHub Pages is the only hosting and deployment target for this website.
+GitHub Actions runs the checks on pull requests and pushes to main. After a successful build and test run, the Pages workflow publishes the generated build/ directory to GitHub Pages. GitHub Pages is the only currently configured and verified production deployment target for this website; Vercel parity remains a tracked follow-up, not a claim of an active deployment.
 
 ## Quality and maintenance
 
@@ -46,7 +46,7 @@ A scheduled and manually triggerable Lighthouse workflow audits the published Gi
 
 The daily site monitor checks the personal homepage and linked demos. Each run now writes a UTC timestamp, per-site HTTP result and summary to the GitHub Actions job summary. A successful check is an observation at that time, not a continuous availability guarantee.
 
-The master [ecosystem implementation roadmap](./docs/ECOSYSTEM-IMPLEMENTATION-ROADMAP.md) tracks work across this site and connected applications. The [shared project quality standard](./docs/PROJECT-QUALITY-STANDARD.md) defines release expectations. Supporting registers cover [homepage improvements](./docs/HOMEPAGE-IMPROVEMENT-ROADMAP.md), [privacy review](./docs/PROJECT-PRIVACY-REVIEW.md), [browser compatibility](./docs/BROWSER-COMPATIBILITY.md) and [licensing/attribution](./docs/PROJECT-LICENSING-INVENTORY.md). Security reporting guidance is in [SECURITY.md](./SECURITY.md).
+The [homepage implementation handoff](./docs/HOMEPAGE-IMPLEMENTATION-HANDOFF.md) is the resume-first checklist for the next session: it records the verified baseline, remaining work, evidence links and exact restart sequence. The master [ecosystem implementation roadmap](./docs/ECOSYSTEM-IMPLEMENTATION-ROADMAP.md) tracks work across this site and connected applications. The [shared project quality standard](./docs/PROJECT-QUALITY-STANDARD.md) defines release expectations. Supporting registers cover [homepage improvements](./docs/HOMEPAGE-IMPROVEMENT-ROADMAP.md), [privacy review](./docs/PROJECT-PRIVACY-REVIEW.md), [browser compatibility](./docs/BROWSER-COMPATIBILITY.md) and [licensing/attribution](./docs/PROJECT-LICENSING-INVENTORY.md). Security reporting guidance is in [SECURITY.md](./SECURITY.md).
 
 ## Homepage experience
 

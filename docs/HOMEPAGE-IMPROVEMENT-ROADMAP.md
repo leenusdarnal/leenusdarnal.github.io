@@ -136,3 +136,11 @@ The homepage is deployed from `main` commit `56096739972e56f81b8eb3e12b5c61791f6
 A separate live content check successfully extracted both the application pages and project-detail pages for PixelForge Studio, Metronome, the Salary Calculator and PixelCutout. During that check, the PixelCutout case study was found to have stale limitations that said batch processing and ZIP export were unavailable, while the current application provides sequential batch processing for up to 20 images and ZIP export. The case study and card have been updated to match the current application. Its actual remaining crop limitation is a draggable crop frame; the available crop presets are centered or automatic. This content correction is covered by a regression test.
 
 The automated QA results do not substitute for physical Android/iOS testing, manual screen-reader review or clean-profile network/storage inspection across the linked applications. Those remain explicitly unverified evidence gates rather than homepage implementation blockers.
+
+## Resume checkpoint — 11 November 2026
+
+A resume-first implementation register is now maintained in [HOMEPAGE-IMPLEMENTATION-HANDOFF.md](./HOMEPAGE-IMPLEMENTATION-HANDOFF.md). It records the baseline commit, latest successful GitHub Actions runs, current feature inventory, ordered remaining work, local verification commands and a restart protocol. The current main baseline at the time of writing was `8ce2c9813018d4ac141f82edf40c71bf8315dec5`; re-fetch `main` before continuing.
+
+The latest observed main-branch runs succeeded: GitHub Pages deployment #42991798095, verification #42991797941, Lighthouse #42991899830, responsive/accessibility QA #42991899862 and live preview capture #42991899832. These automated results do not close manual physical-device/screen-reader checks or clean-profile privacy network/storage checks for linked applications. The current checked-in deploy workflow configures GitHub Pages only; Vercel deployment parity remains unverified and is explicitly tracked in the handoff.
+
+No open PRs were returned by the repository query at this checkpoint. PRs #74 and #59 are merged. TypeScript 7 PR #60 was closed without merging because `svelte-check@4.7.8` does not accept TypeScript 7 and clean installation fails; retain TypeScript 6 until compatibility is confirmed.

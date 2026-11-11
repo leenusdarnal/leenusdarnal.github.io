@@ -243,3 +243,7 @@ References: [Vercel plan limits](https://vercel.com/docs/limits) (Hobby build/de
 ## Release definition
 
 A project is release-ready when supported core workflows build and pass tests; data handling, licence status and limitations are documented; accessibility and browser coverage have been reviewed; critical errors have safe recovery paths; and deployment health can be verified. Finished means that the release standard is met, not that the software will never need maintenance.
+
+## Personal website handoff checkpoint — 11 November 2026
+
+The homepage resume-first checklist is [HOMEPAGE-IMPLEMENTATION-HANDOFF.md](./HOMEPAGE-IMPLEMENTATION-HANDOFF.md). At this checkpoint, `main` was `8ce2c9813018d4ac141f82edf40c71bf8315dec5`; the latest GitHub Pages deploy, verification, Lighthouse, responsive/accessibility QA and live preview capture runs all reported success (run IDs 42991798095, 42991797941, 42991899830, 42991899862 and 42991899832). The checked-in website workflow deploys to GitHub Pages; a Vercel production deployment for this repository is not verified. Human device/screen-reader validation and linked-app runtime privacy audits remain open. Refresh all branch/run/deployment facts before resuming; see the handoff for ordered tasks and commands.
