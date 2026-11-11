@@ -40,7 +40,9 @@ jobs:
         run: node --check scripts/publish-personal-space-config.mjs
 
       - name: Syntax-check responsive browser QA
-        run: node --check scripts/check-responsive.mjs
+        run: |
+          node --check scripts/check-responsive.mjs
+          node --check scripts/check-accessibility.mjs
 
       - name: Build static site
         run: npm run build
