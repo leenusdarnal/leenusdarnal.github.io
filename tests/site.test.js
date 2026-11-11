@@ -259,39 +259,68 @@ test('Pages deployment uses reproducible cached installs and only deploys main',
 });
 
 
-test('Metronome case study uses its genuine source-repository screenshot from the shared catalogue', async () => {
+test('Metronome case study uses its genuine same-origin source screenshot', async () => {
   const page = await readFile(new URL('projects/metronome/index.html', buildUrl), 'utf8');
-  assert.ok(projectsSource.includes('https://leenusdarnal.github.io/images/metronome-preview.png'));
+  assert.match(projectsSource, /previewImage: '\/images\/metronome-preview\.png'/);
   const screenshot = await readFile(new URL('images/metronome-preview.png', buildUrl));
   assert.ok(screenshot.length > 1000, 'self-hosted Metronome screenshot should be present in the generated site');
   assert.match(projectsSource, /previewSourceUrl:/);
-  assert.ok(page.includes('https://leenusdarnal.github.io/images/metronome-preview.png'));
-  assert.match(page, /Actual application screenshot/);
+  assert.ok(page.includes('src="/images/metronome-preview.png"'));
+  assert.match(page, /Source repository screenshot/);
   assert.match(page, /alt="Screenshot of the Metronome web app interface/);
 });
 
-test('projects without verified screenshots are not presented as photographed interfaces', async () => {
-  const projects = ['pixelforge-studio', 'sikkim-government-salary-calculator', 'pixelcutout'];
-  for (const slug of projects) {
+test('live app case studies use authentic screenshot paths with local icon fallbacks', async () => {
+  const expected = [
+    ['pixelforge-studio', '/images/project-previews/pixelforge-studio.png', '/images/project-icons/pixelforge-icon.svg'],
+    ['sikkim-government-salary-calculator', '/images/project-previews/sikkim-government-salary-calculator.png', '/images/project-icons/salary-calculator-icon.svg'],
+    ['pixelcutout', '/images/project-previews/pixelcutout.png', '/images/project-icons/pixelcutout-icon.svg']
+  ];
+  for (const [slug, screenshotPath, fallbackPath] of expected) {
     const page = await readFile(new URL(`projects/${slug}/index.html`, buildUrl), 'utf8');
-    assert.match(page, /An authentic screenshot is not yet available/);
-    assert.match(page, /View live app/);
+    assert.ok(projectsSource.includes(screenshotPath), slug + ': missing capture path in shared catalogue');
+    assert.ok(projectsSource.includes(fallbackPath), slug + ': missing local image fallback');
+    assert.ok(page.includes(fallbackPath), slug + ': generated case study must render its fallback first');
+    assert.match(page, /Live application screenshot/);
+    assert.doesNotMatch(page, /An authentic screenshot is not yet available/);
+    assert.match(page, /View source code/);
   }
+  const salaryIcon = await readFile(new URL('images/project-icons/salary-calculator-icon.svg', buildUrl), 'utf8');
+  assert.match(salaryIcon, /<svg/);
 });
 
-test('homepage uses genuine application branding and the source screenshot distinctly', () => {
-  assert.match(html, /Source repository screenshot/);
+test('homepage project cards use local fallbacks and upgrade to captured same-origin screenshots', async () => {
   assert.ok(html.includes('/images/project-icons/pixelforge-icon.svg'));
   assert.ok(html.includes('/images/project-icons/pixelcutout-icon.svg'));
+  assert.ok(html.includes('/images/project-icons/salary-calculator-icon.svg'));
+  assert.match(html, /Source repository screenshot/);
+  assert.match(html, /Live application preview/);
   assert.doesNotMatch(html, /Interface illustration/);
-  assert.ok(projectsSource.includes('leenusdarnal.github.io/images/metronome-preview.png'));
+  assert.match(source, /new URL\(imageUrl, window\.location\.href\)/);
+  assert.match(source, /candidateUrl\.origin !== window\.location\.origin/);
+  assert.match(source, /upgradePreviewImage/);
+  assert.match(projectsSource, /leenusdarnal\.github\.io\/images\/metronome-preview\.png/);
 });
-
 
 test('the genuine Metronome screenshot reserves its intrinsic aspect ratio and loads lazily', async () => {
   const metronomePage = await readFile(new URL('projects/metronome/index.html', buildUrl), 'utf8');
-  assert.ok(metronomePage.includes('leenusdarnal.github.io/images/metronome-preview.png') && metronomePage.includes('width="416" height="314"'));
+  assert.ok(metronomePage.includes('/images/metronome-preview.png') && metronomePage.includes('width="416" height="314"'));
   assert.ok(metronomePage.includes('loading="lazy" decoding="async"'));
+});
+
+test('live interface screenshot capture runs in the Pages build with resilient fallback behaviour', async () => {
+  const capture = await readFile(new URL('../scripts/capture-project-previews.mjs', import.meta.url), 'utf8');
+  const deploy = await readFile(new URL('../.github/workflows/deploy.yml', import.meta.url), 'utf8');
+  assert.match(capture, /pixelforge-studio-pied\.vercel\.app/);
+  assert.match(capture, /pixelcutout-three\.vercel\.app/);
+  assert.match(capture, /sikkim-government-salary-calculator\.vercel\.app/);
+  assert.match(capture, /width: 1440, height: 1000/);
+  assert.match(capture, /width: 390, height: 844/);
+  assert.match(capture, /project-previews/);
+  assert.match(deploy, /node scripts\/capture-project-previews\.mjs/);
+  assert.match(deploy, /continue-on-error: true/);
+  assert.match(deploy, /name: project-interface-previews/);
+  assert.match(deploy, /node --check scripts\/capture-project-previews\.mjs/);
 });
 
 test('case studies provide social preview metadata', async () => {
@@ -686,14 +715,19 @@ test('Personal Space Configurator validates and bounds local drafts before save 
   assert.match(configurator, /const error = validateDraft\(\)/);
 });
 
-test('project imagery never labels generated mockups as authentic application screenshots', async () => {
+test('project previews are captured from live applications and retain honest provenance labels', async () => {
   const homepage = await readFile(new URL('../src/routes/+page.svelte', import.meta.url), 'utf8');
   const projects = await readFile(new URL('../src/lib/projects.ts', import.meta.url), 'utf8');
   assert.match(homepage, /pixelforge-icon\.svg/);
   assert.match(homepage, /pixelcutout-icon\.svg/);
+  assert.match(homepage, /salary-calculator-icon\.svg/);
   assert.match(projects, /previewSourceUrl/);
+  assert.match(projects, /previewAlt/);
+  assert.match(projects, /previewFallback/);
   const detail = await readFile(new URL('../src/routes/projects/[slug]/+page.svelte', import.meta.url), 'utf8');
-  assert.match(detail, /Actual application screenshot/);
+  assert.match(detail, /Live application screenshot/);
+  assert.match(detail, /Source repository screenshot/);
+  assert.match(detail, /candidateUrl\.origin !== window\.location\.origin/);
   assert.doesNotMatch(homepage, /Interface illustration/);
   assert.doesNotMatch(homepage, /Enter amount/);
 });
