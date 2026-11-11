@@ -23,6 +23,18 @@ const developerTools = await readFile(new URL('../src/lib/DeveloperTools.svelte'
 const projectActions = await readFile(new URL('../src/lib/ProjectActions.svelte', import.meta.url), 'utf8');
 const monitorWorkflow = await readFile(new URL('../.github/workflows/monitor-sites.yml', import.meta.url), 'utf8');
 
+test('homepage includes a dated updates section with verified release links', () => {
+  assert.match(html, /Recent improvements/);
+  assert.match(html, /11 Nov 2026/);
+  assert.match(html, /Full change history/);
+});
+
+test('mobile technical previews enforce a readable minimum font size', async () => {
+  assert.match(css, /pre,\s*code,\s*kbd,\s*samp\s*\{\s*font-size:\s*max\(0\.75rem,\s*1em\)/);
+  const responsive = await readFile(new URL('../scripts/check-responsive.mjs', import.meta.url), 'utf8');
+  assert.match(responsive, /technicalTextFontSize\s*>=\s*12/);
+});
+
 test('homepage includes a meaningful page title and description', () => {
   assert.match(html, /<title>Leenus Darnal — I build useful things<\/title>/);
   assert.match(html, /<meta name="description" content="A personal space for useful web tools/);
@@ -249,9 +261,11 @@ test('Pages deployment uses reproducible cached installs and only deploys main',
 
 test('Metronome case study uses its genuine source-repository screenshot from the shared catalogue', async () => {
   const page = await readFile(new URL('projects/metronome/index.html', buildUrl), 'utf8');
-  assert.ok(projectsSource.includes('https://raw.githubusercontent.com/leenusdarnal/react-metronome/master/screenshots/react-metronome.png'));
+  assert.ok(projectsSource.includes('https://leenusdarnal.github.io/images/metronome-preview.png'));
+  const screenshot = await readFile(new URL('images/metronome-preview.png', buildUrl));
+  assert.ok(screenshot.length > 1000, 'self-hosted Metronome screenshot should be present in the generated site');
   assert.match(projectsSource, /previewSourceUrl:/);
-  assert.ok(page.includes('https://raw.githubusercontent.com/leenusdarnal/react-metronome/master/screenshots/react-metronome.png'));
+  assert.ok(page.includes('https://leenusdarnal.github.io/images/metronome-preview.png'));
   assert.match(page, /Actual application screenshot/);
   assert.match(page, /alt="Screenshot of the Metronome web app interface/);
 });
@@ -270,13 +284,14 @@ test('homepage uses genuine application branding and the source screenshot disti
   assert.ok(html.includes('https://pixelforge-studio-pied.vercel.app/icons/icon.svg'));
   assert.ok(html.includes('https://pixelcutout-three.vercel.app/pixelcutout-icon.svg'));
   assert.doesNotMatch(html, /Interface illustration/);
-  assert.ok(projectsSource.includes('react-metronome/master/screenshots/react-metronome.png'));
+  assert.ok(projectsSource.includes('leenusdarnal.github.io/images/metronome-preview.png'));
 });
 
 
-test('the genuine Metronome screenshot reserves its intrinsic aspect ratio and loads lazily', () => {
-  assert.ok(html.includes('react-metronome/master/screenshots/react-metronome.png') && html.includes('width="416" height="314"'));
-  assert.ok(html.includes('loading="lazy" decoding="async"'));
+test('the genuine Metronome screenshot reserves its intrinsic aspect ratio and loads lazily', async () => {
+  const metronomePage = await readFile(new URL('projects/metronome/index.html', buildUrl), 'utf8');
+  assert.ok(metronomePage.includes('leenusdarnal.github.io/images/metronome-preview.png') && metronomePage.includes('width="416" height="314"'));
+  assert.ok(metronomePage.includes('loading="lazy" decoding="async"'));
 });
 
 test('case studies provide social preview metadata', async () => {
