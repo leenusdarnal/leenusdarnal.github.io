@@ -232,14 +232,17 @@ test('CI validates pull requests and main pushes with supported dependency insta
   assert.match(ci, /pull_request:/);
   assert.match(ci, /branches: \[main\]/);
   assert.match(ci, /push:\n\s+branches: \[main,/);
-  assert.match(ci, /npm install/);
-  assert.match(ci, /run: npm install/);
+  assert.match(ci, /npm ci --no-audit --no-fund/);
+  assert.match(ci, /if \[ -f package-lock\.json \]/);
+  assert.match(ci, /npm install --no-audit --no-fund/);
 });
 
 test('Pages deployment uses reproducible cached installs and only deploys main', async () => {
   const deploy = await readFile(new URL('../.github/workflows/deploy.yml', import.meta.url), 'utf8');
   assert.match(deploy, /branches:\n\s+- main/);
-  assert.match(deploy, /npm install/);
+  assert.match(deploy, /npm ci --no-audit --no-fund/);
+  assert.match(deploy, /if \[ -f package-lock\.json \]/);
+  assert.match(deploy, /npm install --no-audit --no-fund/);
   assert.match(deploy, /path: build/);
 });
 
