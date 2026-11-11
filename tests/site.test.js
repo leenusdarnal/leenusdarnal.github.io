@@ -118,7 +118,7 @@ test('PixelForge portfolio details match its current SvelteKit project', () => {
 
 test('salary calculator details match the current application and remain clearly non-authoritative', () => {
   assert.match(projectsSource, /not an official Government of Sikkim calculator/);
-  assert.match(projectsSource, /stack: \\['SvelteKit 3', 'Svelte 5', 'TypeScript', 'Tailwind CSS 4'\\]/);
+  assert.match(projectsSource, /stack: \['SvelteKit 3', 'Svelte 5', 'TypeScript', 'Tailwind CSS 4'\]/);
   assert.match(projectsSource, /23 pay levels · 794 cells/);
   assert.match(projectsSource, /Temporary-pay and arrears planners/);
   assert.match(projectsSource, /GPF, service history and payslip tools/);
