@@ -69,9 +69,10 @@
     registerCrossOriginIsolation();
   });
 
+  /** @param {Event} event @param {string | undefined} imageUrl */
   function upgradePreviewImage(event, imageUrl) {
     const image = event.currentTarget;
-    if (!image || !imageUrl || image.dataset.previewUpgraded === 'true') return;
+    if (!(image instanceof HTMLImageElement) || !imageUrl || image.dataset.previewUpgraded === 'true') return;
 
     let candidateUrl;
     try {
