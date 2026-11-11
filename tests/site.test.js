@@ -288,10 +288,10 @@ test('homepage uses genuine application branding and the source screenshot disti
 });
 
 
-test('the genuine Metronome screenshot reserves its intrinsic aspect ratio and loads lazily', () => {
+test('the genuine Metronome screenshot reserves its intrinsic aspect ratio and loads lazily', async () => {
   const metronomePage = await readFile(new URL('projects/metronome/index.html', buildUrl), 'utf8');
   assert.ok(metronomePage.includes('leenusdarnal.github.io/images/metronome-preview.png') && metronomePage.includes('width="416" height="314"'));
-  assert.ok(html.includes('loading="lazy" decoding="async"'));
+  assert.ok(metronomePage.includes('loading="lazy" decoding="async"'));
 });
 
 test('case studies provide social preview metadata', async () => {
