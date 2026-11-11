@@ -1,0 +1,50 @@
+name: Bug report
+description: Report a reproducible problem with the personal website.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For a problem inside a linked application, use that application's repository instead. Never attach private files, credentials, payroll information or personal records.
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: Describe the problem and what you expected to happen.
+      placeholder: A clear and concise description.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Include the page and steps, using fictional or non-sensitive data.
+      placeholder: |
+        1. Open ...
+        2. Select ...
+        3. Observe ...
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and version
+      placeholder: e.g. Chrome 130 on Android 14
+    validations:
+      required: false
+  - type: input
+    id: device
+    attributes:
+      label: Device / operating system
+      placeholder: e.g. Android phone, Windows 11 laptop
+    validations:
+      required: false
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Safe supporting details
+      description: Share error text or a screenshot only after removing private data, tokens and identifiers. Do not upload user files.
+    validations:
+      required: false
