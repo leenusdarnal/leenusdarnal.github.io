@@ -25,7 +25,7 @@ This is the master implementation register for the personal website and connecte
 | [React Metronome](https://github.com/leenusdarnal/react-metronome) | Metronome application | Public demo; default branch is master | Accessibility, compatibility and dependency maintenance |
 | [Breadit](https://github.com/leenusdarnal/breadit) | Source-only experiment | No live demo recorded | Document status and maintenance decision |
 | [Chirp](https://github.com/leenusdarnal/chirp) | Source-only experiment | No live demo recorded | Document status and maintenance decision |
-| ROFC Web Hub | Source-only experiment | Repository identity not confirmed | Confirm repository before changes |
+| [ROFC Web Hub](https://github.com/leenusdarnal/rofc-website) | Official ROFC website | Public site: https://rofcsikkim.com | Confirm maintenance scope, licence and quality status |
 
 ## Status key
 
@@ -42,14 +42,15 @@ This is the master implementation register for the personal website and connecte
 - [x] Pin the reviewed third-party GitHub Actions to verified immutable commit SHAs and retain release tags in comments across the personal site, PixelForge, PixelCutout, Salary Calculator and Metronome workflows. Source-only experiments still need classification.
 - [x] Set workflow and job permissions to the minimum required in the reviewed build/deploy workflows.
 - [x] Add CI timeouts and concurrency controls to the reviewed workflows where applicable.
-- [x] Enable weekly Dependabot checks for npm and GitHub Actions in the four maintained app repositories; the personal site already had dependency update configuration.
+- [x] Enable weekly Dependabot checks for npm and GitHub Actions across the five maintained npm repositories.
+- [x] Stagger the update windows Monday–Friday at 03:00 Asia/Kolkata, group npm routine and major updates separately, group GitHub Actions updates, and limit concurrent Dependabot PRs to two npm plus one Actions PR per repository.
 - [ ] Review and triage actual dependency update PRs and audit findings; successful CI does not replace the review.
 - [ ] Check that secrets are not exposed to untrusted pull-request code.
 - [~] Record Node.js and package-manager versions in development guides; the active app repositories now document supported Node/npm requirements where their current README provides them. Verify all remaining developer environments separately.
 
 **Acceptance:** Clean CI installs from the committed lockfile, runs all project checks and builds the production output. Dependency updates are reviewable and high-severity findings are resolved or explicitly documented.
 
-**Result:** Lockfiles have been committed and `npm ci` is now mandatory in all five maintained npm repositories. The former temporary lockfile artifact and conditional npm install fallback have been removed from the personal-site workflows.
+**Result:** Lockfiles have been committed and `npm ci` is now mandatory in all five maintained npm repositories. The former temporary lockfile artifact and conditional npm install fallback have been removed from the personal-site workflows. Dependabot schedules are staggered across the five repositories to reduce bursty preview-build traffic; security updates remain pull requests and are not auto-merged.
 
 ## Phase 1 — Privacy and data-handling verification (P0)
 
@@ -178,6 +179,14 @@ This is the master implementation register for the personal website and connecte
 
 **Acceptance:** Stale checks are never presented as real-time availability.
 
+### Hosting/deployment constraint observed on 11 November 2026
+
+The Vercel team is on the Hobby plan. Vercel's current limits documentation lists 32 builds per hour, 100 deployments per day and one concurrent build for Hobby. The Vercel Git integration returned a `build-rate-limit` failure for the latest main commits of PixelForge Studio, PixelCutout and the Salary Calculator after the CI/lockfile changes. The application CI checks passed, but those latest commits do not have matching production deployment records. The preceding production deployments remain `READY`; they were not rolled back or replaced.
+
+This has been treated as an operational quota constraint, not an application build failure. No paid plan was enabled, no old deployment was promoted, and no repeated deployment retries were issued. The staggered Dependabot schedule is a low-cost mitigation; after the Vercel rate window resets, verify deployment records for the latest main commits and confirm production aliases before considering the changes fully deployed.
+
+References: [Vercel plan limits](https://vercel.com/docs/limits) (Hobby build/deployment rate limits) and [Vercel Hobby plan](https://vercel.com/docs/plans/hobby).
+
 ## Phase 11 — Performance (P2)
 
 - [ ] Review Lighthouse artifacts before quoting scores.
@@ -226,6 +235,8 @@ This is the master implementation register for the personal website and connecte
 | 11 Nov 2026 | PixelForge Studio | Commit package-lock.json and require npm ci | Merged PR #11 (lockfile) and PR #12 (strict installs); commits d43db7f and 32931f1; CI passed |
 | 11 Nov 2026 | PixelCutout | Commit package-lock.json and require npm ci | Merged PR #10 (lockfile) and PR #11 (strict installs); commits ac6b676 and d8eab30; CI passed |
 | 11 Nov 2026 | Salary Calculator | Commit package-lock.json and require npm ci in quality and Pages workflows | Merged PR #27 (lockfile) and PR #28 (strict installs); commits 706e343 and 90646a8; CI including Playwright and Vercel build passed |
+| 11 Nov 2026 | All five maintained npm repositories | Stagger and group Dependabot updates to reduce bursty preview builds | Merged PRs: site #58, PixelForge #13, PixelCutout #12, Salary Calculator #29, Metronome #14; all five CI workflows passed |
+| 11 Nov 2026 | PixelForge, PixelCutout and Salary Calculator | Vercel build-rate-limit status recorded; latest main commits are not deployed by Vercel | GitHub CI passed; Vercel integration reports build-rate-limit; previous production deployments remain READY; recheck after limit reset |
 
 ## Release definition
 
