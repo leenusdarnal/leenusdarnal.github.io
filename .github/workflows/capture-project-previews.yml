@@ -1,0 +1,67 @@
+name: Capture live project preview screenshots
+
+on:
+  workflow_run:
+    workflows:
+      - Build and deploy SvelteKit site to GitHub Pages
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: live-project-preview-capture
+  cancel-in-progress: false
+
+jobs:
+  capture:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (
+        github.event.workflow_run.conclusion == 'success' &&
+        github.event.workflow_run.head_branch == 'main' &&
+        !startsWith(github.event.workflow_run.head_commit.message, 'Capture live project preview screenshots')
+      )
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    steps:
+      - name: Check out the homepage repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: main
+
+      - name: Set up Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install pinned browser capture tool
+        run: npm install --no-save --package-lock=false --ignore-scripts playwright@1.62.1
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Validate screenshot capture script
+        run: node --check scripts/capture-project-previews.mjs
+
+      - name: Capture live application interfaces
+        run: node scripts/capture-project-previews.mjs
+
+      - name: Commit updated preview images
+        run: |
+          git add static/images/project-previews/
+          if git diff --cached --quiet; then
+            echo "Project preview images are unchanged."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Capture live project preview screenshots"
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
