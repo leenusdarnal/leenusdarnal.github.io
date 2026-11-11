@@ -110,7 +110,7 @@ try {
 }
 
 const failed = report.projects.filter((project) => project.errors.length || !project.desktop);
-if (failed.length) {
+if (report.fatalError || report.projects.length !== targets.length || failed.length) {
   console.error('Some project previews were not captured. The homepage keeps its local fallback images.');
   process.exitCode = 1;
 } else {
