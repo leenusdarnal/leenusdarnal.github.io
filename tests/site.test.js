@@ -99,8 +99,8 @@ test('PixelCutout is listed with its source and local-processing features', () =
   assert.match(projectsSource, /AI and no-AI removal modes/);
   assert.match(projectsSource, /Batch processing for up to 20 images/);
   assert.match(projectsSource, /ZIP export and local erase\/restore tools/);
-  assert.match(projectsSource, /Batch processor handles up to 20 images/);
-  assert.doesNotMatch(projectsSource, /Batch queues, ZIP export .* are not part of the current release/);
+  assert.match(projectsSource, /batch processor handles up to 20 images/i);
+  assert.doesNotMatch(projectsSource, /Batch queues, ZIP export/);
   assert.match(projectsSource, /category: 'Image tool · AI & no-AI modes'/);
   assert.match(projectsSource, /designed to run in the browser; independent runtime\/network verification remains pending/);
   assert.doesNotMatch(projectsSource, /category: 'Image tool · Privacy-first'/);
