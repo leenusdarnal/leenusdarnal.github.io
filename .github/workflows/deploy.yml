@@ -43,6 +43,9 @@ jobs:
       - name: Check internal links in the generated site
         run: node scripts/check-static-links.js
 
+      - name: Syntax-check responsive browser QA
+        run: node --check scripts/check-responsive.mjs
+
       - name: Run generated-site smoke tests
         run: npm test
 
