@@ -37,25 +37,32 @@ jobs:
       - name: Install project dependencies
         run: npm ci --no-audit --no-fund
 
-      - name: Install pinned Playwright browser runner
-        run: npm install --no-save --package-lock=false --ignore-scripts playwright@1.62.1
+      - name: Install pinned browser QA tools
+        run: npm install --no-save --package-lock=false --ignore-scripts playwright@1.62.1 axe-core@4.14.0
 
       - name: Install Chromium and system dependencies
         run: npx playwright install --with-deps chromium
 
       - name: Verify browser test script syntax
-        run: node --check scripts/check-responsive.mjs
+        run: |
+          node --check scripts/check-responsive.mjs
+          node --check scripts/check-accessibility.mjs
 
       - name: Test live homepage across viewport profiles
         env:
           SITE_URL: https://leenusdarnal.github.io/
         run: node scripts/check-responsive.mjs
 
+      - name: Run WCAG 2.2 A/AA and keyboard accessibility checks
+        env:
+          SITE_URL: https://leenusdarnal.github.io/
+        run: node scripts/check-accessibility.mjs
+
       - name: Upload responsive screenshots and report
         if: always()
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
         with:
-          name: responsive-browser-qa
+          name: responsive-and-accessibility-qa
           path: artifacts/responsive/
           if-no-files-found: warn
           retention-days: 14

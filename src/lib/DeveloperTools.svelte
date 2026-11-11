@@ -320,7 +320,7 @@
 
 <section class="lab-controls" aria-label="Developer tools">
   <div class="flex flex-wrap items-center justify-end gap-2">
-    <button bind:this={paletteTrigger} type="button" class="tool-pill" onclick={openPalette}>⌘K <span class="sr-only">Open command palette</span></button>
+    <button bind:this={paletteTrigger} type="button" class="tool-pill" aria-haspopup="dialog" aria-expanded={paletteOpen} aria-controls="command-palette" onclick={openPalette}>⌘K <span class="sr-only">Open command palette</span></button>
     <button type="button" class="tool-pill" aria-pressed={rawMode} onclick={() => rawMode = !rawMode}>{'{ }'} Raw</button>
   </div>
   {#if rawMode}
@@ -394,16 +394,16 @@
   </div>
 </section>
 
-<dialog bind:this={palette} class="command-dialog" onclose={() => paletteOpen = false}>
+<dialog id="command-palette" bind:this={palette} aria-label="Command palette" class="command-dialog" onclose={() => paletteOpen = false}>
   <div class="command-shell">
     <div class="flex items-center justify-between gap-3 border-b border-[var(--line)] p-3">
       <span class="font-mono text-xs text-[var(--muted)]">COMMAND PALETTE</span>
       <button type="button" class="tool-pill" onclick={closePalette}>Esc</button>
     </div>
-    <input bind:this={searchInput} bind:value={query} oninput={() => selectedIndex = 0} class="command-input" placeholder="Search projects, tags or commands…" aria-label="Search commands and projects" />
-    <div class="max-h-[min(55vh,420px)] overflow-y-auto p-2" role="listbox" aria-label="Command and project results">
+    <input bind:this={searchInput} bind:value={query} oninput={() => selectedIndex = 0} id="command-search" class="command-input" type="text" role="combobox" aria-label="Search commands and projects" aria-autocomplete="list" aria-haspopup="listbox" aria-expanded={paletteOpen} aria-controls="command-results" aria-activedescendant={paletteItems[selectedIndex] ? "command-option-" + selectedIndex : undefined} placeholder="Search projects, tags or commands…" />
+    <div id="command-results" class="max-h-[min(55vh,420px)] overflow-y-auto p-2" role="listbox" aria-label="Command and project results">
       {#each paletteItems as item, index}
-        <button type="button" role="option" aria-selected={selectedIndex === index} class="command-item" class:selected={selectedIndex === index} onclick={() => selectPaletteItem(index)} onmouseenter={() => selectedIndex = index}>
+        <button type="button" id={"command-option-" + index} role="option" tabindex="-1" aria-selected={selectedIndex === index} class="command-item" class:selected={selectedIndex === index} onclick={() => selectPaletteItem(index)} onmouseenter={() => selectedIndex = index}>
           <span>{item.label}</span><kbd>{item.kind === 'project' ? '↗' : '↵'}</kbd>
         </button>
       {/each}

@@ -776,6 +776,33 @@ test('responsive browser QA runs after Pages deployment and covers phone, tablet
   assert.match(deploy, /node --check scripts\/check-responsive\.mjs/);
 });
 
+test('accessibility QA audits WCAG 2.2 A/AA and keyboard interactions on published routes', async () => {
+  const workflow = await readFile(new URL('../.github/workflows/responsive-browser-qa.yml', import.meta.url), 'utf8');
+  const runner = await readFile(new URL('../scripts/check-accessibility.mjs', import.meta.url), 'utf8');
+  const verify = await readFile(new URL('../.github/workflows/verify-sveltekit.yml', import.meta.url), 'utf8');
+  const deploy = await readFile(new URL('../.github/workflows/deploy.yml', import.meta.url), 'utf8');
+
+  assert.ok(workflow.includes('axe-core@4.14.0'));
+  assert.ok(workflow.includes('Run WCAG 2.2 A/AA and keyboard accessibility checks'));
+  assert.ok(workflow.includes('node scripts/check-accessibility.mjs'));
+  assert.ok(workflow.includes('name: responsive-and-accessibility-qa'));
+  for (const slug of ['pixelforge-studio', 'metronome', 'sikkim-government-salary-calculator', 'pixelcutout']) {
+    assert.ok(runner.includes("'" + slug + "'"));
+  }
+  for (const tag of ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']) {
+    assert.ok(runner.includes("'" + tag + "'"));
+  }
+  for (const check of ['skipLinkFirst', 'skipLinkActivatesMain', 'visibleFocusIndicator', 'themeKeyboardActivation', 'commandPaletteArrowNavigation', 'commandPaletteEscapeRestoresFocus']) {
+    assert.ok(runner.includes(check));
+  }
+  assert.ok(developerTools.includes('aria-label="Command palette"'));
+  assert.ok(developerTools.includes('role="combobox"'));
+  assert.ok(developerTools.includes('aria-activedescendant='));
+  assert.ok(developerTools.includes('aria-controls="command-results"'));
+  assert.ok(verify.includes('node --check scripts/check-accessibility.mjs'));
+  assert.ok(deploy.includes('node --check scripts/check-accessibility.mjs'));
+});
+
 test('configuration publishing applies only validated fields and synchronises metadata', async () => {
   const root = await mkdtemp(join(tmpdir(), 'leenus-config-publisher-'));
   try {
