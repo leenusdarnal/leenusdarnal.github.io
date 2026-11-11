@@ -138,3 +138,7 @@ The capture workflow was run again after the 11 November deployment in [GitHub A
 - The architecture summary says image editing/export are designed to run in the browser and explicitly leaves independent runtime/network verification pending. The adjacent privacy note attributes the no-upload statement to the project's README and retains the documentation-level evidence qualification.
 - The Runtime Inspector footnote now states only that the inspector itself does not send diagnostics to a remote service and that report data is copied only on user action. It does not claim that every script or application linked from the homepage is incapable of making external requests.
 - Regression tests cover the exact copy and prevent the old overbroad wording from returning.
+
+## Resume checkpoint — 11 November 2026
+
+The homepage now links to [HOMEPAGE-IMPLEMENTATION-HANDOFF.md](./HOMEPAGE-IMPLEMENTATION-HANDOFF.md), which records the exact next privacy-audit steps. The targeted source review above remains **not a runtime privacy certification**. The following are still open: clean-profile request traces for PixelForge, PixelCutout and Salary Calculator; verification that user-provided images/payroll data are absent from outbound payloads; runtime storage/cookie/service-worker inventory; exhaustive dependency/SDK review; and salary calculation/effective-date verification against signed orders. Keep all privacy wording qualified until those tests are documented against exact application commits.
