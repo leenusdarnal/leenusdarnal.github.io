@@ -20,11 +20,51 @@ The implementation branch for the current review removes the RepoMetadata compon
 
 **Evidence limitation:** this is a source-level change plus CI regression coverage. A clean-profile deployed-browser network trace has not yet been captured, so this document does not claim independent runtime network certification.
 
+## Targeted source-level observations — 11 November 2026
+
+The following source modules were inspected after the documentation-level pass. These are **source-review observations**, not proof from a clean-profile browser network capture. The review was targeted to the data/storage modules listed below; it is not an exhaustive review of every route and dependency.
+
+### PixelForge Studio
+
+Inspected `src/lib/editor/storage.ts` and `src/routes/+page.svelte` at the merged recovery-management implementation.
+
+- The app uses IndexedDB database `pixelforge-studio-local`, object store `snapshots`.
+- The current autosave is stored as `current`; up to three retained records use `backup-<timestamp>` identifiers.
+- The editor exposes a **Manage local recovery** panel. It reports the latest autosave date and number of recovery copies and can clear the snapshot store after an explicit confirmation.
+- Clearing snapshots does not delete the canvas currently held in memory or the service-worker app cache. New edits can create fresh recovery snapshots.
+- Autosaves and clear operations are sequenced through one task queue to reduce the chance of an in-flight save racing with deletion. A new edit observed during a clear is scheduled for a fresh save afterward.
+- IndexedDB connection handling closes on `versionchange` and resets the cached connection after open failures.
+
+**Evidence and limits:** PixelForge PR #16 was merged after Svelte/TypeScript checks, unit tests, production build and generated-site smoke checks passed. The smoke checks assert that the recovery manager and confirmation control exist. A real-browser IndexedDB delete/reload test has not yet been captured. The source change does not itself prove all application network activity.
+
+### PixelCutout
+
+Inspected `src/lib/workers/remove-background.ts`, `src/service-worker.js` and the main route.
+
+- The Transformers.js runtime is dynamically imported only when the AI removal path is requested. The no-AI colour-removal path does not load the AI runtime.
+- The worker configures `allowLocalModels = false` and `useBrowserCache = true`, then loads `Xenova/modnet`. It prefers the `q4f16` WebGPU model and falls back to `uint8` WASM if WebGPU loading or inference fails.
+- The selected image is passed to the worker as a Blob and processed using browser image APIs/OffscreenCanvas. The visible route enforces a 20 MB image limit and revokes temporary object URLs when they are replaced or the editor is reset/unmounted.
+- The service worker intercepts only same-origin GET requests. Its cache contains compiled app assets, selected PWA assets and the app entry route; comments and conditions exclude Blob URLs, cross-origin model downloads and non-GET requests.
+- The AI model/runtime downloads remain network requests to their public model host(s). They are not the same thing as uploading the selected image.
+
+**Evidence and limits:** These findings support the intended distinction between local pixel processing and remote AI model downloads at source level. No clean-profile DevTools trace has yet verified the actual runtime request list or confirmed the absence of image payloads in all outbound requests.
+
+### Sikkim Government Salary Calculator
+
+Inspected `src/lib/pay-history-storage.ts`, `src/lib/pay-history-management.ts` and `src/lib/arrears-storage.ts`.
+
+- Pay-history data uses localStorage key `sikkim-salary-pay-history:v1`. Its versioned JSON backup has a 1,000,000-character limit and a maximum of 500 entries.
+- Pay-history imports are structurally checked and validated against the pay-progression rules before being accepted. The management module supports editing and deleting individual entries, and re-validates the edited chronology.
+- Arrears scenarios use localStorage key `sikkim-salary-arrears-scenario-v1`. Backups are limited to 2 MiB and validated for supported schema version, dates, salary fields, event types, monthly records and historical-rate structure before restore.
+- These are separate tools and storage records; this targeted review does not imply that every calculator route uses only these keys or that all transient values have the same retention behaviour.
+
+**Evidence and limits:** The source contains validation and data-management code, but the complete storage-key inventory and a clean-profile network trace across all calculator routes have not been completed. The salary-calculation formula/effective-date review against signed Government orders remains separate from this privacy review.
+
 ## Not yet verified
 
-- Full source-code search for outbound requests, analytics, error reporting and third-party scripts in each application.
-- Browser DevTools network trace for each primary workflow, including first-run AI model download, export, autosave, restore and secondary tools.
-- Storage inspection for localStorage, IndexedDB, Cache Storage, cookies and service-worker caches.
+- Exhaustive source-code search for outbound requests, analytics, error reporting and third-party scripts across every active route and dependency in each application. The source review above is targeted, not exhaustive.
+- Clean-profile browser DevTools network trace for each primary workflow, including first-run AI model download, export, autosave, restore and secondary tools; confirm no user image or payroll record is transmitted unexpectedly.
+- Browser-runtime inspection of localStorage, IndexedDB, Cache Storage, cookies and service-worker caches to confirm the source-level inventory and actual retention/deletion behaviour.
 - Third-party dependency and CDN inventory for each app.
 - Salary calculator's effective-date and formula correctness against signed Government orders.
 

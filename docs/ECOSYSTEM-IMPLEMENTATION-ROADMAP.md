@@ -69,11 +69,11 @@ This is the master implementation register for the personal website and connecte
 
 ## Phase 2 — User data export, restore and deletion (P0)
 
-- [ ] Explain what is stored and where.
+- [~] Document source-confirmed storage keys, record limits and recovery behaviour for PixelForge and the Salary Calculator in PROJECT-PRIVACY-REVIEW.md; continue app-specific inventory and UI review for every route.
 - [ ] Verify export/restore round trips with representative data.
 - [ ] Validate backups and reject malformed or incompatible versions safely.
 - [ ] Confirm before destructive deletion or reset.
-- [ ] Provide targeted deletion controls where records are managed individually.
+- [~] PixelForge now exposes a confirmed clear-recovery control for its IndexedDB snapshots; the Salary Calculator already supports individual pay-history deletion. Review remaining persistent data stores for equivalent user controls.
 - [ ] Handle unavailable, full, cleared or evicted browser storage.
 - [ ] Explain browser-local data loss risks.
 - [ ] Avoid retaining sensitive drafts longer than necessary.
@@ -237,6 +237,8 @@ References: [Vercel plan limits](https://vercel.com/docs/limits) (Hobby build/de
 | 11 Nov 2026 | Salary Calculator | Commit package-lock.json and require npm ci in quality and Pages workflows | Merged PR #27 (lockfile) and PR #28 (strict installs); commits 706e343 and 90646a8; CI including Playwright and Vercel build passed |
 | 11 Nov 2026 | All five maintained npm repositories | Stagger and group Dependabot updates to reduce bursty preview builds | Merged PRs: site #58, PixelForge #13, PixelCutout #12, Salary Calculator #29, Metronome #14; all five CI workflows passed |
 | 11 Nov 2026 | PixelForge, PixelCutout and Salary Calculator | Vercel build-rate-limit status recorded; latest main commits are not deployed by Vercel | GitHub CI passed; Vercel integration reports build-rate-limit; previous production deployments remain READY; recheck after limit reset |
+| 11 Nov 2026 | PixelForge Studio | Local recovery manager added for IndexedDB snapshots with explicit confirmation and autosave sequencing | PR #16 merged as 8aa9368; Svelte/TypeScript, unit tests, build and smoke tests passed; Vercel deployment pending rate-limit reset |
+| 11 Nov 2026 | Personal site | Targeted source-level privacy review added for PixelForge, PixelCutout and Salary Calculator storage/network paths | Current documentation branch; source observations recorded; runtime traces and exhaustive storage inventory remain pending |
 
 ## Release definition
 
