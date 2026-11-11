@@ -51,16 +51,19 @@
 
       {#if project.caseStudy.previewImage}
         <figure class="mt-14 overflow-hidden rounded-3xl border border-[var(--line)] bg-[var(--panel)]">
-          <img src={project.caseStudy.previewImage} alt={project.caseStudy.previewAlt} width="416" height="314" sizes="(max-width: 768px) calc(100vw - 2rem), 896px" loading="lazy" decoding="async" class="block h-auto w-full object-contain" />
-          <figcaption class="border-t border-[var(--line)] px-4 py-3 text-xs text-[var(--muted)] sm:px-6">
-            Actual application screenshot · {#if project.caseStudy.previewSourceUrl}<a href={project.caseStudy.previewSourceUrl} target="_blank" rel="noopener noreferrer" class="underline underline-offset-4">source repository</a>{/if}
+          <img src={project.caseStudy.previewImage} alt={project.caseStudy.previewAlt ?? `Screenshot of ${project.name}.`} width={project.caseStudy.previewWidth ?? 1440} height={project.caseStudy.previewHeight ?? 900} sizes="(max-width: 768px) calc(100vw - 2rem), 896px" loading="lazy" decoding="async" class="block h-auto w-full object-contain" />
+          <figcaption class="flex flex-wrap items-center justify-between gap-2 border-t border-[var(--line)] px-4 py-3 text-xs text-[var(--muted)] sm:px-6">
+            <span>Authentic interface preview</span>
+            {#if project.caseStudy.previewSourceUrl}
+              <a href={project.caseStudy.previewSourceUrl} target="_blank" rel="noopener noreferrer" class="underline underline-offset-4">Open {project.caseStudy.previewSourceLabel ?? 'preview source'} ↗</a>
+            {/if}
           </figcaption>
         </figure>
       {:else}
         <aside class="mt-14 flex flex-col gap-3 rounded-3xl border border-[var(--line)] bg-[var(--panel)] p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
           <div>
             <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--accent)]">Live application</p>
-            <p class="mt-2 text-sm leading-6 text-[var(--muted)]">An authentic screenshot is not yet available for this project. Open the live application to see its current interface.</p>
+            <p class="mt-2 text-sm leading-6 text-[var(--muted)]">A preview is not available yet. Open the live application to see its current interface.</p>
           </div>
           {#if project.live}
             <a href={project.live} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 shrink-0 items-center justify-center rounded-full bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[var(--accent-contrast)]" style="color: var(--accent-contrast)">View live app ↗</a>
