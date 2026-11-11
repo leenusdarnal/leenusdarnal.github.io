@@ -585,3 +585,11 @@ samp {
     font-size: max(0.75rem, 1em);
   }
 }
+
+
+/* Mobile legibility: do not let decorative micro-label styling shrink ordinary reading text. */
+@media (max-width: 720px) {
+  body *:not(svg):not(path):not(h1):not(h2):not(h3):not(h4):not(h5):not(h6):not(h1 *):not(h2 *):not(h3 *):not(h4 *):not(h5 *):not(h6 *) {
+    font-size: max(0.75rem, 1em);
+  }
+}

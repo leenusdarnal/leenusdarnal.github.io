@@ -82,6 +82,26 @@ async function checkViewport(browser, viewport) {
       viewport.name + ': technical preview text is smaller than 12px (' + technicalTextFontSize + 'px)'
     );
 
+    const smallReadableText = await page.evaluate(() => {
+      const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+      const offenders = [];
+      while (walker.nextNode()) {
+        const node = walker.currentNode;
+        if (!node.textContent?.trim()) continue;
+        const element = node.parentElement;
+        if (!element || element.closest('h1, h2, h3, h4, h5, h6, svg, [aria-hidden="true"]')) continue;
+        if (element.getClientRects().length === 0) continue;
+        const size = Number.parseFloat(getComputedStyle(element).fontSize);
+        if (size < 12) offenders.push({ tag: element.tagName.toLowerCase(), text: node.textContent.trim().slice(0, 50), size });
+      }
+      return offenders.slice(0, 12);
+    });
+    assert.deepEqual(
+      smallReadableText,
+      [],
+      viewport.name + ': visible reading text below 12px: ' + JSON.stringify(smallReadableText)
+    );
+
     const initialLayout = await inspectOverflow(page);
     assert.equal(
       initialLayout.hasHorizontalOverflow,
@@ -151,6 +171,7 @@ async function checkViewport(browser, viewport) {
       projectCards: 4,
       themePersistence: true,
       technicalTextFontSize,
+      smallReadableText,
       recentUpdatesVisible: true,
       navigation: 'passed',
       browserErrors: pageErrors
