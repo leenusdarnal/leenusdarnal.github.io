@@ -39,11 +39,11 @@ This is the master implementation register for the personal website and connecte
 - [ ] Generate and commit the correct lockfile using each repository's package manager and Node version.
 - [ ] Switch CI from npm install to npm ci only after a valid lockfile is committed.
 - [ ] Enable npm caching only after a lockfile exists.
-- [ ] Pin third-party GitHub Actions to verified immutable commit SHAs and retain release tags in comments.
-- [ ] Set workflow and job permissions to the minimum required.
-- [ ] Add CI timeouts and concurrency controls where missing.
-- [ ] Review direct and transitive dependency advisories; document temporary exceptions.
-- [ ] Keep Dependabot enabled for npm and GitHub Actions.
+- [~] Pin third-party GitHub Actions to verified immutable commit SHAs and retain release tags in comments in the personal site, PixelForge, PixelCutout, Salary Calculator and Metronome workflows reviewed in this pass; source-only experiments still need classification.
+- [x] Set workflow and job permissions to the minimum required in the reviewed build/deploy workflows.
+- [x] Add CI timeouts and concurrency controls to the reviewed workflows where applicable.
+- [x] Enable weekly Dependabot checks for npm and GitHub Actions in the four maintained app repositories; the personal site already had dependency update configuration.
+- [ ] Review and triage actual dependency update PRs and audit findings; successful CI does not replace the review.
 - [ ] Check that secrets are not exposed to untrusted pull-request code.
 - [ ] Record Node.js and package-manager versions in development guides.
 
@@ -62,7 +62,7 @@ This is the master implementation register for the personal website and connecte
 - [ ] Record storage keys, purpose, retention, deletion and backup behaviour.
 - [ ] Inspect third-party runtime, model, font, icon and CDN requests.
 - [ ] Tie public privacy claims to a tested commit and dated evidence.
-- [ ] Remove avoidable visitor-side requests when build-time metadata can serve the same purpose.
+- [x] Remove the non-essential visitor-side GitHub repository metadata request and its sessionStorage cache; CI regression coverage added. Deployed runtime network trace remains pending.
 
 **Acceptance:** Each data-sensitive app has source-level and runtime evidence. User-data handling, remote dependencies and limitations are explained without unsupported absolute claims.
 
@@ -161,9 +161,9 @@ This is the master implementation register for the personal website and connecte
 ## Phase 9 — Feedback and support (P2)
 
 - [x] Add privacy-conscious bug-report and feature-request forms to the personal-site repository.
-- [ ] Add matching issue forms to maintained application repositories.
-- [ ] Include reproduction steps, app version and browser details where relevant.
-- [ ] Warn users not to attach private images, payroll records, credentials or personal data.
+- [x] Add matching bug and feature issue forms to PixelForge, PixelCutout, Salary Calculator and Metronome.
+- [x] Include reproduction steps and browser/app-version fields where relevant.
+- [x] Warn against attaching private images, payroll records, credentials or personal data.
 - [ ] Provide private security reporting where repository settings support it.
 
 **Acceptance:** Reports help reproduce issues without encouraging disclosure of sensitive content.
@@ -216,7 +216,12 @@ This is the master implementation register for the personal website and connecte
 | Date | Repository | Change | Evidence |
 | --- | --- | --- | --- |
 | 11 Nov 2026 | Personal site | Hybrid homepage, filter-free discovery, FAQ and privacy wording | Merged PR #51; commit 7d9d6ab; GitHub Pages build, deployment and verification succeeded |
-| 11 Nov 2026 | Personal site | Master roadmap, quality standard, compatibility/licence registers, issue templates and monitoring summary | Current implementation branch; verification pending |
+| 11 Nov 2026 | Personal site | Master roadmap, quality standard, compatibility/licence registers, security guidance, issue forms and timestamped monitor summary | Merged PR #53; commit b7b51ed; verify, GitHub Pages deployment and Lighthouse audit succeeded |
+| 11 Nov 2026 | PixelForge Studio | Pinned CI actions, bounded verification workflow, Dependabot and privacy-aware issue forms | Merged PR #4; commit 908e307; CI check succeeded |
+| 11 Nov 2026 | PixelCutout | New PR/main CI, Dependabot and privacy-aware issue forms | Merged PR #2; commit 2246838; build/typecheck/unit workflow succeeded |
+| 11 Nov 2026 | Salary Calculator | Pinned CI/Pages actions, least-privilege Pages deployment permissions, Dependabot and payroll-safe issue forms | Merged PR #19; commit 1426d19; CI and Pages build/deploy succeeded |
+| 11 Nov 2026 | React Metronome | Lockfile-based npm ci build, pinned CI actions, Dependabot and issue forms | Merged PR #6; commit c1dc47c; CI check succeeded |
+| 11 Nov 2026 | Personal site | Remove visitor-side GitHub metadata request and update regression test/privacy review | PR #54; CI rerun pending |
 
 ## Release definition
 
