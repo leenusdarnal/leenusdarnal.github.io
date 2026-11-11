@@ -388,7 +388,7 @@
         </article>
         <article class="rounded-2xl border border-[var(--line)] bg-[var(--panel)] p-5">
           <h3 class="font-semibold">Do my files leave my device?</h3>
-          <p class="mt-2 text-sm leading-7 text-[var(--muted)]">That depends on the tool and the feature you use. Read the Privacy and files note on its project page before working with sensitive material. AI features may download model files without uploading your image.</p>
+          <p class="mt-2 text-sm leading-7 text-[var(--muted)]">That depends on the tool and feature. Read its Privacy and files note before processing sensitive material. PixelCutout's AI mode downloads model/runtime files from external hosts; its source is designed to process the selected image in the browser. A source-level review is documented, but clean-profile network and storage checks across the linked apps are still pending. Do not assume every feature is offline or makes no external requests.</p>
         </article>
         <article class="rounded-2xl border border-[var(--line)] bg-[var(--panel)] p-5">
           <h3 class="font-semibold">Can I use the tools offline?</h3>
