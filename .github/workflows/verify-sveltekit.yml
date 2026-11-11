@@ -39,6 +39,9 @@ jobs:
       - name: Syntax-check configuration publisher
         run: node --check scripts/publish-personal-space-config.mjs
 
+      - name: Syntax-check responsive browser QA
+        run: node --check scripts/check-responsive.mjs
+
       - name: Build static site
         run: npm run build
 
