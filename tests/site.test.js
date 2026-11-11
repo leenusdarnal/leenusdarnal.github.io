@@ -290,7 +290,7 @@ test('all live project case studies use genuine, same-origin application preview
     'images/project-previews/salary-calculator.jpg',
     'images/project-previews/pixelcutout.jpg'
   ]) {
-    assert.ok(projectsSource.includes(`/ ${previewPath}`.replace('/ ', '/')));
+    assert.ok(projectsSource.includes(`'/${previewPath}'`), 'Catalogue must use local preview asset: ' + previewPath);
   }
 });
 
@@ -312,7 +312,7 @@ test('homepage uses live application screenshots and self-hosted brand assets', 
 
 test('the genuine Metronome screenshot reserves its intrinsic aspect ratio and loads lazily', async () => {
   const metronomePage = await readFile(new URL('projects/metronome/index.html', buildUrl), 'utf8');
-  assert.ok(metronomePage.includes('leenusdarnal.github.io/images/metronome-preview.png') && metronomePage.includes('width="416" height="314"'));
+  assert.ok(metronomePage.includes('src="/images/metronome-preview.png"') && metronomePage.includes('width="416" height="314"'));
   assert.ok(metronomePage.includes('loading="lazy" decoding="async"'));
 });
 
