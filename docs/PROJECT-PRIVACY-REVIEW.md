@@ -121,3 +121,12 @@ A targeted pattern scan was run over source files in the linked application repo
 - https://github.com/leenusdarnal/pixelforge-studio
 - https://github.com/leenusdarnal/pixelcutout
 - https://github.com/leenusdarnal/SIKKIM-GOVERNMENT-SALARY-CALCULATOR
+
+
+## Live application preview capture — 11 November 2026
+
+The personal-site deployment workflow now includes a clean Playwright capture step for the initial screens of PixelForge Studio, PixelCutout and the Sikkim Government Salary Calculator. It captures desktop and phone viewport screenshots from fresh browser contexts, without uploading or selecting any user image, entering an employee record, or submitting application data. The screenshot files are generated in the personal site's Pages build artifact and retained separately as a 14-day GitHub Actions artifact; they are not committed to the source tree.
+
+The homepage does not load the live application pages or their resources for visitors. It first renders local, same-origin fallback assets and, after hydration, attempts to load the matching screenshot PNG from the personal site's own origin. A same-origin check rejects any cross-origin preview candidate. If capture fails, the fallback icon remains visible and deployment continues.
+
+**Evidence limit:** screenshots confirm only that the initial visible interface was rendered in the CI browser at the tested viewport. They do not prove that image files, salary records, or other application data remain local; do not inspect all runtime requests or browser storage; and do not replace clean-profile network traces, storage inspection, full-route source/dependency review, or manual accessibility testing. The first successful production capture artifact must be inspected before the preview implementation is considered verified.
