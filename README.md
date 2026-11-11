@@ -44,7 +44,9 @@ A scheduled and manually triggerable Lighthouse workflow audits the published Gi
 
 ## Homepage experience
 
-The homepage is a personal space for sharing projects, experiments and things learned along the way. It is not a résumé or job-search portfolio. Its light/dark theme follows the saved preference or system setting, and the browser theme colour tracks the active theme. Social sharing uses a dedicated 1200 × 630 PNG preview image.
+The homepage serves both tool users and curious developers: visitors can open practical projects directly, while implementation notes and optional diagnostics remain available. It is not a résumé or job-search portfolio. Its light/dark theme follows the saved preference or system setting, and the browser theme colour tracks the active theme. Social sharing uses a dedicated 1200 × 630 PNG preview image.
+
+The homepage keeps project discovery filter-free and includes a short FAQ for privacy, offline use and salary-estimate limitations. See [the improvement roadmap](./docs/HOMEPAGE-IMPROVEMENT-ROADMAP.md) and [the project privacy review](./docs/PROJECT-PRIVACY-REVIEW.md). The privacy review distinguishes repository documentation from independent runtime verification; do not treat README statements as a network audit.
 
 ## Project notes
 
