@@ -26,7 +26,7 @@ npm install
 npm run dev
 ```
 
-Use npm install while this repository is transitioning to a committed lockfile. Once package-lock.json is committed, use npm ci for clean local installs and CI.
+Use npm ci for clean local installs and CI. npm install is only the fallback in CI while the package-lock generation pull request is pending; once the lockfile is merged, the normal path is always npm ci.
 
 ## Production checks
 
