@@ -271,7 +271,7 @@ button, a {
 .terminal-meta span { color: var(--muted); letter-spacing: .1em; }
 .terminal-meta strong { color: var(--accent); font-weight: 600; }
 
-@media (max-width: 900px) {
+@media (max-width: 720px) {
   .space-config-intro { align-items: flex-start; flex-direction: column; gap: .65rem; }
   .terminal-layout { grid-template-columns: minmax(0, 1fr); }
   .terminal-aside { border-top: 1px solid var(--line); border-left: 0; }
