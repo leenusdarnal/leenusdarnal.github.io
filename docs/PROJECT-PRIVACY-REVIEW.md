@@ -14,7 +14,11 @@ This review checked the README and published project documentation for the three
 
 ## Site-level observation
 
-The homepage's optional repository metadata component calls the public GitHub API from the visitor's browser to display repository stars and last-push dates. It does not send user-entered project files, but it creates an avoidable third-party request and exposes the visitor's request to GitHub. This is a product metadata feature, not a file-processing requirement.
+The homepage previously called the public GitHub API from the visitor's browser to display repository stars and last-push dates. This was a non-essential metadata feature and did not provide a visitor workflow that justified the additional third-party request.
+
+The implementation branch for the current review removes the RepoMetadata component, its homepage references, and its sessionStorage cache. Project source links remain available as visitor-initiated links. The pull request includes a regression test requiring the homepage to contain no repository-metadata API call or related cache write.
+
+**Evidence limitation:** this is a source-level change plus CI regression coverage. A clean-profile deployed-browser network trace has not yet been captured, so this document does not claim independent runtime network certification.
 
 ## Not yet verified
 

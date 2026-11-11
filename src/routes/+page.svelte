@@ -4,7 +4,6 @@
   import ProjectActions from '../lib/ProjectActions.svelte';
   import ArchitectureExperiments from '../lib/ArchitectureExperiments.svelte';
   import { personalSpaceConfig } from '../lib/personal-space.config';
-  import RepoMetadata from '../lib/RepoMetadata.svelte';
   import { projects } from '../lib/projects';
   import { registerCrossOriginIsolation } from '../lib/cross-origin-isolation.js';
 
@@ -103,7 +102,6 @@
   <script type="application/ld+json">{structuredData}</script>
 </svelte:head>
 
-<RepoMetadata projects={[...projects]} />
 <div class="mx-auto w-full max-w-6xl px-4 min-[480px]:px-5 sm:px-8 lg:px-10">
   <a class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-[var(--ink)] focus:px-4 focus:py-3 focus:text-[var(--page)]" href="#main">Skip to content</a>
 
@@ -206,7 +204,7 @@
             <p class="absolute bottom-4 right-5 font-mono text-[9px] uppercase tracking-[0.15em] text-[var(--muted)]">01 — Live application</p></div>
 
           <div class="flex min-w-0 flex-col justify-center p-5 sm:p-8 lg:p-12">
-            <div class="flex flex-wrap items-center justify-between gap-2"><p class="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--accent)]">FEATURED PROJECT · IMAGE EDITOR</p><span class="repo-stars" data-repo-stars="pixelforge-studio" hidden></span></div>
+            <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--accent)]">FEATURED PROJECT · IMAGE EDITOR</p>
             <h3 id="project-pixelforge-title" class="mt-3 text-2xl font-semibold tracking-[-0.06em] sm:mt-4 sm:text-3xl lg:text-4xl">PixelForge Studio</h3>
             <p id="project-pixelforge-description" class="mt-5 text-sm leading-7 text-[var(--muted)]">A mobile-friendly, offline-first editor with layers, masks, selection tools and editable text. Projects and autosaves stay on your device, with .pfs files available for separate backups.</p>
             <ul aria-label="PixelForge Studio highlights" class="mt-5 flex flex-wrap gap-x-4 gap-y-2 text-xs text-[var(--muted)]">
@@ -218,7 +216,6 @@
               {#each projects[0].stack as item}<span class="rounded-full border border-[var(--line)] px-3 py-1.5 font-mono text-[10px] text-[var(--muted)]">{item}</span>{/each}
             </div>
             <ProjectActions project={projects[0]} />
-            <p class="mt-4 font-mono text-[10px] text-[var(--muted)]" data-repo-meta="pixelforge-studio" hidden></p>
             <p class="mt-6 text-[11px] leading-5 text-[var(--muted)]">Offline-first editing with local autosaves. Export a .pfs project file to keep a separate backup of your work.</p>
           </div>
         </div>
@@ -250,7 +247,7 @@
               {/if}
             </div>
             <div class="min-w-0 p-5 sm:p-7 lg:p-8">
-              <div class="flex flex-wrap items-center justify-between gap-2"><p class="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--accent)]">{project.type}</p><span class="repo-stars" data-repo-stars={project.slug} hidden></span></div>
+              <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--accent)]">{project.type}</p>
               <h3 id="project-{project.visual}-title" class="mt-3 text-2xl font-semibold tracking-[-0.05em]">{project.name}</h3>
               <p id="project-{project.visual}-description" class="mt-3 text-sm leading-7 text-[var(--muted)] sm:min-h-[72px]">{project.description}</p>
               <ul aria-label="{project.name} highlights" class="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-xs text-[var(--muted)]">
@@ -262,7 +259,6 @@
                 {#each project.stack as item}<span class="rounded-full border border-[var(--line)] px-3 py-1.5 font-mono text-[10px] text-[var(--muted)]">{item}</span>{/each}
               </div>
               <ProjectActions {project} />
-              <p class="mt-4 font-mono text-[10px] text-[var(--muted)]" data-repo-meta={project.slug} hidden></p>
             </div>
           </article>
         {/each}

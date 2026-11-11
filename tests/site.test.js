@@ -20,7 +20,6 @@ const appHtmlSource = await readFile(new URL('../src/app.html', import.meta.url)
 const css = await readFile(new URL('../src/app.css', import.meta.url), 'utf8');
 const labControls = await readFile(new URL('../src/lib/LabControls.svelte', import.meta.url), 'utf8');
 const developerTools = await readFile(new URL('../src/lib/DeveloperTools.svelte', import.meta.url), 'utf8');
-const repoMetadata = await readFile(new URL('../src/lib/RepoMetadata.svelte', import.meta.url), 'utf8');
 const projectActions = await readFile(new URL('../src/lib/ProjectActions.svelte', import.meta.url), 'utf8');
 const monitorWorkflow = await readFile(new URL('../.github/workflows/monitor-sites.yml', import.meta.url), 'utf8');
 
@@ -433,11 +432,11 @@ test('architecture drawers and command palette retain visible keyboard focus', (
   assert.match(developerTools, /aria-selected=\{selectedIndex === index\}/);
 });
 
-test('GitHub metadata cache validates TTL and aborts pending requests on unmount', () => {
-  assert.match(repoMetadata, /stored\.timestamp <= now/);
-  assert.match(repoMetadata, /AbortController/);
-  assert.match(repoMetadata, /controller\.abort\(\)/);
-  assert.match(repoMetadata, /Array\.isArray\(data\)/);
+test('homepage does not make visitor-side GitHub repository metadata requests', () => {
+  assert.doesNotMatch(source, /RepoMetadata/);
+  assert.doesNotMatch(source, /api\.github\.com/);
+  assert.doesNotMatch(source, /data-repo-meta|data-repo-stars/);
+  assert.doesNotMatch(source, /sessionStorage\.setItem\(['"]leenus_lab_repos_v1/);
 });
 
 
@@ -776,7 +775,6 @@ test('developer tools and configurator are code-split until the user opens them'
   assert.ok(source.includes("import('../lib/PersonalSpaceConfigurator.svelte')"));
   assert.match(labControls, /aria-expanded=\{toolsOpen\}/);
   assert.match(source, /aria-expanded=\{configuratorOpen\}/);
-  assert.match(repoMetadata, /setTimeout\(\(\) =>/);
 });
 
 
