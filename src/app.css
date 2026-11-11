@@ -587,9 +587,30 @@ samp {
 }
 
 
-/* Mobile legibility: do not let decorative micro-label styling shrink ordinary reading text. */
+/* Mobile legibility: raise small utility and technical labels without changing display headings. */
 @media (max-width: 720px) {
-  body *:not(svg):not(path):not(h1):not(h2):not(h3):not(h4):not(h5):not(h6):not(h1 *):not(h2 *):not(h3 *):not(h4 *):not(h5 *):not(h6 *) {
-    font-size: max(0.75rem, 1em);
+  .font-mono,
+  .tool-pill,
+  .clone-button,
+  .architecture-drawer summary,
+  .source-architecture ol,
+  .terminal-focus-list li,
+  .terminal-header,
+  .terminal-language,
+  .terminal-status,
+  .terminal-label,
+  .terminal-principles span,
+  .terminal-meta,
+  .terminal-state,
+  .diagnostic-grid span,
+  .diagnostic-hint,
+  .diagnostic-details > summary,
+  .source-experiment-meta,
+  .source-only-label,
+  .source-stack span,
+  .coi-status,
+  [class~="text-[10px]"],
+  [class~="text-[11px]"] {
+    font-size: max(0.75rem, 1em) !important;
   }
 }
