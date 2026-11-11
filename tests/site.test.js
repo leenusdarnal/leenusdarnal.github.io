@@ -86,7 +86,7 @@ test('PixelCutout is listed with its source and local-processing features', () =
   assert.match(projectsSource, /https:\/\/pixelcutout-three\.vercel\.app\//);
   assert.match(projectsSource, /https:\/\/github\.com\/leenusdarnal\/pixelcutout/);
   assert.match(projectsSource, /AI and no-AI removal modes/);
-  assert.match(projectsSource, /Images stay on your device/);
+  assert.match(projectsSource, /Remove image backgrounds with AI-assisted subject detection/);
   assert.match(projectActions, /\{#if project\.live\}/);
 });
 
