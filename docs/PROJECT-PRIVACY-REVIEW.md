@@ -60,6 +60,33 @@ Inspected `src/lib/pay-history-storage.ts`, `src/lib/pay-history-management.ts` 
 
 **Evidence and limits:** The source contains validation and data-management code, but the complete storage-key inventory and a clean-profile network trace across all calculator routes have not been completed. The salary-calculation formula/effective-date review against signed Government orders remains separate from this privacy review.
 
+## Additional targeted source scan — 11 November 2026
+
+A targeted pattern scan was run over source files in the linked application repositories. The scan looked for explicit fetch, XMLHttpRequest, sendBeacon, WebSocket, EventSource, remote URLs, browser storage and service-worker cache use. It helps locate code paths, but it is not a review of every transitive dependency, compiled bundle or runtime request.
+
+### PixelForge Studio
+
+- Scanned 17 JavaScript, TypeScript, Svelte and HTML source files, including the current editor route, engine, storage module, service worker and legacy static entry.
+- No direct app-level fetch, XHR, beacon, WebSocket or EventSource usage was found in the scanned UI/editor modules.
+- The service worker uses fetch only after rejecting non-GET requests and requests whose origin differs from its own origin. It caches same-origin app assets and navigations.
+- Recovery records use IndexedDB through the storage module; the current route also exposes the recovery summary and explicit clear control.
+- This confirms the intended first-party source structure, not the absence of all third-party requests or image/document transmission in a deployed browser session.
+
+### PixelCutout
+
+- Scanned 16 JavaScript, TypeScript, Svelte and HTML source files, including the main route, editor components, worker and service worker.
+- The AI worker dynamically imports @huggingface/transformers only when AI removal is requested and loads Xenova/modnet; model/runtime assets therefore require third-party network downloads on first use.
+- The no-AI path uses the local colour-removal worker. The route's fetch(cutout) is used for clipboard export after cutout is created with URL.createObjectURL from the worker's generated Blob; this is not a request to a remote HTTP endpoint.
+- The service worker explicitly ignores non-GET and cross-origin requests, so its cache path does not intercept remote model downloads.
+- No XHR, beacon, WebSocket or EventSource API usage was found in the scanned source files. Runtime request logging is still required before making an absolute no-upload claim.
+
+### Sikkim Government Salary Calculator
+
+- Scanned 15 key JavaScript, TypeScript, Svelte and HTML files covering the calculator route/component, arrears planner, pay-progression, payslip, retirement, GPF and temporary-pay routes, plus the main storage and source-reference modules.
+- The reviewed files use browser-local storage for the theme, pay history and arrears scenarios. The inspected storage modules validate backup shape and size before restore.
+- The reviewed routes and calculation modules contained no app-level fetch, XHR, beacon, WebSocket or EventSource calls. sources.ts and the UI contain outbound links to Government orders and reference material; these are user-initiated link navigations rather than automatic data submissions.
+- The source scan did not cover every module in the repository, every npm dependency or the production browser runtime. It does not establish that all employee-entered data stays local under every route and dependency.
+
 ## Not yet verified
 
 - Exhaustive source-code search for outbound requests, analytics, error reporting and third-party scripts across every active route and dependency in each application. The source review above is targeted, not exhaustive.
