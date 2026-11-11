@@ -689,7 +689,7 @@ test('Personal Space Configurator validates and bounds local drafts before save 
 test('project imagery never labels generated mockups as authentic application screenshots', async () => {
   const homepage = await readFile(new URL('../src/routes/+page.svelte', import.meta.url), 'utf8');
   const projects = await readFile(new URL('../src/lib/projects.ts', import.meta.url), 'utf8');
-  assert.match(homepage, /pixelforge-icon\\.svg/);
+  assert.match(homepage, /pixelforge-icon\.svg/);
   assert.match(homepage, /pixelcutout-icon\.svg/);
   assert.match(projects, /previewSourceUrl/);
   const detail = await readFile(new URL('../src/routes/projects/[slug]/+page.svelte', import.meta.url), 'utf8');
