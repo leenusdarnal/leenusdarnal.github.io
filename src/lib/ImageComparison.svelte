@@ -11,6 +11,7 @@
   const maxFileBytes = 20 * 1024 * 1024;
   const maxImagePixels = 40_000_000;
   const pendingUrls = new Set();
+  const pendingBySide = { before: '', after: '' };
   const selectionVersion = { before: 0, after: 0 };
 
   let beforeUrl = $state('');
@@ -24,6 +25,8 @@
   function revokeUrl(url) {
     if (!url) return;
     pendingUrls.delete(url);
+    if (pendingBySide.before === url) pendingBySide.before = '';
+    if (pendingBySide.after === url) pendingBySide.after = '';
     URL.revokeObjectURL(url);
   }
 
@@ -36,6 +39,7 @@
     // Reset immediately so selecting the same file again still fires change.
     input.value = '';
     const version = ++selectionVersion[side];
+    if (pendingBySide[side]) revokeUrl(pendingBySide[side]);
 
     if (!supportedTypes.has(file.type)) {
       error = 'Choose a PNG, JPEG, WebP, GIF or AVIF image.';
@@ -48,11 +52,13 @@
 
     const url = URL.createObjectURL(file);
     pendingUrls.add(url);
+    pendingBySide[side] = url;
     const probe = new Image();
 
     probe.onload = () => {
       if (!pendingUrls.has(url)) return;
       pendingUrls.delete(url);
+      if (pendingBySide[side] === url) pendingBySide[side] = '';
 
       if (destroyed || version !== selectionVersion[side]) {
         URL.revokeObjectURL(url);
@@ -79,6 +85,7 @@
     probe.onerror = () => {
       if (!pendingUrls.has(url)) return;
       pendingUrls.delete(url);
+      if (pendingBySide[side] === url) pendingBySide[side] = '';
       URL.revokeObjectURL(url);
       if (!destroyed && version === selectionVersion[side]) {
         error = 'The selected image could not be decoded.';
@@ -91,6 +98,10 @@
     // Invalidate in-flight decodes before releasing their object URLs.
     selectionVersion.before += 1;
     selectionVersion.after += 1;
+    for (const url of pendingUrls) URL.revokeObjectURL(url);
+    pendingUrls.clear();
+    pendingBySide.before = '';
+    pendingBySide.after = '';
     if (beforeUrl) URL.revokeObjectURL(beforeUrl);
     if (afterUrl) URL.revokeObjectURL(afterUrl);
     beforeUrl = '';
