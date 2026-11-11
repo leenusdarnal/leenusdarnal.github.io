@@ -31,6 +31,7 @@ export interface ProjectRecord {
     constraints?: readonly string[];
     nextSteps?: readonly string[];
     previewImage?: string;
+    previewFallback?: string;
     previewAlt?: string;
     previewSourceUrl?: string;
     privacy?: string;
@@ -62,6 +63,10 @@ export const projects: readonly ProjectRecord[] = [
       approach: ['SvelteKit and Svelte 5 provide the application shell and workbench.', 'Canvas APIs handle the editing surface; IndexedDB stores local autosaves and recovery copies.', 'Portable .pfs project files provide a separate backup path without cloud sync.'],
       constraints: ['The editor targets 24 megapixels and a maximum 6,000-pixel document side.', 'Actual performance depends on device memory, layer count, masks and browser limits.', 'Web Workers are documented as planned, not active in the current release.'],
       nextSteps: ['Continue splitting the transitional canvas runtime into smaller feature modules.'],
+      previewImage: '/images/project-previews/pixelforge-studio.png',
+      previewFallback: '/images/project-icons/pixelforge-icon.svg',
+      previewAlt: 'Live PixelForge Studio image editor with its canvas, tool palette, layers and editing panels.',
+      previewSourceUrl: 'https://pixelforge-studio-pied.vercel.app/',
       privacy: 'The project README documents IndexedDB autosaves and recovery copies on the current device, with no account, cloud sync or artwork upload. Browser storage can be cleared or evicted; export a .pfs file for a separate backup. This is a documentation-level review, not an independent network-traffic certification.'
     }
   },
@@ -87,7 +92,8 @@ export const projects: readonly ProjectRecord[] = [
       highlights: ['Tempo control', 'Playback controls', 'Selectable time signatures'],
       approach: ['The interface centres the practice loop on tempo, playback and time-signature selection.', 'The implementation uses React, TypeScript and Vite.'],
       constraints: ['The portfolio describes the visible product scope and does not claim unverified advanced practice features.'],
-      previewImage: 'https://leenusdarnal.github.io/images/metronome-preview.png',
+      previewImage: '/images/metronome-preview.png',
+      previewFallback: '/images/metronome-preview.png',
       previewAlt: 'Screenshot of the Metronome web app interface from its source repository.',
       previewSourceUrl: 'https://github.com/leenusdarnal/react-metronome/tree/master/screenshots'
     }
@@ -115,6 +121,10 @@ export const projects: readonly ProjectRecord[] = [
       approach: ['The main flow starts with pay level, basic pay and DA before exposing optional tools.', 'Rates and historical schedules are source-referenced and effective-dated where supported.', 'Employee-specific records remain in browser-local storage; the app does not request payroll credentials.'],
       constraints: ['It is an independent estimate tool, not an official payroll system or pay-fixation authority.', 'Promotion fixation, retrospective arrears and other rule-dependent cases remain guarded where full validation is incomplete.', 'Verify current rates and employee eligibility against signed orders and the DDO / Accounts section.'],
       disclaimer: 'This is not an official Government of Sikkim calculator. It is an independent estimate tool and should not be treated as an authoritative pay determination. Confirm current rates, eligibility and deductions against signed orders and the DDO / Accounts section.',
+      previewImage: '/images/project-previews/sikkim-government-salary-calculator.png',
+      previewFallback: '/images/project-icons/salary-calculator-icon.svg',
+      previewAlt: 'Live Sikkim Government Salary Calculator showing the pay-level and basic-pay entry form with the DA selector.',
+      previewSourceUrl: 'https://sikkim-government-salary-calculator.vercel.app/',
       privacy: 'The project README states that calculations run in the browser and employee-specific records use browser-local storage or session-only workflows. It says the app does not request payroll credentials. Avoid using a shared device for personal records and use the app backup/export controls carefully. This is documentation-level evidence, not an independent network-traffic certification.'
     }
   },
@@ -140,6 +150,10 @@ export const projects: readonly ProjectRecord[] = [
       highlights: ['AI and no-AI removal modes', 'Local erase and restore tools', 'PNG, JPEG and WebP export'],
       approach: ['AI mode uses MODNet with WebGPU attempted first and a WASM fallback.', 'No-AI mode uses local colour selection and does not download the model.', 'Brush edits, crop composition and export run in the browser; image pixels are not uploaded.'],
       constraints: ['MODNet is primarily a portrait-matting model and may be less reliable for pets, products, glass and complex scenes.', 'First-time AI use requires an internet connection to download model assets.', 'Batch queues, ZIP export and a draggable crop frame are not part of the current release.'],
+      previewImage: '/images/project-previews/pixelcutout.png',
+      previewFallback: '/images/project-icons/pixelcutout-icon.svg',
+      previewAlt: 'Live PixelCutout screen showing AI and no-AI methods and the image upload area.',
+      previewSourceUrl: 'https://pixelcutout-three.vercel.app/',
       privacy: 'The project README states that image pixels are processed locally and are not uploaded. AI mode downloads model/runtime assets from public model hosts; the no-AI mode does not load the AI model. This statement is based on project documentation and still needs independent runtime/network verification.'
     }
   }
