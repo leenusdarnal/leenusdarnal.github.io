@@ -419,6 +419,11 @@ test('homepage provides practical visitor FAQs and conservative privacy guidance
   assert.match(html, /Do my files leave my device/);
   assert.match(html, /Offline support varies/);
   assert.match(html, /Are salary estimates official/);
+  assert.match(html, /AI mode downloads model\/runtime files from external hosts/);
+  assert.match(html, /clean-profile network and storage checks across the linked apps are still pending/);
+  assert.match(html, /browser storage may still be cleared or evicted/);
+  assert.doesNotMatch(html, /without uploading your image/i);
+  assert.doesNotMatch(projectsSource, /IMAGE TOOL · PRIVACY-FIRST/);
   assert.match(projectsSource, /documentation-level review/);
   assert.match(projectsSource, /not an independent network-traffic certification/);
 });
@@ -814,6 +819,17 @@ test('responsive browser QA runs after Pages deployment and covers phone, tablet
   assert.match(runner, /report\.json/);
   assert.match(verify, /node --check scripts\/check-responsive\.mjs/);
   assert.match(deploy, /node --check scripts\/check-responsive\.mjs/);
+});
+
+
+test('preview refresh dispatches a Pages deployment when captured images change', async () => {
+  const workflow = await readFile(new URL('../.github/workflows/capture-project-previews.yml', import.meta.url), 'utf8');
+  assert.match(workflow, /actions:\s*write/);
+  assert.match(workflow, /id: commit/);
+  assert.match(workflow, /changed=true/);
+  assert.match(workflow, /steps\.commit\.outputs\.changed == 'true'/);
+  assert.match(workflow, /gh workflow run deploy\.yml --ref main/);
+  assert.match(workflow, /Capture live project preview screenshots/);
 });
 
 test('architecture disclosure names include their visible label for WCAG 2.5.3', async () => {
