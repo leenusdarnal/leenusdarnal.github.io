@@ -207,7 +207,7 @@
           <div class="flex min-w-0 flex-col justify-center p-5 sm:p-8 lg:p-12">
             <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--accent)]">FEATURED PROJECT · IMAGE EDITOR</p>
             <h3 id="project-pixelforge-title" class="mt-3 text-2xl font-semibold tracking-[-0.06em] sm:mt-4 sm:text-3xl lg:text-4xl">PixelForge Studio</h3>
-            <p id="project-pixelforge-description" class="mt-5 text-sm leading-7 text-[var(--muted)]">A mobile-friendly, offline-first editor with layers, masks, selection tools and editable text. Projects and autosaves stay on your device, with .pfs files available for separate backups.</p>
+            <p id="project-pixelforge-description" class="mt-5 text-sm leading-7 text-[var(--muted)]">A mobile-friendly, offline-first editor with layers, masks, selection tools and editable text. Projects and autosaves are stored in your browser. Export a .pfs file as a separate backup; browser storage may still be cleared or evicted.</p>
             <ProjectQuickStart audience={projects[0].audience} firstAction={projects[0].firstAction} />
             <ul aria-label="PixelForge Studio highlights" class="mt-5 flex flex-wrap gap-x-4 gap-y-2 text-xs text-[var(--muted)]">
               {#each projects[0].features as feature}
