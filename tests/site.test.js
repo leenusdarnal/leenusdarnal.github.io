@@ -751,6 +751,31 @@ test('secure configuration publisher only accepts an allow-listed exported draft
 });
 
 
+test('responsive browser QA runs after Pages deployment and covers phone, tablet and desktop', async () => {
+  const workflow = await readFile(new URL('../.github/workflows/responsive-browser-qa.yml', import.meta.url), 'utf8');
+  const runner = await readFile(new URL('../scripts/check-responsive.mjs', import.meta.url), 'utf8');
+  const verify = await readFile(new URL('../.github/workflows/verify-sveltekit.yml', import.meta.url), 'utf8');
+  const deploy = await readFile(new URL('../.github/workflows/deploy.yml', import.meta.url), 'utf8');
+
+  assert.match(workflow, /workflow_run:/);
+  assert.match(workflow, /Build and deploy SvelteKit site to GitHub Pages/);
+  assert.match(workflow, /workflow_dispatch:/);
+  assert.match(workflow, /schedule:/);
+  assert.match(workflow, /playwright@1\.62\.1/);
+  assert.match(workflow, /upload-artifact/);
+  assert.match(runner, /phone-360/);
+  assert.match(runner, /phone-390/);
+  assert.match(runner, /tablet-768/);
+  assert.match(runner, /small-desktop-1024/);
+  assert.match(runner, /desktop-1440/);
+  assert.match(runner, /hasHorizontalOverflow/);
+  assert.match(runner, /themePersistence|site-theme/);
+  assert.match(runner, /Compare your PixelForge edits/);
+  assert.match(runner, /report\.json/);
+  assert.match(verify, /node --check scripts\/check-responsive\.mjs/);
+  assert.match(deploy, /node --check scripts\/check-responsive\.mjs/);
+});
+
 test('configuration publishing applies only validated fields and synchronises metadata', async () => {
   const root = await mkdtemp(join(tmpdir(), 'leenus-config-publisher-'));
   try {
