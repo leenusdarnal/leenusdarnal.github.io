@@ -69,6 +69,30 @@
     registerCrossOriginIsolation();
   });
 
+  function upgradePreviewImage(event, imageUrl) {
+    const image = event.currentTarget;
+    if (!image || !imageUrl || image.dataset.previewUpgraded === 'true') return;
+
+    let candidateUrl;
+    try {
+      candidateUrl = new URL(imageUrl, window.location.href);
+    } catch {
+      return;
+    }
+    if (candidateUrl.origin !== window.location.origin || candidateUrl.href === image.currentSrc || candidateUrl.href === image.src) return;
+
+    const candidate = new Image();
+    candidate.decoding = 'async';
+    candidate.onload = () => {
+      if (!image.isConnected) return;
+      image.dataset.previewUpgraded = 'true';
+      image.src = candidateUrl.href;
+      image.classList.remove('size-16', 'size-20');
+      image.classList.add('h-auto', 'max-h-[300px]', 'w-full', 'rounded-xl', 'object-contain');
+    };
+    candidate.src = candidateUrl.href;
+  }
+
   function toggleTheme() {
     theme = theme === 'dark' ? 'light' : 'dark';
     document.documentElement.dataset.theme = theme;
@@ -196,10 +220,19 @@
         <div class="grid lg:grid-cols-[1.12fr_0.88fr]">
           <div aria-hidden="true" class="relative flex min-h-[220px] items-center justify-center overflow-hidden bg-[var(--panel-soft)] p-6 sm:min-h-[300px] sm:p-8 lg:min-h-[370px]">
             <div class="flex w-full max-w-[520px] flex-col items-center justify-center rounded-2xl border border-[var(--line)] bg-[var(--panel)] px-6 py-10 text-center shadow-xl sm:py-14">
-              <img src="/images/project-icons/pixelforge-icon.svg" alt="" width="72" height="72" loading="lazy" decoding="async" class="size-16 sm:size-20" />
-              <p class="mt-5 font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--accent)]">Actual application icon</p>
+              <img
+                src={projects[0].caseStudy.previewFallback}
+                alt=""
+                width="1440"
+                height="1000"
+                loading="eager"
+                decoding="async"
+                onload={(event) => upgradePreviewImage(event, projects[0].caseStudy.previewImage)}
+                class="size-20 object-contain"
+              />
+              <p class="mt-5 font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--accent)]">Live application preview</p>
               <p class="mt-2 text-2xl font-semibold tracking-[-0.05em] text-[var(--ink)]">PixelForge Studio</p>
-              <p class="mt-2 max-w-xs text-xs leading-6 text-[var(--muted)]">Open the live editor to see the real canvas, tools, layers and responsive workspace.</p>
+              <p class="mt-2 max-w-xs text-xs leading-6 text-[var(--muted)]">A current view of the real editor, canvas, tools and layers.</p>
               <span class="mt-5 rounded-full border border-[var(--line)] px-3 py-1.5 font-mono text-[9px] text-[var(--muted)]">LIVE BROWSER APP</span>
             </div>
             <p class="absolute bottom-4 right-5 font-mono text-[9px] uppercase tracking-[0.15em] text-[var(--muted)]">01 — Live application</p></div>
@@ -227,26 +260,25 @@
         {#each projects.slice(1) as project}
           <article data-project-card data-category={project.categories.join(' ')} aria-labelledby="project-{project.visual}-title" aria-describedby="project-{project.visual}-description" class="project-card group overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--panel)] transition duration-300 hover:-translate-y-1 hover:border-[color-mix(in_srgb,var(--accent)_55%,var(--line))]">
             <div aria-hidden="true" class="relative flex min-h-[210px] items-center justify-center overflow-hidden bg-[var(--panel-soft)] p-5 sm:min-h-[270px] sm:p-6">
-              {#if project.visual === 'metro'}
-                <div class="w-full max-w-[560px] overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--panel)] shadow-xl">
-                  <img src="/images/metronome-preview.png" alt="" width="416" height="314" sizes="(max-width: 560px) 100vw, 560px" loading="lazy" decoding="async" class="block h-auto w-full object-contain" />
-                </div>
-                <p class="absolute bottom-4 right-5 rounded-full bg-[var(--panel)]/90 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.12em] text-[var(--muted)]">Source repository screenshot</p>
-              {:else if project.visual === 'cutout'}
-                <div class="flex w-full max-w-sm flex-col items-center justify-center rounded-2xl border border-[var(--line)] bg-[var(--panel)] px-5 py-8 text-center shadow-xl">
-                  <img src="/images/project-icons/pixelcutout-icon.svg" alt="" width="64" height="64" loading="lazy" decoding="async" class="size-16" />
-                  <p class="mt-4 font-mono text-[9px] uppercase tracking-[0.15em] text-[var(--accent)]">Actual application icon</p>
-                  <p class="mt-2 text-sm font-semibold text-[var(--ink)]">PixelCutout</p>
-                  <p class="mt-1 text-xs text-[var(--muted)]">Open the live app for the real editing workspace.</p>
-                </div>
-              {:else}
-                <div class="flex w-full max-w-sm flex-col items-center justify-center rounded-2xl border border-[var(--line)] bg-[var(--panel)] px-5 py-8 text-center shadow-xl">
-                  <span class="grid size-16 place-items-center rounded-2xl border border-[var(--line)] font-mono text-3xl font-semibold text-[var(--accent)]" aria-hidden="true">₹</span>
-                  <p class="mt-4 font-mono text-[9px] uppercase tracking-[0.15em] text-[var(--accent)]">Live application</p>
-                  <p class="mt-2 text-sm font-semibold text-[var(--ink)]">Sikkim Government Salary Calculator</p>
-                  <p class="mt-1 text-xs text-[var(--muted)]">Open the live calculator to explore the current salary workflow.</p>
-                </div>
-              {/if}
+              <div class="flex w-full max-w-[560px] flex-col items-center justify-center rounded-2xl border border-[var(--line)] bg-[var(--panel)] px-5 py-6 text-center shadow-xl">
+                <img
+                  src={project.caseStudy.previewFallback}
+                  alt=""
+                  width={project.visual === 'metro' ? 416 : 1440}
+                  height={project.visual === 'metro' ? 314 : 1000}
+                  loading="lazy"
+                  decoding="async"
+                  onload={(event) => upgradePreviewImage(event, project.caseStudy.previewImage)}
+                  class={project.visual === 'metro' ? 'h-auto max-h-[220px] w-full object-contain' : 'size-16 object-contain'}
+                />
+                <p class="mt-4 font-mono text-[9px] uppercase tracking-[0.15em] text-[var(--accent)]">
+                  {project.visual === 'metro' ? 'Source repository screenshot' : 'Live application preview'}
+                </p>
+                <p class="mt-2 text-sm font-semibold text-[var(--ink)]">{project.name}</p>
+                <p class="mt-1 text-xs text-[var(--muted)]">
+                  {project.visual === 'metro' ? 'A look at the tempo and playback controls.' : 'A current view of the live application interface.'}
+                </p>
+              </div>
             </div>
             <div class="min-w-0 p-5 sm:p-7 lg:p-8">
               <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--accent)]">{project.type}</p>
