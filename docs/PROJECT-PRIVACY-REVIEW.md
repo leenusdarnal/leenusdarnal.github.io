@@ -121,3 +121,10 @@ A targeted pattern scan was run over source files in the linked application repo
 - https://github.com/leenusdarnal/pixelforge-studio
 - https://github.com/leenusdarnal/pixelcutout
 - https://github.com/leenusdarnal/SIKKIM-GOVERNMENT-SALARY-CALCULATOR
+
+
+## Homepage visual capture update — 11 November 2026
+
+The three previously missing interface previews were captured from the live production applications with Playwright in GitHub Actions and committed to the homepage repository as compressed same-origin JPEG assets. The capture workflow checks the HTTP response and expected visible page text before saving each screenshot. It uses a fresh browser context per application and does not upload user images or salary records as part of the capture operation.
+
+These screenshots document the initial interface appearance only. They are not a clean-profile network audit, an exhaustive dependency review, a privacy certification, or proof that every interactive workflow behaves as intended. The runtime network/storage and formula validation items under **Not yet verified** remain open.
