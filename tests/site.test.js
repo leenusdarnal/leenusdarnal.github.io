@@ -378,7 +378,7 @@ test('homepage provides practical visitor FAQs and conservative privacy guidance
   assert.match(html, /Offline support varies/);
   assert.match(html, /Are salary estimates official/);
   assert.match(projectsSource, /documentation-level review/);
-  assert.match(projectsSource, /independent network-traffic verification/);
+  assert.match(projectsSource, /not an independent network-traffic certification/);
 });
 
 test('client diagnostics report WebGPU, FP16, buffer limits, isolation and display capabilities', () => {
