@@ -42,7 +42,7 @@ GitHub Actions runs the checks on pull requests and pushes to main. After a succ
 
 ## Quality and maintenance
 
-A scheduled and manually triggerable Lighthouse workflow audits the published GitHub Pages site for performance, accessibility, best practices and SEO. The report is retained as a GitHub Actions artifact.
+A scheduled and manually triggerable Lighthouse workflow audits the published GitHub Pages site for performance, accessibility, best practices and SEO. The report is retained as a GitHub Actions artifact. A Playwright workflow checks five responsive viewport profiles, theme/navigation behaviour, homepage same-origin image/resource loading, axe-core WCAG 2.2 A/AA scans and keyboard navigation. These automated Chromium checks do not replace physical-device or manual screen-reader testing.
 
 The daily site monitor checks the personal homepage and linked demos. Each run now writes a UTC timestamp, per-site HTTP result and summary to the GitHub Actions job summary. A successful check is an observation at that time, not a continuous availability guarantee.
 
