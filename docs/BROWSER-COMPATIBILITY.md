@@ -25,6 +25,12 @@ A browser is considered tested only after actual application workflows have been
 
 Existing automated build/test results do not establish compatibility for all physical devices or browsers.
 
+## Automated homepage evidence — 11 November 2026
+
+The deployed homepage passed the Playwright responsive checks in Chromium on GitHub Actions using emulated viewport profiles: 360×800, 390×844, 768×1024, 1024×900 and 1440×1000. The run checked HTTP success, horizontal overflow, the Projects/About/Contact navigation, four project cards and case-study links, theme switching and persistence after reload, the FAQ and the PixelForge case study. It is automated browser evidence, not physical-device certification.
+
+The separate accessibility workflow passed eight axe-core WCAG A/AA scans and nine keyboard checks on the prior deployed commit. Manual screen-reader, browser/OS combination and physical touch testing remain open; retain the matrix below as Not tested until those exact environments are exercised.
+
 ## Required test cases
 
 ### Personal website
