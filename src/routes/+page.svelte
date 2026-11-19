@@ -33,6 +33,13 @@
   }
 
   const navigation = personalSpaceConfig.navigation.filter((item) => personalSpaceConfig.sections[item.section]);
+  const heroFeaturedProjects = projects.slice(0, 3);
+  const heroTagLinks = {
+    'Try the tools': '#work',
+    'How they work': '#updates',
+    'Privacy notes': '#faq',
+    'Open-source projects': '#work'
+  };
 
 
   const structuredData = JSON.stringify({
@@ -152,9 +159,11 @@
         <p class="mt-4 max-w-xl text-sm leading-7 text-[var(--muted)] sm:text-base sm:leading-8 lg:text-lg">
           {personalSpaceConfig.content.hero.description}
         </p>
-        <ul aria-label="Things I like exploring" class="mt-5 flex flex-wrap gap-2 font-mono text-[10px] uppercase tracking-[0.12em] text-[var(--muted)] sm:mt-6">
+        <ul aria-label="Explore this site" class="mt-5 flex flex-wrap gap-2 font-mono text-[10px] uppercase tracking-[0.12em] text-[var(--muted)] sm:mt-6">
           {#each personalSpaceConfig.content.hero.tags as tag}
-            <li class="rounded-full border border-[var(--line)] px-3 py-1.5">{tag}</li>
+            <li>
+              <a href={heroTagLinks[tag] ?? '#work'} class="inline-flex min-h-9 items-center rounded-full border border-[var(--line)] px-3 py-1.5 transition-colors hover:border-[var(--accent)] hover:bg-[var(--accent-soft)] hover:text-[var(--ink)] focus-visible:outline-offset-2">{tag}</a>
+            </li>
           {/each}
         </ul>
         <div class="mt-7 flex flex-wrap items-center gap-3 sm:mt-9">
@@ -166,6 +175,23 @@
           <a href={personalSpaceConfig.site.githubUrl} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center gap-2 rounded-full border border-[var(--line)] px-5 py-3 text-sm font-medium text-[var(--ink)] transition hover:border-[var(--accent)] sm:px-6 sm:py-3.5">
             GitHub <span aria-hidden="true">↗</span>
           </a>
+        </div>
+        <div class="mt-8 border-t border-[var(--line)] pt-5 sm:mt-10 sm:pt-6">
+          <div class="mb-3 flex items-center justify-between gap-3">
+            <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--muted)]">Start with a tool</p>
+            <a href="#work" class="text-xs font-semibold text-[var(--accent)] hover:underline">All projects ↗</a>
+          </div>
+          <div class="grid gap-2 sm:grid-cols-3">
+            {#each heroFeaturedProjects as project}
+              <a href={project.live} target="_blank" rel="noopener noreferrer" class="group flex min-h-14 items-center justify-between gap-3 rounded-xl border border-[var(--line)] bg-[var(--panel)] px-3 py-3 text-sm transition-colors hover:border-[var(--accent)] hover:bg-[var(--accent-soft)]">
+                <span class="min-w-0">
+                  <span class="block truncate font-semibold text-[var(--ink)]">{project.name}</span>
+                  <span class="mt-0.5 block truncate text-[11px] text-[var(--muted)]">{project.type}</span>
+                </span>
+                <span aria-hidden="true" class="shrink-0 text-[var(--accent)] transition-transform group-hover:translate-x-0.5">↗</span>
+              </a>
+            {/each}
+          </div>
         </div>
       </div>
 
