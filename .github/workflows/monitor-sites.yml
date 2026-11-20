@@ -24,7 +24,6 @@ jobs:
           checked_at="$(date -u '+%Y-%m-%d %H:%M:%S UTC')"
           urls=(
             "https://leenusdarnal.github.io/"
-            "https://leenusdarnal.vercel.app/"
             "https://pixelforge-studio-pied.vercel.app/"
             "https://react-metronome-dusky.vercel.app/"
             "https://sikkim-government-salary-calculator.vercel.app/"
