@@ -77,6 +77,6 @@ The workflow requires repository write access and uses a short-lived, least-priv
 
 The PixelForge case study includes a before/after comparison control. Choose your own original and edited images; the preview uses temporary browser object URLs only, applies a 20 MB per-image limit, and never uploads or stores the files.
 
-The homepage uses authentic app icons and self-hosts the Metronome screenshot at `/images/metronome-preview.png` (sourced from its [original repository screenshot](https://github.com/leenusdarnal/react-metronome/tree/master/screenshots)). This avoids a third-party raw-image request at runtime. Where a project has not published a genuine interface screenshot, the site links to the live app rather than inventing a product screenshot.
+The homepage uses authentic app icons and self-hosts the Metronome interface screenshot at `/images/metronome-preview.png`. After a successful GitHub Pages deployment, the `Capture live project preview screenshots` workflow opens the live Metronome application in Chromium and refreshes this asset from the real interface. The homepage serves the resulting image locally rather than requesting it from a third-party host. The [original project repository](https://github.com/leenusdarnal/react-metronome) remains the source-code reference.
 
 An RSS 2.0 feed is available at [/feed.xml](https://leenusdarnal.github.io/feed.xml). Unknown routes use a custom recovery page and the static 404.html fallback.
