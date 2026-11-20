@@ -33,6 +33,13 @@
   }
 
   const navigation = personalSpaceConfig.navigation.filter((item) => personalSpaceConfig.sections[item.section]);
+  const heroFeaturedProjects = projects.slice(0, 3);
+  const heroTagLinks = {
+    'Try the tools': '#work',
+    'How they work': '#updates',
+    'Privacy notes': '#faq',
+    'Open-source projects': '#work'
+  };
 
 
   const structuredData = JSON.stringify({
@@ -112,9 +119,9 @@
       <span>{personalSpaceConfig.identity.name}<span class="text-[var(--accent)]">.</span></span>
     </a>
 
-    <nav aria-label="Main navigation" class="flex shrink-0 items-center gap-1 text-xs font-medium text-[var(--muted)] sm:gap-4 sm:text-sm lg:gap-7">
+    <nav aria-label="Main navigation" class="flex shrink-0 items-center gap-0.5 text-[13px] font-medium text-[var(--muted)] sm:gap-4 sm:text-sm lg:gap-7">
       {#each navigation as item}
-        <a href={item.href} class="inline-flex min-h-11 items-center rounded-full px-2 transition-colors hover:text-[var(--ink)] sm:px-1">{item.label}</a>
+        <a href={item.href} class="inline-flex min-h-11 items-center rounded-full px-1.5 transition-colors hover:text-[var(--ink)] min-[360px]:px-2 sm:px-1">{item.label}</a>
       {/each}
       <a href={personalSpaceConfig.site.githubUrl} target="_blank" rel="noopener noreferrer" class="hidden transition-colors hover:text-[var(--ink)] sm:inline">GitHub ↗</a>
       <button
@@ -152,9 +159,11 @@
         <p class="mt-4 max-w-xl text-sm leading-7 text-[var(--muted)] sm:text-base sm:leading-8 lg:text-lg">
           {personalSpaceConfig.content.hero.description}
         </p>
-        <ul aria-label="Things I like exploring" class="mt-5 flex flex-wrap gap-2 font-mono text-[10px] uppercase tracking-[0.12em] text-[var(--muted)] sm:mt-6">
+        <ul aria-label="Explore this site" class="mt-5 flex flex-wrap gap-2 font-mono text-[10px] uppercase tracking-[0.12em] text-[var(--muted)] sm:mt-6">
           {#each personalSpaceConfig.content.hero.tags as tag}
-            <li class="rounded-full border border-[var(--line)] px-3 py-1.5">{tag}</li>
+            <li>
+              <a href={heroTagLinks[tag] ?? '#work'} class="inline-flex min-h-9 items-center rounded-full border border-[var(--line)] px-3 py-1.5 transition-colors hover:border-[var(--accent)] hover:bg-[var(--accent-soft)] hover:text-[var(--ink)] focus-visible:outline-offset-2">{tag}</a>
+            </li>
           {/each}
         </ul>
         <div class="mt-7 flex flex-wrap items-center gap-3 sm:mt-9">
@@ -166,6 +175,23 @@
           <a href={personalSpaceConfig.site.githubUrl} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center gap-2 rounded-full border border-[var(--line)] px-5 py-3 text-sm font-medium text-[var(--ink)] transition hover:border-[var(--accent)] sm:px-6 sm:py-3.5">
             GitHub <span aria-hidden="true">↗</span>
           </a>
+        </div>
+        <div class="mt-8 border-t border-[var(--line)] pt-5 sm:mt-10 sm:pt-6">
+          <div class="mb-3 flex items-center justify-between gap-3">
+            <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--muted)]">Start with a tool</p>
+            <a href="#work" class="text-xs font-semibold text-[var(--accent)] hover:underline">All projects ↗</a>
+          </div>
+          <div class="grid gap-2 sm:grid-cols-3">
+            {#each heroFeaturedProjects as project}
+              <a href={project.live} target="_blank" rel="noopener noreferrer" class="group flex min-h-14 items-center justify-between gap-3 rounded-xl border border-[var(--line)] bg-[var(--panel)] px-3 py-3 text-sm transition-colors hover:border-[var(--accent)] hover:bg-[var(--accent-soft)]">
+                <span class="min-w-0">
+                  <span class="block truncate font-semibold text-[var(--ink)]">{project.name}</span>
+                  <span class="mt-0.5 block truncate text-[11px] text-[var(--muted)]">{project.type}</span>
+                </span>
+                <span aria-hidden="true" class="shrink-0 text-[var(--accent)] transition-transform group-hover:translate-x-0.5">↗</span>
+              </a>
+            {/each}
+          </div>
         </div>
       </div>
 
@@ -229,9 +255,9 @@
             <div aria-hidden="true" class="relative flex min-h-[210px] items-center justify-center overflow-hidden bg-[var(--panel-soft)] p-5 sm:min-h-[270px] sm:p-6">
               {#if project.visual === 'metro'}
                 <div class="w-full max-w-[560px] overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--panel)] shadow-xl">
-                  <img src="/images/metronome-preview.png" alt="" width="416" height="314" sizes="(max-width: 560px) 100vw, 560px" loading="lazy" decoding="async" class="block h-auto w-full object-contain" />
+                  <img src={project.caseStudy.previewImage} alt="" width={project.caseStudy.previewWidth ?? 1440} height={project.caseStudy.previewHeight ?? 900} sizes="(max-width: 560px) 100vw, 560px" loading="lazy" decoding="async" class="block h-auto w-full object-contain" />
                 </div>
-                <p class="absolute bottom-4 right-5 rounded-full bg-[var(--panel)]/90 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.12em] text-[var(--muted)]">Source repository screenshot</p>
+                <p class="absolute bottom-4 right-5 rounded-full bg-[var(--panel)]/90 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.12em] text-[var(--muted)]">Live application preview</p>
               {:else}
                 <div class="absolute inset-4 overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--panel)] shadow-xl">
                   <img src={project.caseStudy.previewImage} alt="" width={project.caseStudy.previewWidth ?? 1440} height={project.caseStudy.previewHeight ?? 900} sizes="(max-width: 1024px) 100vw, 560px" loading="lazy" decoding="async" class="size-full object-cover object-top" />

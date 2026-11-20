@@ -138,7 +138,7 @@ export const personalSpaceConfig = {
       asideLines: ['Curious by nature.', 'Practical by design.', 'Always building.']
     },
     personalSpace: {
-      eyebrow: '01 / PERSONAL SPACE',
+      eyebrow: '03 / PERSONAL SPACE',
       title: 'A little about this corner',
       intro: 'This is less of a showcase and more of a workbench: useful things, small experiments and whatever I am learning next.',
       headline: 'A place to make, learn, and explore.',
@@ -156,7 +156,7 @@ export const personalSpaceConfig = {
       ]
     },
     about: {
-      eyebrow: '02 / A LITTLE ABOUT ME',
+      eyebrow: '04 / A LITTLE ABOUT ME',
       title: 'Curious by nature.',
       subtitle: 'Practical by design.',
       paragraphs: [
@@ -165,7 +165,7 @@ export const personalSpaceConfig = {
       ]
     },
     contact: {
-      eyebrow: '03 / SAY HELLO',
+      eyebrow: '05 / SAY HELLO',
       title: 'Have something interesting in mind?',
       description: "I'm always happy to hear about ideas, useful tools and interesting projects."
     }

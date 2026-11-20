@@ -97,11 +97,11 @@ export const projects: readonly ProjectRecord[] = [
       approach: ['The interface centres the practice loop on tempo, playback and time-signature selection.', 'The implementation uses React, TypeScript and Vite.'],
       constraints: ['The portfolio describes the visible product scope and does not claim unverified advanced practice features.'],
       previewImage: '/images/metronome-preview.png',
-      previewAlt: 'Screenshot of the Metronome web app interface from its source repository.',
-      previewSourceUrl: 'https://github.com/leenusdarnal/react-metronome/tree/master/screenshots',
-      previewSourceLabel: 'source repository',
-      previewWidth: 416,
-      previewHeight: 314
+      previewAlt: 'Screenshot of the Metronome web app interface, captured from its live application.',
+      previewSourceUrl: 'https://react-metronome-dusky.vercel.app/',
+      previewSourceLabel: 'live application',
+      previewWidth: 1440,
+      previewHeight: 900
     }
   },
   {

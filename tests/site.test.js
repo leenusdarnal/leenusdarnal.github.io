@@ -64,7 +64,7 @@ test('homepage includes a concise About section and navigation link', () => {
 test('homepage is framed as a personal project space, not a job-search portfolio', () => {
   assert.match(html, />Projects<\/a>/);
   assert.match(html, /PROJECTS &amp; EXPERIMENTS/);
-  assert.match(html, /Things I like exploring/);
+  assert.match(html, /Explore this site/);
   assert.match(personalSpaceConfigSource, /A personal space for useful web tools/);
   assert.doesNotMatch(source, /resume|résumé|download cv|hire me|open to work|job seeking|personal developer portfolio/i);
 });
@@ -271,15 +271,16 @@ test('Pages deployment uses reproducible cached installs and only deploys main',
 });
 
 
-test('Metronome case study uses a same-origin source-repository screenshot', async () => {
+test('Metronome case study uses a same-origin screenshot captured from the live app', async () => {
   const page = await readFile(new URL('projects/metronome/index.html', buildUrl), 'utf8');
   assert.ok(projectsSource.includes("previewImage: '/images/metronome-preview.png'"));
   const screenshot = await readFile(new URL('images/metronome-preview.png', buildUrl));
   assert.ok(screenshot.length > 1000, 'self-hosted Metronome screenshot should be present in the generated site');
-  assert.match(projectsSource, /previewSourceUrl:/);
+  assert.ok(projectsSource.includes("previewSourceUrl: 'https://react-metronome-dusky.vercel.app/'"));
+  assert.ok(projectsSource.includes("previewSourceLabel: 'live application'"));
   assert.ok(page.includes('src="/images/metronome-preview.png"'));
   assert.match(page, /Authentic interface preview/);
-  assert.match(page, /alt="Screenshot of the Metronome web app interface/);
+  assert.match(page, /alt="Screenshot of the Metronome web app interface, captured from its live application/);
 });
 
 test('all live project case studies use genuine, same-origin application previews', async () => {
@@ -324,7 +325,7 @@ test('homepage uses live application screenshots and self-hosted brand assets', 
 
 test('the genuine Metronome screenshot reserves its intrinsic aspect ratio and loads lazily', async () => {
   const metronomePage = await readFile(new URL('projects/metronome/index.html', buildUrl), 'utf8');
-  assert.ok(metronomePage.includes('src="/images/metronome-preview.png"') && metronomePage.includes('width="416" height="314"'));
+  assert.ok(metronomePage.includes('src="/images/metronome-preview.png"') && metronomePage.includes('width="1440" height="900"'));
   assert.ok(metronomePage.includes('loading="lazy" decoding="async"'));
 });
 

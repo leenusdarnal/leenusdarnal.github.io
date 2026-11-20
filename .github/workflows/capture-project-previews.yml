@@ -56,7 +56,7 @@ jobs:
       - name: Commit updated preview images
         id: commit
         run: |
-          git add static/images/project-previews/
+          git add static/images/project-previews/ static/images/metronome-preview.png
           if git diff --cached --quiet; then
             echo "Project preview images are unchanged."
             echo "changed=false" >> "$GITHUB_OUTPUT"
