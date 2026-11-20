@@ -29,6 +29,7 @@ test('Metronome preview is captured from its live application and deployed as a 
   assert.ok(captureScript.includes("outputDirectory: 'static/images'"));
   assert.ok(captureScript.includes("url: 'https://react-metronome-dusky.vercel.app/'"));
   assert.ok(captureScript.includes("expectedText: 'Metronome'"));
+  assert.ok(captureScript.includes("target.file.toLowerCase().endsWith('.png') ? 'png' : 'jpeg'"));
   assert.ok(projects.includes("previewSourceUrl: 'https://react-metronome-dusky.vercel.app/'"));
   assert.ok(projects.includes("previewSourceLabel: 'live application'"));
   assert.ok(captureWorkflow.includes('static/images/metronome-preview.png'));
