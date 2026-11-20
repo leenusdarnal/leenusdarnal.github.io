@@ -119,9 +119,9 @@
       <span>{personalSpaceConfig.identity.name}<span class="text-[var(--accent)]">.</span></span>
     </a>
 
-    <nav aria-label="Main navigation" class="flex shrink-0 items-center gap-1 text-xs font-medium text-[var(--muted)] sm:gap-4 sm:text-sm lg:gap-7">
+    <nav aria-label="Main navigation" class="flex shrink-0 items-center gap-0.5 text-[13px] font-medium text-[var(--muted)] sm:gap-4 sm:text-sm lg:gap-7">
       {#each navigation as item}
-        <a href={item.href} class="inline-flex min-h-11 items-center rounded-full px-2 transition-colors hover:text-[var(--ink)] sm:px-1">{item.label}</a>
+        <a href={item.href} class="inline-flex min-h-11 items-center rounded-full px-1.5 transition-colors hover:text-[var(--ink)] min-[360px]:px-2 sm:px-1">{item.label}</a>
       {/each}
       <a href={personalSpaceConfig.site.githubUrl} target="_blank" rel="noopener noreferrer" class="hidden transition-colors hover:text-[var(--ink)] sm:inline">GitHub ↗</a>
       <button
@@ -255,9 +255,9 @@
             <div aria-hidden="true" class="relative flex min-h-[210px] items-center justify-center overflow-hidden bg-[var(--panel-soft)] p-5 sm:min-h-[270px] sm:p-6">
               {#if project.visual === 'metro'}
                 <div class="w-full max-w-[560px] overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--panel)] shadow-xl">
-                  <img src="/images/metronome-preview.png" alt="" width="416" height="314" sizes="(max-width: 560px) 100vw, 560px" loading="lazy" decoding="async" class="block h-auto w-full object-contain" />
+                  <img src={project.caseStudy.previewImage} alt="" width={project.caseStudy.previewWidth ?? 1440} height={project.caseStudy.previewHeight ?? 900} sizes="(max-width: 560px) 100vw, 560px" loading="lazy" decoding="async" class="block h-auto w-full object-contain" />
                 </div>
-                <p class="absolute bottom-4 right-5 rounded-full bg-[var(--panel)]/90 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.12em] text-[var(--muted)]">Source repository screenshot</p>
+                <p class="absolute bottom-4 right-5 rounded-full bg-[var(--panel)]/90 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.12em] text-[var(--muted)]">Live application preview</p>
               {:else}
                 <div class="absolute inset-4 overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--panel)] shadow-xl">
                   <img src={project.caseStudy.previewImage} alt="" width={project.caseStudy.previewWidth ?? 1440} height={project.caseStudy.previewHeight ?? 900} sizes="(max-width: 1024px) 100vw, 560px" loading="lazy" decoding="async" class="size-full object-cover object-top" />
