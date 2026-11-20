@@ -25,6 +25,14 @@ const targets = [
     url: 'https://sikkim-government-salary-calculator.vercel.app/',
     expectedText: 'Sikkim Government Salary Calculator',
     colorScheme: 'light'
+  } ,
+  {
+    name: 'Metronome',
+    file: 'metronome-preview.png',
+    outputDirectory: 'static/images',
+    url: 'https://react-metronome-dusky.vercel.app/',
+    expectedText: 'Metronome',
+    colorScheme: 'light'
   }
 ];
 
@@ -33,6 +41,8 @@ const browser = await chromium.launch({ headless: true });
 
 try {
   for (const target of targets) {
+    const targetOutputDirectory = target.outputDirectory ?? outputDirectory;
+    await mkdir(targetOutputDirectory, { recursive: true });
     const context = await browser.newContext({
       viewport,
       deviceScaleFactor: 1,
@@ -58,7 +68,7 @@ try {
       );
       await page.waitForTimeout(1200);
 
-      const path = `${outputDirectory}/${target.file}`;
+      const path = `${targetOutputDirectory}/${target.file}`;
       await page.screenshot({
         path,
         type: 'jpeg',
