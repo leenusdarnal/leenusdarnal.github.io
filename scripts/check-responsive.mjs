@@ -133,6 +133,10 @@ async function checkViewport(browser, viewport) {
     );
 
     const navigation = page.getByRole('navigation', { name: 'Main navigation' });
+    const mobileNavigation = navigation.locator('details.mobile-navigation');
+    if (await mobileNavigation.isVisible()) {
+      await mobileNavigation.locator('summary').click();
+    }
     for (const [label, hash] of [['Projects', '#work'], ['About', '#about'], ['Contact', '#contact']]) {
       const link = navigation.getByRole('link', { name: label, exact: true });
       assert.equal(await link.count(), 1, viewport.name + ': missing ' + label + ' navigation link');
