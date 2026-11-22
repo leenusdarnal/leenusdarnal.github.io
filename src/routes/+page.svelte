@@ -114,96 +114,85 @@
   <a class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-[var(--ink)] focus:px-4 focus:py-3 focus:text-[var(--page)]" href="#main">Skip to content</a>
 
   <header class="site-header -mx-4 flex items-center justify-between gap-3 px-4 py-4 sm:-mx-8 sm:px-8 sm:py-5 lg:-mx-10 lg:px-10">
-    <a href="#top" aria-label={personalSpaceConfig.identity.monogram + " " + personalSpaceConfig.identity.name + ". — home"} class="group flex min-w-0 shrink-0 items-center gap-2 text-xs font-semibold tracking-tight no-underline sm:gap-3 sm:text-sm">
-      <span aria-hidden="true" class="grid size-8 place-items-center rounded-full bg-[var(--accent)] text-sm font-black text-[var(--accent-contrast)] sm:size-9" style="color: var(--accent-contrast)">{personalSpaceConfig.identity.monogram}</span>
-      <span>{personalSpaceConfig.identity.name}<span class="text-[var(--accent)]">.</span></span>
+    <a href="#top" aria-label={personalSpaceConfig.identity.monogram + " " + personalSpaceConfig.identity.name + ". — home"} class="site-brand group flex min-w-0 shrink items-center gap-2 text-xs font-semibold tracking-tight no-underline sm:gap-3 sm:text-sm">
+      <span aria-hidden="true" class="grid size-8 shrink-0 place-items-center rounded-full bg-[var(--accent)] text-sm font-black text-[var(--accent-contrast)] sm:size-9" style="color: var(--accent-contrast)">{personalSpaceConfig.identity.monogram}</span>
+      <span class="truncate">{personalSpaceConfig.identity.name}<span class="text-[var(--accent)]">.</span></span>
     </a>
-
-    <nav aria-label="Main navigation" class="flex shrink-0 items-center gap-0.5 text-[13px] font-medium text-[var(--muted)] sm:gap-4 sm:text-sm lg:gap-7">
-      {#each navigation as item}
-        <a href={item.href} class="inline-flex min-h-11 items-center rounded-full px-1.5 transition-colors hover:text-[var(--ink)] min-[360px]:px-2 sm:px-1">{item.label}</a>
-      {/each}
-      <a href={personalSpaceConfig.site.githubUrl} target="_blank" rel="noopener noreferrer" class="hidden transition-colors hover:text-[var(--ink)] sm:inline">GitHub ↗</a>
-      <button
-        type="button"
-        aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
-        title={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
-        aria-pressed={theme === 'light'}
-        onclick={toggleTheme}
-        class="grid size-11 shrink-0 place-items-center rounded-full border border-[var(--line)] text-[var(--muted)] transition hover:border-[var(--accent)] hover:text-[var(--accent)] sm:size-10"
-      >
+    <nav aria-label="Main navigation" class="main-navigation flex shrink-0 items-center gap-2 text-[13px] font-medium text-[var(--muted)] sm:gap-4 sm:text-sm lg:gap-7">
+      <div class="desktop-navigation-links items-center gap-2 sm:gap-4 lg:gap-7">
+        {#each navigation as item}
+          <a href={item.href} class="inline-flex min-h-11 items-center rounded-full px-2 transition-colors hover:text-[var(--ink)]">{item.label}</a>
+        {/each}
+        <a href={personalSpaceConfig.site.githubUrl} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center px-1 transition-colors hover:text-[var(--ink)]">GitHub ↗</a>
+      </div>
+      <details class="mobile-navigation">
+        <summary class="mobile-navigation-trigger" aria-label="Open main navigation">
+          <span>Menu</span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+        </summary>
+        <div class="mobile-navigation-panel">
+          <p class="mobile-navigation-label">Navigate</p>
+          {#each navigation as item}
+            <a href={item.href}>{item.label}<span aria-hidden="true">↘</span></a>
+          {/each}
+          <a href={personalSpaceConfig.site.githubUrl} target="_blank" rel="noopener noreferrer">GitHub<span aria-hidden="true">↗</span></a>
+        </div>
+      </details>
+      <button type="button" aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'} title={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'} aria-pressed={theme === 'light'} onclick={toggleTheme} class="theme-toggle grid size-11 shrink-0 place-items-center rounded-full border border-[var(--line)] text-[var(--muted)] transition hover:border-[var(--accent)] hover:text-[var(--accent)] sm:size-10">
         {#if theme === 'dark'}
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="size-[18px]" aria-hidden="true">
             <circle cx="12" cy="12" r="4" />
             <path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" />
           </svg>
         {:else}
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="size-[18px]" aria-hidden="true">
-            <path d="M20.9 13A9 9 0 0 1 11 3.1 9 9 0 1 0 20.9 13Z" />
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="size-[18px]" aria-hidden="true"><path d="M20.9 13A9 9 0 0 1 11 3.1 9 9 0 1 0 20.9 13Z" /></svg>
         {/if}
       </button>
     </nav>
   </header>
 
   <main id="main">
-    <section id="top" class="relative grid min-h-0 content-center gap-8 py-20 sm:min-h-[540px] sm:gap-10 sm:py-24 md:min-h-[600px] md:grid-cols-[minmax(0,1fr)_180px] md:items-end md:py-28 xl:min-h-[650px] xl:grid-cols-[minmax(0,1fr)_220px] xl:py-32">
-      <div class="max-w-4xl">
-        <h1 class="text-[clamp(3.1rem,11vw,8.8rem)] font-semibold leading-[0.9] tracking-[-0.08em] sm:leading-[0.88] sm:tracking-[-0.085em]">
-          {personalSpaceConfig.identity.firstName}<br />
-          <span class="text-[var(--accent)]">{personalSpaceConfig.identity.lastName}.</span>
-        </h1>
-        <p class="mt-7 max-w-2xl text-xl font-medium leading-snug tracking-[-0.04em] text-[var(--ink)] sm:mt-9 sm:text-2xl lg:text-3xl">
-          {personalSpaceConfig.content.hero.headline}<span class="text-[var(--accent)]">.</span>
-        </p>
-        <p class="mt-4 max-w-xl text-sm leading-7 text-[var(--muted)] sm:text-base sm:leading-8 lg:text-lg">
-          {personalSpaceConfig.content.hero.description}
-        </p>
-        <ul aria-label="Explore this site" class="mt-5 flex flex-wrap gap-2 font-mono text-[10px] uppercase tracking-[0.12em] text-[var(--muted)] sm:mt-6">
+    <section id="top" class="hero-section relative grid gap-8 py-14 sm:gap-12 sm:py-20 lg:grid-cols-[minmax(0,1.15fr)_minmax(280px,0.85fr)] lg:items-center lg:gap-14 lg:py-24 xl:gap-20 xl:py-28">
+      <div class="hero-copy relative z-10 max-w-3xl">
+        <p class="hero-eyebrow"><span class="hero-eyebrow-mark" aria-hidden="true"></span>{personalSpaceConfig.identity.handle} <span>/</span> PERSONAL PROJECT SPACE</p>
+        <h1 class="hero-title">{personalSpaceConfig.identity.firstName}<br /><span>{personalSpaceConfig.identity.lastName}.</span></h1>
+        <p class="hero-headline">{personalSpaceConfig.content.hero.headline}<span>.</span></p>
+        <p class="hero-description">{personalSpaceConfig.content.hero.description}</p>
+        <ul aria-label="Explore this site" class="hero-shortcuts">
           {#each personalSpaceConfig.content.hero.tags as tag}
-            <li>
-              <a href={heroTagLinks[tag] ?? '#work'} class="inline-flex min-h-9 items-center rounded-full border border-[var(--line)] px-3 py-1.5 transition-colors hover:border-[var(--accent)] hover:bg-[var(--accent-soft)] hover:text-[var(--ink)] focus-visible:outline-offset-2">{tag}</a>
-            </li>
+            <li><a href={heroTagLinks[tag] ?? '#work'} class="transition-colors hover:text-[var(--accent)] focus-visible:outline-offset-2">{tag}<span aria-hidden="true">↗</span></a></li>
           {/each}
         </ul>
-        <div class="mt-7 flex flex-wrap items-center gap-3 sm:mt-9">
+        <div class="hero-actions">
           {#if personalSpaceConfig.sections.projects}
-            <a href="#work" class="inline-flex min-h-11 items-center gap-2 rounded-full bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[var(--accent-contrast)] transition hover:-translate-y-0.5 sm:gap-3 sm:px-6 sm:py-3.5 hover:shadow-[0_12px_30px_color-mix(in_srgb,var(--accent)_20%,transparent)]" style="color: var(--accent-contrast)">
-              Explore projects <span aria-hidden="true">↓</span>
-            </a>
+            <a href="#work" class="hero-primary-action">Explore projects <span aria-hidden="true">↓</span></a>
           {/if}
-          <a href={personalSpaceConfig.site.githubUrl} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center gap-2 rounded-full border border-[var(--line)] px-5 py-3 text-sm font-medium text-[var(--ink)] transition hover:border-[var(--accent)] sm:px-6 sm:py-3.5">
-            GitHub <span aria-hidden="true">↗</span>
-          </a>
+          <a href={personalSpaceConfig.site.githubUrl} target="_blank" rel="noopener noreferrer" class="hero-secondary-action">GitHub <span aria-hidden="true">↗</span></a>
         </div>
-        <div class="mt-8 border-t border-[var(--line)] pt-5 sm:mt-10 sm:pt-6">
-          <div class="mb-3 flex items-center justify-between gap-3">
-            <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--muted)]">Start with a tool</p>
-            <a href="#work" class="text-xs font-semibold text-[var(--accent)] hover:underline">All projects ↗</a>
+      </div>
+      <aside class="hero-aside" aria-label="Featured tools and site introduction">
+        <div class="hero-aside-note">
+          <p class="hero-aside-kicker">A small note</p>
+          <p class="hero-aside-statement">{personalSpaceConfig.content.hero.asideLines[0]}<br />{personalSpaceConfig.content.hero.asideLines[1]}<br />{personalSpaceConfig.content.hero.asideLines[2]}</p>
+        </div>
+        <div class="hero-tool-launcher">
+          <div class="hero-tool-heading">
+            <div><p class="hero-aside-kicker">START HERE</p><h2>Pick a tool.</h2></div>
+            <a href="#work">All projects <span aria-hidden="true">↗</span></a>
           </div>
-          <div class="grid gap-2 sm:grid-cols-3">
-            {#each heroFeaturedProjects as project}
-              <a href={project.live} target="_blank" rel="noopener noreferrer" class="group flex min-h-14 items-center justify-between gap-3 rounded-xl border border-[var(--line)] bg-[var(--panel)] px-3 py-3 text-sm transition-colors hover:border-[var(--accent)] hover:bg-[var(--accent-soft)]">
-                <span class="min-w-0">
-                  <span class="block truncate font-semibold text-[var(--ink)]">{project.name}</span>
-                  <span class="mt-0.5 block truncate text-[11px] text-[var(--muted)]">{project.type}</span>
-                </span>
-                <span aria-hidden="true" class="shrink-0 text-[var(--accent)] transition-transform group-hover:translate-x-0.5">↗</span>
+          <div class="hero-tool-list">
+            {#each heroFeaturedProjects as project, index}
+              <a href={project.live} target="_blank" rel="noopener noreferrer" class="hero-tool-link">
+                <span class="hero-tool-index">0{index + 1}</span>
+                <span class="hero-tool-copy"><span class="hero-tool-name">{project.name}</span><span class="hero-tool-type">{project.type}</span></span>
+                <span class="hero-tool-arrow" aria-hidden="true">↗</span>
               </a>
             {/each}
           </div>
+          <p class="hero-tool-footnote">Open a tool and get straight to the useful part.</p>
         </div>
-      </div>
-
-      <div class="hidden md:block">
-        <p class="border-l border-[var(--line)] pl-4 font-mono text-[10px] uppercase leading-6 tracking-[0.15em] text-[var(--muted)]">
-          {personalSpaceConfig.content.hero.asideLines[0]}<br />
-          {personalSpaceConfig.content.hero.asideLines[1]}<br />
-          {personalSpaceConfig.content.hero.asideLines[2]}
-        </p>
-      </div>
-
-      <div class="pointer-events-none absolute -right-5 top-20 -z-10 hidden select-none text-[18rem] font-black leading-none tracking-[-0.12em] text-[var(--accent)] opacity-[0.035] xl:block">L</div>
+      </aside>
+      <div class="hero-watermark" aria-hidden="true">L</div>
     </section>
 
     {#if personalSpaceConfig.sections.projects}
@@ -218,7 +207,7 @@
 
       <LabControls projects={[...projects]} onToggleTheme={toggleTheme} />
 
-      <article data-project-card data-category={projects[0].categories.join(' ')} aria-labelledby="project-pixelforge-title" aria-describedby="project-pixelforge-description" class="project-card group overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--panel)] transition duration-300 hover:-translate-y-1 hover:border-[color-mix(in_srgb,var(--accent)_55%,var(--line))]">
+      <article data-project-card data-category={projects[0].categories.join(' ')} aria-labelledby="project-pixelforge-title" aria-describedby="project-pixelforge-description" class="home-project-card home-project-card--featured project-card group overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--panel)] transition duration-300 hover:-translate-y-1 hover:border-[color-mix(in_srgb,var(--accent)_55%,var(--line))]">
         <div class="grid lg:grid-cols-[1.12fr_0.88fr]">
           <div aria-hidden="true" class="relative flex min-h-[220px] items-center justify-center overflow-hidden bg-[var(--panel-soft)] p-0 sm:min-h-[300px] lg:min-h-[370px]">
             <img src={projects[0].caseStudy.previewImage} alt="" width="1440" height="900" sizes="(max-width: 1024px) 100vw, 640px" loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover object-top" />
@@ -251,7 +240,7 @@
 
       <div class="mt-5 grid gap-5 lg:grid-cols-2">
         {#each projects.slice(1) as project}
-          <article data-project-card data-category={project.categories.join(' ')} aria-labelledby="project-{project.visual}-title" aria-describedby="project-{project.visual}-description" class="project-card group overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--panel)] transition duration-300 hover:-translate-y-1 hover:border-[color-mix(in_srgb,var(--accent)_55%,var(--line))]">
+          <article data-project-card data-category={project.categories.join(' ')} aria-labelledby="project-{project.visual}-title" aria-describedby="project-{project.visual}-description" class="home-project-card home-project-card--standard project-card group overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--panel)] transition duration-300 hover:-translate-y-1 hover:border-[color-mix(in_srgb,var(--accent)_55%,var(--line))]">
             <div aria-hidden="true" class="relative flex min-h-[210px] items-center justify-center overflow-hidden bg-[var(--panel-soft)] p-5 sm:min-h-[270px] sm:p-6">
               {#if project.visual === 'metro'}
                 <div class="w-full max-w-[560px] overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--panel)] shadow-xl">
