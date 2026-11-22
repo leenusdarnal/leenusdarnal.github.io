@@ -54,3 +54,10 @@ test('homepage project cards use consistent featured and standard elevation trea
   assert.ok(styles.includes('.home-project-card:hover'));
   assert.ok(styles.includes('.home-project-card--featured'));
 });
+
+test('new hero and navigation microcopy respects the 12px reading-text minimum', () => {
+  assert.match(
+    styles,
+    /\.hero-eyebrow,\s*\.hero-aside-kicker,\s*\.hero-tool-index,\s*\.hero-tool-type,\s*\.mobile-navigation-label\s*\{[^}]*font-size:\s*\.75rem;/
+  );
+});
