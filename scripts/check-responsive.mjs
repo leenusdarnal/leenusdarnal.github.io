@@ -281,7 +281,7 @@ try {
     const metronomeUrl = new URL('projects/metronome/', baseUrl).toString();
     const response = await metronomePage.goto(metronomeUrl, { waitUntil: 'domcontentloaded', timeout: 60_000 });
     assert.ok(response && response.status() < 400, 'Metronome case study did not load successfully');
-    const preview = metronomePage.locator('img[alt="Screenshot of the Metronome web app interface from its source repository."]');
+    const preview = metronomePage.locator('img[alt="Screenshot of the Metronome web app interface, captured from its live application."]');
     await preview.waitFor({ state: 'visible', timeout: 20_000 });
     await preview.evaluate((image) => image.decode());
     const previewDetails = await preview.evaluate((image) => ({
