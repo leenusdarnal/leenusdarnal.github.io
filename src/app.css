@@ -857,3 +857,13 @@ samp {
 @media (prefers-reduced-motion: reduce) {
   .mobile-navigation > summary svg, .hero-primary-action, .hero-tool-link, .home-project-card { transition: none; }
 }
+
+
+/* Preserve the site's 12px minimum for new technical and navigational microcopy. */
+.hero-eyebrow,
+.hero-aside-kicker,
+.hero-tool-index,
+.hero-tool-type,
+.mobile-navigation-label {
+  font-size: .75rem;
+}
