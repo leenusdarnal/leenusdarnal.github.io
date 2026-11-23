@@ -171,3 +171,10 @@ The Metronome README did not contain enough text for FAQs, so the source compone
 ## Lighthouse accessibility follow-up — 23 November 2026
 
 The 22 November Lighthouse artifact identified a visible-label/accessibility-name mismatch on the mobile menu disclosure. Removed its explicit `aria-label` so the visible “Menu” text supplies the control name, and added a regression assertion against the generated homepage HTML. The next Lighthouse and responsive accessibility runs should confirm the result after deployment.
+
+
+## Responsive project-preview optimisation — in progress, 23 November 2026
+
+Added a shared `ProjectPreviewImage.svelte` component that offers AVIF first, WebP second and the authentic original JPG/PNG as the final fallback. The component selects 480, 768, 1200 or 1440-pixel sources using per-placement `sizes`, with lazy loading and intrinsic dimensions retained. The repeatable optimizer uses pinned Sharp 0.35.5 as a temporary CI-only tool; it is not added to the application's dependencies.
+
+The branch-specific CI job is set to generate and commit all 32 modern variants to this pull request branch, then build the static site and run strict presence tests. See [PROJECT-PREVIEW-ASSET-PIPELINE.md](./PROJECT-PREVIEW-ASSET-PIPELINE.md). Merge only after reviewing the size report and successful CI. A new deployed Lighthouse run is required to measure the real result.
