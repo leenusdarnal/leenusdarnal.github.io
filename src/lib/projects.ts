@@ -38,6 +38,7 @@ export interface ProjectRecord {
     previewHeight?: number;
     privacy?: string;
     disclaimer?: string;
+    faqs?: readonly { question: string; answer: string }[];
   };
 }
 
@@ -66,6 +67,12 @@ export const projects: readonly ProjectRecord[] = [
       constraints: ['The editor targets 24 megapixels and a maximum 6,000-pixel document side.', 'Actual performance depends on device memory, layer count, masks and browser limits.', 'Web Workers are documented as planned, not active in the current release.'],
       nextSteps: ['Continue splitting the transitional canvas runtime into smaller feature modules.'],
       privacy: 'The project README documents IndexedDB autosaves and recovery copies on the current device, with no account, cloud sync or artwork upload. Browser storage can be cleared or evicted; export a .pfs file for a separate backup. This is a documentation-level review, not an independent network-traffic certification.',
+      faqs: [
+        { question: 'Where are my edits saved?', answer: 'Autosaves and up to three recovery copies are stored in IndexedDB on this device. No account or cloud sync is required. Browser storage can be cleared or evicted, so export an editable .pfs project for a separate backup.' },
+        { question: 'Can I clear the recovery copies?', answer: 'Yes. Open Manage local recovery and confirm the clear action. It removes the saved autosave and recovery copies, but it does not close or erase the canvas currently open or remove the offline app-shell cache. New edits can create fresh recovery snapshots.' },
+        { question: 'What image size is supported?', answer: 'The documented target is 24 megapixels with a maximum document side of 6,000 pixels. Larger imports are scaled down proportionally. This is a guardrail, not a guarantee of performance on every device; layers, masks and available memory matter.' },
+        { question: 'Can PixelForge work offline?', answer: 'PixelForge is described as offline-first and includes an app-shell cache. Offline use depends on the app and its assets having been loaded and cached successfully in the browser.' }
+      ],
       previewImage: '/images/project-previews/pixelforge.jpg',
       previewAlt: 'Live PixelForge Studio interface showing the image-editing workspace, toolbar and layers panel.',
       previewSourceUrl: 'https://pixelforge-studio-pied.vercel.app/',
@@ -128,6 +135,12 @@ export const projects: readonly ProjectRecord[] = [
       constraints: ['It is an independent estimate tool, not an official payroll system or pay-fixation authority.', 'Promotion fixation, retrospective arrears and other rule-dependent cases remain guarded where full validation is incomplete.', 'Verify current rates and employee eligibility against signed orders and the DDO / Accounts section.'],
       disclaimer: 'This is not an official Government of Sikkim calculator. It is an independent estimate tool and should not be treated as an authoritative pay determination. Confirm current rates, eligibility and deductions against signed orders and the DDO / Accounts section.',
       privacy: 'The project README states that calculations run in the browser and employee-specific records use browser-local storage or session-only workflows. It says the app does not request payroll credentials. Avoid using a shared device for personal records and use the app backup/export controls carefully. This is documentation-level evidence, not an independent network-traffic certification.',
+      faqs: [
+        { question: 'Is this an official Government payroll calculator?', answer: 'No. It is an independent estimate tool, not an official Government payroll system or pay-fixation authority. Confirm rates, eligibility and deductions against current signed Government orders and the employee’s DDO / Accounts section.' },
+        { question: 'What does the first calculation include?', answer: 'The main flow starts with Pay Level, Basic Pay and DA to produce a Basic Pay + DA gross estimate. Optional allowances, deductions, historical context and separate planning tools are available after the first result.' },
+        { question: 'Where are employee records stored?', answer: 'The project documentation describes pay-history and arrears drafts as browser-local data with backup and restore options. Some optional employee metadata in print/payslip workflows is session-only. Treat records on a shared device as sensitive and remove them when no longer needed.' },
+        { question: 'Does the calculator cover every pay-fixation case?', answer: 'No. Some rule-dependent cases, including direct-recruit fixation, promotion fixation, retrospective arrears and cohort-specific regularisation/ACPS, remain unautomated pending complete rule validation. Use the cited sources and seek confirmation from the DDO / Accounts section.' }
+      ],
       previewImage: '/images/project-previews/salary-calculator.jpg',
       previewAlt: 'Live Sikkim Government Salary Calculator interface showing the pay-level, basic-pay and DA selection workflow.',
       previewSourceUrl: 'https://sikkim-government-salary-calculator.vercel.app/',
@@ -159,6 +172,12 @@ export const projects: readonly ProjectRecord[] = [
       approach: ['AI model/runtime assets are loaded only after the user explicitly starts background removal; WebGPU is attempted first, with a WASM fallback.', 'Manual colour removal uses a local processing path and does not load the AI runtime or download model files.', 'The selected image is passed to a browser Web Worker for processing; independent runtime network verification remains pending.'],
       constraints: ['The current release handles one image at a time; batch queues and ZIP export are out of scope.', 'Accepts PNG, JPEG and WebP images up to 20 MB, 16 megapixels and 10,000 pixels on either side.', 'MODNet is primarily designed for people and portraits and may be less reliable on pets, products, fine objects, glass and complex scenes.', 'The first AI run requires an internet connection for model/runtime downloads; manual colour removal works without downloading the AI model.'],
       privacy: 'The current project README says source image pixels stay in the browser and are passed to a local Web Worker, and that pixels are not sent to an application server, model host, analytics service or cloud storage. AI mode downloads model/runtime assets from public model hosts after the user starts removal; manual colour mode does not load the AI model. This is documentation and targeted source evidence, not a clean-profile runtime network certification.',
+      faqs: [
+        { question: 'Can I process a batch of images?', answer: 'No. The current release processes one image at a time. Batch queues and ZIP export are outside the documented product scope.' },
+        { question: 'Which images can I use?', answer: 'The app accepts PNG, JPEG and WebP images up to 20 MB, 16 megapixels and 10,000 pixels on either side. Files outside those limits are rejected before full-resolution processing.' },
+        { question: 'Does AI removal need an internet connection?', answer: 'The first AI run needs a connection to download the model and runtime assets after you start removal. Advanced manual colour removal does not load the AI model and works without downloading those model files.' },
+        { question: 'Are my image pixels uploaded?', answer: 'The project README says image pixels stay in the browser and are passed to a local Web Worker. It says they are not sent to the app server, model host, analytics service or cloud storage. AI mode does download model/runtime assets from public model hosts. These are documentation and targeted source findings, not a completed clean-profile network certification.' }
+      ],
       previewImage: '/images/project-previews/pixelcutout.jpg',
       previewAlt: 'Live PixelCutout interface showing the AI background-removal action, manual colour-removal option and image selection area.',
       previewSourceUrl: 'https://pixelcutout-three.vercel.app/',
