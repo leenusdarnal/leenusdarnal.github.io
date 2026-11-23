@@ -16,6 +16,8 @@ export const SOURCE_EXTENSIONS = new Set([
   '.ts', '.tsx', '.vue', '.yaml', '.yml'
 ]);
 
+export const IGNORED_FILES = new Set(['bun.lock', 'bun.lockb', 'package-lock.json', 'pnpm-lock.yaml', 'yarn.lock']);
+
 export const IGNORED_DIRECTORIES = new Set([
   '.git', '.next', '.nuxt', '.svelte-kit', '.turbo', '.vercel',
   'artifacts', 'build', 'coverage', 'dist', 'node_modules', 'out',
@@ -100,6 +102,7 @@ async function collectSourceFiles(root, current = root, files = []) {
     }
 
     if (!entry.isFile()) continue;
+    if (IGNORED_FILES.has(entry.name)) continue;
     if (!SOURCE_EXTENSIONS.has(extname(entry.name).toLowerCase())) continue;
     if (entry.name.endsWith('.min.js')) continue;
 
