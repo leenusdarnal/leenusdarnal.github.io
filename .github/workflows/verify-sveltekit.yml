@@ -44,6 +44,14 @@ jobs:
           node --check scripts/check-responsive.mjs
           node --check scripts/check-accessibility.mjs
 
+      - name: Install image optimizer for preview optimization pull requests
+        if: github.event_name == 'pull_request' && startsWith(github.head_ref, 'optimize-project-previews-') && github.event.pull_request.head.repo.full_name == github.repository
+        run: npm install --no-save --package-lock=false sharp@0.35.5
+
+      - name: Generate responsive previews before prerendering
+        if: github.event_name == 'pull_request' && startsWith(github.head_ref, 'optimize-project-previews-') && github.event.pull_request.head.repo.full_name == github.repository
+        run: node scripts/optimize-project-previews.mjs
+
       - name: Build static site
         run: npm run build
 
