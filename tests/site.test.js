@@ -1022,8 +1022,10 @@ test('project case studies publish valid, conservative SoftwareApplication JSON-
     const page = await readFile(new URL(`projects/${slug}/index.html`, buildUrl), 'utf8');
     const match = page.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
     assert.ok(match, slug + ' is missing its JSON-LD block');
+    const payload = match[1].match(/\{[\s\S]*\}/)?.[0];
+    assert.ok(payload, slug + ' is missing the JSON object inside its JSON-LD block');
 
-    const data = JSON.parse(match[1]);
+    const data = JSON.parse(payload);
     assert.equal(data['@context'], 'https://schema.org');
     assert.equal(data['@type'], 'SoftwareApplication');
     assert.ok(data.name, slug + ' missing application name');
@@ -1031,7 +1033,7 @@ test('project case studies publish valid, conservative SoftwareApplication JSON-
     assert.match(data.url, /^https:\/\//, slug + ' missing live project URL');
     assert.match(data.codeRepository, /^https:\/\/github\.com\//, slug + ' missing source repository URL');
     assert.ok(data.applicationCategory, slug + ' missing application category');
-    assert.doesNotMatch(match[1], /[<>&]/, 'JSON-LD must escape HTML-significant characters');
+    assert.doesNotMatch(payload, /[<>&]/, 'JSON-LD must escape HTML-significant characters');
   }
 });
 
