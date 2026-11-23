@@ -52,6 +52,26 @@ async function audit(page, label, url) {
   console.log((violations.length ? 'FAIL ' : 'PASS ') + label + ': ' + violations.length + ' WCAG A/AA violations');
 }
 
+async function waitForDeveloperTools(page) {
+  const panel = page.locator('#developer-tools-panel');
+  await page.waitForFunction(() => {
+    const root = document.querySelector('#developer-tools-panel');
+    return Boolean(
+      root?.querySelector('button[aria-haspopup="dialog"]') ||
+      root?.querySelector('[role="alert"]')
+    );
+  }, null, { timeout: 45000, polling: 250 });
+
+  const loadError = panel.locator('[role="alert"]');
+  if (await loadError.isVisible()) {
+    throw new Error('Developer tools failed to load: ' + await loadError.innerText());
+  }
+
+  const trigger = panel.getByRole('button', { name: /Open command palette/ });
+  await trigger.waitFor({ state: 'visible', timeout: 5000 });
+  return trigger;
+}
+
 async function auditRoute(label, path, theme, viewport) {
   const { context, page } = await makePage(theme, viewport);
   try {
@@ -120,8 +140,7 @@ async function keyboardAudit() {
     const developer = page.getByRole('button', { name: 'For developers: inspect this site' });
     await tabUntilFocused(page, developer, 'developer tools toggle');
     await page.keyboard.press('Enter');
-    const trigger = page.getByRole('button', { name: /Open command palette/ });
-    await trigger.waitFor({ state: 'visible', timeout: 20000 });
+    const trigger = await waitForDeveloperTools(page);
     result.developerToolsKeyboardActivation = true;
 
     await page.keyboard.press('Control+k');
@@ -167,7 +186,7 @@ try {
     try {
       await page.goto(site, { waitUntil: 'domcontentloaded', timeout: 60000 });
       await page.getByRole('button', { name: 'For developers: inspect this site' }).click();
-      await page.getByRole('button', { name: /Open command palette/ }).waitFor({ state: 'visible', timeout: 20000 });
+      await waitForDeveloperTools(page);
       await audit(page, 'homepage-developer-tools-open', site);
       await page.keyboard.press('Control+k');
       await page.getByRole('dialog', { name: 'Command palette' }).waitFor({ state: 'visible' });
