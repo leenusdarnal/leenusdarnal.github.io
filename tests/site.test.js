@@ -270,9 +270,9 @@ test('CI validates pull requests and main pushes with supported dependency insta
   assert.match(ci, /branches: \[main\]/);
   assert.match(ci, /push:\n\s+branches: \[main,/);
   assert.match(ci, /run: npm ci --no-audit --no-fund/);
-  assert.match(ci, /npm install --no-save --package-lock=false sharp@0\\.35\\.5/);
-  assert.match(ci, /startsWith\\(github\\.head_ref, 'optimize-project-previews-'\\)/);
-  assert.doesNotMatch(ci, /npm install(?! --no-save --package-lock=false sharp@0\\.35\\.5)/);
+  assert.match(ci, /npm install --no-save --package-lock=false sharp@0\.35\.5/);
+  assert.match(ci, /startsWith\(github\.head_ref, 'optimize-project-previews-'\)/);
+  assert.doesNotMatch(ci, /npm install(?! --no-save --package-lock=false sharp@0\.35\.5)/);
   assert.doesNotMatch(ci, /if \[ -f package-lock/);
 });
 
