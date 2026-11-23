@@ -42,3 +42,10 @@ GitHub Pages remains the sole production host for this homepage. The site can sh
 - `REQUIRE_OPTIMIZED_PREVIEWS=1 npm test`
 
 The normal verification suite checks the component and prerendered srcsets. The image-optimization job and Pages deployment set `REQUIRE_OPTIMIZED_PREVIEWS=1`, which fails unless all four formats/sizes for all four screenshots are present in the static build.
+
+
+## First generated result — 23 November 2026
+
+The first report was produced by GitHub Actions run [#45132287829](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/45132287829); the clean final verification run is [#45132643426](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/45132643426). The four 1440px AVIF assets total 89,772 B versus 273,902 B for the four original JPG/PNG files, a combined reduction of 67.2%. At 1440px the per-image AVIF reductions are 68.1% (PixelForge), 76.1% (Metronome), 69.4% (Salary Calculator) and 61.3% (PixelCutout). Original files remain as fallbacks. The variants were visually inspected at full width and show no obvious interface-text degradation.
+
+The first run exposed two test/build integration issues: SvelteKit prerender correctly rejected missing responsive source-set assets before they were generated, and an older CI test disallowed any `npm install` string. The final pipeline now generates the variants before the ordinary PR build, runs a specialized branch-only generation/commit job, and explicitly permits only the pinned no-save Sharp install. Both workflow jobs and the strict 32-asset static-build test passed in run #45132643426.
