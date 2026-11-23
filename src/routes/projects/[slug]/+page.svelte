@@ -2,6 +2,7 @@
   import { personalSpaceConfig } from '../../../lib/personal-space.config';
   import ImageComparison from '../../../lib/ImageComparison.svelte';
   import ProjectQuickStart from '../../../lib/ProjectQuickStart.svelte';
+  import ProjectPreviewImage from '../../../lib/ProjectPreviewImage.svelte';
 
   let { data } = $props();
   let project = $derived(data.project);
@@ -51,7 +52,7 @@
 
       {#if project.caseStudy.previewImage}
         <figure class="mt-14 overflow-hidden rounded-3xl border border-[var(--line)] bg-[var(--panel)]">
-          <img src={project.caseStudy.previewImage} alt={project.caseStudy.previewAlt ?? `Screenshot of ${project.name}.`} width={project.caseStudy.previewWidth ?? 1440} height={project.caseStudy.previewHeight ?? 900} sizes="(max-width: 768px) calc(100vw - 2rem), 896px" loading="lazy" decoding="async" class="block h-auto w-full object-contain" />
+          <ProjectPreviewImage slug={project.slug} src={project.caseStudy.previewImage} alt={project.caseStudy.previewAlt ?? `Screenshot of ${project.name}.`} width={project.caseStudy.previewWidth ?? 1440} height={project.caseStudy.previewHeight ?? 900} sizes="(max-width: 768px) calc(100vw - 2rem), 896px" className="block h-auto w-full object-contain" />
           <figcaption class="flex flex-wrap items-center justify-between gap-2 border-t border-[var(--line)] px-4 py-3 text-xs text-[var(--muted)] sm:px-6">
             <span>Authentic interface preview</span>
             {#if project.caseStudy.previewSourceUrl}
