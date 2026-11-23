@@ -1022,7 +1022,7 @@ test('project case studies publish valid, conservative SoftwareApplication JSON-
     const page = await readFile(new URL(`projects/${slug}/index.html`, buildUrl), 'utf8');
     const match = page.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
     assert.ok(match, slug + ' is missing its JSON-LD block');
-    const payload = match[1].match(/\{[\s\S]*\}/)?.[0];
+    const payload = match[1].match(/\{\s*"@context"[\s\S]*?\}/)?.[0];
     assert.ok(payload, slug + ' is missing the JSON object inside its JSON-LD block');
 
     const data = JSON.parse(payload);
