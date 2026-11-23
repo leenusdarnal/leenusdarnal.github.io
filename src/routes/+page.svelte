@@ -4,6 +4,7 @@
   import ProjectActions from '../lib/ProjectActions.svelte';
   import ProjectQuickStart from '../lib/ProjectQuickStart.svelte';
   import ArchitectureExperiments from '../lib/ArchitectureExperiments.svelte';
+  import ProjectPreviewImage from '../lib/ProjectPreviewImage.svelte';
   import { personalSpaceConfig } from '../lib/personal-space.config';
   import { projects } from '../lib/projects';
   import { registerCrossOriginIsolation } from '../lib/cross-origin-isolation.js';
@@ -210,7 +211,7 @@
       <article data-project-card data-category={projects[0].categories.join(' ')} aria-labelledby="project-pixelforge-title" aria-describedby="project-pixelforge-description" class="home-project-card home-project-card--featured project-card group overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--panel)] transition duration-300 hover:-translate-y-1 hover:border-[color-mix(in_srgb,var(--accent)_55%,var(--line))]">
         <div class="grid lg:grid-cols-[1.12fr_0.88fr]">
           <div aria-hidden="true" class="relative flex min-h-[220px] items-center justify-center overflow-hidden bg-[var(--panel-soft)] p-0 sm:min-h-[300px] lg:min-h-[370px]">
-            <img src={projects[0].caseStudy.previewImage} alt="" width="1440" height="900" sizes="(max-width: 1024px) 100vw, 640px" loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover object-top" />
+            <ProjectPreviewImage slug={projects[0].slug} src={projects[0].caseStudy.previewImage} alt="" width={projects[0].caseStudy.previewWidth ?? 1440} height={projects[0].caseStudy.previewHeight ?? 900} sizes="(max-width: 640px) calc(100vw - 2rem), (max-width: 1024px) 48vw, 640px" className="absolute inset-0 size-full object-cover object-top" />
             <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-black/15"></div>
             <div class="absolute left-4 top-4 flex items-center gap-2 rounded-xl border border-white/20 bg-black/65 px-3 py-2 text-xs font-medium text-white backdrop-blur sm:left-5 sm:top-5">
               <img src="/images/project-icons/pixelforge-icon.svg" alt="" width="28" height="28" loading="lazy" decoding="async" class="size-7 rounded-md" />
@@ -244,12 +245,12 @@
             <div aria-hidden="true" class="relative flex min-h-[210px] items-center justify-center overflow-hidden bg-[var(--panel-soft)] p-5 sm:min-h-[270px] sm:p-6">
               {#if project.visual === 'metro'}
                 <div class="w-full max-w-[560px] overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--panel)] shadow-xl">
-                  <img src={project.caseStudy.previewImage} alt="" width={project.caseStudy.previewWidth ?? 1440} height={project.caseStudy.previewHeight ?? 900} sizes="(max-width: 560px) 100vw, 560px" loading="lazy" decoding="async" class="block h-auto w-full object-contain" />
+                  <ProjectPreviewImage slug={project.slug} src={project.caseStudy.previewImage} alt="" width={project.caseStudy.previewWidth ?? 1440} height={project.caseStudy.previewHeight ?? 900} sizes="(max-width: 640px) calc(100vw - 2rem), (max-width: 1024px) 48vw, 560px" className="block h-auto w-full object-contain" />
                 </div>
                 <p class="absolute bottom-4 right-5 rounded-full bg-[var(--panel)]/90 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.12em] text-[var(--muted)]">Live application preview</p>
               {:else}
                 <div class="absolute inset-4 overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--panel)] shadow-xl">
-                  <img src={project.caseStudy.previewImage} alt="" width={project.caseStudy.previewWidth ?? 1440} height={project.caseStudy.previewHeight ?? 900} sizes="(max-width: 1024px) 100vw, 560px" loading="lazy" decoding="async" class="size-full object-cover object-top" />
+                  <ProjectPreviewImage slug={project.slug} src={project.caseStudy.previewImage} alt="" width={project.caseStudy.previewWidth ?? 1440} height={project.caseStudy.previewHeight ?? 900} sizes="(max-width: 640px) calc(100vw - 2rem), (max-width: 1024px) 48vw, 560px" className="size-full object-cover object-top" />
                   <div class="absolute inset-x-0 bottom-0 flex items-center justify-between gap-2 bg-gradient-to-t from-black/75 to-transparent px-4 pb-3 pt-8">
                     <span class="text-xs font-medium text-white">{project.name}</span>
                     {#if project.visual === 'cutout'}
