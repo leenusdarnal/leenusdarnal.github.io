@@ -33,7 +33,7 @@ This file records homepage-specific decisions. Cross-repository implementation i
 - Add project-specific social images only when genuine project assets are available.
 - [x] Add a dated What's New section with verified 11 November 2026 project and quality updates.
 - [x] Expand case-study FAQs with browser support, offline behaviour, backups and limitations where confirmed.
-- Add structured data only for applications with verified product metadata.
+- [x] Add conservative SoftwareApplication JSON-LD to all four case studies using the existing catalogue's name, summary, category, live URL and source repository; omit ratings, prices and unsupported platform claims.
 
 ### P3 — quality and performance
 - [x] Add responsive browser-level end-to-end checks for navigation, theme switching and persistence, project links, FAQ and the PixelForge case-study path at 360, 390, 768, 1024 and 1440 CSS-pixel viewport widths.
@@ -181,3 +181,8 @@ These are measured source/variant byte counts, not a measured page-load improvem
 ## Final responsive-preview verification — 23 November 2026
 
 The optimized preview refresh workflow and PixelCutout capture selector fix are now merged. The final capture job [#45134276090](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/45134276090) updated all four app screenshots and regenerated the 32 responsive AVIF/WebP files in one commit. GitHub Pages deployment [#45134474049](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/45134474049) passed. The latest 1440px AVIF set totals 79,069 B against 253,456 B for the originals (68.8% lower). The latest Lighthouse image-delivery audits each scored 1.0; the measured Performance score was 98 with all other categories at 100. Responsive/accessibility QA [#45134276100](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/45134276100) passed five viewports and eight axe-core scans with zero violations.
+
+
+## Conservative project structured data — 23 November 2026
+
+Added schema.org `SoftwareApplication` JSON-LD to the four prerendered case-study pages. The payload uses only existing catalogue fields: project name, case-study summary, category, live URL and source repository. It intentionally omits ratings, prices, operating-system claims and other metadata that has not been independently established. JSON is serialized and HTML-significant characters are Unicode-escaped before being emitted in the head. Generated-site tests parse each JSON-LD block and assert its required fields and safe escaping.
