@@ -81,6 +81,7 @@ test('scanner excludes generated and installed dependency trees', async () => {
     await writeFile(join(root, 'src', 'main.js'), "fetch('/same-origin');");
     await writeFile(join(root, 'node_modules', 'example', 'index.js'), "fetch('https://dependency.test');");
     await writeFile(join(root, 'dist', 'bundle.js'), "new WebSocket('wss://generated.test');");
+    await writeFile(join(root, 'package-lock.json'), JSON.stringify({ packages: { '': { name: 'fixture' }, dep: { script: "fetch('https://lockfile.test')" } } }));
 
     const result = await scanRepository({
       name: 'Fixture App',
