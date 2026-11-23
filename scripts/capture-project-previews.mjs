@@ -16,7 +16,7 @@ const targets = [
     name: 'PixelCutout',
     file: 'pixelcutout.jpg',
     url: 'https://pixelcutout-three.vercel.app/',
-    expectedText: 'Make your subject',
+    expectedText: 'Keep the subject.',
     colorScheme: 'dark'
   },
   {
