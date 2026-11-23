@@ -49,6 +49,8 @@ jobs:
           node --check scripts/check-accessibility.mjs
 
       - name: Run generated-site smoke tests
+        env:
+          REQUIRE_OPTIMIZED_PREVIEWS: '1'
         run: npm test
 
       - name: Configure GitHub Pages
