@@ -197,3 +197,8 @@ The PixelCutout live preview selector is fixed and the capture workflow complete
 The current screenshot originals total 253,456 B and their 1440px AVIF versions total 79,069 B (68.8% lower). Post-optimization image audits passed in Lighthouse run [#45134276087](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/45134276087): modern formats, responsive images and efficient image encoding each scored 1.0. That run measured Performance 98, Accessibility 100, Best Practices 100 and SEO 100; LCP 1.5 s, TBT 170 ms and CLS 0. Cache-lifetime policy for 25 static resources remains a GitHub Pages hosting limitation.
 
 Responsive/browser and accessibility QA passed in [#45134276100](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/45134276100): five viewport profiles, eight axe-core WCAG A/AA scans with zero violations, and keyboard/focus checks. The latest screenshot-refresh deployment and static build passed. The Lighthouse run was just before the final screenshot recapture commit; image generation/commit/deployment then succeeded using the same verified pipeline.
+
+
+## Project structured data — 23 November 2026
+
+Added one schema.org `SoftwareApplication` JSON-LD block per prerendered project case study. It is built only from the shared catalogue's name, summary, case-study category, live URL and source URL. No ratings, prices or platform claims are asserted. The serializer escapes HTML-significant characters; smoke tests parse the emitted JSON for all four project pages and check required fields.
