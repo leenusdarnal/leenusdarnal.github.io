@@ -5,11 +5,12 @@
 **Default branch at checkpoint:** `main`  
 **Baseline commit:** `8ce2c9813018d4ac141f82edf40c71bf8315dec5`  
 **Production URL:** https://leenusdarnal.github.io/  
-**Purpose:** Resume implementation later without repeating discovery or treating unverified work as complete.
+**Purpose:** Resume implementation later without repeating discovery or treating unverified work as complete.  
+**Hosting decision (23 November 2026):** GitHub Pages is the only intended deployment target for this repository. Do not configure or deploy this site to Vercel.
 
 ## Executive status
 
-The homepage is substantially implemented and the current `main` branch has a successful build/deployment and automated quality run. This is **not certified as 100% complete**. The remaining work is a finite set of evidence and hosting tasks: independent Vercel deployment verification, human device/accessibility checks, privacy runtime traces for the linked apps, and ongoing accuracy/maintenance checks.
+The homepage is substantially implemented and the current `main` branch has a successful build/deployment and automated quality run. This is **not certified as 100% complete**. The remaining work is a finite set of evidence and hosting tasks: confirm GitHub Pages production state, human device/accessibility checks, privacy runtime traces for the linked apps, and ongoing accuracy/maintenance checks. A second hosting provider is not required.
 
 Do not equate a green CI run or a Lighthouse score with complete privacy, accessibility, device compatibility or product correctness.
 
@@ -23,7 +24,7 @@ At the time of this checkpoint:
 - No open pull requests were returned by the repository's open-PR query.
 - PR #74 (image optimization) and PR #59 (GitHub Actions artifact action update) had been merged.
 - PR #60 (TypeScript 7.0.2) was closed without merging. The recorded reason is that `svelte-check@4.7.8` declares peer compatibility with TypeScript `^5 || ^6`, and `npm ci` fails with ERESOLVE on TypeScript 7. Keep TypeScript 6 until the Svelte toolchain explicitly supports TypeScript 7 and the clean-install pipeline passes.
-- GitHub Pages is the only deployment target configured in this repository's checked-in workflow. The user wants both GitHub Pages and Vercel deployments where practical. Vercel deployment for this homepage has **not** been verified; do not state that it is live until the project is linked/configured and a production deployment is confirmed.
+- GitHub Pages is the only deployment target configured in this repository's checked-in workflow. The owner confirmed on 23 November 2026 that GitHub Pages must remain the sole deployment target; Vercel setup and deployment are intentionally out of scope.
 
 ### Current CI evidence
 
@@ -55,14 +56,11 @@ See [README](../README.md), [homepage roadmap](./HOMEPAGE-IMPROVEMENT-ROADMAP.md
 
 ## Remaining work — resume in this order
 
-### P0 — confirm deployment parity and production state
+### P0 — confirm GitHub Pages production state
 
-- [ ] Inspect Vercel project/integration for this repository. If no project exists, configure one only after confirming the correct account/project and build settings.
-- [ ] Confirm Vercel build settings for SvelteKit static output: Node 24, `npm ci`, `npm run check`, `npm run build`, output directory `build` (validate against the current adapter and Vercel's current SvelteKit support before setting it).
-- [ ] Ensure GitHub Pages remains the canonical low-cost deployment and that both deployment paths build the same commit.
-- [ ] Add a README link to the Vercel production URL only after a successful production deployment is confirmed.
-- [ ] Verify GitHub Pages and Vercel live URLs, TLS, canonical/OG URLs, sitemap, robots, RSS, 404 behaviour, image assets and key case-study routes.
-- [ ] Decide whether the Vercel deployment should be production or preview-only. Avoid unnecessary duplicated production infrastructure if it adds cost without value.
+- [ ] Confirm the latest successful GitHub Pages build/deploy workflow corresponds to the current reviewed `main` commit.
+- [ ] Verify the GitHub Pages production URL, TLS, canonical/OG URLs, sitemap, robots, RSS, 404 behaviour, image assets and key case-study routes.
+- [ ] Keep GitHub Pages as the sole deployment path; do not create a Vercel project, Vercel deployment, or secondary production target for this repository.
 
 ### P0 — complete the linked-app privacy/runtime audit
 
@@ -132,7 +130,7 @@ Do not commit the temporary no-save QA dependencies. Keep generated artifacts ou
 4. Pick the first unchecked P0 item. Keep changes small and verifiable.
 5. Implement on a feature branch, run the local/CI checks, review the diff and open a PR.
 6. Merge only when required checks pass and the change is safe. Do not merge failed or incompatible major dependency updates.
-7. Verify both hosting targets after a merge, if Vercel has been configured.
+7. Verify the GitHub Pages production deployment after a merge.
 8. Update this handoff, the homepage roadmap and privacy register with dated evidence, exact commit SHAs and run links. Mark an item complete only when its stated acceptance evidence exists.
 
 ## Definition of done
@@ -140,7 +138,7 @@ Do not commit the temporary no-save QA dependencies. Keep generated artifacts ou
 The homepage can be called release-complete for a given checkpoint only when:
 
 - the production build and tests pass from a clean lockfile install;
-- all intended deployment targets are live from the same reviewed commit;
+- the GitHub Pages production site is live from the reviewed commit (no secondary deployment target is required);
 - critical routes, links, metadata, assets and 404 behaviour are verified on production;
 - responsive, keyboard and automated WCAG checks pass, with human screen-reader/device checks recorded;
 - privacy claims are backed by source review and clean-profile runtime evidence for the linked applications;
