@@ -1020,7 +1020,7 @@ test('project case studies publish valid, conservative SoftwareApplication JSON-
 
   for (const slug of slugs) {
     const page = await readFile(new URL(`projects/${slug}/index.html`, buildUrl), 'utf8');
-    const match = page.match(/<script type="application\/ld\+json">([\\s\\S]*?)<\/script>/);
+    const match = page.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
     assert.ok(match, slug + ' is missing its JSON-LD block');
 
     const data = JSON.parse(match[1]);
