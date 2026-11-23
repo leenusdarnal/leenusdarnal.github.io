@@ -178,3 +178,8 @@ The 22 November Lighthouse artifact identified a visible-label/accessibility-nam
 Added a shared `ProjectPreviewImage.svelte` component that offers AVIF first, WebP second and the authentic original JPG/PNG as the final fallback. The component selects 480, 768, 1200 or 1440-pixel sources using per-placement `sizes`, with lazy loading and intrinsic dimensions retained. The repeatable optimizer uses pinned Sharp 0.35.5 as a temporary CI-only tool; it is not added to the application's dependencies.
 
 The branch-specific CI job is set to generate and commit all 32 modern variants to this pull request branch, then build the static site and run strict presence tests. See [PROJECT-PREVIEW-ASSET-PIPELINE.md](./PROJECT-PREVIEW-ASSET-PIPELINE.md). Merge only after reviewing the size report and successful CI. A new deployed Lighthouse run is required to measure the real result.
+
+
+## Preview refresh consistency — 23 November 2026
+
+The live project screenshot workflow now regenerates responsive AVIF/WebP variants immediately after capturing updated original screenshots and before its single asset commit. This prevents the source screenshot and its optimized variants from drifting apart on a later scheduled/manual refresh. Its workflow test checks the ordering and pinned optimizer version.

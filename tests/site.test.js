@@ -896,6 +896,10 @@ test('preview refresh dispatches a Pages deployment when captured images change'
   assert.match(workflow, /steps\.commit\.outputs\.changed == 'true'/);
   assert.match(workflow, /gh workflow run deploy\.yml --ref main/);
   assert.match(workflow, /Capture live project preview screenshots/);
+  assert.match(workflow, /npm install --no-save --package-lock=false --ignore-scripts sharp@0\.35\.5/);
+  assert.match(workflow, /node scripts\/optimize-project-previews\.mjs/);
+  assert.ok(workflow.indexOf('Capture live application interfaces') < workflow.indexOf('Regenerate responsive image variants from fresh screenshots'));
+  assert.ok(workflow.indexOf('Regenerate responsive image variants from fresh screenshots') < workflow.indexOf('Commit updated preview images'));
 });
 
 test('architecture disclosure names include their visible label for WCAG 2.5.3', async () => {
