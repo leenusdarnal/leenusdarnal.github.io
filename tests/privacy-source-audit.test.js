@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { mkdtemp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { mkdtemp, mkdir, rm, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import test from 'node:test';
 
@@ -18,7 +18,7 @@ test('privacy source scan finds network, storage, file-transfer and local-proces
       "const url = URL.createObjectURL(blob);",
       "const worker = new Worker(new URL('./worker.js', import.meta.url));",
       "navigator.sendBeacon('/telemetry', payload);"
-    ].join('\\n'));
+    ].join('\n'));
     const result = await scanRepository({
       name: 'Fixture App',
       repository: 'example/fixture',
