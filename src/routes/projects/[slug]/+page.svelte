@@ -142,6 +142,26 @@
           </section>
         </aside>
       </div>
+
+      {#if project.caseStudy.faqs?.length}
+        <section class="mt-16 border-t border-[var(--line)] pt-10" aria-labelledby="faq-heading">
+          <div class="max-w-3xl">
+            <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--accent)]">A few useful answers</p>
+            <h2 id="faq-heading" class="mt-3 text-3xl font-semibold tracking-[-0.05em]">Frequently asked questions</h2>
+            <div class="mt-7 grid gap-3">
+              {#each project.caseStudy.faqs as item}
+                <details class="group rounded-2xl border border-[var(--line)] bg-[var(--panel)] p-5 open:border-[var(--accent-border)]">
+                  <summary class="flex min-h-8 cursor-pointer list-none items-center justify-between gap-4 text-sm font-semibold marker:hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent)] [&::-webkit-details-marker]:hidden">
+                    <span>{item.question}</span>
+                    <span aria-hidden="true" class="shrink-0 text-lg font-normal text-[var(--accent)] transition-transform group-open:rotate-45">+</span>
+                  </summary>
+                  <p class="mt-4 max-w-2xl text-sm leading-7 text-[var(--muted)]">{item.answer}</p>
+                </details>
+              {/each}
+            </div>
+          </div>
+        </section>
+      {/if}
     </main>
   {:else}
     <main class="grid min-h-[60vh] content-center py-16">
