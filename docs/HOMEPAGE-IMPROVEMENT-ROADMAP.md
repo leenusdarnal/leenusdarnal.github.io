@@ -32,7 +32,7 @@ This file records homepage-specific decisions. Cross-repository implementation i
 ### P2 — project trust and discoverability
 - Add project-specific social images only when genuine project assets are available.
 - [x] Add a dated What's New section with verified 11 November 2026 project and quality updates.
-- Expand case-study FAQs with browser support, offline behaviour, backups and limitations where confirmed.
+- [x] Expand case-study FAQs with browser support, offline behaviour, backups and limitations where confirmed.
 - Add structured data only for applications with verified product metadata.
 
 ### P3 — quality and performance
@@ -144,3 +144,8 @@ A resume-first implementation register is now maintained in [HOMEPAGE-IMPLEMENTA
 The latest observed main-branch runs succeeded: GitHub Pages deployment #42991798095, verification #42991797941, Lighthouse #42991899830, responsive/accessibility QA #42991899862 and live preview capture #42991899832. These automated results do not close manual physical-device/screen-reader checks or clean-profile privacy network/storage checks for linked applications. The current checked-in deploy workflow configures GitHub Pages only; Vercel deployment parity remains unverified and is explicitly tracked in the handoff.
 
 No open PRs were returned by the repository query at this checkpoint. PRs #74 and #59 are merged. TypeScript 7 PR #60 was closed without merging because `svelte-check@4.7.8` does not accept TypeScript 7 and clean installation fails; retain TypeScript 6 until compatibility is confirmed.
+
+
+## Source-backed case-study FAQs — 23 November 2026
+
+Added native, keyboard-operable disclosure FAQs to the PixelForge Studio, PixelCutout and Sikkim Government Salary Calculator case studies. Questions and answers are maintained in the shared project catalogue so content stays alongside each project's source, constraints and privacy note. Answers cover documented local autosave/recovery and file-size guardrails, PixelCutout's one-image and AI-download behaviour, and the Salary Calculator's estimate-only status and unautomated rule-dependent cases. No FAQ was added to Metronome because the currently reviewed project README did not support equivalent product claims. Regression tests inspect the built HTML for the expected questions and source-backed answers.
