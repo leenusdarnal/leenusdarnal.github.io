@@ -23,35 +23,35 @@ export const IGNORED_DIRECTORIES = new Set([
 ]);
 
 export const RULES = [
-  { category: 'network', id: 'fetch-api', pattern: /\\bfetch\\s*\\(/i },
-  { category: 'network', id: 'xml-http-request', pattern: /\\bXMLHttpRequest\\b/i },
-  { category: 'network', id: 'send-beacon', pattern: /\\bsendBeacon\\s*\\(/i },
-  { category: 'network', id: 'websocket', pattern: /\\b(?:new\\s+)?WebSocket\\s*\\(/i },
-  { category: 'network', id: 'event-source', pattern: /\\b(?:new\\s+)?EventSource\\s*\\(/i },
-  { category: 'network', id: 'http-client-library', pattern: /\\b(?:axios|ky|ofetch|superagent|graphql-request|urql)\\b|@apollo\\/client/i },
+  { category: 'network', id: 'fetch-api', pattern: /\bfetch\s*\(/i },
+  { category: 'network', id: 'xml-http-request', pattern: /\bXMLHttpRequest\b/i },
+  { category: 'network', id: 'send-beacon', pattern: /\bsendBeacon\s*\(/i },
+  { category: 'network', id: 'websocket', pattern: /\b(?:new\s+)?WebSocket\s*\(/i },
+  { category: 'network', id: 'event-source', pattern: /\b(?:new\s+)?EventSource\s*\(/i },
+  { category: 'network', id: 'http-client-library', pattern: /\b(?:axios|ky|ofetch|superagent|graphql-request|urql)\b|@apollo\/client/i },
 
-  { category: 'telemetry', id: 'analytics-global', pattern: /\\b(?:gtag|ga\\s*\\(|dataLayer|_paq)\\b/i },
-  { category: 'telemetry', id: 'telemetry-sdk', pattern: /\\b(?:posthog|mixpanel|amplitude|segment|sentry|hotjar|clarity|plausible|umami|matomo)\\b/i },
+  { category: 'telemetry', id: 'analytics-global', pattern: /\b(?:gtag|ga\s*\(|dataLayer|_paq)\b/i },
+  { category: 'telemetry', id: 'telemetry-sdk', pattern: /\b(?:posthog|mixpanel|amplitude|segment|sentry|hotjar|clarity|plausible|umami|matomo)\b/i },
 
-  { category: 'storage', id: 'local-storage', pattern: /\\blocalStorage\\b/i },
-  { category: 'storage', id: 'session-storage', pattern: /\\bsessionStorage\\b/i },
-  { category: 'storage', id: 'indexed-db', pattern: /\\bindexedDB\\b/i },
-  { category: 'storage', id: 'cache-storage', pattern: /\\bcaches\\s*\\.\\s*(?:open|match|keys|delete)\\s*\\(/i },
-  { category: 'storage', id: 'service-worker', pattern: /\\bserviceWorker\\b/i },
-  { category: 'storage', id: 'cookies', pattern: /\\bdocument\\s*\\.\\s*cookie\\b/i },
+  { category: 'storage', id: 'local-storage', pattern: /\blocalStorage\b/i },
+  { category: 'storage', id: 'session-storage', pattern: /\bsessionStorage\b/i },
+  { category: 'storage', id: 'indexed-db', pattern: /\bindexedDB\b/i },
+  { category: 'storage', id: 'cache-storage', pattern: /\bcaches\s*\.\s*(?:open|match|keys|delete)\s*\(/i },
+  { category: 'storage', id: 'service-worker', pattern: /\bserviceWorker\b/i },
+  { category: 'storage', id: 'cookies', pattern: /\bdocument\s*\.\s*cookie\b/i },
 
-  { category: 'file-transfer', id: 'form-data', pattern: /\\b(?:new\\s+)?FormData\\s*\\(/i },
-  { category: 'file-transfer', id: 'multipart-content-type', pattern: /multipart\\/form-data/i },
+  { category: 'file-transfer', id: 'form-data', pattern: /\b(?:new\s+)?FormData\s*\(/i },
+  { category: 'file-transfer', id: 'multipart-content-type', pattern: /multipart\/form-data/i },
 
-  { category: 'workers', id: 'worker-construction', pattern: /\\bnew\\s+(?:Shared)?Worker\\s*\\(/i },
-  { category: 'workers', id: 'message-passing', pattern: /\\.postMessage\\s*\\(/i },
+  { category: 'workers', id: 'worker-construction', pattern: /\bnew\s+(?:Shared)?Worker\s*\(/i },
+  { category: 'workers', id: 'message-passing', pattern: /\.postMessage\s*\(/i },
 
-  { category: 'file-processing', id: 'object-url-create', pattern: /\\bURL\\s*\\.\\s*createObjectURL\\s*\\(/i },
-  { category: 'file-processing', id: 'image-bitmap', pattern: /\\bcreateImageBitmap\\s*\\(/i },
-  { category: 'file-processing', id: 'offscreen-canvas', pattern: /\\bOffscreenCanvas\\b/i },
-  { category: 'file-processing', id: 'blob-or-file', pattern: /\\b(?:new\\s+)?(?:Blob|File)\\s*\\(/i },
+  { category: 'file-processing', id: 'object-url-create', pattern: /\bURL\s*\.\s*createObjectURL\s*\(/i },
+  { category: 'file-processing', id: 'image-bitmap', pattern: /\bcreateImageBitmap\s*\(/i },
+  { category: 'file-processing', id: 'offscreen-canvas', pattern: /\bOffscreenCanvas\b/i },
+  { category: 'file-processing', id: 'blob-or-file', pattern: /\b(?:new\s+)?(?:Blob|File)\s*\(/i },
 
-  { category: 'external-reference', id: 'remote-url-literal', pattern: /https?:\\/\\/[a-z0-9.-]+(?::\\d+)?/i }
+  { category: 'external-reference', id: 'remote-url-literal', pattern: /https?:\/\/[a-z0-9.-]+(?::\d+)?/i }
 ];
 
 const TELEMETRY_PACKAGE_PATTERN = /(?:analytics|segment|sentry|posthog|mixpanel|amplitude|hotjar|clarity|plausible|umami|matomo|google-analytics|gtag)/i;
@@ -79,10 +79,10 @@ export const DEFAULT_TARGETS = [
 
 export function redactExcerpt(value) {
   return String(value)
-    .replace(/\\bBearer\\s+[A-Za-z0-9._~+/-]+=*/gi, 'Bearer [redacted]')
-    .replace(/([?&](?:access_token|token|api[_-]?key|key|secret|password)=)[^&\\s"'\x60]*/gi, '$1[redacted]')
-    .replace(/((?:api[_-]?key|access[_-]?token|secret|password)\\s*[:=]\\s*["'\x60])[^"'\x60]+(["'\x60])/gi, '$1[redacted]$2')
-    .replace(/\\b(?:gh[pousr]_[A-Za-z0-9]{20,}|sk-[A-Za-z0-9_-]{20,})\\b/g, '[redacted-token]')
+    .replace(/\bBearer\s+[A-Za-z0-9._~+/-]+=*/gi, 'Bearer [redacted]')
+    .replace(/([?&](?:access_token|token|api[_-]?key|key|secret|password)=)[^&\s"'\x60]*/gi, '$1[redacted]')
+    .replace(/((?:api[_-]?key|access[_-]?token|secret|password)\s*[:=]\s*["'\x60])[^"'\x60]+(["'\x60])/gi, '$1[redacted]$2')
+    .replace(/\b(?:gh[pousr]_[A-Za-z0-9]{20,}|sk-[A-Za-z0-9_-]{20,})\b/g, '[redacted-token]')
     .slice(0, 240);
 }
 
@@ -131,7 +131,7 @@ export async function scanRepository({ name, repository, root, revision = undefi
   let manifestsScanned = 0;
 
   for (const file of files) {
-    const relativePath = relative(absoluteRoot, file).split('\\\\').join('/');
+    const relativePath = relative(absoluteRoot, file).replaceAll('\\', '/');
     let source;
 
     try {
@@ -140,7 +140,7 @@ export async function scanRepository({ name, repository, root, revision = undefi
       continue;
     }
 
-    if (source.includes('\\0')) continue;
+    if (source.includes('\0')) continue;
 
     if (basename(file) === 'package.json') {
       manifestsScanned += 1;
@@ -170,7 +170,7 @@ export async function scanRepository({ name, repository, root, revision = undefi
       }
     }
 
-    const lines = source.split(/\\r?\\n/);
+    const lines = source.split(/\r?\n/);
     for (let index = 0; index < lines.length; index += 1) {
       const line = lines[index];
       if (!line.trim()) continue;
@@ -244,7 +244,7 @@ export function buildMarkdownReport(report) {
 
     lines.push('| Category | Pattern | File | Line | Excerpt (redacted) |', '| --- | --- | --- | ---: | --- |');
     for (const finding of repository.findings) {
-      const excerpt = finding.excerpt.replace(/\\|/g, '\\\\|').replace(/\\n/g, ' ');
+      const excerpt = finding.excerpt.replace(/\|/g, '\\|').replace(/\n/g, ' ');
       lines.push(`| ${finding.category} | ${finding.rule} | \`${finding.file}\` | ${finding.line ?? '—'} | \`${excerpt}\` |`);
     }
     if (repository.findingsTruncated) {
@@ -266,7 +266,7 @@ export function buildMarkdownReport(report) {
     'A match in this report is a lead for code review. A missing match is not proof of absence.'
   );
 
-  return lines.join('\\n');
+  return lines.join('\n');
 }
 
 const LIMITATIONS = [
@@ -299,11 +299,11 @@ export async function runAudit({ workspace = process.cwd(), generatedAt = new Da
   const markdownPath = join(outputDirectory, 'summary.md');
   const markdown = buildMarkdownReport(report);
 
-  await writeFile(jsonPath, `${JSON.stringify(report, null, 2)}\\n`);
-  await writeFile(markdownPath, `${markdown}\\n`);
+  await writeFile(jsonPath, `${JSON.stringify(report, null, 2)}\n`);
+  await writeFile(markdownPath, `${markdown}\n`);
 
   if (process.env.GITHUB_STEP_SUMMARY) {
-    await appendFile(process.env.GITHUB_STEP_SUMMARY, `${markdown}\\n`);
+    await appendFile(process.env.GITHUB_STEP_SUMMARY, `${markdown}\n`);
   }
 
   return { report, jsonPath, markdownPath, markdown };
@@ -311,14 +311,14 @@ export async function runAudit({ workspace = process.cwd(), generatedAt = new Da
 
 async function main() {
   const result = await runAudit();
-  process.stdout.write(`${result.markdown}\\n`);
-  process.stdout.write(`\\nWrote ${result.jsonPath} and ${result.markdownPath}\\n`);
+  process.stdout.write(`${result.markdown}\n`);
+  process.stdout.write(`\nWrote ${result.jsonPath} and ${result.markdownPath}\n`);
 }
 
 const invokedPath = process.argv[1] ? resolve(process.argv[1]) : null;
 if (invokedPath && import.meta.url === pathToFileURL(invokedPath).href) {
   main().catch((error) => {
-    process.stderr.write(`Privacy source audit failed: ${error.message}\\n`);
+    process.stderr.write(`Privacy source audit failed: ${error.message}\n`);
     process.exitCode = 1;
   });
 }
