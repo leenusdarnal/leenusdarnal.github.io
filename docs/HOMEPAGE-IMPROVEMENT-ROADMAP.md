@@ -154,3 +154,8 @@ Added native, keyboard-operable disclosure FAQs to the PixelForge Studio, PixelC
 ### Metronome FAQ source review — 23 November 2026
 
 The initial FAQ pass omitted Metronome because its README contains only a screenshot. A subsequent review of the live source repository confirmed concrete behaviours in `src/Metronome.tsx`, `src/components/Slider.tsx`, `src/components/Tempo.tsx`, `src/components/PlayButton.tsx` and `src/App.tsx`. The case study now answers the documented tempo range (30–240 BPM), default tempo (80 BPM), available beat choices (1/4 through 4/4, default 3/4), tempo changes during playback and browser-local dark-mode preference. These are implementation facts, not broader compatibility or audio-performance guarantees.
+
+
+## Lighthouse accessible-name remediation — 23 November 2026
+
+The 22 November Lighthouse JSON artifact reported a failed `label-content-name-mismatch` audit for the mobile navigation disclosure: its visible text was “Menu” while its explicit accessible name was “Open main navigation”. Removed the unnecessary `aria-label` so the native `summary` control exposes its visible “Menu” label as its accessible name, and added a generated-HTML regression test to keep the visible label and accessible name aligned. The audit report remains available from workflow run [#45056125512](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/45056125512).
