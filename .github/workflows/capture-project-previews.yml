@@ -53,6 +53,12 @@ jobs:
       - name: Capture live application interfaces
         run: node scripts/capture-project-previews.mjs
 
+      - name: Install pinned project image optimizer
+        run: npm install --no-save --package-lock=false --ignore-scripts sharp@0.35.5
+
+      - name: Regenerate responsive image variants from fresh screenshots
+        run: node scripts/optimize-project-previews.mjs
+
       - name: Commit updated preview images
         id: commit
         run: |
