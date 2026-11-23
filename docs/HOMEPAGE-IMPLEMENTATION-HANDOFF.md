@@ -156,3 +156,8 @@ A repeatable static privacy source-pattern audit has been implemented for PixelF
 ## Content correction — 23 November 2026
 
 The PixelCutout case study was corrected to match the current app README and Project Tracker v1.4 (updated 22 November 2026): one image at a time, AI-assisted or manual colour removal, transparent PNG export, and no batch queue/ZIP or crop tools in the current scope. The previous homepage note claiming batch processing for 20 images and ZIP export was withdrawn. The updated catalogue regression test guards against those unsupported claims.
+
+
+## Case-study FAQ implementation — 23 November 2026
+
+Added source-backed native disclosure FAQs for PixelForge Studio, PixelCutout and the Salary Calculator. The shared project catalogue owns each question and answer; the case-study route renders them as semantic `details/summary` disclosures with visible focus treatment. The regression test checks the prerendered case-study HTML and deliberately verifies that no unsupported FAQ is emitted for Metronome.
