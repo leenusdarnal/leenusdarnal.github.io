@@ -159,3 +159,20 @@ The initial FAQ pass omitted Metronome because its README contains only a screen
 ## Lighthouse accessible-name remediation — 23 November 2026
 
 The 22 November Lighthouse JSON artifact reported a failed `label-content-name-mismatch` audit for the mobile navigation disclosure: its visible text was “Menu” while its explicit accessible name was “Open main navigation”. Removed the unnecessary `aria-label` so the native `summary` control exposes its visible “Menu” label as its accessible name, and added a generated-HTML regression test to keep the visible label and accessible name aligned. The audit report remains available from workflow run [#45056125512](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/45056125512).
+
+
+## Responsive project-preview delivery — 23 November 2026
+
+PR [#98](https://github.com/leenusdarnal/leenusdarnal.github.io/pull/98) adds responsive AVIF/WebP variants for the four authentic application screenshots. Each source is encoded at 480, 768, 1200 and 1440 pixels wide in both formats. The shared picture component prefers AVIF, then WebP, then falls back to the original JPG/PNG. The original screenshots are unchanged.
+
+The optimizer report from GitHub Actions run [#45132643426](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/45132643426) records these 1440px comparisons:
+
+| Project | Original | AVIF | Reduction |
+| --- | ---: | ---: | ---: |
+| PixelForge Studio | 103,501 B | 33,017 B | 68.1% |
+| Metronome | 19,704 B | 4,706 B | 76.1% |
+| Salary Calculator | 78,113 B | 23,927 B | 69.4% |
+| PixelCutout | 72,584 B | 28,122 B | 61.3% |
+| **Combined** | **273,902 B** | **89,772 B** | **67.2%** |
+
+These are measured source/variant byte counts, not a measured page-load improvement. The browser selects an appropriate width and format; a new deployed Lighthouse run is needed to evaluate actual transfer and performance. The Lighthouse cache-lifetime finding remains a hosting limitation: GitHub Pages does not expose per-file response-header configuration in this project.
