@@ -21,6 +21,8 @@ const css = await readFile(new URL('../src/app.css', import.meta.url), 'utf8');
 const labControls = await readFile(new URL('../src/lib/LabControls.svelte', import.meta.url), 'utf8');
 const developerTools = await readFile(new URL('../src/lib/DeveloperTools.svelte', import.meta.url), 'utf8');
 const projectActions = await readFile(new URL('../src/lib/ProjectActions.svelte', import.meta.url), 'utf8');
+const previewImageComponent = await readFile(new URL('../src/lib/ProjectPreviewImage.svelte', import.meta.url), 'utf8');
+const previewOptimizer = await readFile(new URL('../scripts/optimize-project-previews.mjs', import.meta.url), 'utf8');
 const monitorWorkflow = await readFile(new URL('../.github/workflows/monitor-sites.yml', import.meta.url), 'utf8');
 
 test('homepage includes a dated updates section with verified release links', () => {
@@ -324,7 +326,11 @@ test('homepage uses live application screenshots and self-hosted brand assets', 
     '/images/project-previews/pixelforge.jpg',
     '/images/project-previews/salary-calculator.jpg',
     '/images/project-previews/pixelcutout.jpg',
-    '/images/metronome-preview.png'
+    '/images/metronome-preview.png',
+    '/images/project-previews/optimized/pixelforge-studio-480.avif',
+    '/images/project-previews/optimized/sikkim-government-salary-calculator-480.avif',
+    '/images/project-previews/optimized/pixelcutout-480.avif',
+    '/images/project-previews/optimized/metronome-480.avif'
   ]) {
     assert.ok(html.includes(path), 'Missing same-origin preview: ' + path);
   }
@@ -334,10 +340,44 @@ test('homepage uses live application screenshots and self-hosted brand assets', 
 });
 
 
-test('the genuine Metronome screenshot reserves its intrinsic aspect ratio and loads lazily', async () => {
-  const metronomePage = await readFile(new URL('projects/metronome/index.html', buildUrl), 'utf8');
-  assert.ok(metronomePage.includes('src="/images/metronome-preview.png"') && metronomePage.includes('width="1440" height="900"'));
-  assert.ok(metronomePage.includes('loading="lazy" decoding="async"'));
+test('all project preview images use responsive AVIF/WebP with authentic original fallbacks', async () => {
+  assert.match(previewImageComponent, /<picture/);
+  assert.match(previewImageComponent, /type="image\/avif"/);
+  assert.match(previewImageComponent, /type="image\/webp"/);
+  assert.match(previewImageComponent, /loading="lazy" decoding="async"/);
+  assert.match(previewImageComponent, /\/images\/project-previews\/optimized\//);
+  assert.match(previewOptimizer, /const WIDTHS = \[480, 768, 1200, 1440\]/);
+  assert.match(previewOptimizer, /quality: 52/);
+  assert.match(previewOptimizer, /quality: 82/);
+  assert.match(previewOptimizer, /originalsPreserved: true/);
+  assert.match(source, /<ProjectPreviewImage slug=\{projects\[0\]\.slug\}/);
+  assert.match(source, /<ProjectPreviewImage slug=\{project\.slug\}/);
+  assert.match(projectDetailSource, /<ProjectPreviewImage slug=\{project\.slug\}/);
+
+  const pages = [
+    ['pixelforge-studio', '/images/project-previews/pixelforge.jpg'],
+    ['metronome', '/images/metronome-preview.png'],
+    ['sikkim-government-salary-calculator', '/images/project-previews/salary-calculator.jpg'],
+    ['pixelcutout', '/images/project-previews/pixelcutout.jpg']
+  ];
+  for (const [slug, fallback] of pages) {
+    const page = await readFile(new URL(`projects/${slug}/index.html`, buildUrl), 'utf8');
+    assert.ok(page.includes(fallback), slug + ' must retain its authentic screenshot fallback');
+    assert.ok(page.includes(`/images/project-previews/optimized/${slug}-480.avif`), slug + ' is missing AVIF srcset');
+    assert.ok(page.includes(`/images/project-previews/optimized/${slug}-1440.webp`), slug + ' is missing WebP srcset');
+  }
+});
+
+test('responsive modern project image variants exist in the production build when required', { skip: process.env.REQUIRE_OPTIMIZED_PREVIEWS !== '1' }, async () => {
+  const slugs = ['pixelforge-studio', 'metronome', 'sikkim-government-salary-calculator', 'pixelcutout'];
+  for (const slug of slugs) {
+    for (const width of [480, 768, 1200, 1440]) {
+      for (const format of ['avif', 'webp']) {
+        const asset = await readFile(new URL(`images/project-previews/optimized/${slug}-${width}.${format}`, buildUrl));
+        assert.ok(asset.length > 0, `Empty ${format} preview: ${slug}-${width}`);
+      }
+    }
+  }
 });
 
 test('case studies provide social preview metadata', async () => {
