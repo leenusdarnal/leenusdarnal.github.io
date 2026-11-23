@@ -103,6 +103,12 @@ export const projects: readonly ProjectRecord[] = [
       highlights: ['Tempo control', 'Playback controls', 'Selectable time signatures'],
       approach: ['The interface centres the practice loop on tempo, playback and time-signature selection.', 'The implementation uses React, TypeScript and Vite.'],
       constraints: ['The portfolio describes the visible product scope and does not claim unverified advanced practice features.'],
+      faqs: [
+        { question: 'What tempo range can I set?', answer: 'The tempo slider ranges from 30 to 240 BPM. The metronome starts at 80 BPM.' },
+        { question: 'Which time signatures are available?', answer: 'You can choose 1/4, 2/4, 3/4 or 4/4. The default selection is 3/4.' },
+        { question: 'Can I change tempo while playback is running?', answer: 'Yes. Changing BPM or the selected beat count updates the playback interval while the metronome is running.' },
+        { question: 'Is my dark-mode preference remembered?', answer: 'The app stores the dark-mode choice in this browser’s localStorage and reads it when the app loads.' }
+      ],
       previewImage: '/images/metronome-preview.png',
       previewAlt: 'Screenshot of the Metronome web app interface, captured from its live application.',
       previewSourceUrl: 'https://react-metronome-dusky.vercel.app/',
