@@ -207,6 +207,14 @@ test('mobile navigation and primary actions retain comfortable touch targets', (
   assert.ok(html.includes('size-11 shrink-0 place-items-center'));
 });
 
+test('mobile menu accessible name includes its visible Menu label', () => {
+  const summary = html.match(/<summary[^>]*class="mobile-navigation-trigger"[^>]*>[\\s\\S]*?<\\/summary>/)?.[0];
+  assert.ok(summary, 'Missing mobile navigation disclosure');
+  assert.match(summary, /<span>Menu<\\/span>/);
+  assert.doesNotMatch(summary, /aria-label=/);
+  assert.match(summary, /aria-hidden="true"/);
+});
+
 test('the document prevents horizontal page overflow and retains reduced-motion support', () => {
   assert.ok(css.includes('overflow-x: clip'));
   assert.ok(css.includes('@media (prefers-reduced-motion: reduce)'));
