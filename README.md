@@ -1,6 +1,6 @@
 # Leenus Darnal — Personal Website
 
-A personal homepage and maker's notebook built with SvelteKit, Svelte 5 and Tailwind CSS 4. It collects useful tools, side projects and experiments. The site is prerendered as static files and currently published to GitHub Pages. A second production deployment to Vercel is part of the hosting preference but is not yet documented or verified for this repository.
+A personal homepage and maker's notebook built with SvelteKit, Svelte 5 and Tailwind CSS 4. It collects useful tools, side projects and experiments. The site is prerendered as static files and published to GitHub Pages. GitHub Pages is the sole intended production host for this repository; no Vercel deployment is planned.
 
 ## Live website
 
@@ -38,7 +38,7 @@ npm run build
 npm test
 ```
 
-GitHub Actions runs the checks on pull requests and pushes to main. After a successful build and test run, the Pages workflow publishes the generated build/ directory to GitHub Pages. GitHub Pages is the only currently configured and verified production deployment target for this website; Vercel parity remains a tracked follow-up, not a claim of an active deployment.
+GitHub Actions runs the checks on pull requests and pushes to main. After a successful build and test run, the Pages workflow publishes the generated build/ directory to GitHub Pages. GitHub Pages is the sole intended and configured production deployment target for this website. Vercel deployment and hosting parity are out of scope.
 
 ## Quality and maintenance
 
