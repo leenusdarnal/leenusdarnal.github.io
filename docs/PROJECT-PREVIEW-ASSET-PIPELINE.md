@@ -59,3 +59,22 @@ The post-deployment live screenshot capture workflow also runs the pinned Sharp 
 ## Capture selector maintenance — 23 November 2026
 
 The live capture script waits for “Keep the subject.” on the current PixelCutout homepage. This was updated from the obsolete “Make your subject” phrase after the 23 November capture timed out; the source of truth is the app's current `src/routes/+page.svelte` heading. A smoke assertion protects the new string.
+
+
+## Latest live screenshot refresh and production checks — 23 November 2026
+
+The corrected live capture workflow passed in [run #45134276090](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/45134276090). It captured PixelForge Studio, PixelCutout, the Salary Calculator and Metronome, regenerated all 32 responsive variants, and committed the original screenshots plus derivatives as `5134ca2d8694bd5c884ec5560cb008971e73713f`. The follow-up GitHub Pages deployment succeeded in [run #45134474049](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/45134474049).
+
+The latest refresh report measured:
+
+| Project | Original screenshot | 1440px AVIF | Reduction |
+| --- | ---: | ---: | ---: |
+| PixelForge Studio | 103,501 B | 33,017 B | 68.1% |
+| Metronome | 19,704 B | 4,706 B | 76.1% |
+| Salary Calculator | 78,113 B | 23,927 B | 69.4% |
+| PixelCutout | 52,138 B | 17,419 B | 66.6% |
+| **Combined** | **253,456 B** | **79,069 B** | **68.8%** |
+
+The live Lighthouse report from [run #45134276087](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/45134276087), on the homepage code commit immediately before the final screenshot recapture, recorded Performance 98, Accessibility 100, Best Practices 100 and SEO 100. LCP was 1.5 s, TBT 170 ms and CLS 0. The modern-format, responsive-image and efficient-encoding audits each scored 1.0. The long-cache-lifetime audit remained at 0.5 (25 resources), a GitHub Pages response-header limitation. These Lighthouse numbers are a measured run, not a guarantee across devices or later runs.
+
+Responsive browser QA passed in [run #45134276100](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/45134276100): all five viewport profiles passed; eight axe-core WCAG A/AA scans reported zero violations; keyboard navigation and command-palette focus checks passed. The final screenshot-refresh deployment #45134474049 also passed build, dependency audit, Svelte checks, generated links and static-site smoke tests.
