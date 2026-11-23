@@ -54,3 +54,8 @@ The first run exposed two test/build integration issues: SvelteKit prerender cor
 ## Refresh lifecycle integration — 23 November 2026
 
 The post-deployment live screenshot capture workflow also runs the pinned Sharp optimizer after capturing all source screenshots and before committing image assets. Thus, if a live application UI changes and the JPEG/PNG originals are refreshed, the matching AVIF/WebP derivatives are regenerated in the same commit. The subsequent Pages deployment publishes both together. The optimizer is temporary CI tooling and is not part of the site's runtime dependencies.
+
+
+## Capture selector maintenance — 23 November 2026
+
+The live capture script waits for “Keep the subject.” on the current PixelCutout homepage. This was updated from the obsolete “Make your subject” phrase after the 23 November capture timed out; the source of truth is the app's current `src/routes/+page.svelte` heading. A smoke assertion protects the new string.
