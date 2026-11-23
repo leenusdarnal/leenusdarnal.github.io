@@ -160,4 +160,9 @@ The PixelCutout case study was corrected to match the current app README and Pro
 
 ## Case-study FAQ implementation — 23 November 2026
 
-Added source-backed native disclosure FAQs for PixelForge Studio, PixelCutout and the Salary Calculator. The shared project catalogue owns each question and answer; the case-study route renders them as semantic `details/summary` disclosures with visible focus treatment. The regression test checks the prerendered case-study HTML and deliberately verifies that no unsupported FAQ is emitted for Metronome.
+Added source-backed native disclosure FAQs for PixelForge Studio, PixelCutout, the Salary Calculator and Metronome. The shared project catalogue owns each question and answer; the case-study route renders them as semantic `details/summary` disclosures with visible focus treatment. The regression test checks the prerendered case-study HTML and deliberately verifies that no unsupported FAQ is emitted for Metronome.
+
+
+## Metronome FAQ source review — 23 November 2026
+
+The Metronome README did not contain enough text for FAQs, so the source components were reviewed directly. The new answers are grounded in `src/Metronome.tsx`, `src/components/Slider.tsx`, `src/components/Tempo.tsx`, `src/components/PlayButton.tsx` and `src/App.tsx`: 30–240 BPM, default 80 BPM, 1/4–4/4 beat options, interval updates while playing and localStorage-backed dark-mode preference. The regression test now asserts the corresponding prerendered page output.
