@@ -18,7 +18,7 @@ test('privacy source scan finds network, storage, file-transfer and local-proces
       "const form = new FormData(); form.append('image', imageFile);",
       "const url = URL.createObjectURL(blob);",
       "const worker = new Worker(new URL('./worker.js', import.meta.url));",
-      "navigator.sendBeacon('/telemetry', payload);"
+      "navigator.sendBeacon('/telemetry', payload);",
       "window.gtag('event', 'image_export');"
     ].join('\n'));
     const result = await scanRepository({
