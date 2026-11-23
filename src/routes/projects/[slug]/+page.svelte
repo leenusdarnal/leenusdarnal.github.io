@@ -6,6 +6,26 @@
 
   let { data } = $props();
   let project = $derived(data.project);
+
+  function serializeJsonLd(value) {
+    return JSON.stringify(value).replace(/[<>&\\u2028\\u2029]/g, (character) =>
+      '\\u' + character.charCodeAt(0).toString(16).padStart(4, '0')
+    );
+  }
+
+  let projectStructuredData = $derived(
+    project
+      ? serializeJsonLd({
+          '@context': 'https://schema.org',
+          '@type': 'SoftwareApplication',
+          name: project.name,
+          description: project.caseStudy.summary,
+          url: project.live,
+          applicationCategory: project.caseStudy.category,
+          codeRepository: project.source
+        })
+      : null
+  );
 </script>
 
 <svelte:head>
@@ -24,6 +44,7 @@
     <meta name="twitter:description" content={project.caseStudy.summary} />
     <meta name="twitter:image" content={personalSpaceConfig.site.projectSocialImage.url} />
     <link rel="canonical" href={`${personalSpaceConfig.site.url}projects/${project.slug}/`} />
+    <script type="application/ld+json">{@html projectStructuredData}</script>
   {/if}
 </svelte:head>
 <div class="mx-auto min-h-screen w-full max-w-5xl px-4 py-6 sm:px-8 sm:py-10 lg:px-10">
