@@ -183,3 +183,8 @@ The branch-specific CI job is set to generate and commit all 32 modern variants 
 ## Preview refresh consistency — 23 November 2026
 
 The live project screenshot workflow now regenerates responsive AVIF/WebP variants immediately after capturing updated original screenshots and before its single asset commit. This prevents the source screenshot and its optimized variants from drifting apart on a later scheduled/manual refresh. Its workflow test checks the ordering and pinned optimizer version.
+
+
+## PixelCutout preview-capture selector fix — 23 November 2026
+
+The first post-deployment capture after modern image delivery failed while waiting for the stale expected phrase `Make your subject`. The current PixelCutout source page uses the heading “Keep the subject. Lose the background.” The capture selector now waits for the current heading text “Keep the subject.” and a regression test guards it. The capture workflow also now regenerates the AVIF/WebP derivatives after screenshots change, so the original and optimized assets are committed together.
