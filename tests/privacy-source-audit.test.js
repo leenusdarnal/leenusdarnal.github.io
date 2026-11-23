@@ -1,12 +1,13 @@
 import assert from 'node:assert/strict';
 import { mkdtemp, mkdir, rm, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import { tmpdir } from 'node:os';
 import test from 'node:test';
 
 import { redactExcerpt, scanRepository } from '../scripts/audit-linked-app-privacy.mjs';
 
 test('privacy source scan finds network, storage, file-transfer and local-processing patterns', async () => {
-  const root = await mkdtemp(join(process.env.TMPDIR ?? '/tmp', 'privacy-audit-'));
+  const root = await mkdtemp(join(tmpdir(), 'privacy-audit-'));
   try {
     await mkdir(join(root, 'src'), { recursive: true });
     await writeFile(join(root, 'src', 'editor.ts'), [
@@ -46,7 +47,7 @@ test('privacy source scan finds network, storage, file-transfer and local-proces
 });
 
 test('package manifests identify candidate analytics and telemetry dependencies', async () => {
-  const root = await mkdtemp(join(process.env.TMPDIR ?? '/tmp', 'privacy-audit-packages-'));
+  const root = await mkdtemp(join(tmpdir(), 'privacy-audit-packages-'));
   try {
     await writeFile(join(root, 'package.json'), JSON.stringify({
       name: 'fixture',
@@ -72,7 +73,7 @@ test('package manifests identify candidate analytics and telemetry dependencies'
 });
 
 test('scanner excludes generated and installed dependency trees', async () => {
-  const root = await mkdtemp(join(process.env.TMPDIR ?? '/tmp', 'privacy-audit-ignore-'));
+  const root = await mkdtemp(join(tmpdir(), 'privacy-audit-ignore-'));
   try {
     await mkdir(join(root, 'src'), { recursive: true });
     await mkdir(join(root, 'node_modules', 'example'), { recursive: true });
@@ -103,7 +104,7 @@ test('source excerpts redact common token and credential forms', () => {
 });
 
 test('source audit report identifies its limits and required runtime follow-up', async () => {
-  const root = await mkdtemp(join(process.env.TMPDIR ?? '/tmp', 'privacy-audit-report-'));
+  const root = await mkdtemp(join(tmpdir(), 'privacy-audit-report-'));
   try {
     await mkdir(join(root, 'src'), { recursive: true });
     await writeFile(join(root, 'src', 'main.js'), "const cache = await caches.open('app');");
