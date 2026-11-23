@@ -146,3 +146,8 @@ The homepage can be called release-complete for a given checkpoint only when:
 - all outstanding work is either completed or explicitly accepted as a documented limitation by the owner.
 
 A future maintenance task does not automatically mean the implementation is incomplete. Conversely, a green CI run alone does not establish 100% completion.
+
+
+## Continuation update — 23 November 2026
+
+A repeatable static privacy source-pattern audit has been implemented for PixelForge Studio, PixelCutout and the Salary Calculator. See [PROJECT-PRIVACY-REVIEW.md](./PROJECT-PRIVACY-REVIEW.md) for its scope and limitations. The workflow report is a review aid only; the next P0 evidence step is to review its first artifact, then complete clean-profile request/payload and browser-storage traces. Do not mark runtime privacy as verified based on a source scan.
