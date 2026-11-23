@@ -142,3 +142,29 @@ The capture workflow was run again after the 11 November deployment in [GitHub A
 ## Resume checkpoint — 11 November 2026
 
 The homepage now links to [HOMEPAGE-IMPLEMENTATION-HANDOFF.md](./HOMEPAGE-IMPLEMENTATION-HANDOFF.md), which records the exact next privacy-audit steps. The targeted source review above remains **not a runtime privacy certification**. The following are still open: clean-profile request traces for PixelForge, PixelCutout and Salary Calculator; verification that user-provided images/payroll data are absent from outbound payloads; runtime storage/cookie/service-worker inventory; exhaustive dependency/SDK review; and salary calculation/effective-date verification against signed orders. Keep all privacy wording qualified until those tests are documented against exact application commits.
+
+
+## Repeatable linked-app source-pattern scan — 23 November 2026
+
+A repeatable source-pattern scanner has been added at `scripts/audit-linked-app-privacy.mjs`, with workflow `.github/workflows/privacy-source-audit.yml`. It checks out the current `main` revisions of PixelForge Studio, PixelCutout and the Sikkim Government Salary Calculator, records each exact commit SHA, and scans bounded first-party source/config files for candidate patterns in:
+
+- Network APIs and common HTTP clients.
+- Analytics/telemetry globals, SDK names and package dependencies.
+- Browser storage, cookies, Cache Storage and service-worker references.
+- FormData/multipart patterns, worker messaging and local file-processing APIs.
+- Literal remote URLs that may identify model, CDN, or other external references.
+
+The workflow runs monthly, on relevant changes to the scanner/audit record on this repository's `main`, or by manual dispatch. It publishes JSON and Markdown reports as a 90-day GitHub Actions artifact and adds the Markdown summary to the workflow job summary. The scanner does not install app dependencies or execute the linked applications.
+
+**Interpretation:** every match is a candidate code location for human review. A same-origin service-worker fetch, comment, example, dead code, model URL or user-initiated link can match without transmitting user data. Aliased APIs, transitive dependencies, dynamic code and indirect SDK use can be missed. The scanner does not observe browser requests, request bodies, cookies or actual browser storage.
+
+**Evidence status on implementation:** the scanner and regression tests have been added; the first scheduled/manual workflow report has not yet been reviewed. This does not close any runtime-audit item below.
+
+## Runtime evidence still required
+
+- Run and review the first source-scan artifact against its recorded app revisions.
+- Capture clean-profile browser network traces for first load and core workflows; inspect request methods, destinations and payloads, not just the presence of a fetch call.
+- Confirm that user images and payroll/employee records do not appear in unexpected outbound payloads.
+- Inspect actual localStorage, sessionStorage, IndexedDB, Cache Storage, cookies and service-worker behaviour, including deletion and restore.
+- Review the linked apps' transitive dependency and remote runtime/model inventories.
+- Keep homepage privacy language qualified until these tests have dated browser/OS evidence.
