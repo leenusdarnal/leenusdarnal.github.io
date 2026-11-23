@@ -208,9 +208,9 @@ test('mobile navigation and primary actions retain comfortable touch targets', (
 });
 
 test('mobile menu accessible name includes its visible Menu label', () => {
-  const summary = html.match(/<summary[^>]*class="mobile-navigation-trigger"[^>]*>[\\s\\S]*?<\\/summary>/)?.[0];
+  const summary = html.match(/<summary[^>]*class="mobile-navigation-trigger"[^>]*>[\s\S]*?<\/summary>/)?.[0];
   assert.ok(summary, 'Missing mobile navigation disclosure');
-  assert.match(summary, /<span>Menu<\\/span>/);
+  assert.match(summary, /<span>Menu<\/span>/);
   assert.doesNotMatch(summary, /aria-label=/);
   assert.match(summary, /aria-hidden="true"/);
 });
