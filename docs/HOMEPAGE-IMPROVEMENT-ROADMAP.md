@@ -176,3 +176,8 @@ The optimizer report from GitHub Actions run [#45132643426](https://github.com/l
 | **Combined** | **273,902 B** | **89,772 B** | **67.2%** |
 
 These are measured source/variant byte counts, not a measured page-load improvement. The browser selects an appropriate width and format; a new deployed Lighthouse run is needed to evaluate actual transfer and performance. The Lighthouse cache-lifetime finding remains a hosting limitation: GitHub Pages does not expose per-file response-header configuration in this project.
+
+
+## Final responsive-preview verification — 23 November 2026
+
+The optimized preview refresh workflow and PixelCutout capture selector fix are now merged. The final capture job [#45134276090](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/45134276090) updated all four app screenshots and regenerated the 32 responsive AVIF/WebP files in one commit. GitHub Pages deployment [#45134474049](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/45134474049) passed. The latest 1440px AVIF set totals 79,069 B against 253,456 B for the originals (68.8% lower). The latest Lighthouse image-delivery audits each scored 1.0; the measured Performance score was 98 with all other categories at 100. Responsive/accessibility QA [#45134276100](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/45134276100) passed five viewports and eight axe-core scans with zero violations.
