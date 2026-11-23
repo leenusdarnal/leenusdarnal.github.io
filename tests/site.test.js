@@ -977,6 +977,11 @@ test('project case-study FAQs render source-backed product, privacy and limitati
       slug: 'sikkim-government-salary-calculator',
       questions: ['Is this an official Government payroll calculator?', 'What does the first calculation include?', 'Does the calculator cover every pay-fixation case?'],
       answer: 'not an official Government payroll system'
+    },
+    {
+      slug: 'metronome',
+      questions: ['What tempo range can I set?', 'Which time signatures are available?', 'Can I change tempo while playback is running?'],
+      answer: '30 to 240 BPM'
     }
   ];
 
@@ -991,5 +996,6 @@ test('project case-study FAQs render source-backed product, privacy and limitati
   }
 
   const metronome = await readFile(new URL('projects/metronome/index.html', buildUrl), 'utf8');
-  assert.doesNotMatch(metronome, /Frequently asked questions/, 'Do not publish unsupported Metronome FAQ claims.');
+  assert.match(metronome, /80 BPM/);
+  assert.match(metronome, /3\/4/);
 });
