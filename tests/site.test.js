@@ -92,19 +92,20 @@ test('daily uptime monitoring covers every live project demo', () => {
   assert.match(monitorWorkflow, /schedule:/);
 });
 
-test('PixelCutout is listed with its source and local-processing features', () => {
+test('PixelCutout case study matches its current one-image product scope', () => {
   assert.match(projectsSource, /name: 'PixelCutout'/);
   assert.match(projectsSource, /https:\/\/pixelcutout-three\.vercel\.app\//);
   assert.match(projectsSource, /https:\/\/github\.com\/leenusdarnal\/pixelcutout/);
-  assert.match(projectsSource, /AI and no-AI removal modes/);
-  assert.match(projectsSource, /Batch processing for up to 20 images/);
-  assert.match(projectsSource, /ZIP export and local erase\/restore tools/);
-  assert.match(projectsSource, /batch processor handles up to 20 images/i);
-  assert.doesNotMatch(projectsSource, /Batch queues, ZIP export/);
-  assert.match(projectsSource, /category: 'Image tool · AI & no-AI modes'/);
-  assert.match(projectsSource, /designed to run in the browser; independent runtime\/network verification remains pending/);
+  assert.match(projectsSource, /AI-assisted background removal/);
+  assert.match(projectsSource, /manual colour selection/);
+  assert.match(projectsSource, /one image at a time/i);
+  assert.match(projectsSource, /20 MB, 16 megapixels and 10,000 pixels/);
+  assert.match(projectsSource, /transparent PNG export/);
+  assert.match(projectsSource, /manual colour removal works without downloading the AI model/i);
+  assert.doesNotMatch(projectsSource, /Batch processing for up to 20 images|ZIP export and local erase\/restore tools|batch processor handles up to 20 images|crop presets/i);
+  assert.match(projectsSource, /category: 'Image tool · AI & manual modes'/);
+  assert.match(projectsSource, /independent runtime network verification remains pending/);
   assert.doesNotMatch(projectsSource, /category: 'Image tool · Privacy-first'/);
-  assert.match(projectsSource, /Remove image backgrounds with AI-assisted subject detection/);
   assert.match(projectActions, /\{#if project\.live\}/);
 });
 
