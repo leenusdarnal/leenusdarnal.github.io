@@ -23,6 +23,7 @@ const developerTools = await readFile(new URL('../src/lib/DeveloperTools.svelte'
 const projectActions = await readFile(new URL('../src/lib/ProjectActions.svelte', import.meta.url), 'utf8');
 const previewImageComponent = await readFile(new URL('../src/lib/ProjectPreviewImage.svelte', import.meta.url), 'utf8');
 const previewOptimizer = await readFile(new URL('../scripts/optimize-project-previews.mjs', import.meta.url), 'utf8');
+const captureScript = await readFile(new URL('../scripts/capture-project-previews.mjs', import.meta.url), 'utf8');
 const monitorWorkflow = await readFile(new URL('../.github/workflows/monitor-sites.yml', import.meta.url), 'utf8');
 
 test('homepage includes a dated updates section with verified release links', () => {
@@ -896,6 +897,8 @@ test('preview refresh dispatches a Pages deployment when captured images change'
   assert.match(workflow, /steps\.commit\.outputs\.changed == 'true'/);
   assert.match(workflow, /gh workflow run deploy\.yml --ref main/);
   assert.match(workflow, /Capture live project preview screenshots/);
+  assert.match(captureScript, /expectedText: 'Keep the subject\\.'/);
+  assert.doesNotMatch(captureScript, /expectedText: 'Make your subject'/);
   assert.match(workflow, /npm install --no-save --package-lock=false --ignore-scripts sharp@0\.35\.5/);
   assert.match(workflow, /node scripts\/optimize-project-previews\.mjs/);
   assert.ok(workflow.indexOf('Capture live application interfaces') < workflow.indexOf('Regenerate responsive image variants from fresh screenshots'));
