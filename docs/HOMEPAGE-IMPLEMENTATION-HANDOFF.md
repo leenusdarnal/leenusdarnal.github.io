@@ -151,3 +151,8 @@ A future maintenance task does not automatically mean the implementation is inco
 ## Continuation update — 23 November 2026
 
 A repeatable static privacy source-pattern audit has been implemented for PixelForge Studio, PixelCutout and the Salary Calculator. See [PROJECT-PRIVACY-REVIEW.md](./PROJECT-PRIVACY-REVIEW.md) for its scope and limitations. The workflow report is a review aid only; the next P0 evidence step is to review its first artifact, then complete clean-profile request/payload and browser-storage traces. Do not mark runtime privacy as verified based on a source scan.
+
+
+## Content correction — 23 November 2026
+
+The PixelCutout case study was corrected to match the current app README and Project Tracker v1.4 (updated 22 November 2026): one image at a time, AI-assisted or manual colour removal, transparent PNG export, and no batch queue/ZIP or crop tools in the current scope. The previous homepage note claiming batch processing for 20 images and ZIP export was withdrawn. The updated catalogue regression test guards against those unsupported claims.
