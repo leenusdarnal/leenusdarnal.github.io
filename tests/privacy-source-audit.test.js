@@ -18,6 +18,7 @@ test('privacy source scan finds network, storage, file-transfer and local-proces
       "const url = URL.createObjectURL(blob);",
       "const worker = new Worker(new URL('./worker.js', import.meta.url));",
       "navigator.sendBeacon('/telemetry', payload);"
+      "window.gtag('event', 'image_export');"
     ].join('\n'));
     const result = await scanRepository({
       name: 'Fixture App',
@@ -36,6 +37,7 @@ test('privacy source scan finds network, storage, file-transfer and local-proces
     assert.ok(rules.has('object-url-create'));
     assert.ok(rules.has('worker-construction'));
     assert.ok(rules.has('send-beacon'));
+    assert.ok(rules.has('analytics-global'));
     assert.equal(result.revision, 'fixture-sha');
     assert.equal(result.sourceFilesScanned, 1);
   } finally {
