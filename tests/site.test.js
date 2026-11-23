@@ -933,6 +933,10 @@ test('accessibility QA audits WCAG 2.2 A/AA and keyboard interactions on publish
   for (const check of ['skipLinkFirst', 'skipLinkActivatesMain', 'visibleFocusIndicator', 'themeKeyboardActivation', 'commandPaletteArrowNavigation', 'commandPaletteEscapeRestoresFocus']) {
     assert.ok(runner.includes(check));
   }
+  assert.match(runner, /async function waitForDeveloperTools\(page\)/);
+  assert.match(runner, /timeout: 45000, polling: 250/);
+  assert.match(runner, /Developer tools failed to load:/);
+  assert.equal((runner.match(/waitForDeveloperTools\(page\)/g) ?? []).length, 3);
   assert.ok(developerTools.includes('aria-label="Command palette"'));
   assert.ok(developerTools.includes('role="combobox"'));
   assert.ok(developerTools.includes('aria-activedescendant='));
