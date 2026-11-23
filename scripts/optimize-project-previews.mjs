@@ -7,7 +7,7 @@
  *           node scripts/optimize-project-previews.mjs
  */
 import sharp from 'sharp';
-import { mkdir, readFile, stat, writeFile } from 'node:fs/promises';
+import { mkdir, stat, writeFile } from 'node:fs/promises';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
@@ -72,11 +72,8 @@ export async function optimizeProjectPreviews() {
       ]);
 
       for (const [format, metadata] of [['AVIF', avifMeta], ['WebP', webpMeta]]) {
-        if (metadata.width !== width || metadata.height !== sourceMetadata.height * width / sourceMetadata.width) {
-          // Rounding is expected for non-integral aspect ratios; validate width exactly.
-          if (metadata.width !== width || !metadata.height) {
-            throw new Error(`${format} variant dimension check failed for ${item.slug} at ${width}px.`);
-          }
+        if (metadata.width !== width || !metadata.height) {
+          throw new Error(`${format} variant dimension check failed for ${item.slug} at ${width}px.`);
         }
       }
 
