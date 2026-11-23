@@ -952,3 +952,44 @@ test('CI performs dependency and generated internal-link audits', async () => {
   assert.match(linkChecker, /path escapes build output/);
   assert.match(linkChecker, /srcset/);
 });
+
+
+test('project case-study FAQs render source-backed product, privacy and limitation answers', async () => {
+  assert.match(projectDetailSource, /project\.caseStudy\.faqs\?\.length/);
+  assert.match(projectDetailSource, /<details/);
+  assert.match(projectDetailSource, /<summary/);
+  assert.match(projectDetailSource, /aria-labelledby="faq-heading"/);
+  assert.match(projectDetailSource, /item\.question/);
+  assert.match(projectDetailSource, /item\.answer/);
+
+  const cases = [
+    {
+      slug: 'pixelforge-studio',
+      questions: ['Where are my edits saved?', 'Can I clear the recovery copies?', 'What image size is supported?'],
+      answer: 'up to three recovery copies'
+    },
+    {
+      slug: 'pixelcutout',
+      questions: ['Can I process a batch of images?', 'Which images can I use?', 'Does AI removal need an internet connection?'],
+      answer: 'one image at a time'
+    },
+    {
+      slug: 'sikkim-government-salary-calculator',
+      questions: ['Is this an official Government payroll calculator?', 'What does the first calculation include?', 'Does the calculator cover every pay-fixation case?'],
+      answer: 'not an official Government payroll system'
+    }
+  ];
+
+  for (const item of cases) {
+    const page = await readFile(new URL(`projects/${item.slug}/index.html`, buildUrl), 'utf8');
+    assert.match(page, /Frequently asked questions/);
+    assert.match(page, /<details/);
+    for (const question of item.questions) {
+      assert.ok(page.includes(question), item.slug + ' missing FAQ: ' + question);
+    }
+    assert.ok(page.toLowerCase().includes(item.answer.toLowerCase()), item.slug + ' missing source-backed answer.');
+  }
+
+  const metronome = await readFile(new URL('projects/metronome/index.html', buildUrl), 'utf8');
+  assert.doesNotMatch(metronome, /Frequently asked questions/, 'Do not publish unsupported Metronome FAQ claims.');
+});
