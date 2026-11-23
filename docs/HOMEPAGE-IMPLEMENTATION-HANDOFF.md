@@ -166,3 +166,8 @@ Added source-backed native disclosure FAQs for PixelForge Studio, PixelCutout, t
 ## Metronome FAQ source review — 23 November 2026
 
 The Metronome README did not contain enough text for FAQs, so the source components were reviewed directly. The new answers are grounded in `src/Metronome.tsx`, `src/components/Slider.tsx`, `src/components/Tempo.tsx`, `src/components/PlayButton.tsx` and `src/App.tsx`: 30–240 BPM, default 80 BPM, 1/4–4/4 beat options, interval updates while playing and localStorage-backed dark-mode preference. The regression test now asserts the corresponding prerendered page output.
+
+
+## Lighthouse accessibility follow-up — 23 November 2026
+
+The 22 November Lighthouse artifact identified a visible-label/accessibility-name mismatch on the mobile menu disclosure. Removed its explicit `aria-label` so the visible “Menu” text supplies the control name, and added a regression assertion against the generated homepage HTML. The next Lighthouse and responsive accessibility runs should confirm the result after deployment.
