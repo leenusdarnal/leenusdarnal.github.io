@@ -52,3 +52,75 @@ jobs:
 
       - name: Run generated-site smoke tests
         run: npm test
+
+  optimize-previews:
+    if: github.event_name == 'pull_request' && startsWith(github.head_ref, 'optimize-project-previews-') && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    steps:
+      - name: Check out the pull request head
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: true
+
+      - name: Set up Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install repository dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Install pinned build-time image optimizer
+        run: npm install --no-save --package-lock=false sharp@0.35.5
+
+      - name: Generate responsive AVIF and WebP previews
+        run: |
+          node --check scripts/optimize-project-previews.mjs
+          node scripts/optimize-project-previews.mjs
+
+      - name: Commit generated preview variants to the pull request
+        env:
+          TARGET_BRANCH: ${{ github.event.pull_request.head.ref }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add static/images/project-previews/optimized
+          if git diff --cached --quiet; then
+            echo "Responsive preview variants are already current."
+          else
+            git commit -m "Generate responsive AVIF and WebP project previews"
+            git push origin "HEAD:refs/heads/$TARGET_BRANCH"
+          fi
+
+      - name: Verify dependency health
+        run: npm audit --audit-level=high
+
+      - name: Verify Svelte components
+        run: npm run check
+
+      - name: Build static site with generated previews
+        run: npm run build
+
+      - name: Check generated internal links
+        run: node scripts/check-static-links.js
+
+      - name: Require every generated image variant in smoke tests
+        env:
+          REQUIRE_OPTIMIZED_PREVIEWS: '1'
+        run: npm test
+
+      - name: Upload preview variants and size report
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: optimized-project-previews
+          path: |
+            static/images/project-previews/optimized/
+            artifacts/project-preview-optimization/report.json
+          if-no-files-found: warn
+          retention-days: 30
