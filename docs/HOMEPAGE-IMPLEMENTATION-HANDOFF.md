@@ -188,3 +188,12 @@ The live project screenshot workflow now regenerates responsive AVIF/WebP varian
 ## PixelCutout preview-capture selector fix — 23 November 2026
 
 The first post-deployment capture after modern image delivery failed while waiting for the stale expected phrase `Make your subject`. The current PixelCutout source page uses the heading “Keep the subject. Lose the background.” The capture selector now waits for the current heading text “Keep the subject.” and a regression test guards it. The capture workflow also now regenerates the AVIF/WebP derivatives after screenshots change, so the original and optimized assets are committed together.
+
+
+## Final preview refresh and QA evidence — 23 November 2026
+
+The PixelCutout live preview selector is fixed and the capture workflow completed successfully in [#45134276090](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/45134276090). All four authentic screenshots and their AVIF/WebP variants were refreshed together in commit `5134ca2d8694bd5c884ec5560cb008971e73713f`; the GitHub Pages deployment passed in [#45134474049](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/45134474049).
+
+The current screenshot originals total 253,456 B and their 1440px AVIF versions total 79,069 B (68.8% lower). Post-optimization image audits passed in Lighthouse run [#45134276087](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/45134276087): modern formats, responsive images and efficient image encoding each scored 1.0. That run measured Performance 98, Accessibility 100, Best Practices 100 and SEO 100; LCP 1.5 s, TBT 170 ms and CLS 0. Cache-lifetime policy for 25 static resources remains a GitHub Pages hosting limitation.
+
+Responsive/browser and accessibility QA passed in [#45134276100](https://github.com/leenusdarnal/leenusdarnal.github.io/actions/runs/45134276100): five viewport profiles, eight axe-core WCAG A/AA scans with zero violations, and keyboard/focus checks. The latest screenshot-refresh deployment and static build passed. The Lighthouse run was just before the final screenshot recapture commit; image generation/commit/deployment then succeeded using the same verified pipeline.
