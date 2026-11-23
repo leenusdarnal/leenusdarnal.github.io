@@ -897,7 +897,7 @@ test('preview refresh dispatches a Pages deployment when captured images change'
   assert.match(workflow, /steps\.commit\.outputs\.changed == 'true'/);
   assert.match(workflow, /gh workflow run deploy\.yml --ref main/);
   assert.match(workflow, /Capture live project preview screenshots/);
-  assert.match(captureScript, /expectedText: 'Keep the subject\\.'/);
+  assert.match(captureScript, /expectedText: 'Keep the subject\.'/);
   assert.doesNotMatch(captureScript, /expectedText: 'Make your subject'/);
   assert.match(workflow, /npm install --no-save --package-lock=false --ignore-scripts sharp@0\.35\.5/);
   assert.match(workflow, /node scripts\/optimize-project-previews\.mjs/);
