@@ -28,6 +28,7 @@ jobs:
             "https://react-metronome-dusky.vercel.app/"
             "https://sikkim-government-salary-calculator.vercel.app/"
             "https://pixelcutout-three.vercel.app/"
+            "https://guitarlab.leenusdarnal.workers.dev/"
           )
           failures=()
           {
