@@ -844,8 +844,8 @@ test('project cards and case studies share audience and first-step guidance', as
   const detail = await readFile(new URL('../src/routes/projects/[slug]/+page.svelte', import.meta.url), 'utf8');
   const quickStart = await readFile(new URL('../src/lib/ProjectQuickStart.svelte', import.meta.url), 'utf8');
 
-  assert.equal((catalogue.match(/audience: '/g) ?? []).length, 4);
-  assert.equal((catalogue.match(/firstAction: '/g) ?? []).length, 4);
+  assert.equal((catalogue.match(/audience: '/g) ?? []).length, 5);
+  assert.equal((catalogue.match(/firstAction: '/g) ?? []).length, 5);
   assert.match(homepage, /<ProjectQuickStart audience=\{projects\[0\]\.audience\}/);
   assert.match(homepage, /<ProjectQuickStart audience=\{project\.audience\}/);
   assert.match(detail, /<ProjectQuickStart audience=\{project\.audience\}/);
