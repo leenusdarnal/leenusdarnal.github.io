@@ -248,6 +248,16 @@
                   <ProjectPreviewImage slug={project.slug} src={project.caseStudy.previewImage} alt="" width={project.caseStudy.previewWidth ?? 1440} height={project.caseStudy.previewHeight ?? 900} sizes="(max-width: 640px) calc(100vw - 2rem), (max-width: 1024px) 48vw, 560px" className="block h-auto w-full object-contain" />
                 </div>
                 <p class="absolute bottom-4 right-5 rounded-full bg-[var(--panel)]/90 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.12em] text-[var(--muted)]">Live application preview</p>
+              {:else if project.visual === 'guitar'}
+                <div class="flex min-h-[210px] w-full flex-col items-center justify-center rounded-2xl border border-[var(--line)] bg-[#f4f3ec] p-5 shadow-xl sm:min-h-[220px]">
+                  <img src="/images/project-icons/guitarlab-logo.svg" alt="" width="720" height="160" loading="lazy" decoding="async" class="h-auto w-full max-w-[460px] object-contain" />
+                  <div class="mt-4 flex flex-wrap justify-center gap-2 text-[10px] font-medium text-[#25342c]">
+                    <span class="rounded-full border border-[#a9b7aa] px-3 py-1">152 lesson records</span>
+                    <span class="rounded-full border border-[#a9b7aa] px-3 py-1">Local-first progress</span>
+                    <span class="rounded-full border border-[#a9b7aa] px-3 py-1">Interactive music tools</span>
+                  </div>
+                </div>
+                <p class="absolute bottom-4 right-5 rounded-full border border-[var(--line)] bg-[var(--panel)]/90 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.12em] text-[var(--muted)]">Project identity · live app</p>
               {:else}
                 <div class="absolute inset-4 overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--panel)] shadow-xl">
                   <ProjectPreviewImage slug={project.slug} src={project.caseStudy.previewImage} alt="" width={project.caseStudy.previewWidth ?? 1440} height={project.caseStudy.previewHeight ?? 900} sizes="(max-width: 640px) calc(100vw - 2rem), (max-width: 1024px) 48vw, 560px" className="size-full object-cover object-top" />
@@ -287,12 +297,12 @@
     <section id="updates" aria-labelledby="updates-heading" class="scroll-mt-12 border-t border-[var(--line)] py-14 sm:py-16">
       <div class="mb-7 flex flex-wrap items-end justify-between gap-3">
         <div>
-          <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--accent)]">WHAT'S NEW · 11 NOV 2026</p>
+          <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--accent)]">WHAT'S NEW · 24 NOV 2026</p>
           <h2 id="updates-heading" class="mt-3 text-[clamp(1.8rem,6vw,2.8rem)] font-semibold tracking-[-0.06em]">Recent improvements<span class="text-[var(--accent)]">.</span></h2>
         </div>
         <a href="https://github.com/leenusdarnal/leenusdarnal.github.io/commits/main" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center text-sm font-semibold text-[var(--accent)] hover:underline">Full change history ↗</a>
       </div>
-      <div class="grid gap-4 md:grid-cols-3">
+      <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <article class="rounded-2xl border border-[var(--line)] bg-[var(--panel)] p-5">
           <time datetime="2026-11-11" class="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--accent)]">11 Nov 2026 · Project guide</time>
           <h3 class="mt-3 text-lg font-semibold tracking-tight">Know where to start</h3>
@@ -310,6 +320,12 @@
           <h3 class="mt-3 text-lg font-semibold tracking-tight">More complete browser checks</h3>
           <p class="mt-2 text-sm leading-7 text-[var(--muted)]">Automated checks now cover responsive layouts, theme persistence, keyboard navigation and WCAG A/AA rules across the homepage and project notes.</p>
           <a href="https://github.com/leenusdarnal/leenusdarnal.github.io/actions" target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex min-h-11 items-center text-sm font-semibold text-[var(--accent)] hover:underline">Quality checks ↗</a>
+        </article>
+        <article class="rounded-2xl border border-[var(--line)] bg-[var(--panel)] p-5">
+          <time datetime="2026-11-24" class="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--accent)]">24 Nov 2026 · New projects</time>
+          <h3 class="mt-3 text-lg font-semibold tracking-tight">GuitarLab joins the project space</h3>
+          <p class="mt-2 text-sm leading-7 text-[var(--muted)]">Explore a local-first guitar-learning app with a structured curriculum and practice tools, plus Bible Study as a clearly labelled documentation-only architecture project.</p>
+          <a href="/projects/guitarlab/" class="mt-4 inline-flex min-h-11 items-center text-sm font-semibold text-[var(--accent)] hover:underline">Explore GuitarLab ↗</a>
         </article>
       </div>
     </section>
