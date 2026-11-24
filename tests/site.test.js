@@ -29,6 +29,8 @@ const monitorWorkflow = await readFile(new URL('../.github/workflows/monitor-sit
 test('homepage includes a dated updates section with verified release links', () => {
   assert.match(html, /Recent improvements/);
   assert.match(html, /11 Nov 2026/);
+  assert.match(html, /24 Nov 2026/);
+  assert.match(html, /GuitarLab joins the project space/);
   assert.match(html, /Full change history/);
 });
 
@@ -77,7 +79,8 @@ test('all existing live project destinations are preserved', () => {
     'https://pixelforge-studio-pied.vercel.app/',
     'https://react-metronome-dusky.vercel.app/',
     'https://sikkim-government-salary-calculator.vercel.app/',
-    'https://pixelcutout-three.vercel.app/'
+    'https://pixelcutout-three.vercel.app/',
+    'https://guitarlab.leenusdarnal.workers.dev/'
   ]) {
     assert.ok(html.includes(url), 'Missing project URL: ' + url);
   }
@@ -88,7 +91,8 @@ test('daily uptime monitoring covers every live project demo', () => {
     'https://pixelforge-studio-pied.vercel.app/',
     'https://react-metronome-dusky.vercel.app/',
     'https://sikkim-government-salary-calculator.vercel.app/',
-    'https://pixelcutout-three.vercel.app/'
+    'https://pixelcutout-three.vercel.app/',
+    'https://guitarlab.leenusdarnal.workers.dev/'
   ]) {
     assert.ok(monitorWorkflow.includes(url), 'Missing monitored project URL: ' + url);
   }
@@ -840,8 +844,8 @@ test('project cards and case studies share audience and first-step guidance', as
   const detail = await readFile(new URL('../src/routes/projects/[slug]/+page.svelte', import.meta.url), 'utf8');
   const quickStart = await readFile(new URL('../src/lib/ProjectQuickStart.svelte', import.meta.url), 'utf8');
 
-  assert.equal((catalogue.match(/audience: '/g) ?? []).length, 4);
-  assert.equal((catalogue.match(/firstAction: '/g) ?? []).length, 4);
+  assert.equal((catalogue.match(/audience: '/g) ?? []).length, 5);
+  assert.equal((catalogue.match(/firstAction: '/g) ?? []).length, 5);
   assert.match(homepage, /<ProjectQuickStart audience=\{projects\[0\]\.audience\}/);
   assert.match(homepage, /<ProjectQuickStart audience=\{project\.audience\}/);
   assert.match(detail, /<ProjectQuickStart audience=\{project\.audience\}/);
@@ -1016,7 +1020,7 @@ test('CI performs dependency and generated internal-link audits', async () => {
 
 
 test('project case studies publish valid, conservative SoftwareApplication JSON-LD', async () => {
-  const slugs = ['pixelforge-studio', 'metronome', 'sikkim-government-salary-calculator', 'pixelcutout'];
+  const slugs = ['pixelforge-studio', 'metronome', 'sikkim-government-salary-calculator', 'pixelcutout', 'guitarlab'];
 
   for (const slug of slugs) {
     const page = await readFile(new URL(`projects/${slug}/index.html`, buildUrl), 'utf8');
@@ -1062,6 +1066,11 @@ test('project case-study FAQs render source-backed product, privacy and limitati
       answer: 'not an official Government payroll system'
     },
     {
+      slug: 'guitarlab',
+      questions: ['Is learner progress synced to the cloud?', 'Does GuitarLab listen through my microphone automatically?', 'Have all 152 lessons been musically reviewed?'],
+      answer: 'browser-local IndexedDB'
+    },
+    {
       slug: 'metronome',
       questions: ['What tempo range can I set?', 'Which time signatures are available?', 'Can I change tempo while playback is running?'],
       answer: '30 to 240 BPM'
@@ -1081,4 +1090,20 @@ test('project case-study FAQs render source-backed product, privacy and limitati
   const metronome = await readFile(new URL('projects/metronome/index.html', buildUrl), 'utf8');
   assert.match(metronome, /80 BPM/);
   assert.match(metronome, /3\/4/);
+});
+
+
+test('new project entries reflect their source repository scope and maturity', async () => {
+  assert.ok(projectsSource.includes("name: 'GuitarLab'"));
+  assert.ok(projectsSource.includes('https://guitarlab.leenusdarnal.workers.dev/'));
+  assert.ok(projectsSource.includes('152 lesson records'));
+  assert.ok(projectsSource.includes('human musical review'));
+  assert.ok(projectsSource.includes('cloud learner-data synchronisation is not enabled'));
+  assert.ok(source.includes("project.visual === 'guitar'"));
+
+  const architectureExperiments = await readFile(new URL('../src/lib/ArchitectureExperiments.svelte', import.meta.url), 'utf8');
+  assert.ok(architectureExperiments.includes("name: 'Bible Study'"));
+  assert.ok(architectureExperiments.includes('Documentation-only project'));
+  assert.ok(architectureExperiments.includes('application implementation has not started'));
+  assert.ok(architectureExperiments.includes('Planned: SvelteKit + TypeScript'));
 });

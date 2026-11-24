@@ -41,6 +41,19 @@
         'Project detail routes render dedicated Svelte components for STA, Chirp, e-Tourist Guide and college admission.',
         'Project imagery is bundled as local WebP assets in the repository.'
       ]
+    },
+    {
+      name: 'Bible Study',
+      kind: 'Product research · Documentation-only project',
+      summary: 'A Scripture-centred Bible learning and research platform at the product-requirements and architecture stage. This repository is its documentation home; its README explicitly says application implementation has not started here.',
+      repository: 'https://github.com/leenusdarnal/bible-study',
+      stack: ['Planned: SvelteKit + TypeScript', 'Cloudflare D1 / R2', 'Drizzle ORM', 'Cytoscape.js · MapLibre GL JS'],
+      architecture: [
+        'Repository scope: product vision, requirements, architecture, data model, research standards, editorial principles, security decisions and phased delivery documentation; no application source is implemented in this repository.',
+        'Planned application direction: a modular SvelteKit + TypeScript monolith using Cloudflare D1/R2 and Drizzle ORM, with Cytoscape.js for knowledge graphs and MapLibre GL JS for maps.',
+        'Scripture import and publication are designed around source provenance, translation rights, versification review and private staging; the repository documents explicit gates before publishing text.',
+        'AI is deliberately deferred until the underlying knowledge base, citations and editorial controls are mature.'
+      ]
     }
   ];
 

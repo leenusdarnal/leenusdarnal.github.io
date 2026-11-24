@@ -58,7 +58,7 @@ The homepage keeps project discovery filter-free and includes a short FAQ for pr
 
 ## Project notes
 
-The site has dedicated project notes for PixelForge Studio, Metronome, Sikkim Government Salary Calculator, and PixelCutout. It also lists Breadit, Chirp and ROFC Web Hub as source-only code experiments, with repository links and architecture notes but no implied live demos.
+The site has dedicated project notes for PixelForge Studio, Metronome, Sikkim Government Salary Calculator, PixelCutout and GuitarLab. GuitarLab is linked to its Cloudflare Workers application and its repository-backed case study records the documented local-first learner-data model and curriculum-review caveats. The source-only experiments include Breadit, Chirp and ROFC Web Hub, plus Bible Study as a documentation-only product and architecture project; no live app is implied for those repositories.
 
 ## Site quality
 
