@@ -191,7 +191,7 @@ export const projects: readonly ProjectRecord[] = [
       previewWidth: 1440,
       previewHeight: 900
     }
-  }
+  },
   {
     number: '05',
     slug: 'guitarlab',
