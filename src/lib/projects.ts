@@ -5,7 +5,7 @@
  * UI components own only presentation; route files select records by slug.
  */
 export type ProjectCategory = 'client-compute' | 'full-stack' | 'svelte' | 'react';
-export type ProjectVisual = 'pixel' | 'metro' | 'salary' | 'cutout';
+export type ProjectVisual = 'pixel' | 'metro' | 'salary' | 'cutout' | 'guitar';
 
 export interface ProjectRecord {
   number: string;
@@ -192,4 +192,50 @@ export const projects: readonly ProjectRecord[] = [
       previewHeight: 900
     }
   }
+  {
+    number: '05',
+    slug: 'guitarlab',
+    categories: ['svelte'],
+    name: 'GuitarLab',
+    type: 'GUITAR LEARNING · PRACTICE APP',
+    description: 'Follow a structured guitar curriculum, plan practice and explore interactive music tools in a mobile-friendly, local-first workspace.',
+    audience: 'Guitar learners who want a structured learning path and a private practice history on their own device.',
+    firstAction: 'Create a local learner profile, choose a lesson from the curriculum and start a guided practice session.',
+    stack: ['SvelteKit', 'Svelte 5', 'TypeScript', 'Tailwind CSS 4', 'Cloudflare Workers', 'Drizzle / D1'],
+    features: ['152 versioned lesson records', 'Local lesson progress and practice history', 'Fretboard, chord, tuner, metronome and ear-training tools'],
+    live: 'https://guitarlab.leenusdarnal.workers.dev/',
+    source: 'https://github.com/leenusdarnal/guitarlab',
+    visual: 'guitar',
+    caseStudy: {
+      category: 'Education · Guitar learning and practice',
+      summary: 'A local-first guitar-learning workspace combining a structured curriculum, guided lessons, practice planning and interactive music tools.',
+      description: 'GuitarLab brings a structured guitar curriculum and day-to-day practice into one mobile-friendly workspace. Learners can work through lessons, resume checkpoints, record practice sessions, review progress and use a fretboard explorer, chord tools, metronome, tuner and ear training. Learner profiles and practice history are designed to stay in browser-local storage rather than being synced to a cloud learner-data store.',
+      role: 'Independent project',
+      highlights: ['152 lesson records across a two-year core curriculum and optional specialisations', 'Local learner profiles, lesson checkpoints, completion and practice history', 'Practice planner, fretboard explorer, chord tools, metronome, tuner and ear training', 'Responsive offline app shell with export, restore and reset workflows'],
+      approach: [
+        'SvelteKit, Svelte 5, TypeScript and Tailwind CSS 4 provide the application structure; the app is deployed to a Cloudflare Workers runtime.',
+        'The versioned curriculum contains 152 lesson records: 52 weeks in Year 1, 52 weeks in Year 2 and four optional 12-week Year 3+ specialisations.',
+        'Learner profiles and practice history are stored in browser-local IndexedDB. Lesson completion, practice activity and demonstrated skill evidence are treated as separate signals.',
+        'Interactive music tools use the Web Audio API and MediaDevices. Microphone input is designed to start only after explicit user action and to be processed locally by default.',
+        'The optional account layer uses a dedicated Cloudflare D1 database for identity and session data only; it does not enable cloud learner-data synchronisation.'
+      ],
+      constraints: [
+        'The existence of a lesson record or successful schema validation does not mean its teaching has completed human musical review.',
+        'Account code is present, but production account activation remains gated on database migrations, credentials and identity-provider configuration.',
+        'Cloud learner-data synchronisation is not enabled; learner profiles and practice history remain browser-local.',
+        'The repository has not selected an open-source licence. Public visibility does not automatically grant reuse permission.'
+      ],
+      nextSteps: [
+        'Continue the documented curriculum audit and remediation process before describing every lesson as fully human-reviewed.',
+        'Keep optional account activation and any future cloud learner-data sync behind explicit production, privacy and security acceptance gates.'
+      ],
+      privacy: 'The repository documents browser-local IndexedDB for learner profiles and practice history, explicit user action before microphone access, and local audio processing by default. The dedicated production D1 databases are described as identity/session stores, not learner-data sync stores; cloud learner-data synchronisation is not enabled. This summary reflects repository documentation and design decisions, not an independent clean-profile network or storage certification.',
+      faqs: [
+        { question: 'Is learner progress synced to the cloud?', answer: 'No. The documented current design stores learner profiles and practice history in browser-local IndexedDB. Cloud learner-data synchronisation is not enabled.' },
+        { question: 'Does GuitarLab listen through my microphone automatically?', answer: 'The project principles require microphone input to start only after explicit user action and to be processed locally by default. Browser microphone permission is therefore tied to a user-started audio feature, not background listening.' },
+        { question: 'Have all 152 lessons been musically reviewed?', answer: 'The repository explicitly warns that a lesson record existing or passing schema validation does not by itself mean its teaching has completed human musical review. Curriculum audit and remediation remain tracked work.' },
+        { question: 'Can I create an account?', answer: 'Optional email/password and Google/GitHub OAuth code is present, but production account activation remains gated on database migrations, credentials and provider configuration. Accounts do not enable cloud learner-data synchronisation.' }
+      ]
+    }
+  },
 ];
